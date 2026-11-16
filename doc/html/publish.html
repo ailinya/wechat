@@ -1,0 +1,849 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>发布中心 · 智媒助手</title>
+    <script src="./tailwind.js"></script>
+    <style>
+      body.app-bg {
+        background-color: #f6f8fc;
+        background-image:
+          radial-gradient(
+            920px 460px at 6% -8%,
+            rgba(191, 219, 254, 0.75) 0%,
+            rgba(191, 219, 254, 0) 62%
+          ),
+          radial-gradient(
+            780px 420px at 98% -4%,
+            rgba(221, 214, 254, 0.7) 0%,
+            rgba(221, 214, 254, 0) 58%
+          ),
+          radial-gradient(
+            760px 520px at 88% 104%,
+            rgba(167, 243, 208, 0.55) 0%,
+            rgba(167, 243, 208, 0) 60%
+          ),
+          radial-gradient(
+            700px 480px at 4% 96%,
+            rgba(253, 230, 138, 0.45) 0%,
+            rgba(253, 230, 138, 0) 60%
+          );
+        background-attachment: fixed;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen app-bg text-slate-900 antialiased">
+    <!-- qb:map
+  app-shell -> 页面外壳
+  sidebar -> 一级导航
+  topbar -> 顶部信息栏
+  main-content -> 发布中心内容
+  app-overlays -> 提示
+  -->
+
+    <!-- qb:region:app-shell:start -->
+    <div id="app" class="min-h-screen flex" data-qb-region="app-shell">
+      <!-- qb:section:sidebar:start -->
+      <aside
+        class="hidden lg:flex w-60 shrink-0 flex-col border-r border-slate-200 bg-white"
+        data-qb-section="sidebar"
+      >
+        <a
+          href="index.html"
+          class="h-16 flex items-center gap-2.5 px-5 border-b border-slate-200"
+        >
+          <span
+            class="w-8 h-8 rounded-lg bg-blue-600 text-white grid place-items-center text-sm font-semibold"
+            >智</span
+          >
+          <span class="leading-tight">
+            <span class="block text-sm font-semibold tracking-tight"
+              >智媒助手</span
+            >
+            <span class="block text-[11px] text-slate-400"
+              >公众号智能运营平台</span
+            >
+          </span>
+        </a>
+        <nav class="flex-1 overflow-y-auto px-3 py-3 space-y-0.5 text-sm">
+          <p
+            class="px-3 pb-2 pt-1 text-[11px] font-medium tracking-wide text-slate-400"
+          >
+            内容生产
+          </p>
+          <a
+            href="index.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >台</span
+            >工作台
+          </a>
+          <a
+            href="collect.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >采</span
+            >采集管理
+          </a>
+          <a
+            href="library.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >素</span
+            >素材库
+          </a>
+          <a
+            href="create.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >创</span
+            >智能创作
+          </a>
+          <a
+            href="content.html"
+            class="flex items-center gap-2.5 rounded-lg bg-blue-50 px-3 py-2 font-medium text-blue-700"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-blue-600 text-white grid place-items-center text-[11px]"
+              >稿</span
+            >内容管理
+          </a>
+          <p
+            class="px-3 pb-2 pt-4 text-[11px] font-medium tracking-wide text-slate-400"
+          >
+            运营与配置
+          </p>
+          <a
+            href="analytics.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >数</span
+            >数据统计分析
+          </a>
+          <a
+            href="accounts.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >号</span
+            >账号管理
+          </a>
+          <a
+            href="settings.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >设</span
+            >系统设置
+          </a>
+        </nav>
+        <div class="border-t border-slate-200 px-4 py-3 text-xs text-slate-500">
+          <div class="flex items-center gap-2.5">
+            <span
+              class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 grid place-items-center text-xs font-semibold"
+              >林</span
+            >
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-[13px] font-medium text-slate-700">
+                林晓 · 运营管理员
+              </p>
+              <p class="text-[11px] text-slate-400">运营中心</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <!-- qb:section:sidebar:end -->
+
+      <div class="flex-1 min-w-0 flex flex-col">
+        <!-- qb:section:topbar:start -->
+        <header
+          class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200"
+          data-qb-section="topbar"
+        >
+          <div class="h-16 px-4 md:px-8 flex items-center gap-3">
+            <a
+              href="content.html"
+              class="w-8 h-8 shrink-0 rounded-lg border border-slate-200 grid place-items-center text-slate-500 hover:bg-slate-50"
+              >←</a
+            >
+            <div class="min-w-0">
+              <nav class="flex items-center gap-1.5 text-[11px] text-slate-400">
+                <a href="index.html" class="hover:text-slate-600">工作台</a
+                ><span>/</span
+                ><a href="content.html" class="hover:text-slate-600">内容管理</a
+                ><span>/</span><span class="text-slate-600">发布中心</span>
+              </nav>
+              <h1 class="text-base font-semibold tracking-tight">发布中心</h1>
+            </div>
+            <div class="ml-auto flex items-center gap-2">
+              <span
+                class="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-medium text-amber-700"
+                >待发布 5 篇</span
+              >
+              <a
+                href="content.html"
+                class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-[12px] font-medium text-slate-700 hover:bg-slate-50"
+                >返回列表</a
+              >
+              <span
+                class="w-9 h-9 rounded-full bg-blue-600 text-white grid place-items-center text-xs font-semibold"
+                >林</span
+              >
+            </div>
+          </div>
+          <div class="lg:hidden flex gap-1.5 overflow-x-auto px-4 pb-2 text-xs">
+            <a
+              href="index.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >工作台</a
+            >
+            <a
+              href="collect.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >采集管理</a
+            >
+            <a
+              href="library.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >素材库</a
+            >
+            <a
+              href="create.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >智能创作</a
+            >
+            <a
+              href="content.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >内容管理</a
+            >
+            <a
+              href="publish.html"
+              class="shrink-0 rounded-full bg-blue-600 px-3 py-1.5 text-white"
+              >发布中心</a
+            >
+            <a
+              href="analytics.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >数据统计</a
+            >
+            <a
+              href="accounts.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >账号管理</a
+            >
+            <a
+              href="settings.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >系统设置</a
+            >
+          </div>
+        </header>
+        <!-- qb:section:topbar:end -->
+
+        <!-- qb:section:main-content:start -->
+        <main
+          class="flex-1 p-4 md:p-8 space-y-5"
+          data-qb-section="main-content"
+        >
+          <!-- qb:section:publish-notice:start -->
+          <section
+            class="flex flex-col gap-2 rounded-2xl border border-amber-200 bg-amber-50/70 p-4 text-[12px] text-amber-900 sm:flex-row sm:items-center"
+            data-qb-section="publish-notice"
+          >
+            <span
+              class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white px-2 py-0.5 text-[11px] font-medium text-amber-700"
+              >发布确认</span
+            >
+            <p class="flex-1 leading-relaxed">
+              文章已通过人工审核。发布前请再次确认公众号与发布时间，系统将在提交后记录发布结果；发布失败可查看原因并重试。
+            </p>
+            <span
+              id="publish-state"
+              class="shrink-0 rounded-full bg-white px-2.5 py-1 text-[11px] font-medium text-slate-500"
+              >当前状态：待发布</span
+            >
+          </section>
+          <!-- qb:section:publish-notice:end -->
+
+          <div
+            class="grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px] items-start"
+          >
+            <!-- qb:section:article-preview:start -->
+            <section
+              class="rounded-2xl border border-slate-200 bg-white p-5"
+              data-qb-section="article-preview"
+            >
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <h2 class="text-sm font-semibold">待发布文章</h2>
+                  <p class="mt-0.5 text-[11px] text-slate-400">
+                    来自内容管理 · 审核通过
+                  </p>
+                </div>
+                <a
+                  href="editor.html"
+                  class="text-[11px] font-medium text-blue-600 hover:text-blue-700"
+                  >回到编辑页</a
+                >
+              </div>
+
+              <div
+                class="mt-3 overflow-hidden rounded-xl border border-slate-200"
+              >
+                <img
+                  id="publish-cover"
+                  src="https://ai-public.mastergo.com/ai/img_res/generated-6880c160-e554-4900-88dd-597c38f86fd9.jpg"
+                  alt="文章封面"
+                  class="h-48 w-full object-cover md:h-60"
+                />
+                <div class="p-4">
+                  <h3
+                    id="publish-title"
+                    class="text-lg font-semibold tracking-tight"
+                  >
+                    县域市场为何成为新能源车的新增长极
+                  </h3>
+                  <p
+                    id="publish-summary"
+                    class="mt-1.5 text-[13px] leading-relaxed text-slate-500"
+                  >
+                    政策扩容与补能网络下沉叠加，县域消费正在成为新能源车销量的第二增长曲线。
+                  </p>
+                  <div
+                    class="mt-3 flex flex-wrap items-center gap-2 text-[11px] text-slate-400"
+                  >
+                    <span
+                      class="rounded bg-slate-100 px-1.5 py-0.5 text-slate-600"
+                      >行业观察局</span
+                    >
+                    <span>审核人 林晓</span>
+                    <span>·</span>
+                    <span>审核通过 11-16 09:42</span>
+                    <span>·</span>
+                    <span>引用素材 3 条</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-4 grid gap-3 sm:grid-cols-3">
+                <div class="rounded-xl bg-slate-50 p-3">
+                  <p class="text-[11px] text-slate-500">文章摘要</p>
+                  <p class="mt-1 text-[12px] leading-relaxed text-slate-700">
+                    县域市场与补能网络共振，增量窗口打开。
+                  </p>
+                </div>
+                <div class="rounded-xl bg-slate-50 p-3">
+                  <p class="text-[11px] text-slate-500">内容检查</p>
+                  <p class="mt-1 text-[12px] text-slate-700">
+                    标题、事实、引用、图片均已确认
+                  </p>
+                </div>
+                <div class="rounded-xl bg-slate-50 p-3">
+                  <p class="text-[11px] text-slate-500">排版检查</p>
+                  <p class="mt-1 text-[12px] text-slate-700">手机端预览正常</p>
+                </div>
+              </div>
+            </section>
+            <!-- qb:section:article-preview:end -->
+
+            <!-- qb:section:publish-config:start -->
+            <section
+              class="rounded-2xl border border-slate-200 bg-white p-5"
+              data-qb-section="publish-config"
+            >
+              <h2 class="text-sm font-semibold">发布配置</h2>
+              <p class="mt-0.5 text-[11px] text-slate-400">
+                发布能力以微信接口授权范围为准
+              </p>
+
+              <p class="mt-3 text-[11px] font-medium text-slate-400">
+                选择微信公众号
+              </p>
+              <div class="mt-1.5 space-y-1.5" id="account-list"></div>
+
+              <p class="mt-3 text-[11px] font-medium text-slate-400">
+                发布时间
+              </p>
+              <div class="mt-1.5 flex gap-1.5 text-[12px]" data-timing>
+                <button
+                  type="button"
+                  data-timing-mode="now"
+                  class="flex-1 rounded-lg border-2 border-blue-600 bg-blue-50/50 px-2 py-2 font-medium text-blue-700"
+                >
+                  立即发布
+                </button>
+                <button
+                  type="button"
+                  data-timing-mode="schedule"
+                  class="flex-1 rounded-lg border border-slate-200 px-2 py-2 text-slate-600"
+                >
+                  定时发布
+                </button>
+              </div>
+              <div id="schedule-panel" class="mt-2 hidden">
+                <label class="text-[11px] text-slate-400">计划发布时间</label>
+                <input
+                  id="schedule-time"
+                  type="datetime-local"
+                  value="2026-11-16T20:00"
+                  class="mt-1 w-full rounded-lg border border-slate-200 px-2.5 py-2 text-[12px] text-slate-700 outline-none focus:border-blue-500"
+                />
+                <p class="mt-1 text-[10px] text-slate-400">
+                  定时发布将在到点前再次校验授权状态。
+                </p>
+              </div>
+
+              <label class="mt-3 block">
+                <span class="text-[11px] font-medium text-slate-400"
+                  >发布留言（可选）</span
+                >
+                <textarea
+                  id="publish-note"
+                  rows="2"
+                  placeholder="例如：本条为系列报道第 3 篇"
+                  class="mt-1 w-full rounded-lg border border-slate-200 px-2.5 py-2 text-[12px] outline-none focus:border-blue-500"
+                ></textarea>
+              </label>
+
+              <label
+                class="mt-3 flex items-start gap-2 rounded-lg bg-amber-50 p-3 text-[11px] leading-relaxed text-amber-800"
+              >
+                <input
+                  id="confirm-check"
+                  type="checkbox"
+                  class="mt-0.5 h-3.5 w-3.5"
+                />
+                <span
+                  >我已确认文章内容、封面与排版符合公众号发布要求，并知悉发布后不可撤回修改。</span
+                >
+              </label>
+
+              <div class="mt-3 grid gap-1.5">
+                <button
+                  type="button"
+                  data-action="confirm-publish"
+                  class="rounded-lg bg-blue-600 px-3 py-2.5 text-[12px] font-medium text-white hover:bg-blue-700"
+                >
+                  确认发布
+                </button>
+                <button
+                  type="button"
+                  data-action="save-draft"
+                  class="rounded-lg border border-slate-200 px-3 py-2 text-[12px] text-slate-600 hover:bg-slate-50"
+                >
+                  暂存，稍后发布
+                </button>
+              </div>
+              <p class="mt-2 text-[10px] leading-relaxed text-slate-400">
+                发布成功后可在下方发布记录中查看结果；账号无发布权限时会提示重新授权。
+              </p>
+            </section>
+            <!-- qb:section:publish-config:end -->
+          </div>
+
+          <!-- qb:section:publish-records:start -->
+          <section
+            class="rounded-2xl border border-slate-200 bg-white overflow-hidden"
+            data-qb-section="publish-records"
+          >
+            <div
+              class="flex flex-wrap items-center justify-between gap-2 p-5 pb-3"
+            >
+              <div>
+                <h2 class="text-sm font-semibold">发布记录</h2>
+                <p class="mt-0.5 text-[11px] text-slate-400">
+                  近 7 天发布结果，失败记录可重试
+                </p>
+              </div>
+              <span
+                class="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] text-emerald-700"
+                >成功率 98.4%</span
+              >
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-[13px] whitespace-nowrap">
+                <thead
+                  class="border-y border-slate-100 bg-slate-50/60 text-[11px] text-slate-400"
+                >
+                  <tr>
+                    <th class="px-5 py-2 font-medium">文章标题</th>
+                    <th class="px-3 py-2 font-medium">发布账号</th>
+                    <th class="px-3 py-2 font-medium">发布时间</th>
+                    <th class="px-3 py-2 font-medium">状态</th>
+                    <th class="px-3 py-2 font-medium">失败原因</th>
+                    <th class="px-5 py-2 font-medium">操作</th>
+                  </tr>
+                </thead>
+                <tbody
+                  id="record-rows"
+                  class="divide-y divide-slate-100"
+                ></tbody>
+              </table>
+            </div>
+          </section>
+          <!-- qb:section:publish-records:end -->
+        </main>
+        <!-- qb:section:main-content:end -->
+      </div>
+
+      <!-- qb:section:app-overlays:start -->
+      <div
+        id="app-overlays"
+        class="fixed inset-0 z-50 pointer-events-none"
+        data-qb-section="app-overlays"
+        aria-live="polite"
+      ></div>
+      <!-- qb:section:app-overlays:end -->
+    </div>
+    <!-- qb:region:app-shell:end -->
+
+    <!-- qb:data:seed:start -->
+    <script id="qb-seed-data" type="application/json">
+      {
+        "version": "publish.v1",
+        "accounts": [
+          {
+            "id": "acc1",
+            "name": "行业观察局",
+            "status": "授权正常",
+            "publish": true,
+            "default": true
+          },
+          {
+            "id": "acc3",
+            "name": "智造前沿",
+            "status": "授权正常",
+            "publish": true,
+            "default": false
+          },
+          {
+            "id": "acc2",
+            "name": "政策速递",
+            "status": "授权即将到期",
+            "publish": true,
+            "default": false
+          },
+          {
+            "id": "acc4",
+            "name": "品牌内参",
+            "status": "无发布权限",
+            "publish": false,
+            "default": false
+          }
+        ],
+        "records": [
+          {
+            "title": "区域政策速览：11 月第 3 周重点公告汇总",
+            "account": "政策速递",
+            "time": "11-16 07:48",
+            "status": "发布失败",
+            "reason": "45009 接口调用频率超出限制，建议 10 分钟后重试"
+          },
+          {
+            "title": "品牌内容运营月报：素材复用率提升至 41%",
+            "account": "品牌内参",
+            "time": "11-15 20:18",
+            "status": "已发布",
+            "reason": "—"
+          },
+          {
+            "title": "制造业数字化转型的五个关键落点",
+            "account": "智造前沿",
+            "time": "11-16 08:05",
+            "status": "定时待发",
+            "reason": "计划 11-16 20:00 发布"
+          }
+        ]
+      }
+    </script>
+    <!-- qb:data:seed:end -->
+
+    <script>
+      (function () {
+        var seed = {};
+        try {
+          seed = JSON.parse(
+            document.getElementById("qb-seed-data").textContent || "{}",
+          );
+        } catch (e) {
+          seed = {};
+        }
+        var accounts = (Array.isArray(seed.accounts) ? seed.accounts : []).map(
+          function (a) {
+            return {
+              id: String(a.id || ""),
+              name: String(a.name || "未命名公众号"),
+              status: String(a.status || "授权正常"),
+              publish: a.publish !== false,
+              isDefault: a.default === true,
+            };
+          },
+        );
+        var records = (Array.isArray(seed.records) ? seed.records : []).map(
+          function (r) {
+            return {
+              title: String(r.title || "未命名文章"),
+              account: String(r.account || ""),
+              time: String(r.time || ""),
+              status: String(r.status || "发布失败"),
+              reason: String(r.reason || "—"),
+            };
+          },
+        );
+
+        function el(tag, cls, text) {
+          var node = document.createElement(tag);
+          if (cls) node.className = cls;
+          if (text != null) node.textContent = String(text);
+          return node;
+        }
+        function toast(message) {
+          var host = document.getElementById("app-overlays");
+          if (!host) return;
+          host.textContent = "";
+          host.appendChild(
+            el(
+              "div",
+              "absolute bottom-5 left-1/2 -translate-x-1/2 rounded-xl bg-slate-900 px-4 py-2.5 text-[13px] text-white shadow-lg",
+              message,
+            ),
+          );
+          host.classList.remove("pointer-events-none");
+          setTimeout(function () {
+            host.textContent = "";
+            host.classList.add("pointer-events-none");
+          }, 2400);
+        }
+
+        var currentAccount =
+          accounts.filter(function (a) {
+            return a.isDefault;
+          })[0] ||
+          accounts[0] ||
+          null;
+        var timingMode = "now";
+        var published = false;
+
+        var accountList = document.getElementById("account-list");
+        function renderAccounts() {
+          accountList.textContent = "";
+          accounts.forEach(function (a) {
+            var active = currentAccount && a.id === currentAccount.id;
+            var label = el(
+              "label",
+              "flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 text-[12px] " +
+                (active
+                  ? "border-2 border-blue-600 bg-blue-50/50"
+                  : "border-slate-200"),
+            );
+            var radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = "publishAccount";
+            radio.className = "h-3.5 w-3.5";
+            radio.checked = !!active;
+            radio.dataset.account = a.id;
+            radio.disabled = !a.publish;
+            label.appendChild(radio);
+            label.appendChild(
+              el(
+                "span",
+                a.publish ? "text-slate-700" : "text-slate-400",
+                a.name,
+              ),
+            );
+            label.appendChild(
+              el(
+                "span",
+                "ml-auto text-[11px] " +
+                  (a.status === "授权正常"
+                    ? "text-emerald-600"
+                    : a.publish
+                      ? "text-amber-600"
+                      : "text-slate-400"),
+                a.status,
+              ),
+            );
+            accountList.appendChild(label);
+          });
+        }
+
+        function statusCls(status) {
+          if (status === "已发布") return "bg-emerald-50 text-emerald-700";
+          if (status === "发布失败") return "bg-red-50 text-red-600";
+          if (status === "定时待发") return "bg-blue-50 text-blue-700";
+          return "bg-slate-100 text-slate-600";
+        }
+
+        var recordRows = document.getElementById("record-rows");
+        function renderRecords() {
+          recordRows.textContent = "";
+          if (!records.length) {
+            var tr = el("tr");
+            var td = el(
+              "td",
+              "px-5 py-10 text-center text-[12px] text-slate-400",
+              "暂无发布记录",
+            );
+            td.colSpan = 6;
+            tr.appendChild(td);
+            recordRows.appendChild(tr);
+            return;
+          }
+          records.forEach(function (r) {
+            var tr = el("tr", "hover:bg-slate-50/70");
+            tr.appendChild(
+              el(
+                "td",
+                "px-5 py-3 max-w-[320px] truncate font-medium text-slate-800",
+                r.title,
+              ),
+            );
+            tr.appendChild(el("td", "px-3 py-3 text-slate-600", r.account));
+            tr.appendChild(el("td", "px-3 py-3 text-slate-500", r.time));
+            var tdStatus = el("td", "px-3 py-3");
+            tdStatus.appendChild(
+              el(
+                "span",
+                "rounded-full px-2 py-0.5 text-[11px] font-medium " +
+                  statusCls(r.status),
+                r.status,
+              ),
+            );
+            tr.appendChild(tdStatus);
+            tr.appendChild(
+              el(
+                "td",
+                "px-3 py-3 max-w-[300px] truncate text-slate-500",
+                r.reason,
+              ),
+            );
+            var tdOps = el("td", "px-5 py-3");
+            var retry = el(
+              "button",
+              "text-[11px] font-medium text-blue-600 hover:text-blue-700",
+              r.status === "发布失败" ? "重试" : "查看详情",
+            );
+            retry.type = "button";
+            retry.dataset.record = String(records.indexOf(r));
+            tdOps.appendChild(retry);
+            tr.appendChild(tdOps);
+            recordRows.appendChild(tr);
+          });
+        }
+
+        var timingWrap = document.querySelector("[data-timing]");
+        var schedulePanel = document.getElementById("schedule-panel");
+        var publishState = document.getElementById("publish-state");
+
+        renderAccounts();
+        renderRecords();
+
+        document
+          .getElementById("app")
+          .addEventListener("click", function (event) {
+            var target = event.target;
+
+            var timingBtn = target.closest("[data-timing-mode]");
+            if (timingBtn) {
+              timingMode = timingBtn.dataset.timingMode;
+              Array.prototype.forEach.call(
+                timingWrap.querySelectorAll("[data-timing-mode]"),
+                function (b) {
+                  b.className =
+                    "flex-1 rounded-lg px-2 py-2 " +
+                    (b.dataset.timingMode === timingMode
+                      ? "border-2 border-blue-600 bg-blue-50/50 font-medium text-blue-700"
+                      : "border border-slate-200 text-slate-600");
+                },
+              );
+              schedulePanel.classList.toggle(
+                "hidden",
+                timingMode !== "schedule",
+              );
+              return;
+            }
+
+            if (target.closest('[data-action="save-draft"]')) {
+              toast("已暂存，可在内容管理中继续处理");
+              return;
+            }
+
+            var retryBtn = target.closest("[data-record]");
+            if (retryBtn) {
+              var record = records[Number(retryBtn.dataset.record)];
+              if (record)
+                toast(
+                  record.status === "发布失败"
+                    ? "已提交重试：" + record.title
+                    : "打开发布记录：" + record.title,
+                );
+              return;
+            }
+
+            if (target.closest('[data-action="confirm-publish"]')) {
+              if (published) {
+                toast("该文章已发布，可在发布记录中查看结果");
+                return;
+              }
+              if (!document.getElementById("confirm-check").checked) {
+                toast("请先勾选发布确认");
+                return;
+              }
+              if (!currentAccount || !currentAccount.publish) {
+                toast("当前公众号未开通发布权限，请先完成授权");
+                return;
+              }
+              var title = document.getElementById("publish-title").textContent;
+              var scheduled = timingMode === "schedule";
+              var time = scheduled
+                ? (
+                    document.getElementById("schedule-time").value || "待定"
+                  ).replace("T", " ")
+                : "刚刚";
+              records.unshift({
+                title: title,
+                account: currentAccount.name,
+                time: time,
+                status: scheduled ? "定时待发" : "已发布",
+                reason: scheduled ? "计划 " + time + " 发布" : "发布成功",
+              });
+              published = true;
+              publishState.textContent =
+                "当前状态：" + (scheduled ? "定时待发" : "已发布");
+              publishState.className =
+                "shrink-0 rounded-full bg-white px-2.5 py-1 text-[11px] font-medium " +
+                (scheduled ? "text-blue-700" : "text-emerald-700");
+              renderRecords();
+              toast(
+                scheduled ? "已加入定时发布队列" : "发布成功，已记录发布结果",
+              );
+            }
+          });
+
+        accountList.addEventListener("change", function (event) {
+          var radio = event.target.closest("[data-account]");
+          if (!radio) return;
+          currentAccount =
+            accounts.filter(function (a) {
+              return a.id === radio.dataset.account;
+            })[0] || currentAccount;
+          renderAccounts();
+        });
+      })();
+    </script>
+  </body>
+</html>

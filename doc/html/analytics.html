@@ -1,0 +1,1026 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数据统计分析 · 智媒助手</title>
+    <script src="./tailwind.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+      [data-chart] {
+        min-height: 240px;
+      }
+      body.app-bg {
+        background-color: #f6f8fc;
+        background-image:
+          radial-gradient(
+            920px 460px at 6% -8%,
+            rgba(191, 219, 254, 0.75) 0%,
+            rgba(191, 219, 254, 0) 62%
+          ),
+          radial-gradient(
+            780px 420px at 98% -4%,
+            rgba(221, 214, 254, 0.7) 0%,
+            rgba(221, 214, 254, 0) 58%
+          ),
+          radial-gradient(
+            760px 520px at 88% 104%,
+            rgba(167, 243, 208, 0.55) 0%,
+            rgba(167, 243, 208, 0) 60%
+          ),
+          radial-gradient(
+            700px 480px at 4% 96%,
+            rgba(253, 230, 138, 0.45) 0%,
+            rgba(253, 230, 138, 0) 60%
+          );
+        background-attachment: fixed;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen app-bg text-slate-900 antialiased">
+    <!-- qb:map
+  app-shell -> 页面外壳
+  sidebar -> 一级导航
+  topbar -> 顶部信息栏
+  main-content -> 数据统计分析内容
+  app-overlays -> 提示
+  -->
+
+    <!-- qb:region:app-shell:start -->
+    <div id="app" class="min-h-screen flex" data-qb-region="app-shell">
+      <!-- qb:section:sidebar:start -->
+      <aside
+        class="hidden lg:flex w-60 shrink-0 flex-col border-r border-slate-200 bg-white"
+        data-qb-section="sidebar"
+      >
+        <a
+          href="index.html"
+          class="h-16 flex items-center gap-2.5 px-5 border-b border-slate-200"
+        >
+          <span
+            class="w-8 h-8 rounded-lg bg-blue-600 text-white grid place-items-center text-sm font-semibold"
+            >智</span
+          >
+          <span class="leading-tight">
+            <span class="block text-sm font-semibold tracking-tight"
+              >智媒助手</span
+            >
+            <span class="block text-[11px] text-slate-400"
+              >公众号智能运营平台</span
+            >
+          </span>
+        </a>
+        <nav class="flex-1 overflow-y-auto px-3 py-3 space-y-0.5 text-sm">
+          <p
+            class="px-3 pb-2 pt-1 text-[11px] font-medium tracking-wide text-slate-400"
+          >
+            内容生产
+          </p>
+          <a
+            href="index.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >台</span
+            >工作台
+          </a>
+          <a
+            href="collect.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >采</span
+            >采集管理
+          </a>
+          <a
+            href="library.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >素</span
+            >素材库
+          </a>
+          <a
+            href="create.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >创</span
+            >智能创作
+          </a>
+          <a
+            href="content.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >稿</span
+            >内容管理
+          </a>
+          <p
+            class="px-3 pb-2 pt-4 text-[11px] font-medium tracking-wide text-slate-400"
+          >
+            运营与配置
+          </p>
+          <a
+            href="analytics.html"
+            class="flex items-center gap-2.5 rounded-lg bg-blue-50 px-3 py-2 font-medium text-blue-700"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-blue-600 text-white grid place-items-center text-[11px]"
+              >数</span
+            >数据统计分析
+          </a>
+          <a
+            href="accounts.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >号</span
+            >账号管理
+          </a>
+          <a
+            href="settings.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >设</span
+            >系统设置
+          </a>
+        </nav>
+        <div class="border-t border-slate-200 px-4 py-3 text-xs text-slate-500">
+          <div class="flex items-center gap-2.5">
+            <span
+              class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 grid place-items-center text-xs font-semibold"
+              >林</span
+            >
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-[13px] font-medium text-slate-700">
+                林晓 · 运营管理员
+              </p>
+              <p class="text-[11px] text-slate-400">运营中心</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <!-- qb:section:sidebar:end -->
+
+      <div class="flex-1 min-w-0 flex flex-col">
+        <!-- qb:section:topbar:start -->
+        <header
+          class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200"
+          data-qb-section="topbar"
+        >
+          <div class="h-16 px-4 md:px-8 flex items-center gap-3">
+            <div class="min-w-0">
+              <nav class="flex items-center gap-1.5 text-[11px] text-slate-400">
+                <a href="index.html" class="hover:text-slate-600">工作台</a
+                ><span>/</span><span class="text-slate-600">数据统计分析</span>
+              </nav>
+              <h1 class="text-base font-semibold tracking-tight">
+                数据统计分析
+              </h1>
+            </div>
+            <div class="ml-auto flex items-center gap-2">
+              <button
+                type="button"
+                data-action="export"
+                class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-[12px] font-medium text-slate-700 hover:bg-slate-50"
+              >
+                导出报表
+              </button>
+              <span
+                class="w-9 h-9 rounded-full bg-blue-600 text-white grid place-items-center text-xs font-semibold"
+                >林</span
+              >
+            </div>
+          </div>
+          <div class="lg:hidden flex gap-1.5 overflow-x-auto px-4 pb-2 text-xs">
+            <a
+              href="index.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >工作台</a
+            >
+            <a
+              href="collect.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >采集管理</a
+            >
+            <a
+              href="library.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >素材库</a
+            >
+            <a
+              href="create.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >智能创作</a
+            >
+            <a
+              href="content.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >内容管理</a
+            >
+            <a
+              href="analytics.html"
+              class="shrink-0 rounded-full bg-blue-600 px-3 py-1.5 text-white"
+              >数据统计</a
+            >
+            <a
+              href="accounts.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >账号管理</a
+            >
+            <a
+              href="settings.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >系统设置</a
+            >
+          </div>
+        </header>
+        <!-- qb:section:topbar:end -->
+
+        <!-- qb:section:main-content:start -->
+        <main
+          class="flex-1 p-4 md:p-8 space-y-5"
+          data-qb-section="main-content"
+        >
+          <!-- qb:section:analytics-filters:start -->
+          <section
+            class="rounded-2xl border border-slate-200 bg-white p-4"
+            data-qb-section="analytics-filters"
+          >
+            <div class="flex flex-col gap-2 lg:flex-row lg:items-center">
+              <div class="flex gap-1 text-[12px]" data-range-tabs>
+                <button
+                  type="button"
+                  data-range="7"
+                  class="rounded-lg bg-slate-900 px-3 py-1.5 text-white"
+                >
+                  近 7 天
+                </button>
+                <button
+                  type="button"
+                  data-range="30"
+                  class="rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600"
+                >
+                  近 30 天
+                </button>
+                <button
+                  type="button"
+                  data-range="90"
+                  class="rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600"
+                >
+                  近 90 天
+                </button>
+              </div>
+              <div class="flex flex-wrap gap-1.5 lg:ml-auto">
+                <select
+                  class="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[12px] text-slate-600 outline-none focus:border-blue-500"
+                >
+                  <option>全部公众号</option>
+                  <option>行业观察局</option>
+                  <option>政策速递</option>
+                  <option>智造前沿</option>
+                </select>
+                <select
+                  class="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[12px] text-slate-600 outline-none focus:border-blue-500"
+                >
+                  <option>全部采集任务</option>
+                  <option>新能源行业资讯采集</option>
+                  <option>行业资讯每日采集</option>
+                  <option>政策公告追踪</option>
+                </select>
+                <select
+                  class="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[12px] text-slate-600 outline-none focus:border-blue-500"
+                >
+                  <option>数据类型：全部</option>
+                  <option>数据类型：采集</option>
+                  <option>数据类型：创作</option>
+                  <option>数据类型：发布</option>
+                </select>
+              </div>
+            </div>
+          </section>
+          <!-- qb:section:analytics-filters:end -->
+
+          <!-- qb:section:core-metrics:start -->
+          <section
+            class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3"
+            data-qb-section="core-metrics"
+          >
+            <div class="rounded-xl border border-slate-200 bg-white p-4">
+              <p class="text-[11px] text-slate-500">累计采集</p>
+              <p class="mt-1 text-lg font-semibold">128,640</p>
+              <p class="text-[11px] text-emerald-600">+8.2%</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-white p-4">
+              <p class="text-[11px] text-slate-500">累计素材</p>
+              <p class="mt-1 text-lg font-semibold">24,860</p>
+              <p class="text-[11px] text-emerald-600">+4.6%</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-white p-4">
+              <p class="text-[11px] text-slate-500">AI 生成文章</p>
+              <p class="mt-1 text-lg font-semibold">3,286</p>
+              <p class="text-[11px] text-emerald-600">+12.1%</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-white p-4">
+              <p class="text-[11px] text-slate-500">审核通过</p>
+              <p class="mt-1 text-lg font-semibold">1,842</p>
+              <p class="text-[11px] text-slate-400">通过率 86.4%</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-white p-4">
+              <p class="text-[11px] text-slate-500">发布文章</p>
+              <p class="mt-1 text-lg font-semibold">1,640</p>
+              <p class="text-[11px] text-slate-400">失败 28 篇</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-white p-4">
+              <p class="text-[11px] text-slate-500">发布成功率</p>
+              <p class="mt-1 text-lg font-semibold text-emerald-600">98.4%</p>
+              <p class="text-[11px] text-slate-400">较上周期 +0.6%</p>
+            </div>
+          </section>
+          <!-- qb:section:core-metrics:end -->
+
+          <!-- qb:section:collect-analysis:start -->
+          <section
+            class="grid gap-4 lg:grid-cols-3"
+            data-qb-section="collect-analysis"
+          >
+            <div
+              class="rounded-2xl border border-slate-200 bg-white p-5 lg:col-span-2"
+            >
+              <div class="flex items-center justify-between">
+                <div>
+                  <h2 class="text-sm font-semibold">每日采集趋势</h2>
+                  <p class="mt-0.5 text-[11px] text-slate-400">
+                    采集量与入库量对比
+                  </p>
+                </div>
+                <span
+                  class="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] text-slate-500"
+                  >单位：条</span
+                >
+              </div>
+              <div id="collect-trend" data-chart class="mt-3 w-full h-72"></div>
+              <div
+                id="collect-trend-fallback"
+                class="mt-3 space-y-2 text-[11px]"
+              >
+                <div class="flex items-center gap-2">
+                  <span class="w-10 shrink-0 text-slate-400">11-10</span>
+                  <div
+                    class="h-2 flex-1 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div class="h-full w-8/12 rounded-full bg-blue-500"></div>
+                  </div>
+                  <span class="w-10 text-right text-slate-500">862</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-10 shrink-0 text-slate-400">11-11</span>
+                  <div
+                    class="h-2 flex-1 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div class="h-full w-10/12 rounded-full bg-blue-500"></div>
+                  </div>
+                  <span class="w-10 text-right text-slate-500">1,024</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-10 shrink-0 text-slate-400">11-12</span>
+                  <div
+                    class="h-2 flex-1 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div class="h-full w-9/12 rounded-full bg-blue-500"></div>
+                  </div>
+                  <span class="w-10 text-right text-slate-500">948</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-10 shrink-0 text-slate-400">11-13</span>
+                  <div
+                    class="h-2 flex-1 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div class="h-full w-11/12 rounded-full bg-blue-500"></div>
+                  </div>
+                  <span class="w-10 text-right text-slate-500">1,106</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-10 shrink-0 text-slate-400">11-14</span>
+                  <div
+                    class="h-2 flex-1 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div class="h-full w-7/12 rounded-full bg-blue-500"></div>
+                  </div>
+                  <span class="w-10 text-right text-slate-500">756</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-10 shrink-0 text-slate-400">11-15</span>
+                  <div
+                    class="h-2 flex-1 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div class="h-full w-full rounded-full bg-blue-600"></div>
+                  </div>
+                  <span class="w-10 text-right text-slate-500">1,144</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-10 shrink-0 text-slate-400">11-16</span>
+                  <div
+                    class="h-2 flex-1 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div class="h-full w-full rounded-full bg-blue-600"></div>
+                  </div>
+                  <span class="w-10 text-right text-slate-500">1,286</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-2xl border border-slate-200 bg-white p-5">
+              <h2 class="text-sm font-semibold">采集来源分布</h2>
+              <p class="mt-0.5 text-[11px] text-slate-400">近 7 天采集占比</p>
+              <div id="source-pie" data-chart class="mt-3 w-full h-72"></div>
+              <div id="source-pie-fallback" class="mt-3 space-y-2 text-[11px]">
+                <div>
+                  <div class="flex justify-between">
+                    <span class="text-slate-600">新闻网站</span
+                    ><span class="text-slate-400">38%</span>
+                  </div>
+                  <div
+                    class="mt-1 h-1.5 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div class="h-full w-5/12 rounded-full bg-blue-600"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between">
+                    <span class="text-slate-600">行业网站</span
+                    ><span class="text-slate-400">31%</span>
+                  </div>
+                  <div
+                    class="mt-1 h-1.5 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div class="h-full w-4/12 rounded-full bg-blue-500"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between">
+                    <span class="text-slate-600">政策公告</span
+                    ><span class="text-slate-400">18%</span>
+                  </div>
+                  <div
+                    class="mt-1 h-1.5 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div class="h-full w-2/12 rounded-full bg-blue-400"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between">
+                    <span class="text-slate-600">指定网页</span
+                    ><span class="text-slate-400">13%</span>
+                  </div>
+                  <div
+                    class="mt-1 h-1.5 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div class="h-full w-1/12 rounded-full bg-blue-300"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- qb:section:collect-analysis:end -->
+
+          <!-- qb:section:publish-analysis:start -->
+          <section
+            class="grid gap-4 lg:grid-cols-3"
+            data-qb-section="publish-analysis"
+          >
+            <div
+              class="rounded-2xl border border-slate-200 bg-white p-5 lg:col-span-2"
+            >
+              <h2 class="text-sm font-semibold">发布数量与成功率</h2>
+              <p class="mt-0.5 text-[11px] text-slate-400">
+                按公众号统计近 7 天发布表现
+              </p>
+              <div id="publish-bar" data-chart class="mt-3 w-full h-64"></div>
+              <div id="publish-bar-fallback" class="mt-3 space-y-2 text-[11px]">
+                <div class="flex items-center gap-2">
+                  <span class="w-20 shrink-0 text-slate-600">行业观察局</span>
+                  <div
+                    class="h-2 flex-1 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div
+                      class="h-full w-full rounded-full bg-emerald-500"
+                    ></div>
+                  </div>
+                  <span class="w-16 text-right text-slate-500">18 篇</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-20 shrink-0 text-slate-600">智造前沿</span>
+                  <div
+                    class="h-2 flex-1 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div
+                      class="h-full w-8/12 rounded-full bg-emerald-500"
+                    ></div>
+                  </div>
+                  <span class="w-16 text-right text-slate-500">12 篇</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-20 shrink-0 text-slate-600">品牌内参</span>
+                  <div
+                    class="h-2 flex-1 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div
+                      class="h-full w-6/12 rounded-full bg-emerald-500"
+                    ></div>
+                  </div>
+                  <span class="w-16 text-right text-slate-500">9 篇</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-20 shrink-0 text-slate-600">政策速递</span>
+                  <div
+                    class="h-2 flex-1 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div class="h-full w-4/12 rounded-full bg-amber-500"></div>
+                  </div>
+                  <span class="w-16 text-right text-slate-500"
+                    >6 篇 · 1 失败</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-5">
+              <h2 class="text-sm font-semibold">发布失败原因</h2>
+              <ul class="mt-3 space-y-2 text-[12px]">
+                <li
+                  class="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
+                >
+                  <span class="text-slate-600">接口频率超限</span
+                  ><span class="font-medium text-red-500">12</span>
+                </li>
+                <li
+                  class="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
+                >
+                  <span class="text-slate-600">素材图片不合规</span
+                  ><span class="font-medium text-red-500">8</span>
+                </li>
+                <li
+                  class="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
+                >
+                  <span class="text-slate-600">授权过期</span
+                  ><span class="font-medium text-red-500">5</span>
+                </li>
+                <li
+                  class="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
+                >
+                  <span class="text-slate-600">网络超时</span
+                  ><span class="font-medium text-red-500">3</span>
+                </li>
+              </ul>
+              <div
+                class="mt-3 rounded-xl bg-blue-50 p-3 text-[11px] leading-relaxed text-blue-800"
+              >
+                失败记录均已保留，可在内容管理「发布记录」中查看原因并重新发布。
+              </div>
+            </div>
+          </section>
+          <!-- qb:section:publish-analysis:end -->
+
+          <div class="grid gap-4 lg:grid-cols-3">
+            <!-- qb:section:task-performance:start -->
+            <section
+              class="rounded-2xl border border-slate-200 bg-white lg:col-span-2 overflow-hidden"
+              data-qb-section="task-performance"
+            >
+              <div class="p-5 pb-3">
+                <h2 class="text-sm font-semibold">各采集任务表现</h2>
+                <p class="mt-0.5 text-[11px] text-slate-400">
+                  采集量、成功量与素材转化率
+                </p>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-[13px] whitespace-nowrap">
+                  <thead
+                    class="border-y border-slate-100 bg-slate-50/60 text-[11px] text-slate-400"
+                  >
+                    <tr>
+                      <th class="px-5 py-2 font-medium">采集任务</th>
+                      <th class="px-3 py-2 font-medium">采集量</th>
+                      <th class="px-3 py-2 font-medium">成功</th>
+                      <th class="px-3 py-2 font-medium">入库</th>
+                      <th class="px-3 py-2 font-medium">素材转化率</th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    id="task-rows"
+                    class="divide-y divide-slate-100"
+                  ></tbody>
+                </table>
+              </div>
+            </section>
+            <!-- qb:section:task-performance:end -->
+
+            <!-- qb:section:account-analytics:start -->
+            <section
+              class="rounded-2xl border border-slate-200 bg-white p-5"
+              data-qb-section="account-analytics"
+            >
+              <h2 class="text-sm font-semibold">公众号运营分析</h2>
+              <p class="mt-0.5 text-[11px] text-slate-400">
+                数据来自微信接口授权范围
+              </p>
+              <div class="mt-3 grid grid-cols-3 gap-2 text-center">
+                <div class="rounded-xl bg-slate-50 px-2 py-3">
+                  <p class="text-[11px] text-slate-500">阅读量</p>
+                  <p class="mt-1 text-sm font-semibold">86.4k</p>
+                </div>
+                <div class="rounded-xl bg-slate-50 px-2 py-3">
+                  <p class="text-[11px] text-slate-500">点赞</p>
+                  <p class="mt-1 text-sm font-semibold">2,486</p>
+                </div>
+                <div class="rounded-xl bg-slate-50 px-2 py-3">
+                  <p class="text-[11px] text-slate-500">分享</p>
+                  <p class="mt-1 text-sm font-semibold">1,024</p>
+                </div>
+              </div>
+              <div class="mt-3 space-y-2 text-[12px]">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-600">行业观察局</span
+                  ><span class="text-slate-500">阅读 42.1k · 在看 1,204</span>
+                </div>
+                <div
+                  class="mt-1 h-1.5 rounded-full bg-slate-100 overflow-hidden"
+                >
+                  <div class="h-full w-10/12 rounded-full bg-blue-600"></div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-600">智造前沿</span
+                  ><span class="text-slate-500">阅读 26.8k · 在看 806</span>
+                </div>
+                <div
+                  class="mt-1 h-1.5 rounded-full bg-slate-100 overflow-hidden"
+                >
+                  <div class="h-full w-7/12 rounded-full bg-blue-500"></div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-600">品牌内参</span
+                  ><span class="text-slate-500">阅读 12.4k · 在看 312</span>
+                </div>
+                <div
+                  class="mt-1 h-1.5 rounded-full bg-slate-100 overflow-hidden"
+                >
+                  <div class="h-full w-4/12 rounded-full bg-blue-400"></div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-600">政策速递</span
+                  ><span class="text-slate-500">阅读 5.1k · 在看 164</span>
+                </div>
+                <div
+                  class="mt-1 h-1.5 rounded-full bg-slate-100 overflow-hidden"
+                >
+                  <div class="h-full w-2/12 rounded-full bg-blue-300"></div>
+                </div>
+              </div>
+              <p class="mt-3 text-[10px] leading-relaxed text-slate-400">
+                具体指标以微信公众号开放接口实际授权范围为准，未授权指标不展示。
+              </p>
+            </section>
+            <!-- qb:section:account-analytics:end -->
+          </div>
+        </main>
+        <!-- qb:section:main-content:end -->
+      </div>
+
+      <!-- qb:section:app-overlays:start -->
+      <div
+        id="app-overlays"
+        class="fixed inset-0 z-50 pointer-events-none"
+        data-qb-section="app-overlays"
+        aria-live="polite"
+      ></div>
+      <!-- qb:section:app-overlays:end -->
+    </div>
+    <!-- qb:region:app-shell:end -->
+
+    <!-- qb:data:seed:start -->
+    <script id="qb-seed-data" type="application/json">
+      {
+        "version": "analytics.v1",
+        "tasks": [
+          {
+            "name": "新能源行业资讯采集",
+            "count": 2874,
+            "ok": 2842,
+            "stored": 2760,
+            "rate": "96.1%"
+          },
+          {
+            "name": "行业资讯每日采集",
+            "count": 2002,
+            "ok": 1978,
+            "stored": 1902,
+            "rate": "96.2%"
+          },
+          {
+            "name": "消费电子供应链",
+            "count": 1617,
+            "ok": 1611,
+            "stored": 1548,
+            "rate": "96.1%"
+          },
+          {
+            "name": "政策公告追踪",
+            "count": 968,
+            "ok": 862,
+            "stored": 742,
+            "rate": "86.1%"
+          },
+          {
+            "name": "竞品公众号监测",
+            "count": 704,
+            "ok": 698,
+            "stored": 655,
+            "rate": "93.8%"
+          }
+        ]
+      }
+    </script>
+    <!-- qb:data:seed:end -->
+
+    <script>
+      (function () {
+        var seed = {};
+        try {
+          seed = JSON.parse(
+            document.getElementById("qb-seed-data").textContent || "{}",
+          );
+        } catch (e) {
+          seed = {};
+        }
+
+        function el(tag, cls, text) {
+          var node = document.createElement(tag);
+          if (cls) node.className = cls;
+          if (text != null) node.textContent = String(text);
+          return node;
+        }
+        function toast(message) {
+          var host = document.getElementById("app-overlays");
+          if (!host) return;
+          host.textContent = "";
+          host.appendChild(
+            el(
+              "div",
+              "absolute bottom-5 left-1/2 -translate-x-1/2 rounded-xl bg-slate-900 px-4 py-2.5 text-[13px] text-white shadow-lg",
+              message,
+            ),
+          );
+          host.classList.remove("pointer-events-none");
+          setTimeout(function () {
+            host.textContent = "";
+            host.classList.add("pointer-events-none");
+          }, 2400);
+        }
+
+        var tasks = (Array.isArray(seed.tasks) ? seed.tasks : []).map(
+          function (t) {
+            return {
+              name: String(t.name || "未命名任务"),
+              count: Number(t.count) || 0,
+              ok: Number(t.ok) || 0,
+              stored: Number(t.stored) || 0,
+              rate: String(t.rate || "—"),
+            };
+          },
+        );
+        var rows = document.getElementById("task-rows");
+        if (!tasks.length) {
+          var tr = el("tr");
+          var td = el(
+            "td",
+            "px-5 py-10 text-center text-[12px] text-slate-400",
+            "暂无采集任务数据",
+          );
+          td.colSpan = 5;
+          tr.appendChild(td);
+          rows.appendChild(tr);
+        }
+        tasks.forEach(function (t) {
+          var tr = el("tr", "hover:bg-slate-50/70");
+          tr.appendChild(
+            el("td", "px-5 py-3 font-medium text-slate-800", t.name),
+          );
+          tr.appendChild(
+            el(
+              "td",
+              "px-3 py-3 tabular-nums text-slate-600",
+              t.count.toLocaleString(),
+            ),
+          );
+          tr.appendChild(
+            el(
+              "td",
+              "px-3 py-3 tabular-nums text-emerald-600",
+              t.ok.toLocaleString(),
+            ),
+          );
+          tr.appendChild(
+            el(
+              "td",
+              "px-3 py-3 tabular-nums text-slate-600",
+              t.stored.toLocaleString(),
+            ),
+          );
+          tr.appendChild(
+            el("td", "px-3 py-3 tabular-nums text-slate-600", t.rate),
+          );
+          rows.appendChild(tr);
+        });
+
+        var chartConfigs = [
+          {
+            id: "collect-trend",
+            fallback: "collect-trend-fallback",
+            option: {
+              grid: { left: 40, right: 12, top: 24, bottom: 28 },
+              tooltip: { trigger: "axis" },
+              xAxis: {
+                type: "category",
+                data: [
+                  "11-10",
+                  "11-11",
+                  "11-12",
+                  "11-13",
+                  "11-14",
+                  "11-15",
+                  "11-16",
+                ],
+                axisLine: { lineStyle: { color: "#e2e8f0" } },
+                axisLabel: { color: "#94a3b8", fontSize: 11 },
+              },
+              yAxis: {
+                type: "value",
+                splitLine: { lineStyle: { color: "#f1f5f9" } },
+                axisLabel: { color: "#94a3b8", fontSize: 11 },
+              },
+              series: [
+                {
+                  name: "采集量",
+                  type: "line",
+                  smooth: true,
+                  symbolSize: 5,
+                  data: [862, 1024, 948, 1106, 756, 1144, 1286],
+                  itemStyle: { color: "#2563eb" },
+                  areaStyle: { color: "rgba(37,99,235,0.08)" },
+                },
+                {
+                  name: "入库量",
+                  type: "line",
+                  smooth: true,
+                  symbolSize: 5,
+                  data: [806, 968, 902, 1048, 712, 1082, 1214],
+                  itemStyle: { color: "#10b981" },
+                },
+              ],
+            },
+          },
+          {
+            id: "source-pie",
+            fallback: "source-pie-fallback",
+            option: {
+              tooltip: { trigger: "item" },
+              legend: {
+                bottom: 0,
+                textStyle: { color: "#64748b", fontSize: 11 },
+              },
+              series: [
+                {
+                  type: "pie",
+                  radius: ["48%", "72%"],
+                  center: ["50%", "44%"],
+                  label: { show: false },
+                  data: [
+                    {
+                      name: "新闻网站",
+                      value: 38,
+                      itemStyle: { color: "#2563eb" },
+                    },
+                    {
+                      name: "行业网站",
+                      value: 31,
+                      itemStyle: { color: "#3b82f6" },
+                    },
+                    {
+                      name: "政策公告",
+                      value: 18,
+                      itemStyle: { color: "#93c5fd" },
+                    },
+                    {
+                      name: "指定网页",
+                      value: 13,
+                      itemStyle: { color: "#cbd5e1" },
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+          {
+            id: "publish-bar",
+            fallback: "publish-bar-fallback",
+            option: {
+              grid: { left: 72, right: 24, top: 16, bottom: 28 },
+              tooltip: { trigger: "axis" },
+              xAxis: {
+                type: "value",
+                splitLine: { lineStyle: { color: "#f1f5f9" } },
+                axisLabel: { color: "#94a3b8", fontSize: 11 },
+              },
+              yAxis: {
+                type: "category",
+                data: ["政策速递", "品牌内参", "智造前沿", "行业观察局"],
+                axisLine: { lineStyle: { color: "#e2e8f0" } },
+                axisLabel: { color: "#64748b", fontSize: 11 },
+              },
+              series: [
+                {
+                  name: "发布篇数",
+                  type: "bar",
+                  barWidth: 14,
+                  data: [6, 9, 12, 18],
+                  itemStyle: { color: "#2563eb", borderRadius: [0, 6, 6, 0] },
+                },
+              ],
+            },
+          },
+        ];
+
+        function initChart(item) {
+          var container = document.getElementById(item.id);
+          var fallback = document.getElementById(item.fallback);
+          if (typeof echarts === "undefined" || !container) {
+            if (fallback) fallback.classList.remove("hidden");
+            return null;
+          }
+          if (fallback) fallback.classList.add("hidden");
+          var existing = echarts.getInstanceByDom(container);
+          if (existing) existing.dispose();
+          var instance = echarts.init(container);
+          instance.setOption(item.option);
+          return instance;
+        }
+
+        var instances = [];
+        chartConfigs.forEach(function (item) {
+          var instance = initChart(item);
+          if (instance) instances.push(instance);
+        });
+
+        if (typeof ResizeObserver !== "undefined") {
+          chartConfigs.forEach(function (item) {
+            var container = document.getElementById(item.id);
+            if (!container) return;
+            var observer = new ResizeObserver(function () {
+              var instance = echarts.getInstanceByDom(container);
+              if (instance) instance.resize();
+            });
+            observer.observe(container);
+          });
+        }
+
+        window.addEventListener("resize", function () {
+          instances.forEach(function (instance) {
+            instance.resize();
+          });
+        });
+
+        document
+          .getElementById("app")
+          .addEventListener("click", function (event) {
+            var rangeBtn = event.target.closest("[data-range]");
+            if (rangeBtn) {
+              var wrap = rangeBtn.parentElement;
+              Array.prototype.forEach.call(
+                wrap.querySelectorAll("[data-range]"),
+                function (b) {
+                  b.className =
+                    "rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600";
+                },
+              );
+              rangeBtn.className =
+                "rounded-lg bg-slate-900 px-3 py-1.5 text-white";
+              toast("已切换统计范围：近 " + rangeBtn.dataset.range + " 天");
+              return;
+            }
+            if (event.target.closest('[data-action="export"]')) {
+              toast("报表已生成，将在通知中心提供下载");
+            }
+          });
+      })();
+    </script>
+  </body>
+</html>

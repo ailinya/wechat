@@ -1,0 +1,1303 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>系统设置 · 智媒助手</title>
+    <script src="./tailwind.js"></script>
+    <style>
+      body.app-bg {
+        background-color: #f6f8fc;
+        background-image:
+          radial-gradient(
+            920px 460px at 6% -8%,
+            rgba(191, 219, 254, 0.75) 0%,
+            rgba(191, 219, 254, 0) 62%
+          ),
+          radial-gradient(
+            780px 420px at 98% -4%,
+            rgba(221, 214, 254, 0.7) 0%,
+            rgba(221, 214, 254, 0) 58%
+          ),
+          radial-gradient(
+            760px 520px at 88% 104%,
+            rgba(167, 243, 208, 0.55) 0%,
+            rgba(167, 243, 208, 0) 60%
+          ),
+          radial-gradient(
+            700px 480px at 4% 96%,
+            rgba(253, 230, 138, 0.45) 0%,
+            rgba(253, 230, 138, 0) 60%
+          );
+        background-attachment: fixed;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen app-bg text-slate-900 antialiased">
+    <!-- qb:map
+  app-shell -> 页面外壳
+  sidebar -> 一级导航
+  topbar -> 顶部信息栏
+  main-content -> 系统设置内容
+  app-overlays -> 提示
+  -->
+
+    <!-- qb:region:app-shell:start -->
+    <div id="app" class="min-h-screen flex" data-qb-region="app-shell">
+      <!-- qb:section:sidebar:start -->
+      <aside
+        class="hidden lg:flex w-60 shrink-0 flex-col border-r border-slate-200 bg-white"
+        data-qb-section="sidebar"
+      >
+        <a
+          href="index.html"
+          class="h-16 flex items-center gap-2.5 px-5 border-b border-slate-200"
+        >
+          <span
+            class="w-8 h-8 rounded-lg bg-blue-600 text-white grid place-items-center text-sm font-semibold"
+            >智</span
+          >
+          <span class="leading-tight">
+            <span class="block text-sm font-semibold tracking-tight"
+              >智媒助手</span
+            >
+            <span class="block text-[11px] text-slate-400"
+              >公众号智能运营平台</span
+            >
+          </span>
+        </a>
+        <nav class="flex-1 overflow-y-auto px-3 py-3 space-y-0.5 text-sm">
+          <p
+            class="px-3 pb-2 pt-1 text-[11px] font-medium tracking-wide text-slate-400"
+          >
+            内容生产
+          </p>
+          <a
+            href="index.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >台</span
+            >工作台
+          </a>
+          <a
+            href="collect.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >采</span
+            >采集管理
+          </a>
+          <a
+            href="library.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >素</span
+            >素材库
+          </a>
+          <a
+            href="create.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >创</span
+            >智能创作
+          </a>
+          <a
+            href="content.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >稿</span
+            >内容管理
+          </a>
+          <p
+            class="px-3 pb-2 pt-4 text-[11px] font-medium tracking-wide text-slate-400"
+          >
+            运营与配置
+          </p>
+          <a
+            href="analytics.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >数</span
+            >数据统计分析
+          </a>
+          <a
+            href="accounts.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >号</span
+            >账号管理
+          </a>
+          <a
+            href="settings.html"
+            class="flex items-center gap-2.5 rounded-lg bg-blue-50 px-3 py-2 font-medium text-blue-700"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-blue-600 text-white grid place-items-center text-[11px]"
+              >设</span
+            >系统设置
+          </a>
+        </nav>
+        <div class="border-t border-slate-200 px-4 py-3 text-xs text-slate-500">
+          <div class="flex items-center gap-2.5">
+            <span
+              class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 grid place-items-center text-xs font-semibold"
+              >林</span
+            >
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-[13px] font-medium text-slate-700">
+                林晓 · 运营管理员
+              </p>
+              <p class="text-[11px] text-slate-400">运营中心</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <!-- qb:section:sidebar:end -->
+
+      <div class="flex-1 min-w-0 flex flex-col">
+        <!-- qb:section:topbar:start -->
+        <header
+          class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200"
+          data-qb-section="topbar"
+        >
+          <div class="h-16 px-4 md:px-8 flex items-center gap-3">
+            <div class="min-w-0">
+              <nav class="flex items-center gap-1.5 text-[11px] text-slate-400">
+                <a href="index.html" class="hover:text-slate-600">工作台</a
+                ><span>/</span><span class="text-slate-600">系统设置</span>
+              </nav>
+              <h1 class="text-base font-semibold tracking-tight">系统设置</h1>
+            </div>
+            <div class="ml-auto flex items-center gap-2">
+              <button
+                type="button"
+                data-action="save"
+                class="rounded-lg bg-blue-600 px-3 py-2 text-[12px] font-medium text-white hover:bg-blue-700"
+              >
+                保存设置
+              </button>
+              <span
+                class="w-9 h-9 rounded-full bg-blue-600 text-white grid place-items-center text-xs font-semibold"
+                >林</span
+              >
+            </div>
+          </div>
+          <div class="lg:hidden flex gap-1.5 overflow-x-auto px-4 pb-2 text-xs">
+            <a
+              href="index.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >工作台</a
+            >
+            <a
+              href="collect.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >采集管理</a
+            >
+            <a
+              href="library.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >素材库</a
+            >
+            <a
+              href="create.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >智能创作</a
+            >
+            <a
+              href="content.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >内容管理</a
+            >
+            <a
+              href="analytics.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >数据统计</a
+            >
+            <a
+              href="accounts.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >账号管理</a
+            >
+            <a
+              href="settings.html"
+              class="shrink-0 rounded-full bg-blue-600 px-3 py-1.5 text-white"
+              >系统设置</a
+            >
+          </div>
+        </header>
+        <!-- qb:section:topbar:end -->
+
+        <!-- qb:section:main-content:start -->
+        <main
+          class="flex-1 p-4 md:p-8 space-y-5"
+          data-qb-section="main-content"
+        >
+          <!-- qb:section:settings-tabs:start -->
+          <nav
+            class="flex gap-1 overflow-x-auto rounded-xl border border-slate-200 bg-white p-1.5 text-[12px]"
+            data-qb-section="settings-tabs"
+          >
+            <button
+              type="button"
+              data-tab="platform"
+              class="shrink-0 rounded-lg bg-slate-900 px-3 py-1.5 font-medium text-white"
+            >
+              平台信息
+            </button>
+            <button
+              type="button"
+              data-tab="models"
+              class="shrink-0 rounded-lg px-3 py-1.5 text-slate-600 hover:bg-slate-100"
+            >
+              AI 模型
+            </button>
+            <button
+              type="button"
+              data-tab="users"
+              class="shrink-0 rounded-lg px-3 py-1.5 text-slate-600 hover:bg-slate-100"
+            >
+              用户管理
+            </button>
+            <button
+              type="button"
+              data-tab="roles"
+              class="shrink-0 rounded-lg px-3 py-1.5 text-slate-600 hover:bg-slate-100"
+            >
+              角色权限
+            </button>
+            <button
+              type="button"
+              data-tab="apis"
+              class="shrink-0 rounded-lg px-3 py-1.5 text-slate-600 hover:bg-slate-100"
+            >
+              接口配置
+            </button>
+            <button
+              type="button"
+              data-tab="notify"
+              class="shrink-0 rounded-lg px-3 py-1.5 text-slate-600 hover:bg-slate-100"
+            >
+              通知设置
+            </button>
+            <button
+              type="button"
+              data-tab="logs"
+              class="shrink-0 rounded-lg px-3 py-1.5 text-slate-600 hover:bg-slate-100"
+            >
+              操作日志
+            </button>
+          </nav>
+          <!-- qb:section:settings-tabs:end -->
+
+          <!-- qb:section:panel-platform:start -->
+          <section
+            data-panel="platform"
+            data-qb-section="panel-platform"
+            class="grid gap-5 lg:grid-cols-3 items-start"
+          >
+            <div
+              class="rounded-2xl border border-slate-200 bg-white p-5 lg:col-span-2"
+            >
+              <h2 class="text-sm font-semibold">平台基本信息</h2>
+              <div class="mt-3 space-y-3 text-[13px]">
+                <div>
+                  <label class="text-[11px] font-medium text-slate-400"
+                    >平台名称</label
+                  >
+                  <input
+                    type="text"
+                    value="智媒助手"
+                    class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 outline-none focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label class="text-[11px] font-medium text-slate-400"
+                    >平台介绍</label
+                  >
+                  <textarea
+                    rows="3"
+                    class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 leading-relaxed outline-none focus:border-blue-500"
+                  >
+面向微信公众号的智能内容运营管理平台：自动采集信息、沉淀素材资产、AI 生成文章、人工审核后发布。</textarea
+                  >
+                </div>
+                <div class="grid gap-3 sm:grid-cols-2">
+                  <div>
+                    <label class="text-[11px] font-medium text-slate-400"
+                      >平台标识</label
+                    >
+                    <input
+                      type="text"
+                      value="ZMT-PLATFORM"
+                      class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label class="text-[11px] font-medium text-slate-400"
+                      >默认时区</label
+                    >
+                    <select
+                      class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 outline-none focus:border-blue-500"
+                    >
+                      <option>Asia/Shanghai (UTC+8)</option>
+                      <option>Asia/Tokyo (UTC+9)</option>
+                      <option>UTC</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-5">
+              <h2 class="text-sm font-semibold">系统基础配置</h2>
+              <div class="mt-3 space-y-2 text-[12px]">
+                <label
+                  class="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
+                  ><span
+                    ><span class="block text-slate-700">任务失败自动重试</span
+                    ><span class="block text-[11px] text-slate-400"
+                      >最多 3 次，间隔 10 分钟</span
+                    ></span
+                  ><input
+                    type="checkbox"
+                    checked
+                    class="h-4 w-4 rounded border-slate-300"
+                /></label>
+                <label
+                  class="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
+                  ><span
+                    ><span class="block text-slate-700">采集结果自动去重</span
+                    ><span class="block text-[11px] text-slate-400"
+                      >相似度阈值 85%</span
+                    ></span
+                  ><input
+                    type="checkbox"
+                    checked
+                    class="h-4 w-4 rounded border-slate-300"
+                /></label>
+                <label
+                  class="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
+                  ><span
+                    ><span class="block text-slate-700"
+                      >AI 生成必须人工审核</span
+                    ><span class="block text-[11px] text-slate-400"
+                      >推荐开启，不可跳过</span
+                    ></span
+                  ><input
+                    type="checkbox"
+                    checked
+                    class="h-4 w-4 rounded border-slate-300"
+                /></label>
+                <label
+                  class="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
+                  ><span
+                    ><span class="block text-slate-700">操作日志保留</span
+                    ><span class="block text-[11px] text-slate-400"
+                      >当前：180 天</span
+                    ></span
+                  ><input
+                    type="checkbox"
+                    checked
+                    class="h-4 w-4 rounded border-slate-300"
+                /></label>
+              </div>
+            </div>
+          </section>
+          <!-- qb:section:panel-platform:end -->
+
+          <!-- qb:section:panel-models:start -->
+          <section
+            data-panel="models"
+            data-qb-section="panel-models"
+            class="hidden space-y-4"
+          >
+            <div class="rounded-2xl border border-slate-200 bg-white p-5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <h2 class="text-sm font-semibold">AI 模型配置</h2>
+                  <p class="mt-0.5 text-[11px] text-slate-400">
+                    用于素材分析与文章生成，密钥仅管理员可见
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  data-action="add-model"
+                  class="rounded-lg border border-slate-200 px-3 py-1.5 text-[12px] text-slate-600 hover:bg-slate-50"
+                >
+                  新增模型
+                </button>
+              </div>
+              <ul id="model-list" class="mt-3 grid gap-3 lg:grid-cols-2"></ul>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-5">
+              <h2 class="text-sm font-semibold">模型参数</h2>
+              <div class="mt-3 grid gap-3 sm:grid-cols-3 text-[12px]">
+                <div>
+                  <label class="text-[11px] font-medium text-slate-400"
+                    >Temperature</label
+                  ><input
+                    type="text"
+                    value="0.7"
+                    class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 outline-none focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label class="text-[11px] font-medium text-slate-400"
+                    >最大输出长度</label
+                  ><input
+                    type="text"
+                    value="4096"
+                    class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 outline-none focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label class="text-[11px] font-medium text-slate-400"
+                    >单次参考素材上限</label
+                  ><input
+                    type="text"
+                    value="8"
+                    class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 outline-none focus:border-blue-500"
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- qb:section:panel-models:end -->
+
+          <!-- qb:section:panel-users:start -->
+          <section
+            data-panel="users"
+            data-qb-section="panel-users"
+            class="hidden"
+          >
+            <div
+              class="rounded-2xl border border-slate-200 bg-white overflow-hidden"
+            >
+              <div
+                class="flex flex-wrap items-center justify-between gap-2 p-5 pb-3"
+              >
+                <div>
+                  <h2 class="text-sm font-semibold">用户管理</h2>
+                  <p class="mt-0.5 text-[11px] text-slate-400">
+                    共 6 个账号，2 个待激活
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  data-action="add-user"
+                  class="rounded-lg bg-blue-600 px-3 py-1.5 text-[12px] font-medium text-white hover:bg-blue-700"
+                >
+                  新增用户
+                </button>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-[13px] whitespace-nowrap">
+                  <thead
+                    class="border-y border-slate-100 bg-slate-50/60 text-[11px] text-slate-400"
+                  >
+                    <tr>
+                      <th class="px-5 py-2 font-medium">用户账号</th>
+                      <th class="px-3 py-2 font-medium">用户名称</th>
+                      <th class="px-3 py-2 font-medium">联系方式</th>
+                      <th class="px-3 py-2 font-medium">用户角色</th>
+                      <th class="px-3 py-2 font-medium">状态</th>
+                      <th class="px-3 py-2 font-medium">创建时间</th>
+                      <th class="px-5 py-2 font-medium">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    id="user-rows"
+                    class="divide-y divide-slate-100"
+                  ></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+          <!-- qb:section:panel-users:end -->
+
+          <!-- qb:section:panel-roles:start -->
+          <section
+            data-panel="roles"
+            data-qb-section="panel-roles"
+            class="hidden rounded-2xl border border-slate-200 bg-white p-5"
+          >
+            <h2 class="text-sm font-semibold">角色权限</h2>
+            <p class="mt-0.5 text-[11px] text-slate-400">
+              权限按模块分配，发布权限默认只授予运营与管理员
+            </p>
+            <div class="mt-3 overflow-x-auto">
+              <table class="w-full text-left text-[13px] whitespace-nowrap">
+                <thead
+                  class="border-y border-slate-100 bg-slate-50/60 text-[11px] text-slate-400"
+                >
+                  <tr>
+                    <th class="px-4 py-2 font-medium">权限项</th>
+                    <th class="px-3 py-2 text-center font-medium">
+                      系统管理员
+                    </th>
+                    <th class="px-3 py-2 text-center font-medium">运营人员</th>
+                    <th class="px-3 py-2 text-center font-medium">内容编辑</th>
+                    <th class="px-3 py-2 text-center font-medium">内容审核</th>
+                  </tr>
+                </thead>
+                <tbody id="role-rows" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </section>
+          <!-- qb:section:panel-roles:end -->
+
+          <!-- qb:section:panel-apis:start -->
+          <section
+            data-panel="apis"
+            data-qb-section="panel-apis"
+            class="hidden space-y-4"
+          >
+            <div class="grid gap-3 md:grid-cols-2">
+              <div class="rounded-2xl border border-slate-200 bg-white p-5">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-sm font-semibold">微信公众号接口</h2>
+                  <span
+                    class="rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] text-emerald-700"
+                    >已连接</span
+                  >
+                </div>
+                <p class="mt-2 text-[12px] text-slate-500">
+                  AppID：wx8f2c19ab7d3e04 · 接口权限：素材、草稿、发布
+                </p>
+                <a
+                  href="accounts.html"
+                  class="mt-3 inline-block rounded-lg border border-slate-200 px-3 py-1.5 text-[12px] text-slate-600 hover:bg-slate-50"
+                  >前往账号管理</a
+                >
+              </div>
+              <div class="rounded-2xl border border-slate-200 bg-white p-5">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-sm font-semibold">AI 模型接口</h2>
+                  <span
+                    class="rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] text-emerald-700"
+                    >已连接</span
+                  >
+                </div>
+                <p class="mt-2 text-[12px] text-slate-500">
+                  默认模型 GPT-4o · 备用模型 DeepSeek-V3 · 平均响应 2.4s
+                </p>
+                <button
+                  type="button"
+                  data-action="test-api"
+                  class="mt-3 rounded-lg border border-slate-200 px-3 py-1.5 text-[12px] text-slate-600 hover:bg-slate-50"
+                >
+                  连接测试
+                </button>
+              </div>
+              <div class="rounded-2xl border border-slate-200 bg-white p-5">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-sm font-semibold">外部数据采集接口</h2>
+                  <span
+                    class="rounded-full bg-amber-50 px-2 py-0.5 text-[11px] text-amber-700"
+                    >部分异常</span
+                  >
+                </div>
+                <p class="mt-2 text-[12px] text-slate-500">
+                  已接入 3 个数据源，政策公告源近 24 小时超时 4 次
+                </p>
+                <a
+                  href="collect.html"
+                  class="mt-3 inline-block rounded-lg border border-slate-200 px-3 py-1.5 text-[12px] text-slate-600 hover:bg-slate-50"
+                  >查看采集任务</a
+                >
+              </div>
+              <div class="rounded-2xl border border-slate-200 bg-white p-5">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-sm font-semibold">文件存储服务</h2>
+                  <span
+                    class="rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] text-emerald-700"
+                    >已连接</span
+                  >
+                </div>
+                <p class="mt-2 text-[12px] text-slate-500">
+                  已用 42.6 GB / 100 GB · 图片自动压缩开启
+                </p>
+                <button
+                  type="button"
+                  data-action="test-api"
+                  class="mt-3 rounded-lg border border-slate-200 px-3 py-1.5 text-[12px] text-slate-600 hover:bg-slate-50"
+                >
+                  连接测试
+                </button>
+              </div>
+            </div>
+          </section>
+          <!-- qb:section:panel-apis:end -->
+
+          <!-- qb:section:panel-notify:start -->
+          <section
+            data-panel="notify"
+            data-qb-section="panel-notify"
+            class="hidden grid gap-4 lg:grid-cols-3 items-start"
+          >
+            <div
+              class="rounded-2xl border border-slate-200 bg-white p-5 lg:col-span-2"
+            >
+              <h2 class="text-sm font-semibold">通知设置</h2>
+              <div class="mt-3 space-y-2 text-[12px]" id="notify-list"></div>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-5">
+              <h2 class="text-sm font-semibold">通知渠道</h2>
+              <div class="mt-3 space-y-2 text-[12px]">
+                <label
+                  class="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
+                  ><span class="text-slate-700">站内消息</span
+                  ><input
+                    type="checkbox"
+                    checked
+                    class="h-4 w-4 rounded border-slate-300"
+                /></label>
+                <label
+                  class="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
+                  ><span class="text-slate-700">邮件通知</span
+                  ><input
+                    type="checkbox"
+                    checked
+                    class="h-4 w-4 rounded border-slate-300"
+                /></label>
+                <label
+                  class="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
+                  ><span class="text-slate-700">企业微信</span
+                  ><input
+                    type="checkbox"
+                    class="h-4 w-4 rounded border-slate-300"
+                /></label>
+              </div>
+              <p class="mt-3 text-[10px] leading-relaxed text-slate-400">
+                异常任务与发布失败默认即时提醒，可在通知设置中单独关闭。
+              </p>
+            </div>
+          </section>
+          <!-- qb:section:panel-notify:end -->
+
+          <!-- qb:section:panel-logs:start -->
+          <section
+            data-panel="logs"
+            data-qb-section="panel-logs"
+            class="hidden rounded-2xl border border-slate-200 bg-white overflow-hidden"
+          >
+            <div
+              class="flex flex-wrap items-center justify-between gap-2 p-5 pb-3"
+            >
+              <div>
+                <h2 class="text-sm font-semibold">操作日志</h2>
+                <p class="mt-0.5 text-[11px] text-slate-400">
+                  保留 180 天，支持按模块与结果筛选
+                </p>
+              </div>
+              <div class="flex gap-1.5 text-[11px]">
+                <select
+                  class="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-slate-600 outline-none focus:border-blue-500"
+                >
+                  <option>全部模块</option>
+                  <option>采集管理</option>
+                  <option>内容管理</option>
+                  <option>账号管理</option>
+                </select>
+                <select
+                  class="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-slate-600 outline-none focus:border-blue-500"
+                >
+                  <option>全部结果</option>
+                  <option>成功</option>
+                  <option>失败</option>
+                </select>
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-[13px] whitespace-nowrap">
+                <thead
+                  class="border-y border-slate-100 bg-slate-50/60 text-[11px] text-slate-400"
+                >
+                  <tr>
+                    <th class="px-5 py-2 font-medium">操作用户</th>
+                    <th class="px-3 py-2 font-medium">操作模块</th>
+                    <th class="px-3 py-2 font-medium">操作内容</th>
+                    <th class="px-3 py-2 font-medium">操作时间</th>
+                    <th class="px-5 py-2 font-medium">结果</th>
+                  </tr>
+                </thead>
+                <tbody id="log-rows" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </section>
+          <!-- qb:section:panel-logs:end -->
+        </main>
+        <!-- qb:section:main-content:end -->
+      </div>
+
+      <!-- qb:section:app-overlays:start -->
+      <div
+        id="app-overlays"
+        class="fixed inset-0 z-50 pointer-events-none"
+        data-qb-section="app-overlays"
+        aria-live="polite"
+      ></div>
+      <!-- qb:section:app-overlays:end -->
+    </div>
+    <!-- qb:region:app-shell:end -->
+
+    <!-- qb:data:seed:start -->
+    <script id="qb-seed-data" type="application/json">
+      {
+        "version": "settings.v1",
+        "models": [
+          {
+            "name": "GPT-4o",
+            "provider": "OpenAI",
+            "endpoint": "https://api.openai.com/v1",
+            "key": "sk-****9f2c",
+            "enabled": true,
+            "primary": true
+          },
+          {
+            "name": "DeepSeek-V3",
+            "provider": "DeepSeek",
+            "endpoint": "https://api.deepseek.com/v1",
+            "key": "sk-****7a41",
+            "enabled": true,
+            "primary": false
+          },
+          {
+            "name": "通义千问-Max",
+            "provider": "阿里云百炼",
+            "endpoint": "https://dashscope.aliyuncs.com",
+            "key": "sk-****2b83",
+            "enabled": false,
+            "primary": false
+          }
+        ],
+        "users": [
+          {
+            "account": "lin.xiao",
+            "name": "林晓",
+            "contact": "lin.xiao@brand.cn",
+            "role": "系统管理员",
+            "status": "正常",
+            "created": "2026-03-12"
+          },
+          {
+            "account": "chen.ke",
+            "name": "陈可",
+            "contact": "chen.ke@brand.cn",
+            "role": "运营人员",
+            "status": "正常",
+            "created": "2026-05-08"
+          },
+          {
+            "account": "zhou.ming",
+            "name": "周明",
+            "contact": "zhou.ming@brand.cn",
+            "role": "内容审核",
+            "status": "正常",
+            "created": "2026-06-20"
+          },
+          {
+            "account": "su.yan",
+            "name": "苏妍",
+            "contact": "su.yan@brand.cn",
+            "role": "内容编辑",
+            "status": "正常",
+            "created": "2026-07-11"
+          },
+          {
+            "account": "he.jun",
+            "name": "何俊",
+            "contact": "he.jun@brand.cn",
+            "role": "内容编辑",
+            "status": "待激活",
+            "created": "2026-11-14"
+          }
+        ],
+        "roles": [
+          { "name": "采集管理", "perms": [true, true, false, false] },
+          { "name": "素材库管理", "perms": [true, true, true, false] },
+          { "name": "智能创作", "perms": [true, true, true, false] },
+          { "name": "内容编辑", "perms": [true, true, true, false] },
+          { "name": "内容审核", "perms": [true, false, false, true] },
+          { "name": "公众号发布", "perms": [true, true, false, false] },
+          { "name": "数据统计", "perms": [true, true, false, true] },
+          { "name": "系统设置", "perms": [true, false, false, false] }
+        ],
+        "notifications": [
+          {
+            "name": "采集任务通知",
+            "desc": "任务完成、失败与重试提醒",
+            "enabled": true
+          },
+          {
+            "name": "AI 创作完成通知",
+            "desc": "文章生成完成后通知运营人员",
+            "enabled": true
+          },
+          {
+            "name": "审核提醒",
+            "desc": "有文章进入待审核时提醒",
+            "enabled": true
+          },
+          {
+            "name": "发布结果通知",
+            "desc": "发布成功或失败结果推送",
+            "enabled": true
+          },
+          {
+            "name": "公众号授权异常",
+            "desc": "授权过期或接口异常时提醒",
+            "enabled": true
+          }
+        ],
+        "logs": [
+          {
+            "user": "林晓",
+            "module": "内容管理",
+            "content": "审核通过《县域市场为何成为新能源车的新增长极》",
+            "time": "11-16 09:42",
+            "result": "成功"
+          },
+          {
+            "user": "陈可",
+            "module": "采集管理",
+            "content": "手动触发采集任务「新能源行业资讯采集」",
+            "time": "11-16 09:12",
+            "result": "成功"
+          },
+          {
+            "user": "系统",
+            "module": "账号管理",
+            "content": "政策速递授权检测失败：token 即将过期",
+            "time": "11-16 08:40",
+            "result": "失败"
+          },
+          {
+            "user": "周明",
+            "module": "内容管理",
+            "content": "退回修改《区域政策速览：11 月第 3 周重点公告汇总》",
+            "time": "11-16 08:20",
+            "result": "成功"
+          },
+          {
+            "user": "林晓",
+            "module": "系统设置",
+            "content": "更新 AI 模型默认配置为 GPT-4o",
+            "time": "11-15 20:05",
+            "result": "成功"
+          }
+        ]
+      }
+    </script>
+    <!-- qb:data:seed:end -->
+
+    <script>
+      (function () {
+        var seed = {};
+        try {
+          seed = JSON.parse(
+            document.getElementById("qb-seed-data").textContent || "{}",
+          );
+        } catch (e) {
+          seed = {};
+        }
+
+        function el(tag, cls, text) {
+          var node = document.createElement(tag);
+          if (cls) node.className = cls;
+          if (text != null) node.textContent = String(text);
+          return node;
+        }
+        function toast(message) {
+          var host = document.getElementById("app-overlays");
+          if (!host) return;
+          host.textContent = "";
+          host.appendChild(
+            el(
+              "div",
+              "absolute bottom-5 left-1/2 -translate-x-1/2 rounded-xl bg-slate-900 px-4 py-2.5 text-[13px] text-white shadow-lg",
+              message,
+            ),
+          );
+          host.classList.remove("pointer-events-none");
+          setTimeout(function () {
+            host.textContent = "";
+            host.classList.add("pointer-events-none");
+          }, 2400);
+        }
+        function badge(text, cls) {
+          return el("span", cls, text);
+        }
+
+        var models = (Array.isArray(seed.models) ? seed.models : []).map(
+          function (m) {
+            return {
+              name: String(m.name || "未命名模型"),
+              provider: String(m.provider || ""),
+              endpoint: String(m.endpoint || ""),
+              key: String(m.key || ""),
+              enabled: m.enabled !== false,
+              primary: m.primary === true,
+            };
+          },
+        );
+        var modelList = document.getElementById("model-list");
+        function renderModels() {
+          modelList.textContent = "";
+          models.forEach(function (m, index) {
+            var li = el("li", "rounded-xl border border-slate-200 p-3.5");
+            var head = el("div", "flex items-center gap-2");
+            head.appendChild(
+              el(
+                "span",
+                "w-8 h-8 rounded-lg bg-slate-900 text-white grid place-items-center text-[11px]",
+                m.name.slice(0, 1),
+              ),
+            );
+            var mid = el("div", "min-w-0 flex-1");
+            var nameRow = el("div", "flex items-center gap-1.5");
+            nameRow.appendChild(
+              el(
+                "span",
+                "truncate text-[13px] font-medium text-slate-800",
+                m.name,
+              ),
+            );
+            if (m.primary)
+              nameRow.appendChild(
+                badge(
+                  "默认",
+                  "rounded bg-blue-600 px-1.5 py-0.5 text-[10px] text-white",
+                ),
+              );
+            mid.appendChild(nameRow);
+            mid.appendChild(
+              el(
+                "p",
+                "text-[11px] text-slate-400",
+                m.provider + " · " + m.endpoint,
+              ),
+            );
+            head.appendChild(mid);
+            var toggle = el(
+              "button",
+              "rounded-full px-2 py-0.5 text-[11px] " +
+                (m.enabled
+                  ? "bg-emerald-50 text-emerald-700"
+                  : "bg-slate-100 text-slate-500"),
+              m.enabled ? "已启用" : "已停用",
+            );
+            toggle.type = "button";
+            toggle.dataset.model = String(index);
+            head.appendChild(toggle);
+            li.appendChild(head);
+            var foot = el(
+              "div",
+              "mt-2 flex items-center justify-between border-t border-slate-100 pt-2 text-[11px] text-slate-400",
+            );
+            foot.appendChild(el("span", null, "密钥 " + m.key));
+            var ops = el("div", "flex items-center gap-2");
+            var testBtn = el(
+              "button",
+              "font-medium text-blue-600 hover:text-blue-700",
+              "连接测试",
+            );
+            testBtn.type = "button";
+            testBtn.dataset.testmodel = m.name;
+            ops.appendChild(testBtn);
+            if (!m.primary) {
+              var setBtn = el(
+                "button",
+                "text-slate-500 hover:text-slate-700",
+                "设为默认",
+              );
+              setBtn.type = "button";
+              setBtn.dataset.primary = String(index);
+              ops.appendChild(setBtn);
+            }
+            foot.appendChild(ops);
+            li.appendChild(foot);
+            modelList.appendChild(li);
+          });
+        }
+
+        var users = (Array.isArray(seed.users) ? seed.users : []).map(
+          function (u) {
+            return {
+              account: String(u.account || ""),
+              name: String(u.name || ""),
+              contact: String(u.contact || ""),
+              role: String(u.role || "内容编辑"),
+              status: String(u.status || "正常"),
+              created: String(u.created || ""),
+            };
+          },
+        );
+        var userRows = document.getElementById("user-rows");
+        function renderUsers() {
+          userRows.textContent = "";
+          if (!users.length) {
+            var tr = el("tr");
+            var td = el(
+              "td",
+              "px-5 py-10 text-center text-[12px] text-slate-400",
+              "暂无用户",
+            );
+            td.colSpan = 7;
+            tr.appendChild(td);
+            userRows.appendChild(tr);
+            return;
+          }
+          users.forEach(function (u) {
+            var tr = el("tr", "hover:bg-slate-50/70");
+            tr.appendChild(
+              el("td", "px-5 py-3 font-medium text-slate-800", u.account),
+            );
+            tr.appendChild(el("td", "px-3 py-3 text-slate-700", u.name));
+            tr.appendChild(el("td", "px-3 py-3 text-slate-500", u.contact));
+            tr.appendChild(el("td", "px-3 py-3 text-slate-500", u.role));
+            var tdStatus = el("td", "px-3 py-3");
+            tdStatus.appendChild(
+              badge(
+                u.status,
+                "rounded-full px-2 py-0.5 text-[11px] " +
+                  (u.status === "正常"
+                    ? "bg-emerald-50 text-emerald-700"
+                    : "bg-amber-50 text-amber-700"),
+              ),
+            );
+            tr.appendChild(tdStatus);
+            tr.appendChild(el("td", "px-3 py-3 text-slate-500", u.created));
+            var tdOps = el("td", "px-5 py-3");
+            var ops = el("div", "flex gap-2 text-[11px]");
+            var editBtn = el(
+              "button",
+              "font-medium text-blue-600 hover:text-blue-700",
+              "编辑",
+            );
+            editBtn.type = "button";
+            editBtn.dataset.edituser = u.account;
+            var disableBtn = el(
+              "button",
+              "text-slate-500 hover:text-red-500",
+              u.status === "正常" ? "停用" : "启用",
+            );
+            disableBtn.type = "button";
+            disableBtn.dataset.toggleuser = u.account;
+            ops.appendChild(editBtn);
+            ops.appendChild(disableBtn);
+            tdOps.appendChild(ops);
+            tr.appendChild(tdOps);
+            userRows.appendChild(tr);
+          });
+        }
+
+        var roles = Array.isArray(seed.roles) ? seed.roles : [];
+        var roleRows = document.getElementById("role-rows");
+        roleRows.textContent = "";
+        roles.forEach(function (r) {
+          var tr = el("tr", "hover:bg-slate-50/70");
+          tr.appendChild(
+            el(
+              "td",
+              "px-4 py-2.5 font-medium text-slate-700",
+              String(r.name || ""),
+            ),
+          );
+          (Array.isArray(r.perms) ? r.perms : []).forEach(function (allowed) {
+            var td = el("td", "px-3 py-2.5 text-center");
+            var box = document.createElement("input");
+            box.type = "checkbox";
+            box.className = "h-3.5 w-3.5 rounded border-slate-300";
+            box.checked = allowed === true;
+            td.appendChild(box);
+            tr.appendChild(td);
+          });
+          roleRows.appendChild(tr);
+        });
+
+        var notifyList = document.getElementById("notify-list");
+        var notifications = (
+          Array.isArray(seed.notifications) ? seed.notifications : []
+        ).map(function (n, index) {
+          return {
+            name: String(n.name || ""),
+            desc: String(n.desc || ""),
+            enabled: n.enabled !== false,
+            index: index,
+          };
+        });
+        function renderNotify() {
+          notifyList.textContent = "";
+          notifications.forEach(function (n) {
+            var label = el(
+              "label",
+              "flex items-center justify-between gap-3 rounded-lg border border-slate-200 px-3 py-2",
+            );
+            var info = el("div", "min-w-0");
+            info.appendChild(el("span", "block text-slate-700", n.name));
+            info.appendChild(
+              el("span", "block text-[11px] text-slate-400", n.desc),
+            );
+            label.appendChild(info);
+            var box = document.createElement("input");
+            box.type = "checkbox";
+            box.className = "h-4 w-4 rounded border-slate-300";
+            box.checked = n.enabled;
+            box.dataset.notify = String(n.index);
+            label.appendChild(box);
+            notifyList.appendChild(label);
+          });
+        }
+
+        var logRows = document.getElementById("log-rows");
+        var logs = Array.isArray(seed.logs) ? seed.logs : [];
+        logs.forEach(function (l) {
+          var tr = el("tr", "hover:bg-slate-50/70");
+          tr.appendChild(
+            el(
+              "td",
+              "px-5 py-3 font-medium text-slate-800",
+              String(l.user || ""),
+            ),
+          );
+          tr.appendChild(
+            el("td", "px-3 py-3 text-slate-600", String(l.module || "")),
+          );
+          tr.appendChild(
+            el(
+              "td",
+              "px-3 py-3 max-w-[360px] truncate text-slate-600",
+              String(l.content || ""),
+            ),
+          );
+          tr.appendChild(
+            el("td", "px-3 py-3 text-slate-500", String(l.time || "")),
+          );
+          var td = el("td", "px-5 py-3");
+          td.appendChild(
+            badge(
+              String(l.result || ""),
+              "rounded-full px-2 py-0.5 text-[11px] " +
+                (l.result === "成功"
+                  ? "bg-emerald-50 text-emerald-700"
+                  : "bg-red-50 text-red-600"),
+            ),
+          );
+          tr.appendChild(td);
+          logRows.appendChild(tr);
+        });
+
+        renderModels();
+        renderUsers();
+        renderNotify();
+
+        var tabButtons = document.querySelectorAll("[data-tab]");
+        Array.prototype.forEach.call(tabButtons, function (btn) {
+          btn.addEventListener("click", function () {
+            Array.prototype.forEach.call(tabButtons, function (b) {
+              b.className =
+                "shrink-0 rounded-lg px-3 py-1.5 text-slate-600 hover:bg-slate-100";
+            });
+            btn.className =
+              "shrink-0 rounded-lg bg-slate-900 px-3 py-1.5 font-medium text-white";
+            Array.prototype.forEach.call(
+              document.querySelectorAll("[data-panel]"),
+              function (panel) {
+                panel.classList.toggle(
+                  "hidden",
+                  panel.dataset.panel !== btn.dataset.tab,
+                );
+              },
+            );
+          });
+        });
+
+        document
+          .getElementById("app")
+          .addEventListener("click", function (event) {
+            var target = event.target;
+            var modelBtn = target.closest("[data-model]");
+            if (modelBtn) {
+              var mi = Number(modelBtn.dataset.model);
+              if (models[mi]) {
+                models[mi].enabled = !models[mi].enabled;
+                renderModels();
+                toast("模型状态已更新");
+              }
+              return;
+            }
+            var primaryBtn = target.closest("[data-primary]");
+            if (primaryBtn) {
+              var pi = Number(primaryBtn.dataset.primary);
+              models.forEach(function (m, i) {
+                m.primary = i === pi;
+              });
+              renderModels();
+              toast("默认模型已切换");
+              return;
+            }
+            var testModelBtn = target.closest("[data-testmodel]");
+            if (testModelBtn) {
+              toast(
+                "「" +
+                  testModelBtn.dataset.testmodel +
+                  "」连接测试通过，响应 1.8s",
+              );
+              return;
+            }
+            if (target.closest('[data-action="test-api"]')) {
+              toast("接口连接测试通过");
+              return;
+            }
+            if (target.closest('[data-action="add-model"]')) {
+              toast("新增模型：填写服务商、接口地址与密钥后可测试");
+              return;
+            }
+            if (target.closest('[data-action="add-user"]')) {
+              toast("新增用户：设置角色后发送激活邮件");
+              return;
+            }
+            if (target.closest('[data-action="save"]')) {
+              toast("设置已保存并生效");
+              return;
+            }
+            var toggleUserBtn = target.closest("[data-toggleuser]");
+            if (toggleUserBtn) {
+              users.forEach(function (u) {
+                if (u.account === toggleUserBtn.dataset.toggleuser)
+                  u.status = u.status === "正常" ? "已停用" : "正常";
+              });
+              renderUsers();
+              toast("用户状态已更新");
+              return;
+            }
+            var editUserBtn = target.closest("[data-edituser]");
+            if (editUserBtn) {
+              toast("编辑用户：" + editUserBtn.dataset.edituser);
+            }
+          });
+
+        notifyList.addEventListener("change", function (event) {
+          var box = event.target.closest("[data-notify]");
+          if (!box) return;
+          var index = Number(box.dataset.notify);
+          if (notifications[index]) notifications[index].enabled = box.checked;
+          toast("通知设置已更新");
+        });
+      })();
+    </script>
+  </body>
+</html>

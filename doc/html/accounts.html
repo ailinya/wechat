@@ -1,0 +1,948 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>账号管理 · 智媒助手</title>
+    <script src="./tailwind.js"></script>
+    <style>
+      body.app-bg {
+        background-color: #f6f8fc;
+        background-image:
+          radial-gradient(
+            920px 460px at 6% -8%,
+            rgba(191, 219, 254, 0.75) 0%,
+            rgba(191, 219, 254, 0) 62%
+          ),
+          radial-gradient(
+            780px 420px at 98% -4%,
+            rgba(221, 214, 254, 0.7) 0%,
+            rgba(221, 214, 254, 0) 58%
+          ),
+          radial-gradient(
+            760px 520px at 88% 104%,
+            rgba(167, 243, 208, 0.55) 0%,
+            rgba(167, 243, 208, 0) 60%
+          ),
+          radial-gradient(
+            700px 480px at 4% 96%,
+            rgba(253, 230, 138, 0.45) 0%,
+            rgba(253, 230, 138, 0) 60%
+          );
+        background-attachment: fixed;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen app-bg text-slate-900 antialiased">
+    <!-- qb:map
+  app-shell -> 页面外壳
+  sidebar -> 一级导航
+  topbar -> 顶部信息栏
+  main-content -> 账号管理内容
+  app-overlays -> 提示
+  -->
+
+    <!-- qb:region:app-shell:start -->
+    <div id="app" class="min-h-screen flex" data-qb-region="app-shell">
+      <!-- qb:section:sidebar:start -->
+      <aside
+        class="hidden lg:flex w-60 shrink-0 flex-col border-r border-slate-200 bg-white"
+        data-qb-section="sidebar"
+      >
+        <a
+          href="index.html"
+          class="h-16 flex items-center gap-2.5 px-5 border-b border-slate-200"
+        >
+          <span
+            class="w-8 h-8 rounded-lg bg-blue-600 text-white grid place-items-center text-sm font-semibold"
+            >智</span
+          >
+          <span class="leading-tight">
+            <span class="block text-sm font-semibold tracking-tight"
+              >智媒助手</span
+            >
+            <span class="block text-[11px] text-slate-400"
+              >公众号智能运营平台</span
+            >
+          </span>
+        </a>
+        <nav class="flex-1 overflow-y-auto px-3 py-3 space-y-0.5 text-sm">
+          <p
+            class="px-3 pb-2 pt-1 text-[11px] font-medium tracking-wide text-slate-400"
+          >
+            内容生产
+          </p>
+          <a
+            href="index.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >台</span
+            >工作台
+          </a>
+          <a
+            href="collect.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >采</span
+            >采集管理
+          </a>
+          <a
+            href="library.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >素</span
+            >素材库
+          </a>
+          <a
+            href="create.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >创</span
+            >智能创作
+          </a>
+          <a
+            href="content.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >稿</span
+            >内容管理
+          </a>
+          <p
+            class="px-3 pb-2 pt-4 text-[11px] font-medium tracking-wide text-slate-400"
+          >
+            运营与配置
+          </p>
+          <a
+            href="analytics.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >数</span
+            >数据统计分析
+          </a>
+          <a
+            href="accounts.html"
+            class="flex items-center gap-2.5 rounded-lg bg-blue-50 px-3 py-2 font-medium text-blue-700"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-blue-600 text-white grid place-items-center text-[11px]"
+              >号</span
+            >账号管理
+          </a>
+          <a
+            href="settings.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >设</span
+            >系统设置
+          </a>
+        </nav>
+        <div class="border-t border-slate-200 px-4 py-3 text-xs text-slate-500">
+          <div class="flex items-center gap-2.5">
+            <span
+              class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 grid place-items-center text-xs font-semibold"
+              >林</span
+            >
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-[13px] font-medium text-slate-700">
+                林晓 · 运营管理员
+              </p>
+              <p class="text-[11px] text-slate-400">运营中心</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <!-- qb:section:sidebar:end -->
+
+      <div class="flex-1 min-w-0 flex flex-col">
+        <!-- qb:section:topbar:start -->
+        <header
+          class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200"
+          data-qb-section="topbar"
+        >
+          <div class="h-16 px-4 md:px-8 flex items-center gap-3">
+            <div class="min-w-0">
+              <nav class="flex items-center gap-1.5 text-[11px] text-slate-400">
+                <a href="index.html" class="hover:text-slate-600">工作台</a
+                ><span>/</span><span class="text-slate-600">账号管理</span>
+              </nav>
+              <h1 class="text-base font-semibold tracking-tight">账号管理</h1>
+            </div>
+            <div class="ml-auto flex items-center gap-2">
+              <button
+                type="button"
+                data-action="bind"
+                class="rounded-lg bg-blue-600 px-3 py-2 text-[12px] font-medium text-white hover:bg-blue-700"
+              >
+                绑定公众号
+              </button>
+              <span
+                class="w-9 h-9 rounded-full bg-blue-600 text-white grid place-items-center text-xs font-semibold"
+                >林</span
+              >
+            </div>
+          </div>
+          <div class="lg:hidden flex gap-1.5 overflow-x-auto px-4 pb-2 text-xs">
+            <a
+              href="index.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >工作台</a
+            >
+            <a
+              href="collect.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >采集管理</a
+            >
+            <a
+              href="library.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >素材库</a
+            >
+            <a
+              href="create.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >智能创作</a
+            >
+            <a
+              href="content.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >内容管理</a
+            >
+            <a
+              href="analytics.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >数据统计</a
+            >
+            <a
+              href="accounts.html"
+              class="shrink-0 rounded-full bg-blue-600 px-3 py-1.5 text-white"
+              >账号管理</a
+            >
+            <a
+              href="settings.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >系统设置</a
+            >
+          </div>
+        </header>
+        <!-- qb:section:topbar:end -->
+
+        <!-- qb:section:main-content:start -->
+        <main
+          class="flex-1 p-4 md:p-8 space-y-5"
+          data-qb-section="main-content"
+        >
+          <!-- qb:section:account-stats:start -->
+          <section
+            class="grid grid-cols-2 lg:grid-cols-4 gap-3"
+            data-qb-section="account-stats"
+          >
+            <div class="rounded-xl border border-slate-200 bg-white p-4">
+              <p class="text-xs text-slate-500">已绑定公众号</p>
+              <p class="mt-1.5 text-xl font-semibold">4</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-white p-4">
+              <p class="text-xs text-slate-500">授权正常</p>
+              <p class="mt-1.5 text-xl font-semibold text-emerald-600">3</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-white p-4">
+              <p class="text-xs text-slate-500">授权异常</p>
+              <p class="mt-1.5 text-xl font-semibold text-red-500">1</p>
+              <p class="mt-1 text-[11px] text-slate-400">政策速递 · 即将到期</p>
+            </div>
+            <div class="rounded-xl border border-blue-200 bg-blue-50/60 p-4">
+              <p class="text-xs text-blue-700">默认发布账号</p>
+              <p class="mt-1.5 text-sm font-semibold text-blue-800">
+                行业观察局
+              </p>
+              <p class="mt-1 text-[11px] text-blue-600/80">发布权限完整</p>
+            </div>
+          </section>
+          <!-- qb:section:account-stats:end -->
+
+          <div class="grid gap-5 xl:grid-cols-3 items-start">
+            <!-- qb:section:account-list:start -->
+            <section
+              class="rounded-2xl border border-slate-200 bg-white p-5 xl:col-span-2"
+              data-qb-section="account-list"
+            >
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <h2 class="text-sm font-semibold">公众号列表</h2>
+                  <p class="mt-0.5 text-[11px] text-slate-400">
+                    授权和发布能力受微信官方接口权限约束
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  data-action="sync-all"
+                  class="rounded-lg border border-slate-200 px-3 py-1.5 text-[12px] text-slate-600 hover:bg-slate-50"
+                >
+                  全量同步素材
+                </button>
+              </div>
+              <ul id="account-list" class="mt-3 grid gap-3 sm:grid-cols-2"></ul>
+            </section>
+            <!-- qb:section:account-list:end -->
+
+            <!-- qb:section:publish-config:start -->
+            <section
+              class="rounded-2xl border border-slate-200 bg-white p-5"
+              data-qb-section="publish-config"
+            >
+              <h2 class="text-sm font-semibold">发布配置</h2>
+              <p class="mt-0.5 text-[11px] text-slate-400">
+                默认公众号与发布参数
+              </p>
+              <div class="mt-3 space-y-2" id="default-list"></div>
+              <div class="mt-4 space-y-2.5 text-[12px]">
+                <div>
+                  <label class="text-[11px] font-medium text-slate-400"
+                    >默认发布方式</label
+                  >
+                  <select
+                    class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-slate-700 outline-none focus:border-blue-500"
+                  >
+                    <option>审核通过后手动确认发布</option>
+                    <option>审核通过后定时发布</option>
+                    <option>禁止自动发布</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-[11px] font-medium text-slate-400"
+                    >默认发布时间</label
+                  >
+                  <select
+                    class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-slate-700 outline-none focus:border-blue-500"
+                  >
+                    <option>每天 20:00</option>
+                    <option>每天 08:00</option>
+                    <option>由运营人员手动选择</option>
+                  </select>
+                </div>
+                <label
+                  class="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
+                >
+                  <span
+                    ><span class="block text-slate-700">发布前二次确认</span
+                    ><span class="block text-[11px] text-slate-400"
+                      >避免误发布</span
+                    ></span
+                  >
+                  <input
+                    type="checkbox"
+                    checked
+                    class="h-4 w-4 rounded border-slate-300"
+                  />
+                </label>
+              </div>
+              <a
+                href="content.html"
+                class="mt-3 block rounded-lg bg-slate-900 px-3 py-2 text-center text-[12px] font-medium text-white hover:bg-slate-800"
+                >查看发布记录</a
+              >
+            </section>
+            <!-- qb:section:publish-config:end -->
+          </div>
+
+          <div class="grid gap-5 xl:grid-cols-2 items-start">
+            <!-- qb:section:account-detail:start -->
+            <section
+              class="rounded-2xl border border-slate-200 bg-white p-5"
+              data-qb-section="account-detail"
+            >
+              <div class="flex items-center justify-between">
+                <h2 class="text-sm font-semibold">账号详情</h2>
+                <span
+                  id="detail-status"
+                  class="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] text-emerald-700"
+                  >授权正常</span
+                >
+              </div>
+              <div id="account-detail" class="mt-3"></div>
+            </section>
+            <!-- qb:section:account-detail:end -->
+
+            <!-- qb:section:material-sync:start -->
+            <section
+              class="rounded-2xl border border-slate-200 bg-white"
+              data-qb-section="material-sync"
+            >
+              <div
+                class="flex flex-wrap items-center justify-between gap-2 p-5 pb-3"
+              >
+                <div>
+                  <h2 class="text-sm font-semibold">素材同步</h2>
+                  <p class="mt-0.5 text-[11px] text-slate-400">
+                    同步公众号可访问素材到素材库
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  data-action="sync"
+                  class="rounded-lg bg-blue-600 px-3 py-1.5 text-[12px] font-medium text-white hover:bg-blue-700"
+                >
+                  立即同步
+                </button>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-[13px] whitespace-nowrap">
+                  <thead
+                    class="border-y border-slate-100 bg-slate-50/60 text-[11px] text-slate-400"
+                  >
+                    <tr>
+                      <th class="px-5 py-2 font-medium">同步时间</th>
+                      <th class="px-3 py-2 font-medium">公众号</th>
+                      <th class="px-3 py-2 font-medium">同步素材</th>
+                      <th class="px-3 py-2 font-medium">结果</th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    id="sync-rows"
+                    class="divide-y divide-slate-100"
+                  ></tbody>
+                </table>
+              </div>
+              <p class="px-5 py-3 text-[10px] leading-relaxed text-slate-400">
+                同步范围以接口权限为准，仅同步公众号内可访问的图文与图片素材。
+              </p>
+            </section>
+            <!-- qb:section:material-sync:end -->
+          </div>
+        </main>
+        <!-- qb:section:main-content:end -->
+      </div>
+
+      <!-- qb:section:app-overlays:start -->
+      <div
+        id="app-overlays"
+        class="fixed inset-0 z-50 pointer-events-none"
+        data-qb-section="app-overlays"
+        aria-live="polite"
+      ></div>
+      <!-- qb:section:app-overlays:end -->
+    </div>
+    <!-- qb:region:app-shell:end -->
+
+    <!-- qb:data:seed:start -->
+    <script id="qb-seed-data" type="application/json">
+      {
+        "version": "accounts.v1",
+        "accounts": [
+          {
+            "id": "acc1",
+            "name": "行业观察局",
+            "type": "服务号",
+            "status": "授权正常",
+            "authTime": "2026-09-12",
+            "syncTime": "11-16 08:10",
+            "openId": "gh_8a2f19cd7b3e",
+            "isDefault": true,
+            "rights": ["素材管理", "草稿箱", "图文发布", "数据统计"],
+            "publish": true
+          },
+          {
+            "id": "acc2",
+            "name": "政策速递",
+            "type": "订阅号",
+            "status": "授权异常",
+            "authTime": "2026-05-20",
+            "syncTime": "11-15 21:30",
+            "openId": "gh_3c74b8ae91f0",
+            "isDefault": false,
+            "rights": ["素材管理", "图文发布"],
+            "publish": true
+          },
+          {
+            "id": "acc3",
+            "name": "智造前沿",
+            "type": "服务号",
+            "status": "授权正常",
+            "authTime": "2026-08-02",
+            "syncTime": "11-16 07:45",
+            "openId": "gh_5d90fe2c6a41",
+            "isDefault": false,
+            "rights": ["素材管理", "草稿箱", "图文发布", "数据统计"],
+            "publish": true
+          },
+          {
+            "id": "acc4",
+            "name": "品牌内参",
+            "type": "订阅号",
+            "status": "授权正常",
+            "authTime": "2026-10-18",
+            "syncTime": "11-16 06:20",
+            "openId": "gh_1f47ac9d8b52",
+            "isDefault": false,
+            "rights": ["素材管理", "草稿箱"],
+            "publish": false
+          }
+        ],
+        "syncRecords": [
+          {
+            "time": "11-16 08:10",
+            "account": "行业观察局",
+            "count": 42,
+            "result": "成功"
+          },
+          {
+            "time": "11-16 07:45",
+            "account": "智造前沿",
+            "count": 18,
+            "result": "成功"
+          },
+          {
+            "time": "11-16 06:20",
+            "account": "品牌内参",
+            "count": 0,
+            "result": "无发布权限，已跳过"
+          },
+          {
+            "time": "11-15 21:30",
+            "account": "政策速递",
+            "count": 6,
+            "result": "部分成功"
+          }
+        ]
+      }
+    </script>
+    <!-- qb:data:seed:end -->
+
+    <script>
+      (function () {
+        var seed = {};
+        try {
+          seed = JSON.parse(
+            document.getElementById("qb-seed-data").textContent || "{}",
+          );
+        } catch (e) {
+          seed = {};
+        }
+        var accounts = (Array.isArray(seed.accounts) ? seed.accounts : []).map(
+          function (a) {
+            return {
+              id: String(a.id || ""),
+              name: String(a.name || "未命名公众号"),
+              type: String(a.type || "订阅号"),
+              status: String(a.status || "授权正常"),
+              authTime: String(a.authTime || ""),
+              syncTime: String(a.syncTime || ""),
+              openId: String(a.openId || ""),
+              isDefault: a.isDefault === true,
+              rights: Array.isArray(a.rights) ? a.rights.map(String) : [],
+              publish: a.publish === true,
+            };
+          },
+        );
+        var syncRecords = (
+          Array.isArray(seed.syncRecords) ? seed.syncRecords : []
+        ).map(function (r) {
+          return {
+            time: String(r.time || ""),
+            account: String(r.account || ""),
+            count: Number(r.count) || 0,
+            result: String(r.result || ""),
+          };
+        });
+
+        function el(tag, cls, text) {
+          var node = document.createElement(tag);
+          if (cls) node.className = cls;
+          if (text != null) node.textContent = String(text);
+          return node;
+        }
+        function toast(message) {
+          var host = document.getElementById("app-overlays");
+          if (!host) return;
+          host.textContent = "";
+          host.appendChild(
+            el(
+              "div",
+              "absolute bottom-5 left-1/2 -translate-x-1/2 rounded-xl bg-slate-900 px-4 py-2.5 text-[13px] text-white shadow-lg",
+              message,
+            ),
+          );
+          host.classList.remove("pointer-events-none");
+          setTimeout(function () {
+            host.textContent = "";
+            host.classList.add("pointer-events-none");
+          }, 2400);
+        }
+
+        var currentId = accounts.length ? accounts[0].id : "";
+
+        var list = document.getElementById("account-list");
+        function renderAccounts() {
+          list.textContent = "";
+          accounts.forEach(function (a) {
+            var li = el(
+              "li",
+              "rounded-xl border " +
+                (a.id === currentId
+                  ? "border-blue-500 bg-blue-50/40"
+                  : "border-slate-200") +
+                " p-3.5",
+            );
+            var head = el("div", "flex items-start gap-2.5");
+            var avatar = el(
+              "span",
+              "w-9 h-9 shrink-0 rounded-lg grid place-items-center text-[13px] font-semibold " +
+                (a.status === "授权正常"
+                  ? "bg-blue-600 text-white"
+                  : "bg-amber-100 text-amber-700"),
+              a.name.slice(0, 1),
+            );
+            head.appendChild(avatar);
+            var mid = el("button", "min-w-0 flex-1 text-left");
+            mid.type = "button";
+            mid.dataset.select = a.id;
+            var nameRow = el("div", "flex items-center gap-1.5");
+            nameRow.appendChild(
+              el(
+                "span",
+                "truncate text-[13px] font-medium text-slate-800",
+                a.name,
+              ),
+            );
+            if (a.isDefault)
+              nameRow.appendChild(
+                el(
+                  "span",
+                  "rounded bg-blue-600 px-1.5 py-0.5 text-[10px] text-white",
+                  "默认",
+                ),
+              );
+            mid.appendChild(nameRow);
+            mid.appendChild(
+              el(
+                "p",
+                "mt-0.5 text-[11px] text-slate-400",
+                a.type + " · 授权 " + a.authTime,
+              ),
+            );
+            head.appendChild(mid);
+            var badge = el(
+              "span",
+              "shrink-0 rounded-full px-2 py-0.5 text-[11px] " +
+                (a.status === "授权正常"
+                  ? "bg-emerald-50 text-emerald-700"
+                  : "bg-amber-50 text-amber-700"),
+              a.status,
+            );
+            head.appendChild(badge);
+            li.appendChild(head);
+
+            var meta = el(
+              "div",
+              "mt-2 flex items-center justify-between text-[11px] text-slate-400",
+            );
+            meta.appendChild(el("span", "truncate", "最近同步 " + a.syncTime));
+            var ops = el("div", "flex items-center gap-2 shrink-0");
+            var testBtn = el(
+              "button",
+              "font-medium text-blue-600 hover:text-blue-700",
+              "授权检测",
+            );
+            testBtn.type = "button";
+            testBtn.dataset.check = a.id;
+            var reauthBtn = el(
+              "button",
+              "text-slate-500 hover:text-slate-700",
+              a.status === "授权异常" ? "重新授权" : "解除授权",
+            );
+            reauthBtn.type = "button";
+            reauthBtn.dataset.reauth = a.id;
+            ops.appendChild(testBtn);
+            ops.appendChild(reauthBtn);
+            meta.appendChild(ops);
+            li.appendChild(meta);
+            list.appendChild(li);
+          });
+        }
+
+        var defaultList = document.getElementById("default-list");
+        function renderDefaults() {
+          defaultList.textContent = "";
+          accounts.forEach(function (a) {
+            var label = el(
+              "label",
+              "flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 text-[12px] " +
+                (a.isDefault
+                  ? "border-blue-500 bg-blue-50/40"
+                  : "border-slate-200"),
+            );
+            var radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = "defaultAccount";
+            radio.className = "h-3.5 w-3.5";
+            radio.checked = a.isDefault;
+            radio.dataset.defaultAcc = a.id;
+            label.appendChild(radio);
+            label.appendChild(el("span", "text-slate-700", a.name));
+            label.appendChild(
+              el(
+                "span",
+                "ml-auto text-[11px] " +
+                  (a.status === "授权正常"
+                    ? "text-emerald-600"
+                    : "text-amber-600"),
+                a.status,
+              ),
+            );
+            defaultList.appendChild(label);
+          });
+        }
+
+        var detail = document.getElementById("account-detail");
+        var detailStatus = document.getElementById("detail-status");
+        function renderDetail() {
+          var a = accounts.filter(function (x) {
+            return x.id === currentId;
+          })[0];
+          detail.textContent = "";
+          if (!a) {
+            detail.appendChild(
+              el(
+                "p",
+                "rounded-lg bg-slate-50 px-3 py-6 text-center text-[12px] text-slate-400",
+                "尚未绑定公众号",
+              ),
+            );
+            return;
+          }
+          detailStatus.textContent = a.status;
+          detailStatus.className =
+            "rounded-full px-2.5 py-1 text-[11px] " +
+            (a.status === "授权正常"
+              ? "bg-emerald-50 text-emerald-700"
+              : "bg-amber-50 text-amber-700");
+
+          var head = el(
+            "div",
+            "flex items-center gap-3 rounded-xl bg-slate-50 p-3",
+          );
+          head.appendChild(
+            el(
+              "span",
+              "w-11 h-11 rounded-xl bg-blue-600 text-white grid place-items-center text-base font-semibold",
+              a.name.slice(0, 1),
+            ),
+          );
+          var info = el("div", "min-w-0 flex-1");
+          info.appendChild(
+            el(
+              "p",
+              "truncate text-[13px] font-semibold text-slate-800",
+              a.name,
+            ),
+          );
+          info.appendChild(
+            el(
+              "p",
+              "mt-0.5 text-[11px] text-slate-500",
+              a.type + " · 原始标识 " + a.openId,
+            ),
+          );
+          head.appendChild(info);
+          detail.appendChild(head);
+
+          var grid = el("div", "mt-3 grid gap-2 sm:grid-cols-2 text-[12px]");
+          [
+            ["授权时间", a.authTime],
+            ["最近同步", a.syncTime],
+            ["发布权限", a.publish ? "已开通" : "未开通"],
+            ["默认账号", a.isDefault ? "是" : "否"],
+          ].forEach(function (pair) {
+            var box = el("div", "rounded-lg border border-slate-200 px-3 py-2");
+            box.appendChild(el("p", "text-[11px] text-slate-400", pair[0]));
+            box.appendChild(el("p", "mt-0.5 text-slate-700", pair[1]));
+            grid.appendChild(box);
+          });
+          detail.appendChild(grid);
+
+          var rightsWrap = el("div", "mt-3");
+          rightsWrap.appendChild(
+            el("p", "text-[11px] font-medium text-slate-400", "接口权限"),
+          );
+          var rights = el("div", "mt-1.5 flex flex-wrap gap-1.5");
+          if (!a.rights.length)
+            rights.appendChild(
+              el("span", "text-[11px] text-slate-400", "暂无已授权权限"),
+            );
+          a.rights.forEach(function (r) {
+            rights.appendChild(
+              el(
+                "span",
+                "rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] text-emerald-700",
+                r,
+              ),
+            );
+          });
+          rightsWrap.appendChild(rights);
+          detail.appendChild(rightsWrap);
+
+          var ops = el("div", "mt-3 flex flex-wrap gap-2 text-[12px]");
+          var checkBtn = el(
+            "button",
+            "rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50",
+            "授权检测",
+          );
+          checkBtn.type = "button";
+          checkBtn.dataset.check = a.id;
+          var setBtn = el(
+            "button",
+            "rounded-lg border border-slate-200 px-3 py-1.5 text-slate-600 hover:bg-slate-50",
+            "设为默认账号",
+          );
+          setBtn.type = "button";
+          setBtn.dataset.setdefault = a.id;
+          ops.appendChild(checkBtn);
+          ops.appendChild(setBtn);
+          detail.appendChild(ops);
+        }
+
+        var syncRows = document.getElementById("sync-rows");
+        function renderSync() {
+          syncRows.textContent = "";
+          if (!syncRecords.length) {
+            var tr = el("tr");
+            var td = el(
+              "td",
+              "px-5 py-10 text-center text-[12px] text-slate-400",
+              "暂无同步记录",
+            );
+            td.colSpan = 4;
+            tr.appendChild(td);
+            syncRows.appendChild(tr);
+            return;
+          }
+          syncRecords.forEach(function (r) {
+            var tr = el("tr", "hover:bg-slate-50/70");
+            tr.appendChild(el("td", "px-5 py-3 text-slate-500", r.time));
+            tr.appendChild(el("td", "px-3 py-3 text-slate-700", r.account));
+            tr.appendChild(
+              el("td", "px-3 py-3 tabular-nums text-slate-600", r.count),
+            );
+            var td = el("td", "px-3 py-3");
+            td.appendChild(
+              el(
+                "span",
+                "rounded-full px-2 py-0.5 text-[11px] " +
+                  (r.result.indexOf("成功") === 0
+                    ? "bg-emerald-50 text-emerald-700"
+                    : r.result === "部分成功"
+                      ? "bg-amber-50 text-amber-700"
+                      : "bg-slate-100 text-slate-500"),
+                r.result,
+              ),
+            );
+            tr.appendChild(td);
+            syncRows.appendChild(tr);
+          });
+        }
+
+        renderAccounts();
+        renderDefaults();
+        renderDetail();
+        renderSync();
+
+        document
+          .getElementById("app")
+          .addEventListener("click", function (event) {
+            var target = event.target;
+            var sel = target.closest("[data-select]");
+            if (sel) {
+              currentId = sel.dataset.select;
+              renderAccounts();
+              renderDetail();
+              return;
+            }
+            var checkBtn = target.closest("[data-check]");
+            if (checkBtn) {
+              currentId = checkBtn.dataset.check;
+              renderAccounts();
+              renderDetail();
+              toast("授权检测完成：接口调用正常");
+              return;
+            }
+            var reauthBtn = target.closest("[data-reauth]");
+            if (reauthBtn) {
+              var a = accounts.filter(function (x) {
+                return x.id === reauthBtn.dataset.reauth;
+              })[0];
+              if (!a) return;
+              if (a.status === "授权异常") {
+                a.status = "授权正常";
+                toast("已重新授权「" + a.name + "」");
+              } else {
+                a.status = "授权异常";
+                toast("已解除「" + a.name + "」授权，可随时重新绑定");
+              }
+              renderAccounts();
+              renderDetail();
+              return;
+            }
+            var setBtn = target.closest("[data-setdefault]");
+            if (setBtn) {
+              accounts.forEach(function (x) {
+                x.isDefault = x.id === setBtn.dataset.setdefault;
+              });
+              renderAccounts();
+              renderDefaults();
+              renderDetail();
+              toast("默认发布账号已更新");
+              return;
+            }
+            if (target.closest('[data-action="bind"]')) {
+              toast("请使用管理员微信扫码完成公众号授权绑定");
+              return;
+            }
+            if (target.closest('[data-action="sync"]')) {
+              syncRecords.unshift({
+                time: "刚刚",
+                account:
+                  (
+                    accounts.filter(function (x) {
+                      return x.id === currentId;
+                    })[0] || {}
+                  ).name || "—",
+                count: 24,
+                result: "成功",
+              });
+              renderSync();
+              toast("素材同步完成，新增 24 条素材");
+              return;
+            }
+            if (target.closest('[data-action="sync-all"]')) {
+              toast("已提交全量同步，预计 3 分钟完成");
+            }
+          });
+
+        defaultList.addEventListener("change", function (event) {
+          var radio = event.target.closest("[data-default-acc]");
+          if (!radio) return;
+          accounts.forEach(function (x) {
+            x.isDefault = x.id === radio.dataset.defaultAcc;
+          });
+          renderAccounts();
+          renderDefaults();
+          renderDetail();
+          toast("默认发布账号已更新");
+        });
+      })();
+    </script>
+  </body>
+</html>

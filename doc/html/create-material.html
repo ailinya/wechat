@@ -1,0 +1,948 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>素材创作 · 智媒助手</title>
+    <script src="./tailwind.js"></script>
+    <style>
+      body.app-bg {
+        background-color: #f6f8fc;
+        background-image:
+          radial-gradient(
+            920px 460px at 6% -8%,
+            rgba(191, 219, 254, 0.75) 0%,
+            rgba(191, 219, 254, 0) 62%
+          ),
+          radial-gradient(
+            780px 420px at 98% -4%,
+            rgba(221, 214, 254, 0.7) 0%,
+            rgba(221, 214, 254, 0) 58%
+          ),
+          radial-gradient(
+            760px 520px at 88% 104%,
+            rgba(167, 243, 208, 0.55) 0%,
+            rgba(167, 243, 208, 0) 60%
+          ),
+          radial-gradient(
+            700px 480px at 4% 96%,
+            rgba(253, 230, 138, 0.45) 0%,
+            rgba(253, 230, 138, 0) 60%
+          );
+        background-attachment: fixed;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen app-bg text-slate-900 antialiased">
+    <!-- qb:map
+  app-shell -> 页面外壳
+  sidebar -> 一级导航
+  topbar -> 顶部信息栏
+  main-content -> 素材创作页面
+  app-overlays -> 提示
+  -->
+
+    <!-- qb:region:app-shell:start -->
+    <div id="app" class="min-h-screen flex" data-qb-region="app-shell">
+      <!-- qb:section:sidebar:start -->
+      <aside
+        class="hidden lg:flex w-60 shrink-0 flex-col border-r border-slate-200 bg-white"
+        data-qb-section="sidebar"
+      >
+        <a
+          href="index.html"
+          class="h-16 flex items-center gap-2.5 px-5 border-b border-slate-200"
+        >
+          <span
+            class="w-8 h-8 rounded-lg bg-blue-600 text-white grid place-items-center text-sm font-semibold"
+            >智</span
+          >
+          <span class="leading-tight">
+            <span class="block text-sm font-semibold tracking-tight"
+              >智媒助手</span
+            >
+            <span class="block text-[11px] text-slate-400"
+              >公众号智能运营平台</span
+            >
+          </span>
+        </a>
+        <nav class="flex-1 overflow-y-auto px-3 py-3 space-y-0.5 text-sm">
+          <p
+            class="px-3 pb-2 pt-1 text-[11px] font-medium tracking-wide text-slate-400"
+          >
+            内容生产
+          </p>
+          <a
+            href="index.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >台</span
+            >工作台
+          </a>
+          <a
+            href="collect.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >采</span
+            >采集管理
+          </a>
+          <a
+            href="library.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >素</span
+            >素材库
+          </a>
+          <a
+            href="create.html"
+            class="flex items-center gap-2.5 rounded-lg bg-blue-50 px-3 py-2 font-medium text-blue-700"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-blue-600 text-white grid place-items-center text-[11px]"
+              >创</span
+            >智能创作
+          </a>
+          <a
+            href="content.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >稿</span
+            >内容管理
+          </a>
+          <p
+            class="px-3 pb-2 pt-4 text-[11px] font-medium tracking-wide text-slate-400"
+          >
+            运营与配置
+          </p>
+          <a
+            href="analytics.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >数</span
+            >数据统计分析
+          </a>
+          <a
+            href="accounts.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >号</span
+            >账号管理
+          </a>
+          <a
+            href="settings.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >设</span
+            >系统设置
+          </a>
+        </nav>
+        <div class="border-t border-slate-200 px-4 py-3 text-xs text-slate-500">
+          <div class="flex items-center gap-2.5">
+            <span
+              class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 grid place-items-center text-xs font-semibold"
+              >林</span
+            >
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-[13px] font-medium text-slate-700">
+                林晓 · 运营管理员
+              </p>
+              <p class="text-[11px] text-slate-400">运营中心</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <!-- qb:section:sidebar:end -->
+
+      <div class="flex-1 min-w-0 flex flex-col">
+        <!-- qb:section:topbar:start -->
+        <header
+          class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200"
+          data-qb-section="topbar"
+        >
+          <div class="h-16 px-4 md:px-8 flex items-center gap-3">
+            <a
+              href="create.html"
+              class="w-8 h-8 shrink-0 rounded-lg border border-slate-200 grid place-items-center text-slate-500 hover:bg-slate-50"
+              >←</a
+            >
+            <div class="min-w-0">
+              <nav class="flex items-center gap-1.5 text-[11px] text-slate-400">
+                <a href="index.html" class="hover:text-slate-600">工作台</a
+                ><span>/</span
+                ><a href="create.html" class="hover:text-slate-600">智能创作</a
+                ><span>/</span><span class="text-slate-600">素材创作</span>
+              </nav>
+              <h1 class="text-base font-semibold tracking-tight">素材创作</h1>
+            </div>
+            <div class="ml-auto flex items-center gap-2">
+              <a
+                href="create-topic.html"
+                class="hidden sm:inline-flex rounded-lg border border-slate-200 bg-white px-3 py-2 text-[12px] font-medium text-slate-700 hover:bg-slate-50"
+                >切换主题创作</a
+              >
+              <a
+                href="create.html"
+                class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-[12px] font-medium text-slate-700 hover:bg-slate-50"
+                >返回创作中心</a
+              >
+              <span
+                class="w-9 h-9 rounded-full bg-blue-600 text-white grid place-items-center text-xs font-semibold"
+                >林</span
+              >
+            </div>
+          </div>
+        </header>
+        <!-- qb:section:topbar:end -->
+
+        <!-- qb:section:main-content:start -->
+        <main
+          class="flex-1 p-4 md:p-8 space-y-5"
+          data-qb-section="main-content"
+        >
+          <!-- qb:section:steps:start -->
+          <section
+            class="rounded-2xl border border-slate-200 bg-white p-4"
+            data-qb-section="steps"
+          >
+            <ol class="flex flex-wrap items-center gap-3 text-[12px]">
+              <li
+                class="flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1.5 font-medium text-blue-700"
+              >
+                <span
+                  class="grid h-4 w-4 place-items-center rounded-full bg-blue-600 text-[10px] text-white"
+                  >1</span
+                >选择素材
+              </li>
+              <li class="text-slate-300">→</li>
+              <li
+                class="flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1.5 text-slate-600"
+              >
+                <span
+                  class="grid h-4 w-4 place-items-center rounded-full bg-slate-200 text-[10px] text-slate-600"
+                  >2</span
+                >配置创作参数
+              </li>
+              <li class="text-slate-300">→</li>
+              <li
+                class="flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1.5 text-slate-600"
+              >
+                <span
+                  class="grid h-4 w-4 place-items-center rounded-full bg-slate-200 text-[10px] text-slate-600"
+                  >3</span
+                >生成并提交审核
+              </li>
+              <li class="ml-auto text-[11px] text-slate-400">
+                生成结果默认进入内容管理「待审核」
+              </li>
+            </ol>
+          </section>
+          <!-- qb:section:steps:end -->
+
+          <div
+            class="grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px] items-start"
+          >
+            <!-- qb:section:material-select:start -->
+            <section
+              class="rounded-2xl border border-slate-200 bg-white"
+              data-qb-section="material-select"
+            >
+              <div
+                class="flex flex-col gap-3 border-b border-slate-100 p-4 xl:flex-row xl:items-center"
+              >
+                <div>
+                  <h2 class="text-sm font-semibold">从素材库选择素材</h2>
+                  <p class="mt-0.5 text-[11px] text-slate-400">
+                    建议 3-8 条，可混合新旧素材，同一素材可重复使用
+                  </p>
+                </div>
+                <div
+                  class="xl:ml-auto flex flex-col gap-2 sm:flex-row sm:items-center"
+                >
+                  <label
+                    class="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-400 focus-within:border-blue-500 focus-within:bg-white"
+                  >
+                    <span
+                      class="w-3.5 h-3.5 rounded-full border border-slate-400"
+                    ></span>
+                    <input
+                      id="material-search"
+                      type="search"
+                      placeholder="搜索标题 / 标签"
+                      class="w-40 bg-transparent text-slate-700 outline-none placeholder:text-slate-400"
+                    />
+                  </label>
+                  <div class="flex gap-1 text-[11px]" data-range>
+                    <button
+                      type="button"
+                      data-range-key="recent"
+                      class="rounded-full bg-slate-900 px-2.5 py-1 text-white"
+                    >
+                      最近新增
+                    </button>
+                    <button
+                      type="button"
+                      data-range-key="unused"
+                      class="rounded-full border border-slate-200 px-2.5 py-1 text-slate-600"
+                    >
+                      未使用
+                    </button>
+                    <button
+                      type="button"
+                      data-range-key="all"
+                      class="rounded-full border border-slate-200 px-2.5 py-1 text-slate-600"
+                    >
+                      全部
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flex items-center justify-between px-4 py-2.5 text-[11px] text-slate-400"
+              >
+                <span id="select-summary">已选 2 条素材</span>
+                <label class="flex items-center gap-1.5"
+                  ><input
+                    id="check-all"
+                    type="checkbox"
+                    class="h-3.5 w-3.5 rounded border-slate-300"
+                  />全选当前列表</label
+                >
+              </div>
+
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-[13px] whitespace-nowrap">
+                  <thead
+                    class="border-y border-slate-100 bg-slate-50/60 text-[11px] text-slate-400"
+                  >
+                    <tr>
+                      <th class="px-4 py-2 font-medium"></th>
+                      <th class="px-3 py-2 font-medium">素材标题</th>
+                      <th class="px-3 py-2 font-medium">类型</th>
+                      <th class="px-3 py-2 font-medium">来源</th>
+                      <th class="px-3 py-2 font-medium">时间</th>
+                      <th class="px-3 py-2 font-medium">状态</th>
+                      <th class="px-3 py-2 font-medium">被引用</th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    id="material-rows"
+                    class="divide-y divide-slate-100"
+                  ></tbody>
+                </table>
+              </div>
+            </section>
+            <!-- qb:section:material-select:end -->
+
+            <!-- qb:section:create-config:start -->
+            <section class="space-y-4" data-qb-section="create-config">
+              <div class="rounded-2xl border border-slate-200 bg-white p-5">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-sm font-semibold">创作配置</h2>
+                  <span
+                    class="rounded-full bg-blue-50 px-2 py-0.5 text-[11px] text-blue-700"
+                    >素材创作</span
+                  >
+                </div>
+                <div class="mt-3 space-y-2.5 text-[12px]">
+                  <label class="block">
+                    <span class="text-[11px] text-slate-400">文章类型</span>
+                    <select
+                      class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-slate-700 outline-none focus:border-blue-500"
+                    >
+                      <option>行业快讯</option>
+                      <option>深度分析</option>
+                      <option>政策解读</option>
+                      <option>每周汇总</option>
+                    </select>
+                  </label>
+                  <div class="grid grid-cols-2 gap-2">
+                    <label class="block">
+                      <span class="text-[11px] text-slate-400">写作风格</span>
+                      <select
+                        class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2 py-2 text-[12px] text-slate-700 outline-none focus:border-blue-500"
+                      >
+                        <option>专业客观</option>
+                        <option>通俗易懂</option>
+                        <option>数据驱动</option>
+                      </select>
+                    </label>
+                    <label class="block">
+                      <span class="text-[11px] text-slate-400">文章字数</span>
+                      <select
+                        class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2 py-2 text-[12px] text-slate-700 outline-none focus:border-blue-500"
+                      >
+                        <option>1200-1600</option>
+                        <option>800-1200</option>
+                        <option>1600-2200</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div class="grid grid-cols-2 gap-2">
+                    <label class="block">
+                      <span class="text-[11px] text-slate-400">素材上限</span>
+                      <select
+                        class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2 py-2 text-[12px] text-slate-700 outline-none focus:border-blue-500"
+                      >
+                        <option>5 条</option>
+                        <option>8 条</option>
+                        <option>12 条</option>
+                      </select>
+                    </label>
+                    <label class="block">
+                      <span class="text-[11px] text-slate-400">AI 模型</span>
+                      <select
+                        class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2 py-2 text-[12px] text-slate-700 outline-none focus:border-blue-500"
+                      >
+                        <option>GPT-4o</option>
+                        <option>DeepSeek-V3</option>
+                      </select>
+                    </label>
+                  </div>
+                  <label class="block">
+                    <span class="text-[11px] text-slate-400"
+                      >创作提示词（可选）</span
+                    >
+                    <textarea
+                      rows="3"
+                      placeholder="例如：突出县域市场与补能网络的关联，避免主观判断"
+                      class="mt-1 w-full rounded-lg border border-slate-200 px-2.5 py-2 text-[12px] leading-relaxed outline-none focus:border-blue-500"
+                    ></textarea>
+                  </label>
+                </div>
+
+                <div
+                  class="mt-3 rounded-xl bg-slate-50 p-3 text-[11px] text-slate-500"
+                >
+                  <div class="flex items-center justify-between">
+                    <span>已选素材</span
+                    ><span id="picked-count" class="font-medium text-slate-800"
+                      >2 条</span
+                    >
+                  </div>
+                  <div class="mt-1 flex items-center justify-between">
+                    <span>预计生成</span
+                    ><span class="font-medium text-slate-800">1 篇文章</span>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  data-action="generate"
+                  class="mt-3 w-full rounded-lg bg-blue-600 px-3 py-2.5 text-[12px] font-medium text-white hover:bg-blue-700"
+                >
+                  开始生成文章
+                </button>
+                <a
+                  href="create-topic.html"
+                  class="mt-2 block rounded-lg border border-slate-200 px-3 py-2 text-center text-[12px] text-slate-600 hover:bg-slate-50"
+                  >改用主题创作</a
+                >
+              </div>
+
+              <div
+                id="result-card"
+                class="hidden rounded-2xl border border-emerald-200 bg-emerald-50/60 p-4"
+              >
+                <p class="text-[11px] font-medium text-emerald-700">生成完成</p>
+                <h3
+                  id="result-title"
+                  class="mt-1 text-[13px] font-semibold text-slate-800"
+                >
+                  —
+                </h3>
+                <p id="result-meta" class="mt-1 text-[11px] text-slate-500">
+                  —
+                </p>
+                <div class="mt-3 grid gap-1.5 text-[12px]">
+                  <a
+                    href="editor.html"
+                    class="rounded-lg bg-white px-3 py-2 text-center font-medium text-slate-700 hover:bg-slate-50"
+                    >进入编辑页排版</a
+                  >
+                  <a
+                    href="content.html"
+                    class="rounded-lg border border-emerald-200 bg-white px-3 py-2 text-center text-slate-600 hover:bg-emerald-50"
+                    >去内容管理审核</a
+                  >
+                </div>
+              </div>
+            </section>
+            <!-- qb:section:create-config:end -->
+          </div>
+
+          <!-- qb:section:generate-records:start -->
+          <section
+            class="rounded-2xl border border-slate-200 bg-white overflow-hidden"
+            data-qb-section="generate-records"
+          >
+            <div
+              class="flex flex-wrap items-center justify-between gap-2 p-5 pb-3"
+            >
+              <div>
+                <h2 class="text-sm font-semibold">本次创作记录</h2>
+                <p class="mt-0.5 text-[11px] text-slate-400">
+                  仅记录本页发起的创作，历史任务见创作结果
+                </p>
+              </div>
+              <a
+                href="create.html"
+                class="text-[11px] font-medium text-blue-600 hover:text-blue-700"
+                >查看全部创作结果</a
+              >
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-[13px] whitespace-nowrap">
+                <thead
+                  class="border-y border-slate-100 bg-slate-50/60 text-[11px] text-slate-400"
+                >
+                  <tr>
+                    <th class="px-5 py-2 font-medium">文章标题</th>
+                    <th class="px-3 py-2 font-medium">素材数</th>
+                    <th class="px-3 py-2 font-medium">创建时间</th>
+                    <th class="px-3 py-2 font-medium">状态</th>
+                    <th class="px-5 py-2 font-medium">操作</th>
+                  </tr>
+                </thead>
+                <tbody
+                  id="record-rows"
+                  class="divide-y divide-slate-100"
+                ></tbody>
+              </table>
+            </div>
+          </section>
+          <!-- qb:section:generate-records:end -->
+        </main>
+        <!-- qb:section:main-content:end -->
+      </div>
+
+      <!-- qb:section:app-overlays:start -->
+      <div
+        id="app-overlays"
+        class="fixed inset-0 z-50 pointer-events-none"
+        data-qb-section="app-overlays"
+        aria-live="polite"
+      ></div>
+      <!-- qb:section:app-overlays:end -->
+    </div>
+    <!-- qb:region:app-shell:end -->
+
+    <!-- qb:data:seed:start -->
+    <script id="qb-seed-data" type="application/json">
+      {
+        "version": "create-material.v1",
+        "materials": [
+          {
+            "id": "c1",
+            "title": "新能源汽车下乡政策落地，县域市场成新增长极",
+            "type": "文章素材",
+            "source": "中国汽车工业协会",
+            "time": "11-16 09:12",
+            "status": "待筛选",
+            "used": 0,
+            "tags": ["新能源汽车", "政策"],
+            "picked": true
+          },
+          {
+            "id": "c2",
+            "title": "充电基础设施月度数据：公共桩新增 8.7 万台",
+            "type": "数据图表",
+            "source": "中国充电联盟",
+            "time": "11-16 09:12",
+            "status": "已使用",
+            "used": 2,
+            "tags": ["充电桩", "数据"],
+            "picked": true
+          },
+          {
+            "id": "c3",
+            "title": "动力电池回收白名单扩容，产业链迎来规范化窗口",
+            "type": "文章素材",
+            "source": "第一财经",
+            "time": "11-16 09:12",
+            "status": "待使用",
+            "used": 3,
+            "tags": ["动力电池", "回收"],
+            "picked": false
+          },
+          {
+            "id": "c4",
+            "title": "三季度消费电子供应链库存周期见底",
+            "type": "文章素材",
+            "source": "第一财经",
+            "time": "11-16 09:01",
+            "status": "待使用",
+            "used": 1,
+            "tags": ["消费电子", "供应链"],
+            "picked": false
+          },
+          {
+            "id": "c5",
+            "title": "县域充电网络建设补贴细则（2026 版）",
+            "type": "文件素材",
+            "source": "内部上传 · 政策组",
+            "time": "11-15 18:20",
+            "status": "待筛选",
+            "used": 0,
+            "tags": ["补贴", "县域"],
+            "picked": false
+          },
+          {
+            "id": "c6",
+            "title": "制造业数字化转型专项行动启动，聚焦中小企业",
+            "type": "文章素材",
+            "source": "中国工业报",
+            "time": "11-16 08:06",
+            "status": "待使用",
+            "used": 0,
+            "tags": ["数字化转型"],
+            "picked": false
+          }
+        ],
+        "records": [
+          {
+            "title": "县域市场为何成为新能源车的新增长极",
+            "materials": 5,
+            "time": "11-16 09:20",
+            "status": "创作成功"
+          },
+          {
+            "title": "补能网络下沉：380 万根公共桩之后",
+            "materials": 4,
+            "time": "11-16 09:18",
+            "status": "创作成功"
+          }
+        ]
+      }
+    </script>
+    <!-- qb:data:seed:end -->
+
+    <script>
+      (function () {
+        var seed = {};
+        try {
+          seed = JSON.parse(
+            document.getElementById("qb-seed-data").textContent || "{}",
+          );
+        } catch (e) {
+          seed = {};
+        }
+        var materials = (
+          Array.isArray(seed.materials) ? seed.materials : []
+        ).map(function (m) {
+          return {
+            id: String(m.id || ""),
+            title: String(m.title || "未命名素材"),
+            type: String(m.type || "文章素材"),
+            source: String(m.source || ""),
+            time: String(m.time || ""),
+            status: String(m.status || "待筛选"),
+            used: Number(m.used) || 0,
+            tags: Array.isArray(m.tags) ? m.tags.map(String) : [],
+            picked: m.picked === true,
+          };
+        });
+        var records = (Array.isArray(seed.records) ? seed.records : []).map(
+          function (r) {
+            return {
+              title: String(r.title || "未命名文章"),
+              materials: Number(r.materials) || 0,
+              time: String(r.time || ""),
+              status: String(r.status || "创作成功"),
+            };
+          },
+        );
+
+        function el(tag, cls, text) {
+          var node = document.createElement(tag);
+          if (cls) node.className = cls;
+          if (text != null) node.textContent = String(text);
+          return node;
+        }
+        function toast(message) {
+          var host = document.getElementById("app-overlays");
+          if (!host) return;
+          host.textContent = "";
+          host.appendChild(
+            el(
+              "div",
+              "absolute bottom-5 left-1/2 -translate-x-1/2 rounded-xl bg-slate-900 px-4 py-2.5 text-[13px] text-white shadow-lg",
+              message,
+            ),
+          );
+          host.classList.remove("pointer-events-none");
+          setTimeout(function () {
+            host.textContent = "";
+            host.classList.add("pointer-events-none");
+          }, 2400);
+        }
+        function statusCls(status) {
+          if (status === "待筛选") return "bg-amber-50 text-amber-700";
+          if (status === "待使用") return "bg-blue-50 text-blue-700";
+          if (status === "已使用") return "bg-emerald-50 text-emerald-700";
+          return "bg-slate-100 text-slate-600";
+        }
+
+        var rangeKey = "recent";
+        var keyword = "";
+        var rows = document.getElementById("material-rows");
+
+        function visibleList() {
+          return materials.filter(function (m) {
+            if (keyword) {
+              var hay = (m.title + " " + m.tags.join(" ")).toLowerCase();
+              if (hay.indexOf(keyword) < 0) return false;
+            }
+            if (rangeKey === "unused") return m.used === 0;
+            if (rangeKey === "recent") return m.time.indexOf("11-16") === 0;
+            return true;
+          });
+        }
+
+        function updateSummary() {
+          var picked = materials.filter(function (m) {
+            return m.picked;
+          });
+          document.getElementById("select-summary").textContent =
+            "已选 " + picked.length + " 条素材";
+          document.getElementById("picked-count").textContent =
+            picked.length + " 条";
+        }
+
+        function renderRows() {
+          var list = visibleList();
+          rows.textContent = "";
+          if (!list.length) {
+            var tr = el("tr");
+            var td = el(
+              "td",
+              "px-4 py-12 text-center text-[12px] text-slate-400",
+              "没有符合条件的素材，试试切换筛选条件",
+            );
+            td.colSpan = 7;
+            tr.appendChild(td);
+            rows.appendChild(tr);
+            updateSummary();
+            return;
+          }
+          list.forEach(function (m) {
+            var tr = el("tr", "hover:bg-slate-50/70");
+            var tdPick = el("td", "px-4 py-3");
+            var box = document.createElement("input");
+            box.type = "checkbox";
+            box.className = "h-3.5 w-3.5 rounded border-slate-300";
+            box.dataset.pick = m.id;
+            box.checked = m.picked;
+            tdPick.appendChild(box);
+            tr.appendChild(tdPick);
+
+            var tdMain = el("td", "px-3 py-3 max-w-[320px]");
+            tdMain.appendChild(
+              el("p", "truncate font-medium text-slate-800", m.title),
+            );
+            var tagWrap = el("div", "mt-1 flex flex-wrap gap-1 text-[10px]");
+            m.tags.forEach(function (t) {
+              tagWrap.appendChild(
+                el(
+                  "span",
+                  "rounded bg-blue-50 px-1.5 py-0.5 text-blue-700",
+                  "#" + t,
+                ),
+              );
+            });
+            tdMain.appendChild(tagWrap);
+            tr.appendChild(tdMain);
+
+            tr.appendChild(el("td", "px-3 py-3 text-slate-500", m.type));
+            tr.appendChild(el("td", "px-3 py-3 text-slate-500", m.source));
+            tr.appendChild(el("td", "px-3 py-3 text-slate-500", m.time));
+            var tdStatus = el("td", "px-3 py-3");
+            tdStatus.appendChild(
+              el(
+                "span",
+                "rounded-full px-2 py-0.5 text-[11px] " + statusCls(m.status),
+                m.status,
+              ),
+            );
+            tr.appendChild(tdStatus);
+            tr.appendChild(
+              el("td", "px-3 py-3 tabular-nums text-slate-500", m.used + " 次"),
+            );
+            rows.appendChild(tr);
+          });
+          updateSummary();
+        }
+
+        var recordRows = document.getElementById("record-rows");
+        function renderRecords() {
+          recordRows.textContent = "";
+          if (!records.length) {
+            var tr = el("tr");
+            var td = el(
+              "td",
+              "px-5 py-10 text-center text-[12px] text-slate-400",
+              "还没有创作记录，选择素材后开始生成",
+            );
+            td.colSpan = 5;
+            tr.appendChild(td);
+            recordRows.appendChild(tr);
+            return;
+          }
+          records.forEach(function (r) {
+            var tr = el("tr", "hover:bg-slate-50/70");
+            tr.appendChild(
+              el(
+                "td",
+                "px-5 py-3 max-w-[320px] truncate font-medium text-slate-800",
+                r.title,
+              ),
+            );
+            tr.appendChild(
+              el("td", "px-3 py-3 tabular-nums text-slate-500", r.materials),
+            );
+            tr.appendChild(el("td", "px-3 py-3 text-slate-500", r.time));
+            var tdStatus = el("td", "px-3 py-3");
+            var cls =
+              r.status === "创作成功"
+                ? "bg-emerald-50 text-emerald-700"
+                : r.status === "创作失败"
+                  ? "bg-red-50 text-red-600"
+                  : "bg-blue-50 text-blue-700";
+            tdStatus.appendChild(
+              el(
+                "span",
+                "rounded-full px-2 py-0.5 text-[11px] font-medium " + cls,
+                r.status,
+              ),
+            );
+            tr.appendChild(tdStatus);
+            var tdOps = el("td", "px-5 py-3");
+            var ops = el("div", "flex items-center gap-2 text-[11px]");
+            var edit = el(
+              "a",
+              "font-medium text-blue-600 hover:text-blue-700",
+              "编辑",
+            );
+            edit.href = "editor.html";
+            var audit = el(
+              "a",
+              "text-slate-500 hover:text-slate-700",
+              "去审核",
+            );
+            audit.href = "content.html";
+            ops.appendChild(edit);
+            ops.appendChild(audit);
+            tdOps.appendChild(ops);
+            tr.appendChild(tdOps);
+            recordRows.appendChild(tr);
+          });
+        }
+
+        renderRows();
+        renderRecords();
+
+        var generateBtn = document.querySelector('[data-action="generate"]');
+        document
+          .getElementById("app")
+          .addEventListener("click", function (event) {
+            var target = event.target;
+
+            var rangeBtn = target.closest("[data-range-key]");
+            if (rangeBtn) {
+              rangeKey = rangeBtn.dataset.rangeKey;
+              Array.prototype.forEach.call(
+                document.querySelectorAll("[data-range-key]"),
+                function (b) {
+                  b.className =
+                    "rounded-full px-2.5 py-1 " +
+                    (b.dataset.rangeKey === rangeKey
+                      ? "bg-slate-900 text-white"
+                      : "border border-slate-200 text-slate-600");
+                },
+              );
+              renderRows();
+              return;
+            }
+
+            if (target.closest('[data-action="generate"]')) {
+              var picked = materials.filter(function (m) {
+                return m.picked;
+              });
+              if (!picked.length) {
+                toast("请先勾选至少 1 条素材");
+                return;
+              }
+              if (generateBtn.disabled) return;
+              generateBtn.disabled = true;
+              generateBtn.textContent = "生成中…";
+              setTimeout(function () {
+                generateBtn.disabled = false;
+                generateBtn.textContent = "开始生成文章";
+                var title =
+                  picked[0].title.length > 18
+                    ? picked[0].title.slice(0, 18) + "…"
+                    : picked[0].title;
+                records.unshift({
+                  title: title + "（草稿）",
+                  materials: picked.length,
+                  time: "刚刚",
+                  status: "创作成功",
+                });
+                renderRecords();
+                var card = document.getElementById("result-card");
+                document.getElementById("result-title").textContent =
+                  title + "（草稿）";
+                document.getElementById("result-meta").textContent =
+                  "引用 " +
+                  picked.length +
+                  " 条素材 · 约 1400 字 · 已保存为待审核草稿";
+                card.classList.remove("hidden");
+                toast("生成完成，已进入内容管理待审核");
+              }, 1800);
+              return;
+            }
+          });
+
+        rows.addEventListener("change", function (event) {
+          var box = event.target.closest("[data-pick]");
+          if (!box) return;
+          materials.forEach(function (m) {
+            if (m.id === box.dataset.pick) m.picked = box.checked;
+          });
+          updateSummary();
+        });
+
+        document
+          .getElementById("check-all")
+          .addEventListener("change", function (event) {
+            var list = visibleList();
+            list.forEach(function (m) {
+              m.picked = event.target.checked;
+            });
+            renderRows();
+          });
+
+        document
+          .getElementById("material-search")
+          .addEventListener("input", function (event) {
+            keyword = (event.target.value || "").trim().toLowerCase();
+            renderRows();
+          });
+      })();
+    </script>
+  </body>
+</html>

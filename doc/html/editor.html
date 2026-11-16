@@ -1,0 +1,1321 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文章编辑 · 智媒助手</title>
+    <script src="./tailwind.js"></script>
+    <style>
+      body.app-bg {
+        background-color: #f6f8fc;
+        background-image:
+          radial-gradient(
+            920px 460px at 6% -8%,
+            rgba(191, 219, 254, 0.75) 0%,
+            rgba(191, 219, 254, 0) 62%
+          ),
+          radial-gradient(
+            780px 420px at 98% -4%,
+            rgba(221, 214, 254, 0.7) 0%,
+            rgba(221, 214, 254, 0) 58%
+          ),
+          radial-gradient(
+            760px 520px at 88% 104%,
+            rgba(167, 243, 208, 0.55) 0%,
+            rgba(167, 243, 208, 0) 60%
+          ),
+          radial-gradient(
+            700px 480px at 4% 96%,
+            rgba(253, 230, 138, 0.45) 0%,
+            rgba(253, 230, 138, 0) 60%
+          );
+        background-attachment: fixed;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen app-bg text-slate-900 antialiased">
+    <!-- qb:map
+  app-shell -> 页面外壳
+  sidebar -> 一级导航
+  topbar -> 编辑工具栏
+  main-content -> 编辑、AI排版、审核、发布
+  app-overlays -> 提示
+  -->
+
+    <!-- qb:region:app-shell:start -->
+    <div id="app" class="min-h-screen flex" data-qb-region="app-shell">
+      <!-- qb:section:sidebar:start -->
+      <aside
+        class="hidden lg:flex w-60 shrink-0 flex-col border-r border-slate-200 bg-white"
+        data-qb-section="sidebar"
+      >
+        <a
+          href="index.html"
+          class="h-16 flex items-center gap-2.5 px-5 border-b border-slate-200"
+        >
+          <span
+            class="w-8 h-8 rounded-lg bg-blue-600 text-white grid place-items-center text-sm font-semibold"
+            >智</span
+          >
+          <span class="leading-tight">
+            <span class="block text-sm font-semibold tracking-tight"
+              >智媒助手</span
+            >
+            <span class="block text-[11px] text-slate-400"
+              >公众号智能运营平台</span
+            >
+          </span>
+        </a>
+        <nav class="flex-1 overflow-y-auto px-3 py-3 space-y-0.5 text-sm">
+          <p
+            class="px-3 pb-2 pt-1 text-[11px] font-medium tracking-wide text-slate-400"
+          >
+            内容生产
+          </p>
+          <a
+            href="index.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >台</span
+            >工作台
+          </a>
+          <a
+            href="collect.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >采</span
+            >采集管理
+          </a>
+          <a
+            href="library.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >素</span
+            >素材库
+          </a>
+          <a
+            href="create.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >创</span
+            >智能创作
+          </a>
+          <a
+            href="content.html"
+            class="flex items-center gap-2.5 rounded-lg bg-blue-50 px-3 py-2 font-medium text-blue-700"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-blue-600 text-white grid place-items-center text-[11px]"
+              >稿</span
+            >内容管理
+          </a>
+          <p
+            class="px-3 pb-2 pt-4 text-[11px] font-medium tracking-wide text-slate-400"
+          >
+            运营与配置
+          </p>
+          <a
+            href="analytics.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >数</span
+            >数据统计分析
+          </a>
+          <a
+            href="accounts.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >号</span
+            >账号管理
+          </a>
+          <a
+            href="settings.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >设</span
+            >系统设置
+          </a>
+        </nav>
+        <div class="border-t border-slate-200 px-4 py-3 text-xs text-slate-500">
+          <div class="flex items-center gap-2.5">
+            <span
+              class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 grid place-items-center text-xs font-semibold"
+              >林</span
+            >
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-[13px] font-medium text-slate-700">
+                林晓 · 运营管理员
+              </p>
+              <p class="text-[11px] text-slate-400">运营中心</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <!-- qb:section:sidebar:end -->
+
+      <div class="flex-1 min-w-0 flex flex-col">
+        <!-- qb:section:topbar:start -->
+        <header
+          class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200"
+          data-qb-section="topbar"
+        >
+          <div class="h-16 px-4 md:px-6 flex items-center gap-3">
+            <a
+              href="content.html"
+              class="w-8 h-8 shrink-0 rounded-lg border border-slate-200 grid place-items-center text-slate-500 hover:bg-slate-50"
+              >←</a
+            >
+            <div class="min-w-0">
+              <div class="flex items-center gap-1.5">
+                <span
+                  id="status-badge"
+                  class="rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-medium text-amber-700"
+                  >待审核</span
+                >
+                <span class="text-[11px] text-slate-400"
+                  >自动创作 · 行业观察局</span
+                >
+              </div>
+              <h1 class="truncate text-[13px] font-semibold text-slate-800">
+                县域市场为何成为新能源车的新增长极
+              </h1>
+            </div>
+            <div class="ml-auto flex items-center gap-2">
+              <span
+                id="save-tip"
+                class="hidden sm:inline text-[11px] text-slate-400"
+                >已保存 2 分钟前</span
+              >
+              <a
+                href="#review-panel"
+                class="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-[12px] font-medium text-amber-700 hover:bg-amber-100"
+                >审核此稿</a
+              >
+              <button
+                type="button"
+                data-action="save"
+                class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-[12px] text-slate-700 hover:bg-slate-50"
+              >
+                保存草稿
+              </button>
+              <a
+                href="content.html"
+                class="rounded-lg bg-blue-600 px-3 py-2 text-[12px] font-medium text-white hover:bg-blue-700"
+                >提交审核</a
+              >
+            </div>
+          </div>
+        </header>
+        <!-- qb:section:topbar:end -->
+
+        <!-- qb:section:main-content:start -->
+        <main class="flex-1 p-4 md:p-6" data-qb-section="main-content">
+          <div
+            class="grid gap-5 xl:grid-cols-[minmax(0,1fr)_340px] items-start"
+          >
+            <!-- qb:section:editor-canvas:start -->
+            <section class="space-y-5" data-qb-section="editor-canvas">
+              <div
+                class="rounded-2xl border border-slate-200 bg-white p-5 md:p-7"
+              >
+                <label class="text-[11px] font-medium text-slate-400"
+                  >文章标题</label
+                >
+                <input
+                  id="article-title"
+                  type="text"
+                  value="县域市场为何成为新能源车的新增长极"
+                  class="mt-1 w-full rounded-lg border border-transparent px-2 py-1.5 text-xl font-semibold tracking-tight outline-none hover:border-slate-200 focus:border-blue-500"
+                />
+
+                <div class="mt-3 grid gap-3 sm:grid-cols-2">
+                  <div>
+                    <label class="text-[11px] font-medium text-slate-400"
+                      >文章作者</label
+                    >
+                    <input
+                      type="text"
+                      value="行业观察局 · 林晓"
+                      class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-[13px] outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label class="text-[11px] font-medium text-slate-400"
+                      >文章关键词</label
+                    >
+                    <input
+                      type="text"
+                      value="新能源汽车, 县域市场, 充电基础设施"
+                      class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-[13px] outline-none focus:border-blue-500"
+                    />
+                  </div>
+                </div>
+
+                <div class="mt-3">
+                  <div class="flex items-center justify-between">
+                    <label class="text-[11px] font-medium text-slate-400"
+                      >文章摘要</label
+                    >
+                    <button
+                      type="button"
+                      data-action="regen-summary"
+                      class="text-[11px] font-medium text-blue-600 hover:text-blue-700"
+                    >
+                      重新生成摘要
+                    </button>
+                  </div>
+                  <textarea
+                    id="article-summary"
+                    rows="2"
+                    class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-[13px] leading-relaxed outline-none focus:border-blue-500"
+                  >
+政策扩容与补能网络下沉叠加，县域消费正在成为新能源车销量的第二增长曲线。</textarea
+                  >
+                </div>
+
+                <div class="mt-4">
+                  <div
+                    class="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-2"
+                  >
+                    <span class="text-[11px] font-medium text-slate-400"
+                      >正文</span
+                    >
+                    <div class="ml-auto flex flex-wrap gap-1 text-[11px]">
+                      <button
+                        type="button"
+                        data-ai="润色"
+                        class="rounded-md border border-slate-200 px-2 py-1 text-slate-600 hover:bg-slate-50"
+                      >
+                        AI 润色
+                      </button>
+                      <button
+                        type="button"
+                        data-ai="续写"
+                        class="rounded-md border border-slate-200 px-2 py-1 text-slate-600 hover:bg-slate-50"
+                      >
+                        AI 续写
+                      </button>
+                      <button
+                        type="button"
+                        data-ai="改写"
+                        class="rounded-md border border-slate-200 px-2 py-1 text-slate-600 hover:bg-slate-50"
+                      >
+                        AI 改写
+                      </button>
+                      <button
+                        type="button"
+                        data-action="insert-image"
+                        class="rounded-md border border-slate-200 px-2 py-1 text-slate-600 hover:bg-slate-50"
+                      >
+                        插入图片
+                      </button>
+                    </div>
+                  </div>
+
+                  <article id="article-body" class="mt-4 space-y-4">
+                    <div class="overflow-hidden rounded-xl">
+                      <img
+                        id="cover-image"
+                        src="https://ai-public.mastergo.com/ai/img_res/generated-6880c160-e554-4900-88dd-597c38f86fd9.jpg"
+                        alt="文章封面"
+                        class="h-48 w-full object-cover md:h-56"
+                      />
+                    </div>
+                    <p class="text-[15px] leading-8 text-slate-700">
+                      在新能源车渗透率突破 40%
+                      之后，增量从哪里来，成为行业最关心的问题。答案正在从一二线城市，转向数量庞大但长期被忽略的县域市场。
+                    </p>
+                    <h2
+                      class="pt-1 text-[17px] font-semibold tracking-tight text-slate-900"
+                    >
+                      政策扩容打开了第一道门
+                    </h2>
+                    <p class="text-[15px] leading-8 text-slate-700">
+                      多部门联合发布的新一轮下乡活动方案，不仅在车型目录上做了扩充，也首次把补能设施建设纳入同一套支持体系。这意味着县域用户面临的"买了车没处充"的现实顾虑，开始有了配套答案。
+                    </p>
+                    <p class="text-[15px] leading-8 text-slate-700">
+                      从数据上看，政策的效果并非瞬时释放。行业协会的调研显示，县域用户在下单前平均会观察
+                      3 到 6
+                      个月，关注点集中在充电便利性和售后网点密度，而不是单纯的价格补贴。
+                    </p>
+                    <h2
+                      class="pt-1 text-[17px] font-semibold tracking-tight text-slate-900"
+                    >
+                      补能网络的下沉速度决定天花板
+                    </h2>
+                    <p class="text-[15px] leading-8 text-slate-700">
+                      公共充电桩保有量突破 380
+                      万台，但分布仍不均衡。县域新增桩中，快充占比提升至
+                      46%，这一变化比总量增长更值得关注——它直接决定了跨城出行场景是否成立。
+                    </p>
+                    <blockquote
+                      class="rounded-r-lg border-l-4 border-blue-600 bg-blue-50/60 px-4 py-3 text-[14px] leading-7 text-slate-700"
+                    >
+                      补能网络不是配套，而是县域市场的入场券。谁先把服务半径做到
+                      30 公里以内，谁就掌握了这一轮增量的主动权。
+                    </blockquote>
+                    <p class="text-[15px] leading-8 text-slate-700">
+                      对内容运营而言，县域市场这个主题的价值不止于一次热点。它连接政策、基础设施、消费信心三条线索，可以在后续数月持续产出深度内容。
+                    </p>
+                  </article>
+                  <div
+                    class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-[11px] text-slate-400"
+                  >
+                    <span id="word-count">约 620 字 · 5 个段落</span>
+                    <span>最后编辑：刚刚</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- qb:section:material-references:start -->
+              <div
+                class="rounded-2xl border border-slate-200 bg-white p-5"
+                data-qb-section="material-references"
+              >
+                <div class="flex items-center justify-between">
+                  <h2 class="text-sm font-semibold">原始素材引用</h2>
+                  <a
+                    href="library.html"
+                    class="text-[11px] font-medium text-blue-600 hover:text-blue-700"
+                    >管理素材</a
+                  >
+                </div>
+                <ul class="mt-3 space-y-2 text-[12px]">
+                  <li
+                    class="flex items-start gap-2.5 rounded-xl border border-slate-200 p-3"
+                  >
+                    <span
+                      class="mt-0.5 rounded bg-blue-50 px-1.5 py-0.5 text-[10px] text-blue-700"
+                      >文章</span
+                    >
+                    <div class="min-w-0 flex-1">
+                      <p class="truncate font-medium text-slate-800">
+                        新能源汽车下乡政策落地，县域市场成新增长极
+                      </p>
+                      <p class="mt-0.5 text-[11px] text-slate-400">
+                        中国汽车工业协会 · 11-16 09:12 采集
+                      </p>
+                    </div>
+                    <a
+                      href="library.html"
+                      class="shrink-0 text-[11px] text-blue-600 hover:text-blue-700"
+                      >查看</a
+                    >
+                  </li>
+                  <li
+                    class="flex items-start gap-2.5 rounded-xl border border-slate-200 p-3"
+                  >
+                    <span
+                      class="mt-0.5 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-600"
+                      >数据</span
+                    >
+                    <div class="min-w-0 flex-1">
+                      <p class="truncate font-medium text-slate-800">
+                        充电基础设施月度数据：公共桩新增 8.7 万台
+                      </p>
+                      <p class="mt-0.5 text-[11px] text-slate-400">
+                        中国充电联盟 · 11-15 22:10 采集
+                      </p>
+                    </div>
+                    <a
+                      href="library.html"
+                      class="shrink-0 text-[11px] text-blue-600 hover:text-blue-700"
+                      >查看</a
+                    >
+                  </li>
+                  <li
+                    class="flex items-start gap-2.5 rounded-xl border border-slate-200 p-3"
+                  >
+                    <span
+                      class="mt-0.5 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-600"
+                      >文件</span
+                    >
+                    <div class="min-w-0 flex-1">
+                      <p class="truncate font-medium text-slate-800">
+                        县域充电网络建设补贴细则（2026 版）
+                      </p>
+                      <p class="mt-0.5 text-[11px] text-slate-400">
+                        内部上传 · 政策组 · 11-15 18:20
+                      </p>
+                    </div>
+                    <a
+                      href="library.html"
+                      class="shrink-0 text-[11px] text-blue-600 hover:text-blue-700"
+                      >查看</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <!-- qb:section:material-references:end -->
+
+              <!-- qb:section:review-panel:start -->
+              <div
+                id="review-panel"
+                class="scroll-mt-20 rounded-2xl border border-slate-200 bg-white p-5"
+                data-qb-section="review-panel"
+              >
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <h2 class="text-sm font-semibold">人工审核</h2>
+                    <p class="mt-0.5 text-[11px] text-slate-400">
+                      AI 生成内容必须经人工确认后才能发布
+                    </p>
+                  </div>
+                  <span
+                    class="rounded-full bg-amber-50 px-2.5 py-1 text-[11px] text-amber-700"
+                    >审核人：待分配</span
+                  >
+                </div>
+                <div class="mt-3 grid gap-2 sm:grid-cols-2">
+                  <label
+                    class="flex items-start gap-2 rounded-lg border border-slate-200 px-3 py-2 text-[12px] text-slate-600"
+                    ><input
+                      type="checkbox"
+                      checked
+                      class="mt-0.5 h-3.5 w-3.5"
+                    />标题准确，无夸大与误导</label
+                  >
+                  <label
+                    class="flex items-start gap-2 rounded-lg border border-slate-200 px-3 py-2 text-[12px] text-slate-600"
+                    ><input
+                      type="checkbox"
+                      checked
+                      class="mt-0.5 h-3.5 w-3.5"
+                    />正文事实与数据可追溯</label
+                  >
+                  <label
+                    class="flex items-start gap-2 rounded-lg border border-slate-200 px-3 py-2 text-[12px] text-slate-600"
+                    ><input
+                      type="checkbox"
+                      checked
+                      class="mt-0.5 h-3.5 w-3.5"
+                    />引用来源完整、无错误引用</label
+                  >
+                  <label
+                    class="flex items-start gap-2 rounded-lg border border-slate-200 px-3 py-2 text-[12px] text-slate-600"
+                    ><input
+                      type="checkbox"
+                      class="mt-0.5 h-3.5 w-3.5"
+                    />图片版权与适用性已确认</label
+                  >
+                </div>
+                <textarea
+                  rows="2"
+                  placeholder="审核意见（退回或驳回时必填）"
+                  class="mt-3 w-full rounded-lg border border-slate-200 px-3 py-2 text-[12px] outline-none focus:border-blue-500"
+                ></textarea>
+                <div class="mt-3 flex flex-wrap justify-end gap-2">
+                  <button
+                    type="button"
+                    data-review="reject"
+                    class="rounded-lg border border-slate-200 px-3 py-2 text-[12px] text-slate-600 hover:bg-slate-50"
+                  >
+                    驳回文章
+                  </button>
+                  <button
+                    type="button"
+                    data-review="return"
+                    class="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-[12px] font-medium text-amber-700 hover:bg-amber-100"
+                  >
+                    退回修改
+                  </button>
+                  <button
+                    type="button"
+                    data-review="pass"
+                    class="rounded-lg bg-emerald-600 px-3 py-2 text-[12px] font-medium text-white hover:bg-emerald-700"
+                  >
+                    审核通过
+                  </button>
+                </div>
+              </div>
+              <!-- qb:section:review-panel:end -->
+            </section>
+            <!-- qb:section:editor-canvas:end -->
+
+            <!-- qb:section:right-rail:start -->
+            <aside class="space-y-5" data-qb-section="right-rail">
+              <!-- qb:section:template-panel:start -->
+              <div
+                class="rounded-2xl border border-slate-200 bg-white p-4"
+                data-qb-section="template-panel"
+              >
+                <div class="flex items-center justify-between">
+                  <h2 class="text-sm font-semibold">模板与封面</h2>
+                  <span class="text-[10px] text-slate-400">页面内直接套用</span>
+                </div>
+                <p class="mt-2 text-[11px] font-medium text-slate-400">
+                  文档模板
+                </p>
+                <div
+                  class="mt-1.5 grid grid-cols-2 gap-1.5 text-[11px]"
+                  id="doc-tpl-list"
+                ></div>
+                <p class="mt-3 text-[11px] font-medium text-slate-400">
+                  封面模板
+                </p>
+                <div
+                  class="mt-1.5 grid grid-cols-4 gap-1.5"
+                  id="cover-tpl-list"
+                ></div>
+                <div class="mt-2 grid gap-1.5">
+                  <button
+                    type="button"
+                    data-action="upload-doc"
+                    class="rounded-lg border border-dashed border-slate-300 px-2 py-1.5 text-[11px] text-slate-600 hover:border-blue-400 hover:text-blue-700"
+                  >
+                    上传 .md 文档模板
+                  </button>
+                  <button
+                    type="button"
+                    data-action="upload-cover"
+                    class="rounded-lg border border-dashed border-slate-300 px-2 py-1.5 text-[11px] text-slate-600 hover:border-blue-400 hover:text-blue-700"
+                  >
+                    上传封面图片
+                  </button>
+                  <p
+                    id="doc-tpl-tip"
+                    class="px-1 text-[10px] leading-relaxed text-slate-400"
+                  >
+                    当前：行业快讯（内置）
+                  </p>
+                  <input
+                    id="doc-input"
+                    type="file"
+                    accept=".md,.markdown,.txt"
+                    class="hidden"
+                  />
+                  <input
+                    id="cover-input"
+                    type="file"
+                    accept="image/*"
+                    class="hidden"
+                  />
+                </div>
+              </div>
+              <!-- qb:section:template-panel:end -->
+
+              <!-- qb:section:typeset-panel:start -->
+              <div
+                class="rounded-2xl border border-slate-200 bg-white p-4"
+                data-qb-section="typeset-panel"
+              >
+                <div class="flex items-center justify-between">
+                  <h2 class="text-sm font-semibold">AI 排版中心</h2>
+                  <button
+                    type="button"
+                    data-action="auto-typeset"
+                    class="rounded-lg bg-blue-600 px-2.5 py-1.5 text-[11px] font-medium text-white hover:bg-blue-700"
+                  >
+                    一键排版
+                  </button>
+                </div>
+                <div class="mt-3">
+                  <p class="text-[11px] font-medium text-slate-400">排版模板</p>
+                  <div
+                    class="mt-1.5 grid grid-cols-3 gap-1.5 text-[11px]"
+                    data-template
+                  >
+                    <button
+                      type="button"
+                      data-template-name="clean"
+                      class="rounded-lg border-2 border-blue-600 bg-blue-50/60 px-2 py-2 text-blue-700"
+                    >
+                      简洁
+                    </button>
+                    <button
+                      type="button"
+                      data-template-name="business"
+                      class="rounded-lg border border-slate-200 px-2 py-2 text-slate-600"
+                    >
+                      商务
+                    </button>
+                    <button
+                      type="button"
+                      data-template-name="warm"
+                      class="rounded-lg border border-slate-200 px-2 py-2 text-slate-600"
+                    >
+                      温度
+                    </button>
+                  </div>
+                </div>
+                <div class="mt-3 space-y-2.5 text-[11px]">
+                  <div>
+                    <p class="font-medium text-slate-400">正文字号</p>
+                    <div class="mt-1 flex gap-1.5" data-size>
+                      <button
+                        type="button"
+                        data-size-name="sm"
+                        class="rounded-md border border-slate-200 px-2 py-1 text-slate-600"
+                      >
+                        14px
+                      </button>
+                      <button
+                        type="button"
+                        data-size-name="md"
+                        class="rounded-md border-2 border-blue-600 bg-blue-50/60 px-2 py-1 text-blue-700"
+                      >
+                        15px
+                      </button>
+                      <button
+                        type="button"
+                        data-size-name="lg"
+                        class="rounded-md border border-slate-200 px-2 py-1 text-slate-600"
+                      >
+                        17px
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <p class="font-medium text-slate-400">行距</p>
+                    <div class="mt-1 flex gap-1.5" data-line>
+                      <button
+                        type="button"
+                        data-line-name="tight"
+                        class="rounded-md border border-slate-200 px-2 py-1 text-slate-600"
+                      >
+                        紧凑
+                      </button>
+                      <button
+                        type="button"
+                        data-line-name="normal"
+                        class="rounded-md border-2 border-blue-600 bg-blue-50/60 px-2 py-1 text-blue-700"
+                      >
+                        标准
+                      </button>
+                      <button
+                        type="button"
+                        data-line-name="loose"
+                        class="rounded-md border border-slate-200 px-2 py-1 text-slate-600"
+                      >
+                        宽松
+                      </button>
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-1.5">
+                    <select
+                      class="rounded-md border border-slate-200 bg-white px-2 py-1.5 text-slate-600 outline-none focus:border-blue-500"
+                    >
+                      <option>字体：系统默认</option>
+                      <option>字体：思源宋体</option>
+                      <option>字体：思源黑体</option>
+                    </select>
+                    <select
+                      class="rounded-md border border-slate-200 bg-white px-2 py-1.5 text-slate-600 outline-none focus:border-blue-500"
+                    >
+                      <option>图片：居中</option>
+                      <option>图片：全宽</option>
+                      <option>图片：圆角</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!-- qb:section:typeset-panel:end -->
+
+              <!-- qb:section:phone-preview:start -->
+              <div
+                class="rounded-2xl border border-slate-200 bg-white p-4"
+                data-qb-section="phone-preview"
+              >
+                <div class="flex items-center justify-between">
+                  <h2 class="text-sm font-semibold">手机预览</h2>
+                  <span
+                    class="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] text-slate-500"
+                    >1:1 宽度</span
+                  >
+                </div>
+                <div
+                  class="mt-3 mx-auto w-full max-w-[280px] rounded-[26px] border-[6px] border-slate-900 bg-white overflow-hidden shadow-lg"
+                >
+                  <div
+                    class="flex items-center justify-between bg-slate-900 px-3 py-1 text-[9px] text-white/70"
+                  >
+                    <span>9:41</span
+                    ><span class="h-1 w-10 rounded-full bg-white/30"></span
+                    ><span>5G</span>
+                  </div>
+                  <div
+                    id="phone-body"
+                    class="max-h-[360px] overflow-y-auto px-3 py-3"
+                  >
+                    <p class="text-[10px] text-slate-400">行业观察局</p>
+                    <h3
+                      id="preview-title"
+                      class="mt-1 text-[15px] font-semibold leading-snug tracking-tight text-slate-900"
+                    >
+                      县域市场为何成为新能源车的新增长极
+                    </h3>
+                    <p id="preview-meta" class="mt-1 text-[9px] text-slate-400">
+                      2026-11-16 · 林晓
+                    </p>
+                    <img
+                      src="https://ai-public.mastergo.com/ai/img_res/generated-6880c160-e554-4900-88dd-597c38f86fd9.jpg"
+                      alt=""
+                      class="mt-2 h-24 w-full rounded object-cover"
+                    />
+                    <p
+                      id="preview-body"
+                      class="mt-2 text-[15px] leading-8 text-slate-700"
+                    >
+                      在新能源车渗透率突破 40%
+                      之后，增量从哪里来，成为行业最关心的问题。答案正在从一二线城市，转向数量庞大但长期被忽略的县域市场。
+                    </p>
+                    <p class="mt-2 text-[9px] text-slate-400">
+                      阅读原文 · 点赞 · 在看
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <!-- qb:section:phone-preview:end -->
+
+              <!-- qb:section:publish-config:start -->
+              <div
+                class="rounded-2xl border border-slate-200 bg-white p-4"
+                data-qb-section="publish-config"
+              >
+                <h2 class="text-sm font-semibold">发布配置</h2>
+                <div class="mt-2 space-y-2 text-[12px] text-slate-600">
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
+                  >
+                    <span class="text-slate-500">公众号</span
+                    ><span class="font-medium text-slate-800">行业观察局</span>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
+                  >
+                    <span class="text-slate-500">发布方式</span
+                    ><span class="font-medium text-slate-800"
+                      >审核后手动确认</span
+                    >
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
+                  >
+                    <span class="text-slate-500">定时发布</span
+                    ><span class="font-medium text-slate-800">未设置</span>
+                  </div>
+                </div>
+                <a
+                  href="publish.html"
+                  class="mt-3 block w-full rounded-lg bg-slate-900 px-3 py-2 text-center text-[12px] font-medium text-white hover:bg-slate-800"
+                  >去发布页</a
+                >
+                <p class="mt-2 text-[10px] leading-relaxed text-slate-400">
+                  发布能力受微信接口授权范围限制，如账号无发布权限将提示重新授权。
+                </p>
+              </div>
+              <!-- qb:section:publish-config:end -->
+            </aside>
+            <!-- qb:section:right-rail:end -->
+          </div>
+        </main>
+        <!-- qb:section:main-content:end -->
+      </div>
+
+      <!-- qb:section:app-overlays:start -->
+      <div
+        id="app-overlays"
+        class="fixed inset-0 z-50 pointer-events-none"
+        data-qb-section="app-overlays"
+        aria-live="polite"
+      ></div>
+      <!-- qb:section:app-overlays:end -->
+    </div>
+    <!-- qb:region:app-shell:end -->
+
+    <script>
+      (function () {
+        function el(tag, cls, text) {
+          var node = document.createElement(tag);
+          if (cls) node.className = cls;
+          if (text != null) node.textContent = String(text);
+          return node;
+        }
+        function toast(message) {
+          var host = document.getElementById("app-overlays");
+          if (!host) return;
+          host.textContent = "";
+          host.appendChild(
+            el(
+              "div",
+              "absolute bottom-5 left-1/2 -translate-x-1/2 rounded-xl bg-slate-900 px-4 py-2.5 text-[13px] text-white shadow-lg",
+              message,
+            ),
+          );
+          host.classList.remove("pointer-events-none");
+          setTimeout(function () {
+            host.textContent = "";
+            host.classList.add("pointer-events-none");
+          }, 2400);
+        }
+
+        var docTemplates = [
+          {
+            name: "行业快讯",
+            blocks: [
+              ["h2", "事件概览"],
+              [
+                "p",
+                "多部门联合发布新一轮新能源汽车下乡活动方案，县域市场与补能设施建设同步推进。",
+              ],
+              [
+                "quote",
+                "关键信息：政策覆盖车型扩充，充换电网络建设首次纳入同一支持体系。",
+              ],
+              ["h2", "三个值得关注的信号"],
+              [
+                "p",
+                "县域用户判断标准从价格转向补能便利性；公共充电桩保有量突破 380 万台；快充占比提升至 46%，跨城场景开始成立。",
+              ],
+            ],
+          },
+          {
+            name: "深度分析",
+            blocks: [
+              ["h2", "为什么现在谈县域市场"],
+              [
+                "p",
+                "新能源车渗透率突破 40% 之后，增量从哪里来成为行业最关心的问题。答案正在从一二线城市转向县域市场。",
+              ],
+              ["h2", "政策扩容打开了第一道门"],
+              [
+                "p",
+                "新一轮下乡方案在车型目录上做了扩充，也把补能设施建设纳入同一套支持体系。",
+              ],
+              ["quote", "补能网络不是配套，而是县域市场的入场券。"],
+              [
+                "p",
+                "县域市场连接政策、基础设施与消费信心三条线索，可持续产出深度内容。",
+              ],
+            ],
+          },
+          {
+            name: "政策解读",
+            blocks: [
+              ["h2", "政策要点"],
+              [
+                "p",
+                "适用范围：县域及以下市场的乘用车与轻型商用车；支持方式：购车补贴与充换电设施建设并行。",
+              ],
+              ["h2", "与上一版的区别"],
+              [
+                "p",
+                "本版首次把补能设施建设纳入同一支持体系，并对县域覆盖率提出量化要求。",
+              ],
+            ],
+          },
+          {
+            name: "周报汇总",
+            blocks: [
+              ["h2", "本周要闻"],
+              [
+                "p",
+                "新能源汽车下乡政策扩容；动力电池回收白名单更新；充电基础设施月度数据发布。",
+              ],
+              ["h2", "数据速览"],
+              ["p", "公共充电桩新增 8.7 万台，回收网络覆盖率提升至 62%。"],
+            ],
+          },
+          {
+            name: "品牌活动",
+            blocks: [
+              ["h2", "活动主题"],
+              ["p", "把县域用户真正的用车场景讲清楚，比讲参数更有说服力。"],
+              ["quote", "品牌内容的目标是建立信任，而不是堆叠卖点。"],
+            ],
+          },
+        ];
+        var coverTemplates = [
+          {
+            name: "数据科技",
+            url: "https://ai-public.mastergo.com/ai/img_res/generated-6880c160-e554-4900-88dd-597c38f86fd9.jpg",
+          },
+          {
+            name: "城市观察",
+            url: "https://ai-public.mastergo.com/ai/img_res/generated-e7a869fc-976d-4be7-9b7e-22b47fc39380.jpg",
+          },
+          {
+            name: "政策文件",
+            url: "https://ai-public.mastergo.com/ai/img_res/generated-7a46a73e-5cab-423a-a210-02ac15ff9285.jpg",
+          },
+          {
+            name: "品牌物料",
+            url: "https://ai-public.mastergo.com/ai/img_res/generated-5da1adf7-c5ca-4570-889c-b54f6508e04c.jpg",
+          },
+        ];
+        var activeDocTpl = 0;
+        var activeCoverTpl = 0;
+        var coverImage = document.getElementById("cover-image");
+        var docTplList = document.getElementById("doc-tpl-list");
+        var coverTplList = document.getElementById("cover-tpl-list");
+        var docTplTip = document.getElementById("doc-tpl-tip");
+
+        function renderTplPanels() {
+          docTplList.textContent = "";
+          docTemplates.forEach(function (tpl, index) {
+            var btn = el(
+              "button",
+              "rounded-lg border px-2 py-1.5 " +
+                (index === activeDocTpl
+                  ? "border-2 border-blue-600 bg-blue-50/60 text-blue-700"
+                  : "border-slate-200 text-slate-600 hover:bg-slate-50"),
+              tpl.name,
+            );
+            btn.type = "button";
+            btn.dataset.docTpl = String(index);
+            docTplList.appendChild(btn);
+          });
+          coverTplList.textContent = "";
+          coverTemplates.forEach(function (cover, index) {
+            var btn = el(
+              "button",
+              "overflow-hidden rounded-md border " +
+                (index === activeCoverTpl
+                  ? "border-2 border-blue-600"
+                  : "border-slate-200"),
+            );
+            btn.type = "button";
+            btn.dataset.coverTpl = String(index);
+            var img = document.createElement("img");
+            img.src = cover.url;
+            img.alt = cover.name;
+            img.className = "h-9 w-full object-cover";
+            btn.appendChild(img);
+            coverTplList.appendChild(btn);
+          });
+          docTplTip.textContent =
+            "当前：" +
+            (docTemplates[activeDocTpl]
+              ? docTemplates[activeDocTpl].name
+              : "自定义") +
+            "（内置模板）";
+        }
+
+        function applyDocTpl(index) {
+          var tpl = docTemplates[index];
+          if (!tpl) return;
+          activeDocTpl = index;
+          while (body.children.length > 1) {
+            body.removeChild(body.lastElementChild);
+          }
+          tpl.blocks.forEach(function (block) {
+            var type = block[0];
+            var text = block[1];
+            if (type === "h2") {
+              body.appendChild(
+                el(
+                  "h2",
+                  "pt-1 text-[17px] font-semibold tracking-tight text-slate-900",
+                  text,
+                ),
+              );
+            } else if (type === "quote") {
+              body.appendChild(
+                el(
+                  "blockquote",
+                  "rounded-r-lg border-l-4 border-blue-600 bg-blue-50/60 px-4 py-3 text-[14px] leading-7 text-slate-700",
+                  text,
+                ),
+              );
+            } else {
+              body.appendChild(
+                el("p", "text-[15px] leading-8 text-slate-700", text),
+              );
+            }
+          });
+          renderTplPanels();
+          toast("已套用「" + tpl.name + "」文档模板");
+        }
+
+        function applyCoverTpl(index) {
+          var cover = coverTemplates[index];
+          if (!cover || !coverImage) return;
+          activeCoverTpl = index;
+          coverImage.src = cover.url;
+          renderTplPanels();
+          toast("封面已切换为「" + cover.name + "」");
+        }
+
+        function setupUploads() {
+          var docInput = document.getElementById("doc-input");
+          var coverInput = document.getElementById("cover-input");
+          if (docInput) {
+            docInput.addEventListener("change", function (event) {
+              var file = event.target.files && event.target.files[0];
+              if (!file) return;
+              var reader = new FileReader();
+              reader.onload = function () {
+                var text = String(reader.result || "");
+                if (!text.trim()) {
+                  toast("文件内容为空，请重新选择");
+                  return;
+                }
+                var blocks = [];
+                text.split("\n").forEach(function (line) {
+                  var raw = line.trim();
+                  if (!raw) return;
+                  if (raw.indexOf("### ") === 0)
+                    blocks.push(["h2", raw.slice(4)]);
+                  else if (raw.indexOf("## ") === 0)
+                    blocks.push(["h2", raw.slice(3)]);
+                  else if (raw.indexOf("# ") === 0)
+                    blocks.push(["h2", raw.slice(2)]);
+                  else if (raw.indexOf("> ") === 0)
+                    blocks.push(["quote", raw.slice(2)]);
+                  else blocks.push(["p", raw.replace(/^-\s*/, "")]);
+                });
+                docTemplates.push({
+                  name: "上传 · " + file.name.replace(/\.[^.]+$/, ""),
+                  blocks: blocks.length ? blocks : [["p", text]],
+                });
+                applyDocTpl(docTemplates.length - 1);
+                docTplTip.textContent = "当前：上传模板 · " + file.name;
+                toast("文档模板已上传并套用");
+              };
+              reader.onerror = function () {
+                toast("文件读取失败，请重新选择");
+              };
+              reader.readAsText(file);
+              event.target.value = "";
+            });
+          }
+          if (coverInput) {
+            coverInput.addEventListener("change", function (event) {
+              var file = event.target.files && event.target.files[0];
+              if (!file) return;
+              var reader = new FileReader();
+              reader.onload = function () {
+                var url = String(reader.result || "");
+                if (!url) {
+                  toast("图片读取失败，请重新选择");
+                  return;
+                }
+                coverTemplates.push({
+                  name: "上传 · " + file.name.replace(/\.[^.]+$/, ""),
+                  url: url,
+                });
+                applyCoverTpl(coverTemplates.length - 1);
+                toast("封面已上传并替换");
+              };
+              reader.onerror = function () {
+                toast("图片读取失败，请重新选择");
+              };
+              reader.readAsDataURL(file);
+              event.target.value = "";
+            });
+          }
+        }
+
+        renderTplPanels();
+        setupUploads();
+
+        var titleInput = document.getElementById("article-title");
+        var previewTitle = document.getElementById("preview-title");
+        var summaryInput = document.getElementById("article-summary");
+        var statusBadge = document.getElementById("status-badge");
+        var saveTip = document.getElementById("save-tip");
+
+        function syncTitle() {
+          var value = (titleInput.value || "").trim() || "未命名文章";
+          previewTitle.textContent = value;
+        }
+        titleInput.addEventListener("input", syncTitle);
+
+        var body = document.getElementById("article-body");
+        function applyTemplate(name) {
+          var paragraphs = body.querySelectorAll("p");
+          Array.prototype.forEach.call(paragraphs, function (p) {
+            p.className = "text-[15px] leading-8 text-slate-700";
+          });
+          var headings = body.querySelectorAll("h2");
+          Array.prototype.forEach.call(headings, function (h) {
+            h.className =
+              "pt-1 text-[17px] font-semibold tracking-tight text-slate-900";
+          });
+          if (name === "business") {
+            Array.prototype.forEach.call(headings, function (h) {
+              h.className =
+                "pt-1 pl-3 border-l-4 border-slate-900 text-[17px] font-semibold tracking-tight text-slate-900";
+            });
+          }
+          if (name === "warm") {
+            Array.prototype.forEach.call(paragraphs, function (p) {
+              p.className = "text-[15px] leading-8 text-amber-900";
+            });
+            Array.prototype.forEach.call(headings, function (h) {
+              h.className =
+                "pt-1 text-[17px] font-semibold tracking-tight text-amber-700";
+            });
+          }
+        }
+
+        document
+          .getElementById("app")
+          .addEventListener("click", function (event) {
+            var target = event.target;
+
+            var aiBtn = target.closest("[data-ai]");
+            if (aiBtn) {
+              toast(
+                "AI 已对正文执行「" +
+                  aiBtn.dataset.ai +
+                  "」，可在编辑区继续调整",
+              );
+              return;
+            }
+            if (target.closest('[data-action="regen-summary"]')) {
+              summaryInput.value =
+                "政策扩容叠加补能网络下沉，县域市场的购车顾虑正在被系统性化解，增量窗口已经打开。";
+              toast("已重新生成摘要");
+              return;
+            }
+            if (target.closest('[data-action="insert-image"]')) {
+              toast("已插入图片，可在正文中拖动调整位置");
+              return;
+            }
+            if (target.closest('[data-action="auto-typeset"]')) {
+              applyTemplate("clean");
+              toast("已按「简洁」模板完成一键排版");
+              return;
+            }
+            if (target.closest('[data-action="save"]')) {
+              saveTip.textContent = "已保存 刚刚";
+              toast("草稿已保存");
+              return;
+            }
+
+            var docTplBtn = target.closest("[data-doc-tpl]");
+            if (docTplBtn) {
+              applyDocTpl(Number(docTplBtn.dataset.docTpl));
+              return;
+            }
+            var coverTplBtn = target.closest("[data-cover-tpl]");
+            if (coverTplBtn) {
+              applyCoverTpl(Number(coverTplBtn.dataset.coverTpl));
+              return;
+            }
+            if (target.closest('[data-action="upload-doc"]')) {
+              document.getElementById("doc-input").click();
+              return;
+            }
+            if (target.closest('[data-action="upload-cover"]')) {
+              document.getElementById("cover-input").click();
+              return;
+            }
+
+            var tplBtn = target.closest("[data-template-name]");
+            if (tplBtn) {
+              Array.prototype.forEach.call(
+                document.querySelectorAll("[data-template-name]"),
+                function (b) {
+                  b.className =
+                    "rounded-lg border border-slate-200 px-2 py-2 text-slate-600";
+                },
+              );
+              tplBtn.className =
+                "rounded-lg border-2 border-blue-600 bg-blue-50/60 px-2 py-2 text-blue-700";
+              applyTemplate(tplBtn.dataset.templateName);
+              toast("已切换排版模板");
+              return;
+            }
+
+            var sizeBtn = target.closest("[data-size-name]");
+            if (sizeBtn) {
+              Array.prototype.forEach.call(
+                document.querySelectorAll("[data-size-name]"),
+                function (b) {
+                  b.className =
+                    "rounded-md border border-slate-200 px-2 py-1 text-slate-600";
+                },
+              );
+              sizeBtn.className =
+                "rounded-md border-2 border-blue-600 bg-blue-50/60 px-2 py-1 text-blue-700";
+              var sizeMap = {
+                sm: "text-[13px] leading-7",
+                md: "text-[15px] leading-8",
+                lg: "text-[17px] leading-9",
+              };
+              var bodyText = sizeMap[sizeBtn.dataset.sizeName] || sizeMap.md;
+              Array.prototype.forEach.call(
+                body.querySelectorAll("p"),
+                function (p) {
+                  p.className = bodyText + " text-slate-700";
+                },
+              );
+              document.getElementById("preview-body").className =
+                "mt-2 " + bodyText + " text-slate-700";
+              return;
+            }
+
+            var lineBtn = target.closest("[data-line-name]");
+            if (lineBtn) {
+              Array.prototype.forEach.call(
+                document.querySelectorAll("[data-line-name]"),
+                function (b) {
+                  b.className =
+                    "rounded-md border border-slate-200 px-2 py-1 text-slate-600";
+                },
+              );
+              lineBtn.className =
+                "rounded-md border-2 border-blue-600 bg-blue-50/60 px-2 py-1 text-blue-700";
+              var lineMap = {
+                tight: "leading-6",
+                normal: "leading-8",
+                loose: "leading-10",
+              };
+              var cls = lineMap[lineBtn.dataset.lineName] || lineMap.normal;
+              Array.prototype.forEach.call(
+                body.querySelectorAll("p"),
+                function (p) {
+                  p.classList.remove(
+                    "leading-6",
+                    "leading-7",
+                    "leading-8",
+                    "leading-9",
+                    "leading-10",
+                  );
+                  p.classList.add(cls);
+                },
+              );
+              return;
+            }
+
+            var reviewBtn = target.closest("[data-review]");
+            if (reviewBtn) {
+              var action = reviewBtn.dataset.review;
+              if (action === "pass") {
+                statusBadge.textContent = "审核通过";
+                statusBadge.className =
+                  "rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-700";
+                toast("审核通过，文章已进入待发布");
+              } else if (action === "return") {
+                statusBadge.textContent = "退回修改";
+                statusBadge.className =
+                  "rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-medium text-amber-700";
+                toast("已退回修改，请补充引用来源后重新提交");
+              } else {
+                statusBadge.textContent = "审核驳回";
+                statusBadge.className =
+                  "rounded-full bg-red-50 px-2 py-0.5 text-[11px] font-medium text-red-600";
+                toast("文章已驳回");
+              }
+            }
+          });
+      })();
+    </script>
+  </body>
+</html>

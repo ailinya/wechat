@@ -1,0 +1,2377 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>内容管理 · 智媒助手</title>
+    <script src="./tailwind.js"></script>
+    <style>
+      body.app-bg {
+        background-color: #f6f8fc;
+        background-image:
+          radial-gradient(
+            920px 460px at 6% -8%,
+            rgba(191, 219, 254, 0.75) 0%,
+            rgba(191, 219, 254, 0) 62%
+          ),
+          radial-gradient(
+            780px 420px at 98% -4%,
+            rgba(221, 214, 254, 0.7) 0%,
+            rgba(221, 214, 254, 0) 58%
+          ),
+          radial-gradient(
+            760px 520px at 88% 104%,
+            rgba(167, 243, 208, 0.55) 0%,
+            rgba(167, 243, 208, 0) 60%
+          ),
+          radial-gradient(
+            700px 480px at 4% 96%,
+            rgba(253, 230, 138, 0.45) 0%,
+            rgba(253, 230, 138, 0) 60%
+          );
+        background-attachment: fixed;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen app-bg text-slate-900 antialiased">
+    <!-- qb:map
+  app-shell -> 页面外壳
+  sidebar -> 一级导航
+  topbar -> 顶部信息栏
+  main-content -> 内容管理内容
+  review-drawer -> 人工审核抽屉
+  publish-modal -> 发布确认弹层
+  app-overlays -> 提示
+  -->
+
+    <!-- qb:region:app-shell:start -->
+    <div id="app" class="min-h-screen flex" data-qb-region="app-shell">
+      <!-- qb:section:sidebar:start -->
+      <aside
+        class="hidden lg:flex w-60 shrink-0 flex-col border-r border-slate-200 bg-white"
+        data-qb-section="sidebar"
+      >
+        <a
+          href="index.html"
+          class="h-16 flex items-center gap-2.5 px-5 border-b border-slate-200"
+        >
+          <span
+            class="w-8 h-8 rounded-lg bg-blue-600 text-white grid place-items-center text-sm font-semibold"
+            >智</span
+          >
+          <span class="leading-tight">
+            <span class="block text-sm font-semibold tracking-tight"
+              >智媒助手</span
+            >
+            <span class="block text-[11px] text-slate-400"
+              >公众号智能运营平台</span
+            >
+          </span>
+        </a>
+        <nav class="flex-1 overflow-y-auto px-3 py-3 space-y-0.5 text-sm">
+          <p
+            class="px-3 pb-2 pt-1 text-[11px] font-medium tracking-wide text-slate-400"
+          >
+            内容生产
+          </p>
+          <a
+            href="index.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >台</span
+            >工作台
+          </a>
+          <a
+            href="collect.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >采</span
+            >采集管理
+          </a>
+          <a
+            href="library.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >素</span
+            >素材库
+          </a>
+          <a
+            href="create.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >创</span
+            >智能创作
+          </a>
+          <a
+            href="content.html"
+            class="flex items-center gap-2.5 rounded-lg bg-blue-50 px-3 py-2 font-medium text-blue-700"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-blue-600 text-white grid place-items-center text-[11px]"
+              >稿</span
+            >内容管理
+          </a>
+          <p
+            class="px-3 pb-2 pt-4 text-[11px] font-medium tracking-wide text-slate-400"
+          >
+            运营与配置
+          </p>
+          <a
+            href="analytics.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >数</span
+            >数据统计分析
+          </a>
+          <a
+            href="accounts.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >号</span
+            >账号管理
+          </a>
+          <a
+            href="settings.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >设</span
+            >系统设置
+          </a>
+        </nav>
+        <div class="border-t border-slate-200 px-4 py-3 text-xs text-slate-500">
+          <div class="flex items-center gap-2.5">
+            <span
+              class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 grid place-items-center text-xs font-semibold"
+              >林</span
+            >
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-[13px] font-medium text-slate-700">
+                林晓 · 运营管理员
+              </p>
+              <p class="text-[11px] text-slate-400">运营中心</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <!-- qb:section:sidebar:end -->
+
+      <div class="flex-1 min-w-0 flex flex-col">
+        <!-- qb:section:topbar:start -->
+        <header
+          class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200"
+          data-qb-section="topbar"
+        >
+          <div class="h-16 px-4 md:px-8 flex items-center gap-3">
+            <div class="min-w-0">
+              <nav class="flex items-center gap-1.5 text-[11px] text-slate-400">
+                <a href="index.html" class="hover:text-slate-600">工作台</a
+                ><span>/</span><span class="text-slate-600">内容管理</span>
+              </nav>
+              <h1 class="text-base font-semibold tracking-tight">内容管理</h1>
+            </div>
+            <div class="ml-auto flex items-center gap-2">
+              <button
+                type="button"
+                data-action="open-review-queue"
+                class="inline-flex items-center gap-1.5 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-[12px] font-medium text-amber-700 hover:bg-amber-100"
+              >
+                审核队列
+                <span
+                  id="top-queue-count"
+                  class="rounded-full bg-amber-600 px-1.5 py-0.5 text-[10px] text-white"
+                  >0</span
+                >
+              </button>
+              <a
+                href="editor.html"
+                class="hidden sm:inline-flex rounded-lg border border-slate-200 bg-white px-3 py-2 text-[12px] font-medium text-slate-700 hover:bg-slate-50"
+                >新建文章</a
+              >
+              <a
+                href="publish.html"
+                class="inline-flex rounded-lg bg-blue-600 px-3 py-2 text-[12px] font-medium text-white hover:bg-blue-700"
+              >
+                发布中心
+              </a>
+              <span
+                class="w-9 h-9 rounded-full bg-blue-600 text-white grid place-items-center text-xs font-semibold"
+                >林</span
+              >
+            </div>
+          </div>
+          <div class="lg:hidden flex gap-1.5 overflow-x-auto px-4 pb-2 text-xs">
+            <a
+              href="index.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >工作台</a
+            >
+            <a
+              href="collect.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >采集管理</a
+            >
+            <a
+              href="library.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >素材库</a
+            >
+            <a
+              href="create.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >智能创作</a
+            >
+            <a
+              href="content.html"
+              class="shrink-0 rounded-full bg-blue-600 px-3 py-1.5 text-white"
+              >内容管理</a
+            >
+            <a
+              href="analytics.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >数据统计</a
+            >
+            <a
+              href="accounts.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >账号管理</a
+            >
+            <a
+              href="settings.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >系统设置</a
+            >
+          </div>
+        </header>
+        <!-- qb:section:topbar:end -->
+
+        <!-- qb:section:main-content:start -->
+        <main
+          class="flex-1 p-4 md:p-8 space-y-5"
+          data-qb-section="main-content"
+        >
+          <!-- qb:section:content-overview:start -->
+          <section
+            class="rounded-2xl border border-slate-200 bg-white p-4 md:p-5"
+            data-qb-section="content-overview"
+          >
+            <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
+              <div>
+                <p class="text-[11px] text-slate-400">全部文章</p>
+                <p class="text-xl font-semibold">1,284</p>
+              </div>
+              <div class="h-8 w-px bg-slate-100"></div>
+              <div
+                class="flex flex-wrap gap-1.5 text-[11px]"
+                id="status-chips"
+              ></div>
+            </div>
+          </section>
+          <!-- qb:section:content-overview:end -->
+
+          <!-- qb:section:content-filters:start -->
+          <section
+            class="rounded-2xl border border-slate-200 bg-white p-4"
+            data-qb-section="content-filters"
+          >
+            <div class="flex flex-col gap-2.5 xl:flex-row xl:items-center">
+              <label
+                class="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-400 focus-within:border-blue-500 focus-within:bg-white"
+              >
+                <span
+                  class="w-3.5 h-3.5 rounded-full border border-slate-400"
+                ></span>
+                <input
+                  id="article-search"
+                  type="search"
+                  placeholder="搜索文章标题"
+                  class="w-52 bg-transparent text-slate-700 outline-none placeholder:text-slate-400"
+                />
+              </label>
+              <select
+                id="filter-source"
+                class="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[12px] text-slate-600 outline-none focus:border-blue-500"
+              >
+                <option value="all">全部创作来源</option>
+                <option value="自动创作">自动创作</option>
+                <option value="素材创作">素材创作</option>
+                <option value="主题创作">主题创作</option>
+                <option value="人工撰写">人工撰写</option>
+              </select>
+              <select
+                id="filter-account"
+                class="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[12px] text-slate-600 outline-none focus:border-blue-500"
+              >
+                <option value="all">全部公众号</option>
+                <option value="行业观察局">行业观察局</option>
+                <option value="政策速递">政策速递</option>
+                <option value="智造前沿">智造前沿</option>
+                <option value="品牌内参">品牌内参</option>
+              </select>
+              <select
+                class="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[12px] text-slate-600 outline-none focus:border-blue-500"
+              >
+                <option>创建时间：近 7 天</option>
+                <option>创建时间：今天</option>
+                <option>创建时间：近 30 天</option>
+              </select>
+              <span
+                id="article-count"
+                class="xl:ml-auto text-[11px] text-slate-400"
+                >共 7 篇</span
+              >
+            </div>
+          </section>
+          <!-- qb:section:content-filters:end -->
+
+          <!-- qb:section:article-table:start -->
+          <section
+            class="rounded-2xl border border-slate-200 bg-white overflow-hidden"
+            data-qb-section="article-table"
+          >
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-[13px] whitespace-nowrap">
+                <thead
+                  class="border-b border-slate-100 bg-slate-50/60 text-[11px] text-slate-400"
+                >
+                  <tr>
+                    <th class="px-4 py-2.5 font-medium">
+                      <input
+                        id="check-all"
+                        type="checkbox"
+                        class="h-3.5 w-3.5 rounded border-slate-300"
+                        aria-label="全选"
+                      />
+                    </th>
+                    <th class="px-3 py-2.5 font-medium">文章</th>
+                    <th class="px-3 py-2.5 font-medium">创作来源</th>
+                    <th class="px-3 py-2.5 font-medium">所属公众号</th>
+                    <th class="px-3 py-2.5 font-medium">状态</th>
+                    <th class="px-3 py-2.5 font-medium">审核人</th>
+                    <th class="px-3 py-2.5 font-medium">创建 / 更新</th>
+                    <th class="px-3 py-2.5 font-medium">发布时间</th>
+                    <th class="px-4 py-2.5 font-medium">操作</th>
+                  </tr>
+                </thead>
+                <tbody
+                  id="article-rows"
+                  class="divide-y divide-slate-100"
+                ></tbody>
+              </table>
+            </div>
+            <div
+              class="flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 px-4 py-3 text-[11px] text-slate-400"
+            >
+              <span id="picked-tip">未勾选文章</span>
+              <div class="flex items-center gap-1">
+                <button
+                  type="button"
+                  class="rounded-md border border-slate-200 px-2 py-1 hover:bg-slate-50"
+                >
+                  上一页
+                </button>
+                <span class="rounded-md bg-slate-900 px-2 py-1 text-white"
+                  >1</span
+                >
+                <button
+                  type="button"
+                  class="rounded-md border border-slate-200 px-2 py-1 hover:bg-slate-50"
+                >
+                  2
+                </button>
+                <button
+                  type="button"
+                  class="rounded-md border border-slate-200 px-2 py-1 hover:bg-slate-50"
+                >
+                  3
+                </button>
+                <button
+                  type="button"
+                  class="rounded-md border border-slate-200 px-2 py-1 hover:bg-slate-50"
+                >
+                  下一页
+                </button>
+              </div>
+            </div>
+          </section>
+          <!-- qb:section:article-table:end -->
+
+          <!-- qb:section:publish-records:start -->
+          <section
+            class="rounded-2xl border border-slate-200 bg-white"
+            data-qb-section="publish-records"
+          >
+            <div
+              class="flex flex-wrap items-center justify-between gap-2 p-5 pb-3"
+            >
+              <div>
+                <h2 class="text-sm font-semibold">发布记录</h2>
+                <p class="mt-0.5 text-[11px] text-slate-400">
+                  发布结果以微信接口返回为准，失败可查看原因并重新发布
+                </p>
+              </div>
+              <span
+                class="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] text-emerald-700"
+                >近 7 天成功率 98.4%</span
+              >
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-[13px] whitespace-nowrap">
+                <thead
+                  class="border-y border-slate-100 bg-slate-50/60 text-[11px] text-slate-400"
+                >
+                  <tr>
+                    <th class="px-5 py-2 font-medium">文章标题</th>
+                    <th class="px-3 py-2 font-medium">发布账号</th>
+                    <th class="px-3 py-2 font-medium">发布时间</th>
+                    <th class="px-3 py-2 font-medium">状态</th>
+                    <th class="px-3 py-2 font-medium">发布结果</th>
+                    <th class="px-3 py-2 font-medium">失败原因</th>
+                    <th class="px-5 py-2 font-medium">操作</th>
+                  </tr>
+                </thead>
+                <tbody
+                  id="publish-rows"
+                  class="divide-y divide-slate-100"
+                ></tbody>
+              </table>
+            </div>
+          </section>
+          <!-- qb:section:publish-records:end -->
+        </main>
+        <!-- qb:section:main-content:end -->
+      </div>
+
+      <!-- qb:section:review-drawer:start -->
+      <div
+        id="review-drawer"
+        class="hidden fixed inset-0 z-40"
+        data-qb-section="review-drawer"
+      >
+        <div
+          class="absolute inset-0 bg-slate-900/40"
+          data-action="close-review"
+        ></div>
+        <div
+          class="absolute right-0 top-0 h-full w-full max-w-xl overflow-y-auto bg-white shadow-2xl"
+        >
+          <div
+            class="sticky top-0 flex items-center justify-between border-b border-slate-200 bg-white px-5 py-4"
+          >
+            <div class="min-w-0">
+              <p class="text-[11px] text-slate-400">人工审核</p>
+              <h3 id="review-title" class="truncate text-sm font-semibold">
+                —
+              </h3>
+            </div>
+            <button
+              type="button"
+              data-action="close-review"
+              class="w-8 h-8 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50"
+            >
+              ×
+            </button>
+          </div>
+          <div class="space-y-4 p-5 text-[13px]">
+            <div class="rounded-xl bg-slate-50 p-3">
+              <p id="review-meta" class="text-[11px] text-slate-500"></p>
+              <p
+                id="review-summary"
+                class="mt-1.5 leading-relaxed text-slate-600"
+              ></p>
+            </div>
+            <div>
+              <p class="text-[12px] font-medium text-slate-600">审核清单</p>
+              <ul id="review-checks" class="mt-2 space-y-1.5"></ul>
+            </div>
+            <div>
+              <p class="text-[12px] font-medium text-slate-600">素材引用</p>
+              <ul
+                id="review-refs"
+                class="mt-2 space-y-1.5 text-[12px] text-slate-600"
+              ></ul>
+            </div>
+            <div>
+              <p class="text-[12px] font-medium text-slate-600">审核意见</p>
+              <textarea
+                id="review-note"
+                rows="3"
+                placeholder="退回修改或驳回时请填写具体原因"
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3 py-2 text-[12px] outline-none focus:border-blue-500"
+              ></textarea>
+            </div>
+          </div>
+          <div
+            class="sticky bottom-0 flex flex-wrap justify-end gap-2 border-t border-slate-200 bg-white px-5 py-3"
+          >
+            <button
+              type="button"
+              data-review="reject"
+              class="rounded-lg border border-slate-200 px-3 py-2 text-[12px] text-slate-600 hover:bg-slate-50"
+            >
+              驳回文章
+            </button>
+            <button
+              type="button"
+              data-review="return"
+              class="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-[12px] font-medium text-amber-700 hover:bg-amber-100"
+            >
+              退回修改
+            </button>
+            <button
+              type="button"
+              data-review="pass"
+              class="rounded-lg bg-blue-600 px-3 py-2 text-[12px] font-medium text-white hover:bg-blue-700"
+            >
+              审核通过
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- qb:section:review-drawer:end -->
+
+      <!-- qb:section:review-queue:start -->
+      <div
+        id="review-queue"
+        class="hidden fixed inset-0 z-40"
+        data-qb-section="review-queue"
+      >
+        <div
+          class="absolute inset-0 bg-slate-900/40"
+          data-action="close-queue"
+        ></div>
+        <div
+          class="absolute right-0 top-0 h-full w-full max-w-md overflow-y-auto bg-white shadow-2xl"
+        >
+          <div
+            class="sticky top-0 flex items-center justify-between border-b border-slate-200 bg-white px-5 py-4"
+          >
+            <div>
+              <p class="text-[11px] text-slate-400">人工审核入口</p>
+              <h3 class="text-sm font-semibold">
+                审核队列 · <span id="queue-count">0 篇待处理</span>
+              </h3>
+            </div>
+            <button
+              type="button"
+              data-action="close-queue"
+              class="w-8 h-8 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50"
+            >
+              ×
+            </button>
+          </div>
+          <div class="p-5">
+            <p
+              class="rounded-lg bg-amber-50 px-3 py-2 text-[11px] leading-relaxed text-amber-800"
+            >
+              AI
+              生成内容必须经人工审核后才能发布；点击「开始审核」查看审核清单、素材引用与审核意见。
+            </p>
+            <ul id="queue-body" class="mt-3 space-y-2.5"></ul>
+            <a
+              href="editor.html"
+              class="mt-4 block rounded-lg border border-slate-200 px-3 py-2 text-center text-[12px] text-slate-600 hover:bg-slate-50"
+              >在编辑页中审核与排版</a
+            >
+          </div>
+        </div>
+      </div>
+      <!-- qb:section:review-queue:end -->
+
+      <!-- qb:section:review-studio:start -->
+      <div
+        id="review-studio"
+        class="hidden fixed inset-0 z-40"
+        data-qb-section="review-studio"
+      >
+        <div
+          class="absolute inset-0 bg-slate-900/50"
+          data-action="close-studio"
+        ></div>
+        <div
+          class="absolute left-1/2 top-1/2 flex w-[min(96vw,1280px)] max-h-[94vh] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-2xl bg-white shadow-2xl"
+        >
+          <div
+            class="flex items-center gap-3 border-b border-slate-200 px-5 py-3"
+          >
+            <div class="min-w-0">
+              <div class="flex flex-wrap items-center gap-2">
+                <span
+                  id="studio-mode"
+                  class="rounded-full bg-blue-50 px-2 py-0.5 text-[11px] font-medium text-blue-700"
+                  >审核发布工作台</span
+                >
+                <span
+                  id="studio-status"
+                  class="rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-medium text-amber-700"
+                  >待审核</span
+                >
+                <span
+                  id="studio-meta"
+                  class="hidden text-[11px] text-slate-400 sm:inline"
+                  >自动创作 · 行业观察局</span
+                >
+              </div>
+            </div>
+            <div class="ml-auto flex items-center gap-2">
+              <span id="studio-wordcount" class="text-[11px] text-slate-400"
+                >0 字</span
+              >
+              <button
+                type="button"
+                data-action="studio-save"
+                class="rounded-lg border border-slate-200 px-3 py-1.5 text-[12px] text-slate-600 hover:bg-slate-50"
+              >
+                保存草稿
+              </button>
+              <button
+                type="button"
+                data-action="close-studio"
+                class="w-8 h-8 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="grid min-h-0 flex-1 grid-cols-1 overflow-y-auto lg:grid-cols-[210px_minmax(0,1fr)_300px] lg:overflow-hidden"
+          >
+            <div
+              class="border-b border-slate-200 p-3 lg:min-h-0 lg:overflow-y-auto lg:border-b-0 lg:border-r"
+            >
+              <p
+                class="px-1 text-[11px] font-medium tracking-wide text-slate-400"
+              >
+                文档模板
+              </p>
+              <div
+                id="studio-article-templates"
+                class="mt-1.5 space-y-1.5"
+              ></div>
+              <p
+                class="mt-4 px-1 text-[11px] font-medium tracking-wide text-slate-400"
+              >
+                封面模板
+              </p>
+              <div
+                id="studio-cover-templates"
+                class="mt-1.5 grid grid-cols-2 gap-1.5"
+              ></div>
+              <div class="mt-2 grid gap-1.5">
+                <button
+                  type="button"
+                  data-action="upload-doc-tpl"
+                  class="rounded-lg border border-dashed border-slate-300 px-2 py-1.5 text-[11px] text-slate-600 hover:border-blue-400 hover:text-blue-700"
+                >
+                  上传文档模板
+                </button>
+                <button
+                  type="button"
+                  data-action="upload-cover-tpl"
+                  class="rounded-lg border border-dashed border-slate-300 px-2 py-1.5 text-[11px] text-slate-600 hover:border-blue-400 hover:text-blue-700"
+                >
+                  上传封面图片
+                </button>
+                <p class="px-1 text-[10px] leading-relaxed text-slate-400">
+                  支持 .md / .txt 文档与 JPG、PNG
+                  图片，上传后直接追加到模板列表并套用。
+                </p>
+                <input
+                  id="studio-doc-input"
+                  type="file"
+                  accept=".md,.markdown,.txt"
+                  class="hidden"
+                />
+                <input
+                  id="studio-cover-input"
+                  type="file"
+                  accept="image/*"
+                  class="hidden"
+                />
+              </div>
+              <p class="mt-3 px-1 text-[10px] leading-relaxed text-slate-400">
+                模板只调整结构与排版，不改变已核对的事实与引用。
+              </p>
+              <p
+                class="mt-4 px-1 text-[11px] font-medium tracking-wide text-slate-400"
+              >
+                排版样式
+              </p>
+              <div
+                class="mt-1.5 grid grid-cols-3 gap-1.5 text-[11px]"
+                id="studio-layout"
+              >
+                <button
+                  type="button"
+                  data-layout="clean"
+                  class="rounded-lg border-2 border-blue-600 bg-blue-50/60 px-1 py-1.5 text-blue-700"
+                >
+                  简洁
+                </button>
+                <button
+                  type="button"
+                  data-layout="business"
+                  class="rounded-lg border border-slate-200 px-1 py-1.5 text-slate-600 hover:bg-slate-50"
+                >
+                  商务
+                </button>
+                <button
+                  type="button"
+                  data-layout="warm"
+                  class="rounded-lg border border-slate-200 px-1 py-1.5 text-slate-600 hover:bg-slate-50"
+                >
+                  温感
+                </button>
+              </div>
+            </div>
+
+            <div class="space-y-3 p-4 lg:min-h-0 lg:overflow-y-auto">
+              <div
+                class="flex items-center gap-3 rounded-xl border border-slate-200 p-2"
+              >
+                <img
+                  id="studio-cover"
+                  alt="封面预览"
+                  src="https://ai-public.mastergo.com/ai/img_res/generated-6880c160-e554-4900-88dd-597c38f86fd9.jpg"
+                  class="h-16 w-28 shrink-0 rounded-lg bg-slate-100 object-cover"
+                />
+                <div class="min-w-0 flex-1">
+                  <p class="text-[11px] text-slate-400">文章封面</p>
+                  <p
+                    id="studio-cover-name"
+                    class="truncate text-[12px] font-medium text-slate-700"
+                  >
+                    默认封面
+                  </p>
+                  <p class="mt-0.5 text-[10px] text-slate-400">
+                    在左侧「封面模板」中一键替换，建议尺寸 2.35:1
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <label class="text-[11px] font-medium text-slate-400"
+                  >文章标题</label
+                >
+                <input
+                  id="studio-title"
+                  type="text"
+                  value=""
+                  class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-[14px] font-medium outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div class="overflow-hidden rounded-xl border border-slate-200">
+                <div
+                  class="flex flex-wrap items-center gap-1 border-b border-slate-100 bg-slate-50 px-2 py-1.5 text-[11px]"
+                >
+                  <button
+                    type="button"
+                    data-md="h2"
+                    class="rounded-md px-2 py-1 text-slate-600 hover:bg-white"
+                  >
+                    H2
+                  </button>
+                  <button
+                    type="button"
+                    data-md="h3"
+                    class="rounded-md px-2 py-1 text-slate-600 hover:bg-white"
+                  >
+                    H3
+                  </button>
+                  <button
+                    type="button"
+                    data-md="bold"
+                    class="rounded-md px-2 py-1 font-semibold text-slate-600 hover:bg-white"
+                  >
+                    B
+                  </button>
+                  <button
+                    type="button"
+                    data-md="italic"
+                    class="rounded-md px-2 py-1 italic text-slate-600 hover:bg-white"
+                  >
+                    I
+                  </button>
+                  <button
+                    type="button"
+                    data-md="quote"
+                    class="rounded-md px-2 py-1 text-slate-600 hover:bg-white"
+                  >
+                    引用
+                  </button>
+                  <button
+                    type="button"
+                    data-md="list"
+                    class="rounded-md px-2 py-1 text-slate-600 hover:bg-white"
+                  >
+                    列表
+                  </button>
+                  <button
+                    type="button"
+                    data-md="link"
+                    class="rounded-md px-2 py-1 text-slate-600 hover:bg-white"
+                  >
+                    链接
+                  </button>
+                  <button
+                    type="button"
+                    data-md="image"
+                    class="rounded-md px-2 py-1 text-slate-600 hover:bg-white"
+                  >
+                    图片
+                  </button>
+                  <button
+                    type="button"
+                    data-md="code"
+                    class="rounded-md px-2 py-1 text-slate-600 hover:bg-white"
+                  >
+                    代码
+                  </button>
+                </div>
+                <div
+                  class="flex items-center gap-1 border-b border-slate-100 px-2 py-1.5 text-[11px]"
+                >
+                  <button
+                    type="button"
+                    data-mdview="edit"
+                    class="rounded-md bg-slate-900 px-2 py-1 text-white"
+                  >
+                    编辑
+                  </button>
+                  <button
+                    type="button"
+                    data-mdview="preview"
+                    class="rounded-md px-2 py-1 text-slate-600"
+                  >
+                    预览
+                  </button>
+                  <button
+                    type="button"
+                    data-action="studio-typeset"
+                    class="ml-auto rounded-md border border-slate-200 px-2 py-1 text-slate-600 hover:bg-white"
+                  >
+                    一键排版
+                  </button>
+                  <span class="text-slate-400">Markdown</span>
+                </div>
+                <textarea
+                  id="studio-md"
+                  rows="14"
+                  class="w-full resize-y px-3 py-2 font-mono text-[12px] leading-6 text-slate-700 outline-none"
+                ></textarea>
+                <div
+                  id="studio-preview"
+                  class="hidden min-h-[220px] px-4 py-2"
+                ></div>
+              </div>
+            </div>
+
+            <div
+              class="border-t border-slate-200 p-3 lg:min-h-0 lg:overflow-y-auto lg:border-l lg:border-t-0"
+            >
+              <p class="text-[11px] font-medium tracking-wide text-slate-400">
+                审核清单
+              </p>
+              <ul id="studio-checks" class="mt-1.5 space-y-1.5"></ul>
+              <p
+                class="mt-3 text-[11px] font-medium tracking-wide text-slate-400"
+              >
+                素材引用
+              </p>
+              <ul id="studio-refs" class="mt-1.5 space-y-1"></ul>
+              <p
+                class="mt-3 text-[11px] font-medium tracking-wide text-slate-400"
+              >
+                审核意见
+              </p>
+              <textarea
+                id="studio-note"
+                rows="2"
+                placeholder="退回修改或驳回时请填写原因"
+                class="mt-1 w-full rounded-lg border border-slate-200 px-2.5 py-1.5 text-[12px] outline-none focus:border-blue-500"
+              ></textarea>
+              <p
+                class="mt-3 text-[11px] font-medium tracking-wide text-slate-400"
+              >
+                发布设置
+              </p>
+              <select
+                class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[12px] text-slate-700 outline-none focus:border-blue-500"
+              >
+                <option>行业观察局（默认）</option>
+                <option>智造前沿</option>
+                <option>政策速递</option>
+                <option>品牌内参</option>
+              </select>
+              <div class="mt-1.5 flex gap-2 text-[11px] text-slate-600">
+                <label class="flex items-center gap-1"
+                  ><input
+                    type="radio"
+                    name="studioTiming"
+                    checked
+                    class="h-3 w-3"
+                  />立即发布</label
+                >
+                <label class="flex items-center gap-1"
+                  ><input
+                    type="radio"
+                    name="studioTiming"
+                    class="h-3 w-3"
+                  />定时发布</label
+                >
+              </div>
+              <div id="studio-edit-actions" class="mt-3 hidden grid gap-1.5">
+                <button
+                  type="button"
+                  data-action="studio-submit"
+                  class="rounded-lg bg-blue-600 px-3 py-2 text-[12px] font-medium text-white hover:bg-blue-700"
+                >
+                  保存并提交审核
+                </button>
+                <a
+                  href="publish.html"
+                  class="block rounded-lg border border-slate-200 px-3 py-2 text-center text-[12px] text-slate-600 hover:bg-slate-50"
+                >
+                  去发布页
+                </a>
+              </div>
+              <div id="studio-review-actions" class="mt-3 grid gap-1.5">
+                <button
+                  type="button"
+                  data-review="pass"
+                  class="rounded-lg bg-blue-600 px-3 py-2 text-[12px] font-medium text-white hover:bg-blue-700"
+                >
+                  审核通过并发布
+                </button>
+                <button
+                  type="button"
+                  data-review="return"
+                  class="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-[12px] font-medium text-amber-700 hover:bg-amber-100"
+                >
+                  退回修改
+                </button>
+                <button
+                  type="button"
+                  data-review="reject"
+                  class="rounded-lg border border-slate-200 px-3 py-2 text-[12px] text-slate-600 hover:bg-slate-50"
+                >
+                  驳回文章
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- qb:section:review-studio:end -->
+
+      <!-- qb:section:publish-modal:start -->
+      <div
+        id="publish-modal"
+        class="hidden fixed inset-0 z-40"
+        data-qb-section="publish-modal"
+      >
+        <div
+          class="absolute inset-0 bg-slate-900/40"
+          data-action="close-publish"
+        ></div>
+        <div
+          class="absolute left-1/2 top-1/2 w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-white shadow-2xl"
+        >
+          <div
+            class="flex items-center justify-between border-b border-slate-200 px-5 py-4"
+          >
+            <div>
+              <p class="text-[11px] text-slate-400">发布确认</p>
+              <h3 class="text-sm font-semibold">选择公众号与发布时间</h3>
+            </div>
+            <button
+              type="button"
+              data-action="close-publish"
+              class="w-8 h-8 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50"
+            >
+              ×
+            </button>
+          </div>
+          <div class="space-y-4 p-5 text-[13px]">
+            <p
+              id="publish-article"
+              class="rounded-lg bg-slate-50 px-3 py-2 text-[12px] text-slate-600"
+            >
+              —
+            </p>
+            <div>
+              <p class="text-[12px] font-medium text-slate-600">
+                选择微信公众号
+              </p>
+              <div class="mt-1.5 space-y-1.5">
+                <label
+                  class="flex items-center gap-2 rounded-lg border-2 border-blue-600 bg-blue-50/50 px-3 py-2"
+                  ><input
+                    type="radio"
+                    name="account"
+                    checked
+                    class="h-3.5 w-3.5"
+                  /><span class="font-medium text-slate-800">行业观察局</span
+                  ><span class="ml-auto text-[11px] text-emerald-600"
+                    >授权正常 · 默认</span
+                  ></label
+                >
+                <label
+                  class="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2"
+                  ><input
+                    type="radio"
+                    name="account"
+                    class="h-3.5 w-3.5"
+                  /><span class="text-slate-700">政策速递</span
+                  ><span class="ml-auto text-[11px] text-amber-600"
+                    >授权即将到期</span
+                  ></label
+                >
+                <label
+                  class="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2"
+                  ><input
+                    type="radio"
+                    name="account"
+                    class="h-3.5 w-3.5"
+                  /><span class="text-slate-700">智造前沿</span
+                  ><span class="ml-auto text-[11px] text-emerald-600"
+                    >授权正常</span
+                  ></label
+                >
+              </div>
+            </div>
+            <div>
+              <p class="text-[12px] font-medium text-slate-600">发布时间</p>
+              <div class="mt-1.5 flex gap-1.5 text-[12px]">
+                <label
+                  class="flex flex-1 items-center gap-2 rounded-lg border-2 border-blue-600 bg-blue-50/50 px-3 py-2"
+                  ><input
+                    type="radio"
+                    name="timing"
+                    checked
+                    class="h-3.5 w-3.5"
+                  />立即发布</label
+                >
+                <label
+                  class="flex flex-1 items-center gap-2 rounded-lg border border-slate-200 px-3 py-2"
+                  ><input
+                    type="radio"
+                    name="timing"
+                    class="h-3.5 w-3.5"
+                  />定时发布</label
+                >
+              </div>
+            </div>
+            <label
+              class="flex items-start gap-2 rounded-lg bg-amber-50 p-3 text-[12px] text-amber-800"
+            >
+              <input type="checkbox" checked class="mt-0.5 h-3.5 w-3.5" />
+              <span
+                >我已确认文章内容与排版已完成审核，并接受按微信公众号接口规则发布。</span
+              >
+            </label>
+          </div>
+          <div
+            class="flex justify-end gap-2 border-t border-slate-200 px-5 py-3"
+          >
+            <button
+              type="button"
+              data-action="close-publish"
+              class="rounded-lg border border-slate-200 px-3 py-2 text-[12px] text-slate-600 hover:bg-slate-50"
+            >
+              取消
+            </button>
+            <button
+              type="button"
+              data-action="confirm-publish"
+              class="rounded-lg bg-blue-600 px-3 py-2 text-[12px] font-medium text-white hover:bg-blue-700"
+            >
+              确认发布
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- qb:section:publish-modal:end -->
+
+      <!-- qb:section:app-overlays:start -->
+      <div
+        id="app-overlays"
+        class="fixed inset-0 z-50 pointer-events-none"
+        data-qb-section="app-overlays"
+        aria-live="polite"
+      ></div>
+      <!-- qb:section:app-overlays:end -->
+    </div>
+    <!-- qb:region:app-shell:end -->
+
+    <!-- qb:data:seed:start -->
+    <script id="qb-seed-data" type="application/json">
+      {
+        "version": "content.v1",
+        "articles": [
+          {
+            "id": "a1",
+            "title": "县域市场为何成为新能源车的新增长极",
+            "summary": "政策扩容与补能网络下沉叠加，县域消费正在成为新能源车销量的第二增长曲线。",
+            "cover": "https://ai-public.mastergo.com/ai/img_res/generated-6880c160-e554-4900-88dd-597c38f86fd9.jpg",
+            "source": "自动创作",
+            "account": "行业观察局",
+            "status": "待审核",
+            "reviewer": "—",
+            "created": "11-16 09:20",
+            "updated": "11-16 09:42",
+            "publishAt": "—"
+          },
+          {
+            "id": "a2",
+            "title": "补能网络下沉：380 万根公共桩之后",
+            "summary": "充电桩建设从数量扩张转向县域覆盖与快充占比提升。",
+            "cover": "https://ai-public.mastergo.com/ai/img_res/generated-e7a869fc-976d-4be7-9b7e-22b47fc39380.jpg",
+            "source": "自动创作",
+            "account": "行业观察局",
+            "status": "待审核",
+            "reviewer": "—",
+            "created": "11-16 09:18",
+            "updated": "11-16 09:18",
+            "publishAt": "—"
+          },
+          {
+            "id": "a3",
+            "title": "制造业数字化转型的五个关键落点",
+            "summary": "从设备联网到组织能力，中小企业数字化改造的现实路径。",
+            "cover": "https://ai-public.mastergo.com/ai/img_res/generated-7a46a73e-5cab-423a-a210-02ac15ff9285.jpg",
+            "source": "素材创作",
+            "account": "智造前沿",
+            "status": "审核通过",
+            "reviewer": "陈可",
+            "created": "11-15 18:30",
+            "updated": "11-16 08:05",
+            "publishAt": "待发布"
+          },
+          {
+            "id": "a4",
+            "title": "区域政策速览：11 月第 3 周重点公告汇总",
+            "summary": "本周共 14 项产业相关政策发布，涉及补贴、试点与标准建设。",
+            "cover": "https://ai-public.mastergo.com/ai/img_res/generated-5da1adf7-c5ca-4570-889c-b54f6508e04c.jpg",
+            "source": "自动创作",
+            "account": "政策速递",
+            "status": "发布失败",
+            "reviewer": "陈可",
+            "created": "11-15 17:12",
+            "updated": "11-16 07:48",
+            "publishAt": "11-16 07:48"
+          },
+          {
+            "id": "a5",
+            "title": "品牌内容运营月报：素材复用率提升至 41%",
+            "summary": "10 月共发布 32 篇内容，素材复用率与阅读完成率同步提升。",
+            "cover": "https://ai-public.mastergo.com/ai/img_res/generated-5da1adf7-c5ca-4570-889c-b54f6508e04c.jpg",
+            "source": "人工撰写",
+            "account": "品牌内参",
+            "status": "已发布",
+            "reviewer": "周明",
+            "created": "11-15 15:40",
+            "updated": "11-15 20:18",
+            "publishAt": "11-15 20:18"
+          },
+          {
+            "id": "a6",
+            "title": "动力电池回收的千亿生意",
+            "summary": "白名单扩容与梯次利用技术成熟，回收环节价值重估。",
+            "cover": "https://ai-public.mastergo.com/ai/img_res/generated-6880c160-e554-4900-88dd-597c38f86fd9.jpg",
+            "source": "主题创作",
+            "account": "行业观察局",
+            "status": "草稿",
+            "reviewer": "—",
+            "created": "11-15 11:20",
+            "updated": "11-15 14:02",
+            "publishAt": "—"
+          },
+          {
+            "id": "a7",
+            "title": "库存周期见底了吗：消费电子供应链观察",
+            "summary": "面板与存储器价格环比回升，渠道补库意愿增强。",
+            "cover": "https://ai-public.mastergo.com/ai/img_res/generated-e7a869fc-976d-4be7-9b7e-22b47fc39380.jpg",
+            "source": "素材创作",
+            "account": "智造前沿",
+            "status": "审核中",
+            "reviewer": "周明",
+            "created": "11-15 10:05",
+            "updated": "11-15 13:20",
+            "publishAt": "—"
+          }
+        ],
+        "publishes": [
+          {
+            "title": "区域政策速览：11 月第 3 周重点公告汇总",
+            "account": "政策速递",
+            "time": "11-16 07:48",
+            "status": "发布失败",
+            "result": "接口返回错误",
+            "reason": "45009 接口调用频率超出限制，建议 10 分钟后重试"
+          },
+          {
+            "title": "品牌内容运营月报：素材复用率提升至 41%",
+            "account": "品牌内参",
+            "time": "11-15 20:18",
+            "status": "已发布",
+            "result": "发布成功",
+            "reason": "—"
+          },
+          {
+            "title": "制造业数字化转型的五个关键落点",
+            "account": "智造前沿",
+            "time": "11-16 08:05",
+            "status": "定时待发",
+            "result": "排队中",
+            "reason": "计划 11-16 20:00 发布"
+          }
+        ]
+      }
+    </script>
+    <!-- qb:data:seed:end -->
+
+    <script>
+      (function () {
+        var seed = {};
+        try {
+          seed = JSON.parse(
+            document.getElementById("qb-seed-data").textContent || "{}",
+          );
+        } catch (e) {
+          seed = {};
+        }
+        var articles = (Array.isArray(seed.articles) ? seed.articles : []).map(
+          function (a) {
+            return {
+              id: String(a.id || ""),
+              title: String(a.title || "未命名文章"),
+              summary: String(a.summary || ""),
+              cover: String(a.cover || ""),
+              source: String(a.source || "自动创作"),
+              account: String(a.account || "—"),
+              status: String(a.status || "草稿"),
+              reviewer: String(a.reviewer || "—"),
+              created: String(a.created || ""),
+              updated: String(a.updated || ""),
+              publishAt: String(a.publishAt || "—"),
+            };
+          },
+        );
+        var publishes = (
+          Array.isArray(seed.publishes) ? seed.publishes : []
+        ).map(function (p) {
+          return {
+            title: String(p.title || ""),
+            account: String(p.account || ""),
+            time: String(p.time || ""),
+            status: String(p.status || ""),
+            result: String(p.result || ""),
+            reason: String(p.reason || "—"),
+          };
+        });
+
+        function el(tag, cls, text) {
+          var node = document.createElement(tag);
+          if (cls) node.className = cls;
+          if (text != null) node.textContent = String(text);
+          return node;
+        }
+        function toast(message) {
+          var host = document.getElementById("app-overlays");
+          if (!host) return;
+          host.textContent = "";
+          host.appendChild(
+            el(
+              "div",
+              "absolute bottom-5 left-1/2 -translate-x-1/2 rounded-xl bg-slate-900 px-4 py-2.5 text-[13px] text-white shadow-lg",
+              message,
+            ),
+          );
+          host.classList.remove("pointer-events-none");
+          setTimeout(function () {
+            host.textContent = "";
+            host.classList.add("pointer-events-none");
+          }, 2400);
+        }
+        function statusCls(status) {
+          if (status === "草稿") return "bg-slate-100 text-slate-600";
+          if (status === "待审核") return "bg-amber-50 text-amber-700";
+          if (status === "审核中") return "bg-blue-50 text-blue-700";
+          if (status === "审核通过") return "bg-indigo-50 text-indigo-700";
+          if (status === "审核驳回") return "bg-red-50 text-red-600";
+          if (status === "待发布") return "bg-cyan-50 text-cyan-700";
+          if (status === "发布中") return "bg-blue-50 text-blue-700";
+          if (status === "已发布") return "bg-emerald-50 text-emerald-700";
+          return "bg-red-50 text-red-600";
+        }
+
+        var statusOrder = [
+          "全部",
+          "草稿",
+          "待审核",
+          "审核中",
+          "审核通过",
+          "待发布",
+          "已发布",
+          "发布失败",
+        ];
+        var currentStatus = "全部";
+        var sourceFilter = "all";
+        var accountFilter = "all";
+        var keyword = "";
+        var picked = {};
+
+        var chips = document.getElementById("status-chips");
+        function renderChips() {
+          chips.textContent = "";
+          statusOrder.forEach(function (name) {
+            var count =
+              name === "全部"
+                ? articles.length
+                : articles.filter(function (a) {
+                    return a.status === name;
+                  }).length;
+            var btn = el(
+              "button",
+              "rounded-full px-2.5 py-1 " +
+                (name === currentStatus
+                  ? "bg-slate-900 text-white"
+                  : "border border-slate-200 text-slate-600 hover:bg-slate-50"),
+            );
+            btn.type = "button";
+            btn.dataset.statusTab = name;
+            btn.textContent = name + " " + count;
+            chips.appendChild(btn);
+          });
+        }
+
+        var rows = document.getElementById("article-rows");
+        function renderArticles() {
+          var list = articles.filter(function (a) {
+            if (currentStatus !== "全部" && a.status !== currentStatus)
+              return false;
+            if (sourceFilter !== "all" && a.source !== sourceFilter)
+              return false;
+            if (accountFilter !== "all" && a.account !== accountFilter)
+              return false;
+            if (keyword && a.title.toLowerCase().indexOf(keyword) < 0)
+              return false;
+            return true;
+          });
+          rows.textContent = "";
+          if (!list.length) {
+            var tr = el("tr");
+            var td = el(
+              "td",
+              "px-4 py-12 text-center text-[12px] text-slate-400",
+              "当前筛选条件下没有文章，试试切换状态或清空关键词",
+            );
+            td.colSpan = 9;
+            tr.appendChild(td);
+            rows.appendChild(tr);
+          }
+          list.forEach(function (a) {
+            var tr = el("tr", "hover:bg-slate-50/70");
+            var tdPick = el("td", "px-4 py-3");
+            var box = document.createElement("input");
+            box.type = "checkbox";
+            box.className = "h-3.5 w-3.5 rounded border-slate-300";
+            box.dataset.pick = a.id;
+            box.checked = !!picked[a.id];
+            tdPick.appendChild(box);
+            tr.appendChild(tdPick);
+
+            var tdMain = el("td", "px-3 py-3");
+            var wrap = el("div", "flex items-center gap-2.5");
+            var img = document.createElement("img");
+            img.src = a.cover;
+            img.alt = "";
+            img.className =
+              "h-10 w-16 shrink-0 rounded-md object-cover bg-slate-100";
+            img.loading = "lazy";
+            wrap.appendChild(img);
+            var text = el("div", "min-w-0 max-w-[300px]");
+            var titleLink = el(
+              "a",
+              "block truncate font-medium text-slate-800 hover:text-blue-700",
+              a.title,
+            );
+            titleLink.href = "editor.html";
+            text.appendChild(titleLink);
+            text.appendChild(
+              el("p", "mt-0.5 truncate text-[11px] text-slate-400", a.summary),
+            );
+            wrap.appendChild(text);
+            tdMain.appendChild(wrap);
+            tr.appendChild(tdMain);
+
+            tr.appendChild(el("td", "px-3 py-3 text-slate-500", a.source));
+            tr.appendChild(el("td", "px-3 py-3 text-slate-600", a.account));
+            var tdStatus = el("td", "px-3 py-3");
+            tdStatus.appendChild(
+              el(
+                "span",
+                "rounded-full px-2 py-0.5 text-[11px] font-medium " +
+                  statusCls(a.status),
+                a.status,
+              ),
+            );
+            tr.appendChild(tdStatus);
+            tr.appendChild(el("td", "px-3 py-3 text-slate-500", a.reviewer));
+            var tdTime = el("td", "px-3 py-3 text-[11px] text-slate-500");
+            tdTime.appendChild(el("p", null, a.created));
+            tdTime.appendChild(el("p", "text-slate-400", a.updated));
+            tr.appendChild(tdTime);
+            tr.appendChild(el("td", "px-3 py-3 text-slate-500", a.publishAt));
+
+            var tdOps = el("td", "px-4 py-3");
+            var ops = el("div", "flex items-center gap-2 text-[11px]");
+            var editLink = el(
+              "a",
+              "font-medium text-blue-600 hover:text-blue-700",
+              "编辑",
+            );
+            editLink.href = "editor.html?article=" + a.id;
+            ops.appendChild(editLink);
+            var reviewBtn = el(
+              "button",
+              "text-slate-600 hover:text-slate-900",
+              a.status === "待审核" || a.status === "审核中" ? "审核" : "复核",
+            );
+            reviewBtn.type = "button";
+            reviewBtn.dataset.review = a.id;
+            ops.appendChild(reviewBtn);
+            var publishBtn = el(
+              "a",
+              a.status === "已发布" || a.status === "发布失败"
+                ? "text-slate-400"
+                : "text-slate-600 hover:text-slate-900",
+              a.status === "发布失败" ? "重新发布" : "发布",
+            );
+            publishBtn.href = "publish.html?article=" + a.id;
+            ops.appendChild(publishBtn);
+            tdOps.appendChild(ops);
+            tr.appendChild(tdOps);
+            rows.appendChild(tr);
+          });
+          document.getElementById("article-count").textContent =
+            "共 " + list.length + " 篇";
+          var ids = Object.keys(picked).filter(function (id) {
+            return picked[id];
+          });
+          document.getElementById("picked-tip").textContent = ids.length
+            ? "已勾选 " + ids.length + " 篇文章"
+            : "未勾选文章";
+        }
+
+        var publishRows = document.getElementById("publish-rows");
+        function renderPublishes() {
+          publishRows.textContent = "";
+          publishes.forEach(function (p) {
+            var tr = el("tr", "hover:bg-slate-50/70");
+            tr.appendChild(
+              el(
+                "td",
+                "px-5 py-3 max-w-[320px] truncate font-medium text-slate-800",
+                p.title,
+              ),
+            );
+            tr.appendChild(el("td", "px-3 py-3 text-slate-600", p.account));
+            tr.appendChild(el("td", "px-3 py-3 text-slate-500", p.time));
+            var tdStatus = el("td", "px-3 py-3");
+            var cls =
+              p.status === "已发布"
+                ? "bg-emerald-50 text-emerald-700"
+                : p.status === "发布失败"
+                  ? "bg-red-50 text-red-600"
+                  : "bg-blue-50 text-blue-700";
+            tdStatus.appendChild(
+              el(
+                "span",
+                "rounded-full px-2 py-0.5 text-[11px] font-medium " + cls,
+                p.status,
+              ),
+            );
+            tr.appendChild(tdStatus);
+            tr.appendChild(el("td", "px-3 py-3 text-slate-500", p.result));
+            tr.appendChild(
+              el(
+                "td",
+                "px-3 py-3 max-w-[280px] truncate text-slate-500",
+                p.reason,
+              ),
+            );
+            var tdOps = el("td", "px-5 py-3");
+            var btn = el(
+              "a",
+              "text-[11px] font-medium text-blue-600 hover:text-blue-700",
+              p.status === "发布失败" ? "重试" : "查看",
+            );
+            btn.href = "publish.html";
+            tdOps.appendChild(btn);
+            tr.appendChild(tdOps);
+            publishRows.appendChild(tr);
+          });
+        }
+
+        renderChips();
+        renderArticles();
+        renderPublishes();
+        updateQueueCount();
+
+        var currentArticleId = "";
+
+        var reviewDrawer = document.getElementById("review-drawer");
+        function openReview(id) {
+          var article = articles.filter(function (a) {
+            return a.id === id;
+          })[0];
+          if (!article) return;
+          currentArticleId = id;
+          document.getElementById("review-title").textContent = article.title;
+          document.getElementById("review-meta").textContent =
+            article.source +
+            " · " +
+            article.account +
+            " · 更新于 " +
+            article.updated;
+          document.getElementById("review-summary").textContent =
+            article.summary;
+          var checks = [
+            "标题准确，无夸大与误导",
+            "正文事实与数据可追溯",
+            "引用来源完整、无错误引用",
+            "图片版权与适用性确认",
+            "符合公众号内容规范",
+            "排版在手机端显示正常",
+          ];
+          var ul = document.getElementById("review-checks");
+          ul.textContent = "";
+          checks.forEach(function (text) {
+            var li = el("li");
+            var label = el(
+              "label",
+              "flex items-start gap-2 rounded-lg border border-slate-200 px-3 py-2 text-[12px] text-slate-600",
+            );
+            var box = document.createElement("input");
+            box.type = "checkbox";
+            box.className = "mt-0.5 h-3.5 w-3.5";
+            box.checked = true;
+            label.appendChild(box);
+            label.appendChild(el("span", null, text));
+            li.appendChild(label);
+            ul.appendChild(li);
+          });
+          var refs = [
+            "新能源汽车下乡政策落地 · 中国汽车工业协会",
+            "充电基础设施月度数据 · 中国充电联盟",
+            "县域充电网络建设补贴细则 · 内部上传",
+          ];
+          var refUl = document.getElementById("review-refs");
+          refUl.textContent = "";
+          refs.forEach(function (t) {
+            var li = el(
+              "li",
+              "flex items-center gap-2 rounded-lg bg-slate-50 px-3 py-2",
+            );
+            li.appendChild(el("span", "min-w-0 flex-1 truncate", t));
+            li.appendChild(
+              el("span", "shrink-0 text-[11px] text-slate-400", "已引用"),
+            );
+            refUl.appendChild(li);
+          });
+          document.getElementById("review-note").value = "";
+          reviewDrawer.classList.remove("hidden");
+        }
+        function closeReview() {
+          reviewDrawer.classList.add("hidden");
+          if (studio) studio.classList.add("hidden");
+          updateQueueCount();
+        }
+
+        var queueDrawer = document.getElementById("review-queue");
+        var queueBody = document.getElementById("queue-body");
+        function pendingList() {
+          return articles.filter(function (a) {
+            return a.status === "待审核" || a.status === "审核中";
+          });
+        }
+        function updateQueueCount() {
+          var pending = pendingList().length;
+          var badge = document.getElementById("top-queue-count");
+          if (badge) badge.textContent = pending;
+          var queueCount = document.getElementById("queue-count");
+          if (queueCount) queueCount.textContent = pending + " 篇待处理";
+        }
+        function renderQueue() {
+          var list = pendingList();
+          queueBody.textContent = "";
+          if (!list.length) {
+            queueBody.appendChild(
+              el(
+                "li",
+                "rounded-xl border border-dashed border-slate-200 px-4 py-10 text-center text-[12px] text-slate-400",
+                "审核队列已清空，暂时没有待处理文章",
+              ),
+            );
+            updateQueueCount();
+            return;
+          }
+          list.forEach(function (a) {
+            var li = el("li", "rounded-xl border border-slate-200 p-3");
+            var head = el("div", "flex items-start gap-2");
+            var mid = el("div", "min-w-0 flex-1");
+            mid.appendChild(
+              el(
+                "p",
+                "truncate text-[13px] font-medium text-slate-800",
+                a.title,
+              ),
+            );
+            mid.appendChild(
+              el(
+                "p",
+                "mt-0.5 text-[11px] text-slate-400",
+                a.source + " · " + a.account + " · " + a.updated,
+              ),
+            );
+            head.appendChild(mid);
+            head.appendChild(
+              el(
+                "span",
+                "shrink-0 rounded-full px-2 py-0.5 text-[11px] " +
+                  statusCls(a.status),
+                a.status,
+              ),
+            );
+            li.appendChild(head);
+            var foot = el(
+              "div",
+              "mt-2 flex items-center justify-between border-t border-slate-100 pt-2 text-[11px] text-slate-400",
+            );
+            foot.appendChild(
+              el("span", null, "审核人：" + a.reviewer + " · 引用素材 3 条"),
+            );
+            var btn = el(
+              "button",
+              "rounded-lg bg-blue-600 px-2.5 py-1 font-medium text-white hover:bg-blue-700",
+              "开始审核",
+            );
+            btn.type = "button";
+            btn.dataset.queueReview = a.id;
+            foot.appendChild(btn);
+            li.appendChild(foot);
+            queueBody.appendChild(li);
+          });
+          updateQueueCount();
+        }
+        function openQueue() {
+          renderQueue();
+          queueDrawer.classList.remove("hidden");
+        }
+
+        var studio = document.getElementById("review-studio");
+        var studioTitle = document.getElementById("studio-title");
+        var studioMd = document.getElementById("studio-md");
+        var studioPreview = document.getElementById("studio-preview");
+        var studioChecks = document.getElementById("studio-checks");
+        var studioRefs = document.getElementById("studio-refs");
+        var studioCover = document.getElementById("studio-cover");
+        var studioCoverName = document.getElementById("studio-cover-name");
+        var studioWordcount = document.getElementById("studio-wordcount");
+        var studioStatus = document.getElementById("studio-status");
+        var activeArticleTpl = 0;
+        var activeCoverTpl = 0;
+        var articleTemplates = [
+          {
+            name: "行业快讯",
+            note: "600-900 字 · 每日更新",
+            md: "## 事件概览\n\n多部门联合发布新一轮新能源汽车下乡活动方案，县域市场与补能设施建设同步推进。\n\n> 关键信息：政策覆盖车型扩充，充换电网络建设首次纳入同一支持体系。\n\n## 三个值得关注的信号\n\n- 县域用户判断标准从价格转向补能便利性\n- 公共充电桩保有量突破 380 万台\n- 快充占比提升至 46%，跨城场景开始成立\n\n## 编辑提示\n\n本文依据 3 条素材生成，发布前请核对数据与引用来源。",
+          },
+          {
+            name: "深度分析",
+            note: "1800 字以上 · 专题",
+            md: "## 为什么现在谈县域市场\n\n新能源车渗透率突破 40% 之后，增量从哪里来成为行业最关心的问题。答案正在从一二线城市转向县域市场。\n\n### 政策扩容打开了第一道门\n\n新一轮下乡方案在车型目录上做了扩充，也把补能设施建设纳入同一套支持体系。\n\n### 补能下沉决定天花板\n\n县域新增桩中快充占比提升至 46%，这比总量增长更值得关注，因为它直接决定了跨城出行场景是否成立。\n\n> 补能网络不是配套，而是县域市场的入场券。\n\n## 结论\n\n县域市场连接政策、基础设施与消费信心三条线索，可持续产出深度内容。",
+          },
+          {
+            name: "政策解读",
+            note: "800-1200 字 · 解读",
+            md: "## 政策要点\n\n- 适用范围：县域及以下市场的乘用车与轻型商用车\n- 支持方式：购车补贴与充换电设施建设并行\n- 执行时间：自发布之日起分批推进\n\n## 与上一版的区别\n\n本版首次把补能设施建设纳入同一支持体系，并对县域覆盖率提出量化要求。\n\n## 对公众号内容的影响\n\n政策类稿件需严格引用原文表述，避免主观推断与数字夸大。",
+          },
+          {
+            name: "周报汇总",
+            note: "1500-2000 字 · 周期",
+            md: "## 本周要闻\n\n1. 新能源汽车下乡政策扩容\n2. 动力电池回收白名单更新\n3. 充电基础设施月度数据发布\n\n## 数据速览\n\n- 公共充电桩新增 8.7 万台\n- 回收网络覆盖率提升至 62%\n\n## 下周关注\n\n行业年会召开，预计发布下一年度技术路线图。",
+          },
+          {
+            name: "品牌活动",
+            note: "带封面与图文的推文",
+            md: "## 活动主题\n\n把县域用户真正的用车场景讲清楚，比讲参数更有说服力。\n\n## 内容结构\n\n- 开场：一个真实的县域充电场景\n- 中段：政策与基础设施数据\n- 结尾：用户行动建议\n\n> 品牌内容的目标是建立信任，而不是堆叠卖点。",
+          },
+        ];
+        var coverTemplates = [
+          {
+            name: "数据科技",
+            url: "https://ai-public.mastergo.com/ai/img_res/generated-6880c160-e554-4900-88dd-597c38f86fd9.jpg",
+          },
+          {
+            name: "城市观察",
+            url: "https://ai-public.mastergo.com/ai/img_res/generated-e7a869fc-976d-4be7-9b7e-22b47fc39380.jpg",
+          },
+          {
+            name: "政策文件",
+            url: "https://ai-public.mastergo.com/ai/img_res/generated-7a46a73e-5cab-423a-a210-02ac15ff9285.jpg",
+          },
+          {
+            name: "品牌物料",
+            url: "https://ai-public.mastergo.com/ai/img_res/generated-5da1adf7-c5ca-4570-889c-b54f6508e04c.jpg",
+          },
+        ];
+
+        function appendInline(parent, text) {
+          String(text || "")
+            .split("**")
+            .forEach(function (part, index) {
+              if (!part) return;
+              if (index % 2 === 1) {
+                parent.appendChild(
+                  el("strong", "font-semibold text-slate-900", part),
+                );
+              } else {
+                parent.appendChild(document.createTextNode(part));
+              }
+            });
+        }
+        function renderMarkdown(text) {
+          studioPreview.textContent = "";
+          var list = null;
+          String(text || "")
+            .split("\n")
+            .forEach(function (line) {
+              var raw = line.trim();
+              if (!raw) {
+                list = null;
+                return;
+              }
+              if (raw.indexOf("### ") === 0) {
+                studioPreview.appendChild(
+                  el(
+                    "h3",
+                    "mt-3 text-[15px] font-semibold tracking-tight text-slate-900",
+                    raw.slice(4),
+                  ),
+                );
+                list = null;
+                return;
+              }
+              if (raw.indexOf("## ") === 0) {
+                studioPreview.appendChild(
+                  el(
+                    "h2",
+                    "mt-4 border-l-4 border-blue-600 pl-2 text-[16px] font-semibold tracking-tight text-slate-900",
+                    raw.slice(3),
+                  ),
+                );
+                list = null;
+                return;
+              }
+              if (raw.indexOf("> ") === 0) {
+                var quote = el(
+                  "blockquote",
+                  "my-2 rounded-r-lg bg-blue-50/70 px-3 py-2 text-[13px] leading-7 text-slate-700",
+                );
+                appendInline(quote, raw.slice(2));
+                studioPreview.appendChild(quote);
+                list = null;
+                return;
+              }
+              if (raw.indexOf("- ") === 0) {
+                if (!list) {
+                  list = el(
+                    "ul",
+                    "my-2 pl-5 text-[13px] leading-7 text-slate-700",
+                  );
+                  studioPreview.appendChild(list);
+                }
+                var li = el("li", "list-disc", "");
+                appendInline(li, raw.slice(2));
+                list.appendChild(li);
+                return;
+              }
+              list = null;
+              var p = el("p", "my-2 text-[13px] leading-7 text-slate-700");
+              appendInline(p, raw);
+              studioPreview.appendChild(p);
+            });
+        }
+        function updateStudioStats() {
+          var plain = String(studioMd.value || "")
+            .replace(/[#>*`\-\[\]()!]/g, "")
+            .replace(/\s/g, "");
+          studioWordcount.textContent = plain.length + " 字";
+        }
+        function updateStudioPreview() {
+          renderMarkdown(studioMd.value);
+          applyLayoutClass();
+          updateStudioStats();
+        }
+        function renderStudioTemplates() {
+          var tplWrap = document.getElementById("studio-article-templates");
+          tplWrap.textContent = "";
+          articleTemplates.forEach(function (tpl, index) {
+            var btn = el(
+              "button",
+              "w-full rounded-lg border px-2.5 py-2 text-left text-[12px] " +
+                (index === activeArticleTpl
+                  ? "border-blue-500 bg-blue-50/60 text-blue-700"
+                  : "border-slate-200 text-slate-600 hover:bg-slate-50"),
+            );
+            btn.type = "button";
+            btn.dataset.articleTpl = String(index);
+            btn.appendChild(el("span", "block font-medium", tpl.name));
+            btn.appendChild(
+              el("span", "mt-0.5 block text-[10px] text-slate-400", tpl.note),
+            );
+            tplWrap.appendChild(btn);
+          });
+
+          var coverWrap = document.getElementById("studio-cover-templates");
+          coverWrap.textContent = "";
+          coverTemplates.forEach(function (cover, index) {
+            var btn = el(
+              "button",
+              "overflow-hidden rounded-lg border " +
+                (index === activeCoverTpl
+                  ? "border-blue-500"
+                  : "border-slate-200"),
+            );
+            btn.type = "button";
+            btn.dataset.coverTpl = String(index);
+            var img = document.createElement("img");
+            img.src = cover.url;
+            img.alt = cover.name;
+            img.className = "h-14 w-full object-cover";
+            btn.appendChild(img);
+            btn.appendChild(
+              el(
+                "span",
+                "block px-1 py-1 text-[10px] text-slate-500",
+                cover.name,
+              ),
+            );
+            coverWrap.appendChild(btn);
+          });
+        }
+        function renderStudioChecks() {
+          var checks = [
+            "标题准确，无夸大与误导",
+            "正文事实与数据可追溯",
+            "引用来源完整、无错误引用",
+            "图片版权与适用性确认",
+            "符合公众号内容规范",
+            "排版在手机端显示正常",
+          ];
+          studioChecks.textContent = "";
+          checks.forEach(function (text) {
+            var li = el("li");
+            var label = el(
+              "label",
+              "flex items-start gap-2 rounded-lg border border-slate-200 px-2.5 py-1.5 text-[11px] text-slate-600",
+            );
+            var box = document.createElement("input");
+            box.type = "checkbox";
+            box.className = "mt-0.5 h-3 w-3 rounded border-slate-300";
+            box.checked = true;
+            label.appendChild(box);
+            label.appendChild(el("span", null, text));
+            li.appendChild(label);
+            studioChecks.appendChild(li);
+          });
+        }
+        function renderStudioRefs() {
+          var refs = [
+            "新能源汽车下乡政策落地 · 中国汽车工业协会",
+            "充电基础设施月度数据 · 中国充电联盟",
+            "县域充电网络建设补贴细则 · 内部上传",
+          ];
+          studioRefs.textContent = "";
+          refs.forEach(function (text) {
+            var li = el(
+              "li",
+              "felx flex items-center gap-2 rounded-lg bg-slate-50 px-2.5 py-1.5 text-[11px]",
+            );
+            li.appendChild(
+              el("span", "min-w-0 flex-1 truncate text-slate-600", text),
+            );
+            li.appendChild(
+              el("span", "shrink-0 text-[10px] text-slate-400", "已引用"),
+            );
+            studioRefs.appendChild(li);
+          });
+        }
+        function insertMd(before, after) {
+          var start = studioMd.selectionStart || 0;
+          var end = studioMd.selectionEnd || 0;
+          var value = studioMd.value || "";
+          var selected = value.slice(start, end) || "正文";
+          studioMd.value =
+            value.slice(0, start) +
+            before +
+            selected +
+            after +
+            value.slice(end);
+          studioMd.focus();
+          studioMd.selectionStart = start + before.length;
+          studioMd.selectionEnd = start + before.length + selected.length;
+          updateStudioPreview();
+        }
+        function applyMd(key) {
+          var map = {
+            h2: ["## ", ""],
+            h3: ["### ", ""],
+            bold: ["**", "**"],
+            italic: ["*", "*"],
+            quote: ["> ", ""],
+            list: ["- ", ""],
+            link: ["[链接标题](", ")"],
+            image: ["![图注](", ")"],
+            code: ["`", "`"],
+          };
+          var pair = map[key];
+          if (pair) insertMd(pair[0], pair[1]);
+        }
+        function switchMdView(view) {
+          var isPreview = view === "preview";
+          studioMd.classList.toggle("hidden", isPreview);
+          studioPreview.classList.toggle("hidden", !isPreview);
+          Array.prototype.forEach.call(
+            document.querySelectorAll("[data-mdview]"),
+            function (b) {
+              b.className =
+                "rounded-md px-2 py-1 " +
+                (b.dataset.mdview === view
+                  ? "bg-slate-900 text-white"
+                  : "text-slate-600");
+            },
+          );
+        }
+        function applyArticleTpl(index) {
+          if (!articleTemplates[index]) return;
+          activeArticleTpl = index;
+          studioMd.value = articleTemplates[index].md;
+          renderStudioTemplates();
+          updateStudioPreview();
+          switchMdView("edit");
+          toast("已套用「" + articleTemplates[index].name + "」文档模板");
+        }
+        function applyCoverTpl(index) {
+          if (!coverTemplates[index]) return;
+          activeCoverTpl = index;
+          studioCover.src = coverTemplates[index].url;
+          studioCoverName.textContent =
+            coverTemplates[index].name + " · 默认尺寸";
+          renderStudioTemplates();
+          toast("封面已切换为「" + coverTemplates[index].name + "」");
+        }
+        function openStudio(id) {
+          var article = articles.filter(function (a) {
+            return a.id === id;
+          })[0];
+          if (!article) return;
+          currentArticleId = id;
+          studioTitle.value = article.title;
+          studioStatus.textContent = article.status;
+          studioStatus.className =
+            "rounded-full px-2 py-0.5 text-[11px] font-medium " +
+            statusCls(article.status);
+          document.getElementById("studio-meta").textContent =
+            article.source +
+            " · " +
+            article.account +
+            " · 更新于 " +
+            article.updated;
+          studioCover.src = article.cover;
+          studioCoverName.textContent = "默认封面 · " + article.account;
+          document.getElementById("studio-note").value = "";
+          renderStudioTemplates();
+          renderStudioChecks();
+          renderStudioRefs();
+          studioMd.value = articleTemplates[activeArticleTpl].md;
+          switchMdView("edit");
+          updateStudioPreview();
+          studio.classList.remove("hidden");
+        }
+        function closeStudio() {
+          studio.classList.add("hidden");
+        }
+        studioMd.addEventListener("input", updateStudioPreview);
+
+        var studioMode = "review";
+        var activeLayout = "clean";
+        var layoutStyles = {
+          clean:
+            "mt-4 border-l-4 border-blue-600 pl-2 text-[16px] font-semibold tracking-tight text-slate-900",
+          business:
+            "mt-4 rounded bg-slate-900 px-2 py-1 text-[16px] font-semibold tracking-tight text-white",
+          warm: "mt-4 border-b-2 border-amber-300 pb-1 text-[16px] font-semibold tracking-tight text-amber-800",
+        };
+        function applyLayoutClass() {
+          var cls = layoutStyles[activeLayout] || layoutStyles.clean;
+          Array.prototype.forEach.call(
+            studioPreview.querySelectorAll("h2"),
+            function (h) {
+              h.className = cls;
+            },
+          );
+        }
+        function syncLayoutButtons() {
+          Array.prototype.forEach.call(
+            document.querySelectorAll("[data-layout]"),
+            function (b) {
+              b.className =
+                "rounded-lg border px-1 py-1.5 " +
+                (b.dataset.layout === activeLayout
+                  ? "border-2 border-blue-600 bg-blue-50/60 text-blue-700"
+                  : "border-slate-200 text-slate-600 hover:bg-slate-50");
+            },
+          );
+        }
+        function setStudioMode(mode) {
+          studioMode = mode === "edit" ? "edit" : "review";
+          var label = document.getElementById("studio-mode");
+          if (label)
+            label.textContent =
+              studioMode === "edit" ? "编辑工作台" : "审核发布工作台";
+          var reviewActions = document.getElementById("studio-review-actions");
+          var editActions = document.getElementById("studio-edit-actions");
+          if (reviewActions)
+            reviewActions.classList.toggle("hidden", studioMode !== "review");
+          if (editActions)
+            editActions.classList.toggle("hidden", studioMode !== "edit");
+          syncLayoutButtons();
+        }
+        function openEditorStudio(id) {
+          setStudioMode("edit");
+          openStudio(id);
+        }
+        function openReviewStudio(id) {
+          setStudioMode("review");
+          openStudio(id);
+        }
+
+        var docInput = document.getElementById("studio-doc-input");
+        var coverInput = document.getElementById("studio-cover-input");
+        docInput.addEventListener("change", function (event) {
+          var file = event.target.files && event.target.files[0];
+          if (!file) return;
+          var reader = new FileReader();
+          reader.onload = function () {
+            var text = String(reader.result || "");
+            if (!text.trim()) {
+              toast("文件内容为空，请重新选择");
+              return;
+            }
+            articleTemplates.push({
+              name: "上传 · " + file.name.replace(/\.[^.]+$/, ""),
+              note: "自定义模板 · " + file.name.split(".").pop().toUpperCase(),
+              md: text,
+            });
+            activeArticleTpl = articleTemplates.length - 1;
+            studioMd.value = text;
+            renderStudioTemplates();
+            switchMdView("edit");
+            updateStudioPreview();
+            toast("文档模板已上传并套用");
+          };
+          reader.onerror = function () {
+            toast("文件读取失败，请重新选择");
+          };
+          reader.readAsText(file);
+          event.target.value = "";
+        });
+        coverInput.addEventListener("change", function (event) {
+          var file = event.target.files && event.target.files[0];
+          if (!file) return;
+          var reader = new FileReader();
+          reader.onload = function () {
+            var url = String(reader.result || "");
+            if (!url) {
+              toast("图片读取失败，请重新选择");
+              return;
+            }
+            coverTemplates.push({
+              name: "上传 · " + file.name.replace(/\.[^.]+$/, ""),
+              url: url,
+            });
+            activeCoverTpl = coverTemplates.length - 1;
+            studioCover.src = url;
+            studioCoverName.textContent = "上传封面 · " + file.name;
+            renderStudioTemplates();
+            toast("封面已上传并替换当前文章封面");
+          };
+          reader.onerror = function () {
+            toast("图片读取失败，请重新选择");
+          };
+          reader.readAsDataURL(file);
+          event.target.value = "";
+        });
+
+        var publishModal = document.getElementById("publish-modal");
+        function openPublish(id) {
+          var article = articles.filter(function (a) {
+            return a.id === id;
+          })[0];
+          document.getElementById("publish-article").textContent = article
+            ? article.title
+            : "区域政策速览：11 月第 3 周重点公告汇总";
+          currentArticleId = id || "";
+          publishModal.classList.remove("hidden");
+        }
+        function closePublish() {
+          publishModal.classList.add("hidden");
+        }
+
+        document
+          .getElementById("app")
+          .addEventListener("click", function (event) {
+            var target = event.target;
+            var editBtn = target.closest("[data-edit]");
+            if (editBtn) {
+              openEditorStudio(editBtn.dataset.edit);
+              return;
+            }
+            var layoutBtn = target.closest("[data-layout]");
+            if (layoutBtn) {
+              activeLayout = layoutBtn.dataset.layout;
+              syncLayoutButtons();
+              applyLayoutClass();
+              toast("已切换排版样式");
+              return;
+            }
+            if (target.closest('[data-action="upload-doc-tpl"]')) {
+              docInput.click();
+              return;
+            }
+            if (target.closest('[data-action="upload-cover-tpl"]')) {
+              coverInput.click();
+              return;
+            }
+            if (target.closest('[data-action="studio-typeset"]')) {
+              switchMdView("preview");
+              applyLayoutClass();
+              toast("已按当前排版样式完成一键排版，可切换回编辑继续修改");
+              return;
+            }
+            if (target.closest('[data-action="studio-submit"]')) {
+              var editing = articles.filter(function (a) {
+                return a.id === currentArticleId;
+              })[0];
+              if (editing) {
+                editing.status = "待审核";
+                editing.updated = "刚刚";
+              }
+              closeStudio();
+              renderChips();
+              renderArticles();
+              toast("已保存并提交审核");
+              return;
+            }
+            if (target.closest('[data-action="studio-publish"]')) {
+              closeStudio();
+              openPublish(currentArticleId);
+              return;
+            }
+            if (target.closest('[data-action="close-studio"]')) {
+              closeStudio();
+              return;
+            }
+            if (target.closest('[data-action="studio-save"]')) {
+              toast("草稿已保存，可继续审核或稍后处理");
+              return;
+            }
+            var mdBtn = target.closest("[data-md]");
+            if (mdBtn) {
+              applyMd(mdBtn.dataset.md);
+              return;
+            }
+            var mdViewBtn = target.closest("[data-mdview]");
+            if (mdViewBtn) {
+              switchMdView(mdViewBtn.dataset.mdview);
+              return;
+            }
+            var articleTplBtn = target.closest("[data-article-tpl]");
+            if (articleTplBtn) {
+              applyArticleTpl(Number(articleTplBtn.dataset.articleTpl));
+              return;
+            }
+            var coverTplBtn = target.closest("[data-cover-tpl]");
+            if (coverTplBtn) {
+              applyCoverTpl(Number(coverTplBtn.dataset.coverTpl));
+              return;
+            }
+            if (target.closest('[data-action="open-review-queue"]')) {
+              openQueue();
+              return;
+            }
+            if (target.closest('[data-action="close-queue"]')) {
+              queueDrawer.classList.add("hidden");
+              return;
+            }
+            var queueReviewBtn = target.closest("[data-queue-review]");
+            if (queueReviewBtn) {
+              queueDrawer.classList.add("hidden");
+              openReviewStudio(queueReviewBtn.dataset.queueReview);
+              return;
+            }
+            var statusBtn = target.closest("[data-status-tab]");
+            if (statusBtn) {
+              currentStatus = statusBtn.dataset.statusTab;
+              renderChips();
+              renderArticles();
+              return;
+            }
+            var reviewBtn = target.closest("[data-review]");
+            if (reviewBtn) {
+              var action = reviewBtn.dataset.review;
+              if (
+                action === "pass" ||
+                action === "return" ||
+                action === "reject"
+              ) {
+                var article = articles.filter(function (a) {
+                  return a.id === currentArticleId;
+                })[0];
+                if (!article) {
+                  closeReview();
+                  return;
+                }
+                if (action === "pass") {
+                  article.status = "待发布";
+                  article.reviewer = "林晓";
+                  toast("审核通过，文章已进入待发布");
+                }
+                if (action === "return") {
+                  article.status = "审核驳回";
+                  article.reviewer = "林晓";
+                  toast("已退回修改，修改后可再次提交审核");
+                }
+                if (action === "reject") {
+                  article.status = "审核驳回";
+                  article.reviewer = "林晓";
+                  toast("文章已驳回");
+                }
+                closeReview();
+                renderChips();
+                renderArticles();
+                return;
+              }
+              openReviewStudio(action);
+              return;
+            }
+            if (target.closest('[data-action="close-review"]')) {
+              closeReview();
+              return;
+            }
+            var publishBtn = target.closest("[data-publish]");
+            if (publishBtn) {
+              openPublish(publishBtn.dataset.publish);
+              return;
+            }
+            if (target.closest('[data-action="close-publish"]')) {
+              closePublish();
+              return;
+            }
+            if (target.closest('[data-action="confirm-publish"]')) {
+              var current = articles.filter(function (a) {
+                return a.id === currentArticleId;
+              })[0];
+              if (current) {
+                current.status = "已发布";
+                current.publishAt = "刚刚";
+                renderChips();
+                renderArticles();
+              }
+              closePublish();
+              toast("已提交发布，发布结果将在发布记录中更新");
+              return;
+            }
+            if (target.closest('[data-action="batch-publish"]')) {
+              var ids = Object.keys(picked).filter(function (id) {
+                return picked[id];
+              });
+              toast(
+                ids.length
+                  ? "已选择 " + ids.length + " 篇文章，请逐篇确认公众号"
+                  : "请先勾选需要发布的文章",
+              );
+            }
+          });
+
+        rows.addEventListener("change", function (event) {
+          var box = event.target.closest("[data-pick]");
+          if (!box) return;
+          picked[box.dataset.pick] = box.checked;
+          var ids = Object.keys(picked).filter(function (id) {
+            return picked[id];
+          });
+          document.getElementById("picked-tip").textContent = ids.length
+            ? "已勾选 " + ids.length + " 篇文章"
+            : "未勾选文章";
+        });
+
+        document
+          .getElementById("check-all")
+          .addEventListener("change", function (event) {
+            Array.prototype.forEach.call(
+              document.querySelectorAll("[data-pick]"),
+              function (box) {
+                box.checked = event.target.checked;
+                picked[box.dataset.pick] = event.target.checked;
+              },
+            );
+            var ids = Object.keys(picked).filter(function (id) {
+              return picked[id];
+            });
+            document.getElementById("picked-tip").textContent = ids.length
+              ? "已勾选 " + ids.length + " 篇文章"
+              : "未勾选文章";
+          });
+
+        document
+          .getElementById("article-search")
+          .addEventListener("input", function (event) {
+            keyword = (event.target.value || "").trim().toLowerCase();
+            renderArticles();
+          });
+        document
+          .getElementById("filter-source")
+          .addEventListener("change", function (event) {
+            sourceFilter = event.target.value;
+            renderArticles();
+          });
+        document
+          .getElementById("filter-account")
+          .addEventListener("change", function (event) {
+            accountFilter = event.target.value;
+            renderArticles();
+          });
+      })();
+    </script>
+  </body>
+</html>

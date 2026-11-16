@@ -1,0 +1,1542 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>采集管理 · 智媒助手</title>
+    <script src="./tailwind.js"></script>
+    <style>
+      body.app-bg {
+        background-color: #f6f8fc;
+        background-image:
+          radial-gradient(
+            920px 460px at 6% -8%,
+            rgba(191, 219, 254, 0.75) 0%,
+            rgba(191, 219, 254, 0) 62%
+          ),
+          radial-gradient(
+            780px 420px at 98% -4%,
+            rgba(221, 214, 254, 0.7) 0%,
+            rgba(221, 214, 254, 0) 58%
+          ),
+          radial-gradient(
+            760px 520px at 88% 104%,
+            rgba(167, 243, 208, 0.55) 0%,
+            rgba(167, 243, 208, 0) 60%
+          ),
+          radial-gradient(
+            700px 480px at 4% 96%,
+            rgba(253, 230, 138, 0.45) 0%,
+            rgba(253, 230, 138, 0) 60%
+          );
+        background-attachment: fixed;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen app-bg text-slate-900 antialiased">
+    <!-- qb:map
+  app-shell -> 页面外壳
+  sidebar -> 一级导航
+  topbar -> 顶部信息栏
+  main-content -> 采集管理内容
+  task-modal -> 新建任务弹层
+  app-overlays -> 提示
+  -->
+
+    <!-- qb:region:app-shell:start -->
+    <div id="app" class="min-h-screen flex" data-qb-region="app-shell">
+      <!-- qb:section:sidebar:start -->
+      <aside
+        class="hidden lg:flex w-60 shrink-0 flex-col border-r border-slate-200 bg-white"
+        data-qb-section="sidebar"
+      >
+        <a
+          href="index.html"
+          class="h-16 flex items-center gap-2.5 px-5 border-b border-slate-200"
+        >
+          <span
+            class="w-8 h-8 rounded-lg bg-blue-600 text-white grid place-items-center text-sm font-semibold"
+            >智</span
+          >
+          <span class="leading-tight">
+            <span class="block text-sm font-semibold tracking-tight"
+              >智媒助手</span
+            >
+            <span class="block text-[11px] text-slate-400"
+              >公众号智能运营平台</span
+            >
+          </span>
+        </a>
+        <nav class="flex-1 overflow-y-auto px-3 py-3 space-y-0.5 text-sm">
+          <p
+            class="px-3 pb-2 pt-1 text-[11px] font-medium tracking-wide text-slate-400"
+          >
+            内容生产
+          </p>
+          <a
+            href="index.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >台</span
+            >工作台
+          </a>
+          <a
+            href="collect.html"
+            class="flex items-center gap-2.5 rounded-lg bg-blue-50 px-3 py-2 font-medium text-blue-700"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-blue-600 text-white grid place-items-center text-[11px]"
+              >采</span
+            >采集管理
+          </a>
+          <a
+            href="library.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >素</span
+            >素材库
+          </a>
+          <a
+            href="create.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >创</span
+            >智能创作
+          </a>
+          <a
+            href="content.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >稿</span
+            >内容管理
+          </a>
+          <p
+            class="px-3 pb-2 pt-4 text-[11px] font-medium tracking-wide text-slate-400"
+          >
+            运营与配置
+          </p>
+          <a
+            href="analytics.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >数</span
+            >数据统计分析
+          </a>
+          <a
+            href="accounts.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >号</span
+            >账号管理
+          </a>
+          <a
+            href="settings.html"
+            class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+          >
+            <span
+              class="w-5 h-5 rounded-md bg-slate-100 text-slate-500 grid place-items-center text-[11px]"
+              >设</span
+            >系统设置
+          </a>
+        </nav>
+        <div class="border-t border-slate-200 px-4 py-3 text-xs text-slate-500">
+          <div class="flex items-center gap-2.5">
+            <span
+              class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 grid place-items-center text-xs font-semibold"
+              >林</span
+            >
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-[13px] font-medium text-slate-700">
+                林晓 · 运营管理员
+              </p>
+              <p class="text-[11px] text-slate-400">运营中心</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <!-- qb:section:sidebar:end -->
+
+      <div class="flex-1 min-w-0 flex flex-col">
+        <!-- qb:section:topbar:start -->
+        <header
+          class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200"
+          data-qb-section="topbar"
+        >
+          <div class="h-16 px-4 md:px-8 flex items-center gap-3">
+            <div class="min-w-0">
+              <nav class="flex items-center gap-1.5 text-[11px] text-slate-400">
+                <a href="index.html" class="hover:text-slate-600">工作台</a
+                ><span>/</span><span class="text-slate-600">采集管理</span>
+              </nav>
+              <h1 class="text-base font-semibold tracking-tight">采集管理</h1>
+            </div>
+            <div class="ml-auto flex items-center gap-2">
+              <button
+                type="button"
+                data-action="run-all"
+                class="hidden sm:inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-[12px] font-medium text-slate-700 hover:bg-slate-50"
+              >
+                立即采集
+              </button>
+              <button
+                type="button"
+                data-action="open-modal"
+                class="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-2 text-[12px] font-medium text-white hover:bg-blue-700"
+              >
+                新建采集任务
+              </button>
+              <span
+                class="w-9 h-9 rounded-full bg-blue-600 text-white grid place-items-center text-xs font-semibold"
+                >林</span
+              >
+            </div>
+          </div>
+          <div class="lg:hidden flex gap-1.5 overflow-x-auto px-4 pb-2 text-xs">
+            <a
+              href="index.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >工作台</a
+            >
+            <a
+              href="collect.html"
+              class="shrink-0 rounded-full bg-blue-600 px-3 py-1.5 text-white"
+              >采集管理</a
+            >
+            <a
+              href="library.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >素材库</a
+            >
+            <a
+              href="create.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >智能创作</a
+            >
+            <a
+              href="content.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >内容管理</a
+            >
+            <a
+              href="analytics.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >数据统计</a
+            >
+            <a
+              href="accounts.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >账号管理</a
+            >
+            <a
+              href="settings.html"
+              class="shrink-0 rounded-full border border-slate-200 px-3 py-1.5 text-slate-600"
+              >系统设置</a
+            >
+          </div>
+        </header>
+        <!-- qb:section:topbar:end -->
+
+        <!-- qb:section:main-content:start -->
+        <main
+          class="flex-1 p-4 md:p-8 space-y-5"
+          data-qb-section="main-content"
+        >
+          <!-- qb:section:collect-stats:start -->
+          <section
+            class="grid grid-cols-2 lg:grid-cols-5 gap-3"
+            data-qb-section="collect-stats"
+          >
+            <div class="rounded-xl border border-slate-200 bg-white p-4">
+              <p class="text-xs text-slate-500">采集任务总数</p>
+              <p class="mt-1.5 text-xl font-semibold">12</p>
+              <p class="mt-1 text-[11px] text-slate-400">启用 9 · 暂停 3</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-white p-4">
+              <p class="text-xs text-slate-500">今日采集数量</p>
+              <p class="mt-1.5 text-xl font-semibold">1,286</p>
+              <p class="mt-1 text-[11px] text-emerald-600">较昨日 +12.4%</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-white p-4">
+              <p class="text-xs text-slate-500">采集成功数量</p>
+              <p class="mt-1.5 text-xl font-semibold">1,242</p>
+              <p class="mt-1 text-[11px] text-slate-400">成功率 96.6%</p>
+            </div>
+            <div class="rounded-xl border border-slate-200 bg-white p-4">
+              <p class="text-xs text-slate-500">采集失败数量</p>
+              <p class="mt-1.5 text-xl font-semibold text-red-500">44</p>
+              <p class="mt-1 text-[11px] text-slate-400">已自动重试 38 条</p>
+            </div>
+            <div class="rounded-xl border border-blue-200 bg-blue-50/60 p-4">
+              <p class="text-xs text-blue-700">待处理结果</p>
+              <p class="mt-1.5 text-xl font-semibold text-blue-700">326</p>
+              <p class="mt-1 text-[11px] text-blue-600/80">含重复信息 57 条</p>
+            </div>
+          </section>
+          <!-- qb:section:collect-stats:end -->
+
+          <!-- qb:section:collect-tabs:start -->
+          <section
+            class="rounded-2xl border border-slate-200 bg-white overflow-hidden"
+            data-qb-section="collect-tabs"
+          >
+            <div
+              class="flex items-center gap-1 border-b border-slate-200 px-3 md:px-4 overflow-x-auto"
+            >
+              <button
+                type="button"
+                data-tab="tasks"
+                class="shrink-0 border-b-2 border-blue-600 px-3 py-3 text-[13px] font-medium text-blue-700"
+              >
+                任务清单
+              </button>
+              <button
+                type="button"
+                data-tab="results"
+                class="shrink-0 border-b-2 border-transparent px-3 py-3 text-[13px] text-slate-500 hover:text-slate-800"
+              >
+                采集结果
+              </button>
+              <button
+                type="button"
+                data-tab="records"
+                class="shrink-0 border-b-2 border-transparent px-3 py-3 text-[13px] text-slate-500 hover:text-slate-800"
+              >
+                执行记录
+              </button>
+            </div>
+
+            <!-- qb:section:task-list:start -->
+            <div data-panel="tasks" data-qb-section="task-list">
+              <div class="flex flex-col gap-2 p-4 sm:flex-row sm:items-center">
+                <div class="flex gap-1 text-[11px]" data-task-filter>
+                  <button
+                    type="button"
+                    data-status="all"
+                    class="rounded-full bg-slate-900 px-2.5 py-1 text-white"
+                  >
+                    全部 12
+                  </button>
+                  <button
+                    type="button"
+                    data-status="执行成功"
+                    class="rounded-full border border-slate-200 px-2.5 py-1 text-slate-600"
+                  >
+                    正常
+                  </button>
+                  <button
+                    type="button"
+                    data-status="执行失败"
+                    class="rounded-full border border-slate-200 px-2.5 py-1 text-slate-600"
+                  >
+                    失败
+                  </button>
+                  <button
+                    type="button"
+                    data-status="已暂停"
+                    class="rounded-full border border-slate-200 px-2.5 py-1 text-slate-600"
+                  >
+                    已暂停
+                  </button>
+                </div>
+                <p class="sm:ml-auto text-[11px] text-slate-400">
+                  定时任务按计划自动执行，也可随时手动触发
+                </p>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-[13px] whitespace-nowrap">
+                  <thead
+                    class="border-y border-slate-100 bg-slate-50/60 text-[11px] text-slate-400"
+                  >
+                    <tr>
+                      <th class="px-4 py-2 font-medium">任务名称</th>
+                      <th class="px-3 py-2 font-medium">采集关键词</th>
+                      <th class="px-3 py-2 font-medium">采集来源</th>
+                      <th class="px-3 py-2 font-medium">频率</th>
+                      <th class="px-3 py-2 font-medium">最近执行</th>
+                      <th class="px-3 py-2 font-medium">采集量</th>
+                      <th class="px-3 py-2 font-medium">状态</th>
+                      <th class="px-3 py-2 font-medium">自动入库</th>
+                      <th class="px-3 py-2 font-medium">关联创作</th>
+                      <th class="px-4 py-2 font-medium">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    id="task-rows"
+                    class="divide-y divide-slate-100"
+                  ></tbody>
+                </table>
+              </div>
+            </div>
+            <!-- qb:section:task-list:end -->
+
+            <!-- qb:section:collect-results:start -->
+            <div
+              data-panel="results"
+              class="hidden"
+              data-qb-section="collect-results"
+            >
+              <div
+                class="flex flex-col gap-2 border-b border-slate-100 p-4 lg:flex-row lg:items-center"
+              >
+                <label
+                  class="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-400 focus-within:border-blue-500 focus-within:bg-white"
+                >
+                  <span
+                    class="w-3.5 h-3.5 rounded-full border border-slate-400"
+                  ></span>
+                  <input
+                    id="result-search"
+                    type="search"
+                    placeholder="搜索标题 / 来源"
+                    class="w-48 bg-transparent text-slate-700 outline-none placeholder:text-slate-400"
+                  />
+                </label>
+                <div
+                  class="flex items-center gap-1 text-[11px]"
+                  data-result-filter
+                >
+                  <button
+                    type="button"
+                    data-instore="all"
+                    class="rounded-full bg-slate-900 px-2.5 py-1 text-white"
+                  >
+                    全部
+                  </button>
+                  <button
+                    type="button"
+                    data-instore="未入库"
+                    class="rounded-full border border-slate-200 px-2.5 py-1 text-slate-600"
+                  >
+                    未入库
+                  </button>
+                  <button
+                    type="button"
+                    data-instore="已入库"
+                    class="rounded-full border border-slate-200 px-2.5 py-1 text-slate-600"
+                  >
+                    已入库
+                  </button>
+                </div>
+                <div class="lg:ml-auto flex items-center gap-2">
+                  <span id="picked-tip" class="text-[11px] text-slate-400"
+                    >未选择信息</span
+                  >
+                  <button
+                    type="button"
+                    data-action="batch-store"
+                    class="rounded-lg bg-blue-600 px-3 py-1.5 text-[12px] font-medium text-white hover:bg-blue-700"
+                  >
+                    批量加入素材库
+                  </button>
+                </div>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-[13px] whitespace-nowrap">
+                  <thead
+                    class="border-b border-slate-100 bg-slate-50/60 text-[11px] text-slate-400"
+                  >
+                    <tr>
+                      <th class="px-4 py-2 font-medium">
+                        <input
+                          id="check-all"
+                          type="checkbox"
+                          class="h-3.5 w-3.5 rounded border-slate-300"
+                          aria-label="全选"
+                        />
+                      </th>
+                      <th class="px-3 py-2 font-medium">信息标题 / 摘要</th>
+                      <th class="px-3 py-2 font-medium">来源网站</th>
+                      <th class="px-3 py-2 font-medium">发布时间</th>
+                      <th class="px-3 py-2 font-medium">采集时间</th>
+                      <th class="px-3 py-2 font-medium">所属任务</th>
+                      <th class="px-3 py-2 font-medium">入库状态</th>
+                      <th class="px-4 py-2 font-medium">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    id="result-rows"
+                    class="divide-y divide-slate-100"
+                  ></tbody>
+                </table>
+              </div>
+              <div
+                class="flex items-center justify-between border-t border-slate-100 px-4 py-3 text-[11px] text-slate-400"
+              >
+                <span id="result-count">共 0 条</span>
+                <div class="flex items-center gap-1">
+                  <button
+                    type="button"
+                    class="rounded-md border border-slate-200 px-2 py-1 hover:bg-slate-50"
+                  >
+                    上一页
+                  </button>
+                  <span class="rounded-md bg-slate-900 px-2 py-1 text-white"
+                    >1</span
+                  >
+                  <button
+                    type="button"
+                    class="rounded-md border border-slate-200 px-2 py-1 hover:bg-slate-50"
+                  >
+                    2
+                  </button>
+                  <button
+                    type="button"
+                    class="rounded-md border border-slate-200 px-2 py-1 hover:bg-slate-50"
+                  >
+                    下一页
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- qb:section:collect-results:end -->
+
+            <!-- qb:section:collect-records:start -->
+            <div
+              data-panel="records"
+              class="hidden"
+              data-qb-section="collect-records"
+            >
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-[13px] whitespace-nowrap">
+                  <thead
+                    class="border-b border-slate-100 bg-slate-50/60 text-[11px] text-slate-400"
+                  >
+                    <tr>
+                      <th class="px-4 py-2 font-medium">执行时间</th>
+                      <th class="px-3 py-2 font-medium">执行任务</th>
+                      <th class="px-3 py-2 font-medium">采集数量</th>
+                      <th class="px-3 py-2 font-medium">成功</th>
+                      <th class="px-3 py-2 font-medium">失败</th>
+                      <th class="px-3 py-2 font-medium">入库</th>
+                      <th class="px-3 py-2 font-medium">失败原因</th>
+                      <th class="px-4 py-2 font-medium">结果</th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    id="record-rows"
+                    class="divide-y divide-slate-100"
+                  ></tbody>
+                </table>
+              </div>
+            </div>
+            <!-- qb:section:collect-records:end -->
+          </section>
+          <!-- qb:section:collect-tabs:end -->
+
+          <!-- qb:section:collect-rules:start -->
+          <section
+            class="grid gap-4 lg:grid-cols-3"
+            data-qb-section="collect-rules"
+          >
+            <div
+              class="rounded-2xl border border-slate-200 bg-white p-5 lg:col-span-2"
+            >
+              <h3 class="text-sm font-semibold">自动处理规则</h3>
+              <p class="mt-0.5 text-[11px] text-slate-400">
+                采集完成后按以下规则自动入库与去重
+              </p>
+              <ul class="mt-3 space-y-2 text-[13px] text-slate-600">
+                <li
+                  class="flex items-start gap-2 rounded-xl border border-slate-100 p-3"
+                >
+                  <span
+                    class="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0"
+                  ></span
+                  ><span
+                    >标题相似度 &gt; 85%
+                    判定为重复信息，不重复创建素材，保留原文链接。</span
+                  >
+                </li>
+                <li
+                  class="flex items-start gap-2 rounded-xl border border-slate-100 p-3"
+                >
+                  <span
+                    class="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0"
+                  ></span
+                  ><span
+                    >同一事件出现新进展时，保留新增内容并关联历史素材，标记「进展更新」。</span
+                  >
+                </li>
+                <li
+                  class="flex items-start gap-2 rounded-xl border border-slate-100 p-3"
+                >
+                  <span
+                    class="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0"
+                  ></span
+                  ><span
+                    >新入库素材默认状态为「待筛选」，并进入下一轮 AI
+                    创作候选池。</span
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-5">
+              <h3 class="text-sm font-semibold">来源健康度</h3>
+              <div class="mt-3 space-y-3 text-[12px]">
+                <div>
+                  <div class="flex justify-between">
+                    <span class="text-slate-600">新闻网站</span
+                    ><span class="text-slate-400">99.2%</span>
+                  </div>
+                  <div
+                    class="mt-1 h-1.5 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div
+                      class="h-full w-full rounded-full bg-emerald-500"
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between">
+                    <span class="text-slate-600">行业网站</span
+                    ><span class="text-slate-400">96.8%</span>
+                  </div>
+                  <div
+                    class="mt-1 h-1.5 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div
+                      class="h-full w-11/12 rounded-full bg-emerald-500"
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between">
+                    <span class="text-slate-600">指定网页</span
+                    ><span class="text-slate-400">81.5%</span>
+                  </div>
+                  <div
+                    class="mt-1 h-1.5 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div class="h-full w-4/5 rounded-full bg-amber-500"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between">
+                    <span class="text-slate-600">政策公告</span
+                    ><span class="text-slate-400">72.4%</span>
+                  </div>
+                  <div
+                    class="mt-1 h-1.5 rounded-full bg-slate-100 overflow-hidden"
+                  >
+                    <div class="h-full w-3/4 rounded-full bg-red-500"></div>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 text-[11px] leading-relaxed text-slate-400">
+                政策公告来源近期超时率偏高，建议下调采集频率或更换入口。
+              </p>
+            </div>
+          </section>
+          <!-- qb:section:collect-rules:end -->
+        </main>
+        <!-- qb:section:main-content:end -->
+      </div>
+
+      <!-- qb:section:task-modal:start -->
+      <div
+        id="task-modal"
+        class="hidden fixed inset-0 z-40"
+        data-qb-section="task-modal"
+      >
+        <div
+          class="absolute inset-0 bg-slate-900/40"
+          data-action="close-modal"
+        ></div>
+        <div
+          class="absolute right-0 top-0 h-full w-full max-w-xl overflow-y-auto bg-white shadow-2xl"
+        >
+          <div
+            class="sticky top-0 flex items-center justify-between border-b border-slate-200 bg-white px-5 py-4"
+          >
+            <div>
+              <h3 class="text-sm font-semibold">新建采集任务</h3>
+              <p class="text-[11px] text-slate-400">
+                配置关键词、来源与自动处理策略
+              </p>
+            </div>
+            <button
+              type="button"
+              data-action="close-modal"
+              class="w-8 h-8 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50"
+            >
+              ×
+            </button>
+          </div>
+          <div class="p-5 space-y-4 text-[13px]">
+            <div>
+              <label class="text-xs font-medium text-slate-600">任务名称</label>
+              <input
+                type="text"
+                value="新能源行业资讯采集"
+                class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 outline-none focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-600"
+                >采集关键词</label
+              >
+              <input
+                type="text"
+                value="新能源汽车, 充电基础设施, 动力电池"
+                class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 outline-none focus:border-blue-500"
+              />
+              <p class="mt-1 text-[11px] text-slate-400">
+                多个关键词用逗号分隔，支持短语匹配
+              </p>
+            </div>
+            <div class="grid gap-3 sm:grid-cols-2">
+              <div>
+                <label class="text-xs font-medium text-slate-600"
+                  >采集来源</label
+                >
+                <input
+                  type="text"
+                  value="中国汽车工业协会, 第一财经"
+                  class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 outline-none focus:border-blue-500"
+                />
+              </div>
+              <div>
+                <label class="text-xs font-medium text-slate-600"
+                  >来源类型</label
+                >
+                <select
+                  class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 outline-none focus:border-blue-500"
+                >
+                  <option>新闻网站</option>
+                  <option>行业网站</option>
+                  <option>指定网页</option>
+                  <option>政策公告</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-xs font-medium text-slate-600"
+                  >采集范围</label
+                >
+                <select
+                  class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 outline-none focus:border-blue-500"
+                >
+                  <option>标题 + 正文</option>
+                  <option>仅标题与摘要</option>
+                  <option>全文含附件</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-xs font-medium text-slate-600"
+                  >采集时间范围</label
+                >
+                <select
+                  class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 outline-none focus:border-blue-500"
+                >
+                  <option>最近 24 小时</option>
+                  <option>最近 3 天</option>
+                  <option>最近 7 天</option>
+                  <option>自定义</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-xs font-medium text-slate-600"
+                  >采集频率</label
+                >
+                <select
+                  class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 outline-none focus:border-blue-500"
+                >
+                  <option>每天 08:00</option>
+                  <option>每天 08:00 / 18:00</option>
+                  <option>每 6 小时</option>
+                  <option>仅手动触发</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-xs font-medium text-slate-600"
+                  >任务状态</label
+                >
+                <select
+                  class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 outline-none focus:border-blue-500"
+                >
+                  <option>启用</option>
+                  <option>暂停</option>
+                </select>
+              </div>
+            </div>
+            <div class="space-y-2 rounded-xl border border-slate-200 p-3">
+              <label class="flex items-center justify-between gap-3">
+                <span
+                  ><span class="block font-medium text-slate-700">自动入库</span
+                  ><span class="block text-[11px] text-slate-400"
+                    >采集结果自动保存到素材库，重复信息自动过滤</span
+                  ></span
+                >
+                <input
+                  type="checkbox"
+                  checked
+                  class="h-4 w-4 rounded border-slate-300"
+                />
+              </label>
+              <label
+                class="flex items-center justify-between gap-3 border-t border-slate-100 pt-2"
+              >
+                <span
+                  ><span class="block font-medium text-slate-700"
+                    >关联自动创作</span
+                  ><span class="block text-[11px] text-slate-400"
+                    >任务完成后触发「新能源每日速递」创作规则</span
+                  ></span
+                >
+                <input
+                  type="checkbox"
+                  checked
+                  class="h-4 w-4 rounded border-slate-300"
+                />
+              </label>
+            </div>
+          </div>
+          <div
+            class="sticky bottom-0 flex justify-end gap-2 border-t border-slate-200 bg-white px-5 py-3"
+          >
+            <button
+              type="button"
+              data-action="close-modal"
+              class="rounded-lg border border-slate-200 px-3 py-2 text-[12px] text-slate-600 hover:bg-slate-50"
+            >
+              取消
+            </button>
+            <button
+              type="button"
+              data-action="save-task"
+              class="rounded-lg bg-blue-600 px-3 py-2 text-[12px] font-medium text-white hover:bg-blue-700"
+            >
+              保存并启用
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- qb:section:task-modal:end -->
+
+      <!-- qb:section:app-overlays:start -->
+      <div
+        id="app-overlays"
+        class="fixed inset-0 z-50 pointer-events-none"
+        data-qb-section="app-overlays"
+        aria-live="polite"
+      ></div>
+      <!-- qb:section:app-overlays:end -->
+    </div>
+    <!-- qb:region:app-shell:end -->
+
+    <!-- qb:data:seed:start -->
+    <script id="qb-seed-data" type="application/json">
+      {
+        "version": "collect.v1",
+        "tasks": [
+          {
+            "id": "t1",
+            "name": "行业资讯每日采集",
+            "keywords": "智能制造, 工业互联网",
+            "source": "中国工业报等 6 个来源",
+            "freq": "每天 08:00",
+            "last": "今天 08:04",
+            "count": 286,
+            "status": "执行成功",
+            "autoStore": true,
+            "autoCreate": true
+          },
+          {
+            "id": "t2",
+            "name": "新能源行业资讯采集",
+            "keywords": "新能源汽车, 动力电池",
+            "source": "汽车工业协会等 4 个来源",
+            "freq": "每天 08:00 / 18:00",
+            "last": "今天 08:02",
+            "count": 412,
+            "status": "执行成功",
+            "autoStore": true,
+            "autoCreate": true
+          },
+          {
+            "id": "t3",
+            "name": "政策公告追踪",
+            "keywords": "产业政策, 补贴, 公告",
+            "source": "政府公开信息网",
+            "freq": "每 6 小时",
+            "last": "今天 09:31",
+            "count": 0,
+            "status": "执行失败",
+            "autoStore": false,
+            "autoCreate": false
+          },
+          {
+            "id": "t4",
+            "name": "竞品公众号监测",
+            "keywords": "品牌, 活动, 新品",
+            "source": "指定网页 12 个",
+            "freq": "每天 12:00",
+            "last": "昨天 12:03",
+            "count": 168,
+            "status": "已暂停",
+            "autoStore": true,
+            "autoCreate": false
+          },
+          {
+            "id": "t5",
+            "name": "消费电子供应链",
+            "keywords": "消费电子, 库存, 供应链",
+            "source": "第一财经等 3 个来源",
+            "freq": "每天 09:00",
+            "last": "今天 09:01",
+            "count": 231,
+            "status": "执行成功",
+            "autoStore": true,
+            "autoCreate": false
+          }
+        ],
+        "results": [
+          {
+            "id": "r1",
+            "title": "新能源汽车下乡政策落地，县域市场成新增长极",
+            "summary": "多部门联合发布新一轮下乡活动方案，覆盖车型与补能设施同步推进。",
+            "site": "中国汽车工业协会",
+            "publish": "11-16 08:20",
+            "collect": "11-16 09:12",
+            "task": "新能源行业资讯采集",
+            "stored": "未入库",
+            "dup": false
+          },
+          {
+            "id": "r2",
+            "title": "动力电池回收白名单扩容，产业链迎来规范化窗口",
+            "summary": "第五批白名单企业公布，回收网络覆盖率提升至 62%。",
+            "site": "第一财经",
+            "publish": "11-16 07:55",
+            "collect": "11-16 09:12",
+            "task": "新能源行业资讯采集",
+            "stored": "已入库",
+            "dup": false
+          },
+          {
+            "id": "r3",
+            "title": "制造业数字化转型专项行动启动，聚焦中小企业",
+            "summary": "专项支持中小制造企业数字化改造，重点覆盖工业互联网平台接入。",
+            "site": "中国工业报",
+            "publish": "11-16 07:30",
+            "collect": "11-16 08:06",
+            "task": "行业资讯每日采集",
+            "stored": "未入库",
+            "dup": true
+          },
+          {
+            "id": "r4",
+            "title": "三季度消费电子供应链库存周期见底",
+            "summary": "面板与存储器件价格环比回升，渠道补库意愿增强。",
+            "site": "第一财经",
+            "publish": "11-16 06:48",
+            "collect": "11-16 09:01",
+            "task": "消费电子供应链",
+            "stored": "未入库",
+            "dup": false
+          },
+          {
+            "id": "r5",
+            "title": "充电基础设施月度数据：公共桩新增 8.7 万台",
+            "summary": "全国公共充电桩保有量突破 380 万台，县域覆盖率提升明显。",
+            "site": "中国充电联盟",
+            "publish": "11-15 22:10",
+            "collect": "11-16 09:12",
+            "task": "新能源行业资讯采集",
+            "stored": "未入库",
+            "dup": false
+          }
+        ],
+        "records": [
+          {
+            "time": "11-16 09:31",
+            "task": "政策公告追踪",
+            "count": 0,
+            "ok": 0,
+            "fail": 42,
+            "stored": 0,
+            "reason": "来源站点响应超时（3 次）",
+            "result": "失败"
+          },
+          {
+            "time": "11-16 09:12",
+            "task": "新能源行业资讯采集",
+            "count": 412,
+            "ok": 406,
+            "fail": 6,
+            "stored": 398,
+            "reason": "6 条页面结构变更解析失败",
+            "result": "部分成功"
+          },
+          {
+            "time": "11-16 09:01",
+            "task": "消费电子供应链",
+            "count": 231,
+            "ok": 231,
+            "fail": 0,
+            "stored": 226,
+            "reason": "—",
+            "result": "成功"
+          },
+          {
+            "time": "11-16 08:06",
+            "task": "行业资讯每日采集",
+            "count": 286,
+            "ok": 283,
+            "fail": 3,
+            "stored": 279,
+            "reason": "3 条重复信息已过滤",
+            "result": "成功"
+          },
+          {
+            "time": "11-15 18:02",
+            "task": "新能源行业资讯采集",
+            "count": 358,
+            "ok": 358,
+            "fail": 0,
+            "stored": 351,
+            "reason": "—",
+            "result": "成功"
+          }
+        ]
+      }
+    </script>
+    <!-- qb:data:seed:end -->
+
+    <script>
+      (function () {
+        var seed = {};
+        try {
+          seed = JSON.parse(
+            document.getElementById("qb-seed-data").textContent || "{}",
+          );
+        } catch (e) {
+          seed = {};
+        }
+        var tasks = (seed.tasks || []).map(function (t) {
+          return {
+            id: t.id,
+            name: t.name,
+            keywords: t.keywords || "",
+            source: t.source || "",
+            freq: t.freq || "",
+            last: t.last || "",
+            count: Number(t.count) || 0,
+            status: t.status || "等待执行",
+            autoStore: !!t.autoStore,
+            autoCreate: !!t.autoCreate,
+          };
+        });
+        var results = (seed.results || []).map(function (r) {
+          return {
+            id: r.id,
+            title: r.title || "",
+            summary: r.summary || "",
+            site: r.site || "",
+            publish: r.publish || "",
+            collect: r.collect || "",
+            task: r.task || "",
+            stored: r.stored === "已入库" ? "已入库" : "未入库",
+            dup: !!r.dup,
+          };
+        });
+        var records = Array.isArray(seed.records) ? seed.records : [];
+
+        function esc(value) {
+          return String(value == null ? "" : value);
+        }
+        function el(tag, cls, text) {
+          var node = document.createElement(tag);
+          if (cls) node.className = cls;
+          if (text != null) node.textContent = String(text);
+          return node;
+        }
+        function toast(message) {
+          var host = document.getElementById("app-overlays");
+          if (!host) return;
+          var tip = el(
+            "div",
+            "absolute bottom-5 left-1/2 -translate-x-1/2 rounded-xl bg-slate-900 px-4 py-2.5 text-[13px] text-white shadow-lg",
+            message,
+          );
+          host.textContent = "";
+          host.appendChild(tip);
+          host.classList.remove("pointer-events-none");
+          setTimeout(function () {
+            host.textContent = "";
+            host.classList.add("pointer-events-none");
+          }, 2200);
+        }
+        function emptyRow(tbody, cols, text) {
+          var tr = el("tr");
+          var td = el(
+            "td",
+            "px-4 py-10 text-center text-[12px] text-slate-400",
+            text,
+          );
+          td.colSpan = cols;
+          tr.appendChild(td);
+          tbody.appendChild(tr);
+        }
+
+        function taskStatusClass(status) {
+          if (status === "执行成功") return "bg-emerald-50 text-emerald-700";
+          if (status === "执行失败") return "bg-red-50 text-red-600";
+          if (status === "执行中") return "bg-blue-50 text-blue-700";
+          return "bg-slate-100 text-slate-600";
+        }
+
+        var taskRows = document.getElementById("task-rows");
+        var taskFilter = "all";
+        function renderTasks() {
+          var list =
+            taskFilter === "all"
+              ? tasks
+              : tasks.filter(function (t) {
+                  return t.status === taskFilter;
+                });
+          taskRows.textContent = "";
+          if (!list.length) {
+            emptyRow(taskRows, 10, "暂无符合条件的采集任务");
+            return;
+          }
+          list.forEach(function (t) {
+            var tr = el("tr", "hover:bg-slate-50/70");
+            tr.appendChild(
+              el("td", "px-4 py-3 font-medium text-slate-800", t.name),
+            );
+            tr.appendChild(
+              el(
+                "td",
+                "px-3 py-3 max-w-[180px] truncate text-slate-500",
+                t.keywords,
+              ),
+            );
+            tr.appendChild(
+              el(
+                "td",
+                "px-3 py-3 max-w-[180px] truncate text-slate-500",
+                t.source,
+              ),
+            );
+            tr.appendChild(el("td", "px-3 py-3 text-slate-500", t.freq));
+            tr.appendChild(el("td", "px-3 py-3 text-slate-500", t.last));
+            tr.appendChild(
+              el("td", "px-3 py-3 tabular-nums text-slate-700", t.count),
+            );
+            var tdStatus = el("td", "px-3 py-3");
+            tdStatus.appendChild(
+              el(
+                "span",
+                "rounded-full px-2 py-0.5 text-[11px] font-medium " +
+                  taskStatusClass(t.status),
+                t.status,
+              ),
+            );
+            tr.appendChild(tdStatus);
+            tr.appendChild(
+              el(
+                "td",
+                "px-3 py-3 text-[11px] " +
+                  (t.autoStore ? "text-emerald-600" : "text-slate-400"),
+                t.autoStore ? "已开启" : "未开启",
+              ),
+            );
+            tr.appendChild(
+              el(
+                "td",
+                "px-3 py-3 text-[11px] " +
+                  (t.autoCreate ? "text-emerald-600" : "text-slate-400"),
+                t.autoCreate ? "已关联" : "未关联",
+              ),
+            );
+            var tdOps = el("td", "px-4 py-3");
+            var ops = el("div", "flex items-center gap-2 text-[11px]");
+            var runBtn = el(
+              "button",
+              "font-medium text-blue-600 hover:text-blue-700",
+              "立即采集",
+            );
+            runBtn.type = "button";
+            runBtn.dataset.run = t.id;
+            var toggleBtn = el(
+              "button",
+              "text-slate-500 hover:text-slate-700",
+              t.status === "已暂停" ? "启用" : "暂停",
+            );
+            toggleBtn.type = "button";
+            toggleBtn.dataset.toggle = t.id;
+            var logBtn = el(
+              "button",
+              "text-slate-500 hover:text-slate-700",
+              "记录",
+            );
+            logBtn.type = "button";
+            logBtn.dataset.log = t.id;
+            ops.appendChild(runBtn);
+            ops.appendChild(toggleBtn);
+            ops.appendChild(logBtn);
+            tdOps.appendChild(ops);
+            tr.appendChild(tdOps);
+            taskRows.appendChild(tr);
+          });
+        }
+
+        var resultRows = document.getElementById("result-rows");
+        var picked = {};
+        var resultStoreFilter = "all";
+        var resultKeyword = "";
+        function renderResults() {
+          var list = results.filter(function (r) {
+            if (resultStoreFilter !== "all" && r.stored !== resultStoreFilter)
+              return false;
+            if (
+              resultKeyword &&
+              (r.title + r.site).toLowerCase().indexOf(resultKeyword) < 0
+            )
+              return false;
+            return true;
+          });
+          resultRows.textContent = "";
+          if (!list.length) {
+            emptyRow(resultRows, 8, "暂无采集结果");
+          } else {
+            list.forEach(function (r) {
+              var tr = el("tr", "hover:bg-slate-50/70");
+              var tdPick = el("td", "px-4 py-3");
+              var box = document.createElement("input");
+              box.type = "checkbox";
+              box.className = "h-3.5 w-3.5 rounded border-slate-300";
+              box.dataset.pick = r.id;
+              box.checked = !!picked[r.id];
+              tdPick.appendChild(box);
+              tr.appendChild(tdPick);
+              var tdTitle = el("td", "px-3 py-3 max-w-[380px]");
+              tdTitle.appendChild(
+                el("p", "truncate font-medium text-slate-800", r.title),
+              );
+              tdTitle.appendChild(
+                el(
+                  "p",
+                  "mt-0.5 truncate text-[11px] text-slate-400",
+                  r.summary,
+                ),
+              );
+              tr.appendChild(tdTitle);
+              tr.appendChild(el("td", "px-3 py-3 text-slate-600", r.site));
+              tr.appendChild(el("td", "px-3 py-3 text-slate-500", r.publish));
+              tr.appendChild(el("td", "px-3 py-3 text-slate-500", r.collect));
+              tr.appendChild(el("td", "px-3 py-3 text-slate-500", r.task));
+              var tdStore = el("td", "px-3 py-3");
+              var storeCls =
+                r.stored === "已入库"
+                  ? "bg-emerald-50 text-emerald-700"
+                  : r.dup
+                    ? "bg-amber-50 text-amber-700"
+                    : "bg-slate-100 text-slate-600";
+              tdStore.appendChild(
+                el(
+                  "span",
+                  "rounded-full px-2 py-0.5 text-[11px] " + storeCls,
+                  (r.dup ? "重复·" : "") + r.stored,
+                ),
+              );
+              tr.appendChild(tdStore);
+              var tdOps = el("td", "px-4 py-3");
+              var ops = el("div", "flex items-center gap-2 text-[11px]");
+              var viewBtn = el(
+                "button",
+                "font-medium text-blue-600 hover:text-blue-700",
+                "详情",
+              );
+              viewBtn.type = "button";
+              viewBtn.dataset.view = r.id;
+              var sBtn = el(
+                "button",
+                "text-slate-500 hover:text-slate-700",
+                r.stored === "已入库" ? "已入库" : "加入素材库",
+              );
+              sBtn.type = "button";
+              sBtn.dataset.store = r.id;
+              var igBtn = el(
+                "button",
+                "text-slate-400 hover:text-red-500",
+                "忽略",
+              );
+              igBtn.type = "button";
+              igBtn.dataset.ignore = r.id;
+              ops.appendChild(viewBtn);
+              ops.appendChild(sBtn);
+              ops.appendChild(igBtn);
+              tdOps.appendChild(ops);
+              tr.appendChild(tdOps);
+              resultRows.appendChild(tr);
+            });
+          }
+          document.getElementById("result-count").textContent =
+            "共 " + list.length + " 条";
+          var pickedIds = Object.keys(picked).filter(function (id) {
+            return picked[id];
+          });
+          document.getElementById("picked-tip").textContent = pickedIds.length
+            ? "已选择 " + pickedIds.length + " 条"
+            : "未选择信息";
+        }
+
+        function renderRecords() {
+          var body = document.getElementById("record-rows");
+          body.textContent = "";
+          if (!records.length) {
+            emptyRow(body, 8, "暂无执行记录");
+            return;
+          }
+          records.forEach(function (r) {
+            var bad = r.result === "失败";
+            var tr = el("tr", "hover:bg-slate-50/70");
+            tr.appendChild(el("td", "px-4 py-3 text-slate-500", r.time));
+            tr.appendChild(
+              el("td", "px-3 py-3 font-medium text-slate-800", r.task),
+            );
+            tr.appendChild(
+              el("td", "px-3 py-3 tabular-nums", Number(r.count) || 0),
+            );
+            tr.appendChild(
+              el(
+                "td",
+                "px-3 py-3 tabular-nums text-emerald-600",
+                Number(r.ok) || 0,
+              ),
+            );
+            tr.appendChild(
+              el(
+                "td",
+                "px-3 py-3 tabular-nums text-red-500",
+                Number(r.fail) || 0,
+              ),
+            );
+            tr.appendChild(
+              el("td", "px-3 py-3 tabular-nums", Number(r.stored) || 0),
+            );
+            tr.appendChild(
+              el(
+                "td",
+                "px-3 py-3 max-w-[280px] truncate text-slate-500",
+                r.reason || "—",
+              ),
+            );
+            var tdResult = el("td", "px-4 py-3");
+            tdResult.appendChild(
+              el(
+                "span",
+                "rounded-full px-2 py-0.5 text-[11px] " +
+                  (bad
+                    ? "bg-red-50 text-red-600"
+                    : "bg-emerald-50 text-emerald-700"),
+                r.result,
+              ),
+            );
+            tr.appendChild(tdResult);
+            body.appendChild(tr);
+          });
+        }
+
+        renderTasks();
+        renderResults();
+        renderRecords();
+
+        var tabs = document.querySelectorAll("[data-tab]");
+        Array.prototype.forEach.call(tabs, function (btn) {
+          btn.addEventListener("click", function () {
+            Array.prototype.forEach.call(tabs, function (el) {
+              el.className =
+                "shrink-0 border-b-2 border-transparent px-3 py-3 text-[13px] text-slate-500 hover:text-slate-800";
+            });
+            btn.className =
+              "shrink-0 border-b-2 border-blue-600 px-3 py-3 text-[13px] font-medium text-blue-700";
+            Array.prototype.forEach.call(
+              document.querySelectorAll("[data-panel]"),
+              function (panel) {
+                panel.classList.toggle(
+                  "hidden",
+                  panel.dataset.panel !== btn.dataset.tab,
+                );
+              },
+            );
+          });
+        });
+
+        var taskFilterWrap = document.querySelector("[data-task-filter]");
+        taskFilterWrap.addEventListener("click", function (event) {
+          var btn = event.target.closest("[data-status]");
+          if (!btn) return;
+          Array.prototype.forEach.call(
+            taskFilterWrap.querySelectorAll("button"),
+            function (el) {
+              el.className =
+                "rounded-full border border-slate-200 px-2.5 py-1 text-slate-600";
+            },
+          );
+          btn.className = "rounded-full bg-slate-900 px-2.5 py-1 text-white";
+          taskFilter = btn.dataset.status;
+          renderTasks();
+        });
+
+        var resultFilterWrap = document.querySelector("[data-result-filter]");
+        resultFilterWrap.addEventListener("click", function (event) {
+          var btn = event.target.closest("[data-instore]");
+          if (!btn) return;
+          Array.prototype.forEach.call(
+            resultFilterWrap.querySelectorAll("button"),
+            function (el) {
+              el.className =
+                "rounded-full border border-slate-200 px-2.5 py-1 text-slate-600";
+            },
+          );
+          btn.className = "rounded-full bg-slate-900 px-2.5 py-1 text-white";
+          resultStoreFilter = btn.dataset.instore;
+          renderResults();
+        });
+
+        document
+          .getElementById("result-search")
+          .addEventListener("input", function (event) {
+            resultKeyword = (event.target.value || "").trim().toLowerCase();
+            renderResults();
+          });
+
+        document
+          .getElementById("check-all")
+          .addEventListener("change", function (event) {
+            var visible = document.querySelectorAll("[data-pick]");
+            Array.prototype.forEach.call(visible, function (box) {
+              box.checked = event.target.checked;
+              picked[box.dataset.pick] = event.target.checked;
+            });
+            renderResults();
+          });
+
+        var modal = document.getElementById("task-modal");
+        function openModal() {
+          modal.classList.remove("hidden");
+        }
+        function closeModal() {
+          modal.classList.add("hidden");
+        }
+
+        document
+          .getElementById("app")
+          .addEventListener("click", function (event) {
+            var target = event.target;
+            if (target.closest('[data-action="open-modal"]')) {
+              openModal();
+              return;
+            }
+            if (target.closest('[data-action="close-modal"]')) {
+              closeModal();
+              return;
+            }
+            if (target.closest('[data-action="save-task"]')) {
+              closeModal();
+              toast("采集任务已保存，将在下一个计划时间执行");
+              return;
+            }
+            if (target.closest('[data-action="run-all"]')) {
+              toast("已为 9 个启用任务提交立即采集");
+              return;
+            }
+
+            var runBtn = target.closest("[data-run]");
+            if (runBtn) {
+              var task = tasks.filter(function (t) {
+                return t.id === runBtn.dataset.run;
+              })[0];
+              if (task) {
+                task.status = "执行中";
+                renderTasks();
+                toast("「" + task.name + "」已开始采集");
+              }
+              return;
+            }
+            var toggleBtn = target.closest("[data-toggle]");
+            if (toggleBtn) {
+              tasks.forEach(function (t) {
+                if (t.id === toggleBtn.dataset.toggle)
+                  t.status = t.status === "已暂停" ? "执行成功" : "已暂停";
+              });
+              renderTasks();
+              toast("任务状态已更新");
+              return;
+            }
+            if (target.closest("[data-log]")) {
+              toast("执行记录已切换到「执行记录」标签页");
+              return;
+            }
+
+            var storeBtn = target.closest("[data-store]");
+            if (storeBtn) {
+              results.forEach(function (r) {
+                if (r.id === storeBtn.dataset.store) r.stored = "已入库";
+              });
+              renderResults();
+              toast("已加入素材库，状态为「待筛选」");
+              return;
+            }
+            if (target.closest('[data-action="batch-store"]')) {
+              var ids = Object.keys(picked).filter(function (id) {
+                return picked[id];
+              });
+              if (!ids.length) {
+                toast("请先勾选需要入库的信息");
+                return;
+              }
+              results.forEach(function (r) {
+                if (ids.indexOf(r.id) >= 0) r.stored = "已入库";
+              });
+              picked = {};
+              document.getElementById("check-all").checked = false;
+              renderResults();
+              toast("已将 " + ids.length + " 条信息加入素材库");
+              return;
+            }
+            var ignoreBtn = target.closest("[data-ignore]");
+            if (ignoreBtn) {
+              results = results.filter(function (r) {
+                return r.id !== ignoreBtn.dataset.ignore;
+              });
+              delete picked[ignoreBtn.dataset.ignore];
+              renderResults();
+              toast("已忽略该信息");
+              return;
+            }
+            var viewBtn = target.closest("[data-view]");
+            if (viewBtn) {
+              var item = results.filter(function (r) {
+                return r.id === viewBtn.dataset.view;
+              })[0];
+              toast(item ? "打开详情：" + item.title : "未找到该信息");
+            }
+          });
+
+        document
+          .getElementById("result-rows")
+          .addEventListener("change", function (event) {
+            var box = event.target.closest("[data-pick]");
+            if (!box) return;
+            picked[box.dataset.pick] = box.checked;
+            renderResults();
+          });
+      })();
+    </script>
+  </body>
+</html>
