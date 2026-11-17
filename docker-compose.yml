@@ -1,0 +1,61 @@
+# 智媒助手本地依赖服务：PostgreSQL + pgvector、Redis、RustFS。
+# 凭据从同目录的 .env 读取（复制 .env.example 后填写），不写入本文件或仓库。
+name: wetchat
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: wetchat-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-wetchat}
+      POSTGRES_USER: ${POSTGRES_USER:-wetchat}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?请在根目录 .env 设置 POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-wetchat} -d ${POSTGRES_DB:-wetchat}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: wetchat-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  rustfs:
+    image: rustfs/rustfs:latest
+    container_name: wetchat-rustfs
+    restart: unless-stopped
+    environment:
+      RUSTFS_ACCESS_KEY: ${RUSTFS_ACCESS_KEY:?请在根目录 .env 设置 RUSTFS_ACCESS_KEY}
+      RUSTFS_SECRET_KEY: ${RUSTFS_SECRET_KEY:?请在根目录 .env 设置 RUSTFS_SECRET_KEY}
+      RUSTFS_VOLUMES: /data
+    ports:
+      - "${RUSTFS_API_PORT:-9000}:9000"
+      - "${RUSTFS_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - rustfs_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:9000/minio/health/live || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:
+  redis_data:
+  rustfs_data:

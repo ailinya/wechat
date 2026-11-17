@@ -1,0 +1,15 @@
+- main [ref=e68]:
+  - generic [ref=e69]:
+    - generic [ref=e70]:
+      - generic [aria-hidden] [ref=e71]: 智
+      - generic [ref=e72]: 智媒助手
+    - heading "登录" [level=1] [ref=e73]
+    - paragraph [ref=e74]: 请使用平台账号登录
+    - generic [ref=e75]:
+      - generic [ref=e76]: 账号
+      - textbox "账号" [ref=e77]: editor
+    - generic [ref=e78]:
+      - generic [ref=e79]: 密码
+      - textbox "密码" [ref=e80]: editor-password
+    - alert [ref=e82]: 账号或密码错误
+    - button "登录" [ref=e81] [cursor=pointer]

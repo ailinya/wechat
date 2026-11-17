@@ -1,0 +1,29 @@
+- generic [ref=e17]:
+  - complementary [ref=e18]:
+    - generic [ref=e19]:
+      - generic [aria-hidden] [ref=e20]: 智
+      - generic [ref=e21]: 智媒助手
+    - navigation "主导航" [ref=e22]:
+      - button "工作台" [ref=e23] [cursor=pointer]
+      - button "采集管理" [ref=e25] [cursor=pointer]
+      - button "智能创作" [ref=e27] [cursor=pointer]
+      - button "内容管理" [ref=e29] [cursor=pointer]
+      - button "素材库" [ref=e31] [cursor=pointer]
+      - button "数据统计分析" [ref=e33] [cursor=pointer]
+      - button "账号管理" [ref=e35] [cursor=pointer]
+      - button "系统设置" [ref=e37] [cursor=pointer]
+  - generic [ref=e39]:
+    - banner [ref=e40]:
+      - generic [ref=e41]:
+        - generic [ref=e42]: 系统管理员
+        - generic [ref=e43]: "@admin"
+        - generic [ref=e44]: admin
+      - generic [ref=e45]:
+        - button "刷新权限" [ref=e46] [cursor=pointer]
+        - button "退出登录" [ref=e47] [cursor=pointer]
+    - main [ref=e48]:
+      - generic [ref=e49]:
+        - generic [ref=e50]: 待接入
+        - heading "工作台" [level=1] [ref=e51]
+        - paragraph [ref=e52]: 运营概览、任务动态与待办提醒
+        - paragraph [ref=e53]: 该模块为产品原型页，真实数据与操作将在对应实施阶段接入。当前不展示任何模拟业务结果。

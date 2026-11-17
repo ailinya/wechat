@@ -1,0 +1,35 @@
+- generic [ref=e83]:
+  - complementary [ref=e84]:
+    - generic [ref=e85]:
+      - generic [aria-hidden] [ref=e86]: 智
+      - generic [ref=e87]: 智媒助手
+    - navigation "主导航" [ref=e88]:
+      - button "工作台" [ref=e89] [cursor=pointer]
+      - button "采集管理" [ref=e91] [cursor=pointer]
+      - button "智能创作" [ref=e93] [cursor=pointer]
+      - button "内容管理" [ref=e95] [cursor=pointer]
+      - button "素材库" [ref=e97] [cursor=pointer]
+      - button "数据统计分析 无权限" [ref=e99]:
+        - generic [ref=e100]: 数据统计分析
+        - generic [ref=e101]: 无权限
+      - button "账号管理 无权限" [ref=e102]:
+        - generic [ref=e103]: 账号管理
+        - generic [ref=e104]: 无权限
+      - button "系统设置 无权限" [ref=e105]:
+        - generic [ref=e106]: 系统设置
+        - generic [ref=e107]: 无权限
+  - generic [ref=e108]:
+    - banner [ref=e109]:
+      - generic [ref=e110]:
+        - generic [ref=e111]: 编辑
+        - generic [ref=e112]: "@editor"
+        - generic [ref=e113]: editor
+      - generic [ref=e114]:
+        - button "刷新权限" [ref=e115] [cursor=pointer]
+        - button "退出登录" [ref=e116] [cursor=pointer]
+    - main [ref=e117]:
+      - generic [ref=e118]:
+        - generic [ref=e119]: 待接入
+        - heading "工作台" [level=1] [ref=e120]
+        - paragraph [ref=e121]: 运营概览、任务动态与待办提醒
+        - paragraph [ref=e122]: 该模块为产品原型页，真实数据与操作将在对应实施阶段接入。当前不展示任何模拟业务结果。

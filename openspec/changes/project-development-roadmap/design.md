@@ -87,7 +87,7 @@ flowchart LR
 
 任务采用 `阶段号.序号`，分类为前端、后端、数据库、接口、测试或验收。阶段依赖是该阶段全部任务的公共依赖；同阶段任务另标必要前置编号。执行时按数据库/契约、领域服务、页面联调、测试及阶段验收的顺序推进，不把清单文本顺序误当唯一调度方式。
 
-建议目录为 `frontend/`、`backend/`、`infra/`、`tests/e2e/`、`doc/`。后端采用 `api/routes → schemas → services → repositories/models`，第三方能力放 adapters，Worker 调用相同领域服务。若实施时发现已有工程，先复用其约定。
+建议目录为 `frontend/`、`backend/`、`tests/e2e/`、`doc/`，依赖服务的 `docker-compose.yml` 放在仓库根目录。后端采用 `api/routes → schemas → services → repositories/models`，第三方能力放 adapters，Worker 调用相同领域服务。若实施时发现已有工程，先复用其约定。根目录 `docker-compose.yml` 编排本地依赖服务（PostgreSQL + pgvector、Redis、RustFS），凭据从被忽略的根目录 `.env` 注入，仓库仅保留 `.env.example` 占位符。
 
 Codex 单项任务输入应包含编号、当前阶段、关联文档、已满足依赖；输出须包含改动文件、执行过的检查、可观察结果及剩余阻塞。每项任务完成后勾选，阶段验收完成前不能宣称阶段已完成。外部权限阻塞单独记录，fixture 验证和真实集成分别报告。
 
@@ -118,6 +118,10 @@ Codex 单项任务输入应包含编号、当前阶段、关联文档、已满�
 
 真实来源、模型及微信调用在相应阶段凭可用配置执行连通性验证，结果包含时间、能力和脱敏证据；真实发布验证依 `AGENT.md` 必须取得明确发布授权。无权限时阶段 7 的可重复适配器验收可以完成，真实发布能力保持未验收，阶段 9 交付清单必须披露。
 
+### 5. 依赖服务用 Docker Compose 启动
+
+本地开发与集成测试的 PostgreSQL + pgvector、Redis、RustFS 统一由仓库根目录 `docker-compose.yml` 定义，使用命名卷持久化并带健康检查。宿主端口经根目录 `.env` 的 `*_PORT` 变量映射，宿主标准端口被占用时改用非冲突端口，并同步更新 `DATABASE_URL`；连接串使用 `127.0.0.1` 避免本机 IPv6 解析挂起。凭据（数据库密码、RustFS 访问密钥）只写入被 `.gitignore` 忽略的 `.env`，不进入仓库、代码或演示数据。该 compose 文件属于阶段 1 任务 1.10 的运行配置交付物，提前建立以支撑迁移与认证验证；它只编排依赖服务，不替代应用进程（API/Worker/Beat/dispatcher）的启动说明。
+
 ## Risks / Trade-offs
 
 - [外部服务与权限未知] → 在消费者阶段设置配置/权限门槛；独立 adapter 与 fixture 保证内部工作可继续，受限能力不能标记真实完成。
@@ -130,7 +134,7 @@ Codex 单项任务输入应包含编号、当前阶段、关联文档、已满�
 
 ## Migration Plan
 
-本次只新增规划文件，无运行时迁移。后续各阶段先在独立测试数据库执行迁移；有业务数据时先备份再升级，并记录应用版本与迁移版本。首版部署含前端、API、Worker、Beat、dispatcher 和存储服务的启动、健康检查及依赖顺序。
+本次只新增规划文件，无运行时迁移。本地依赖服务在仓库根目录通过 `docker compose up -d` 启动（PostgreSQL + pgvector、Redis、RustFS，配置见 `.env.example`）；后续各阶段先在独立测试数据库执行迁移，有业务数据时先备份再升级，并记录应用版本与迁移版本。首版部署含前端、API、Worker、Beat、dispatcher 和存储服务的启动、健康检查及依赖顺序。
 
 回退优先回退应用并保持数据库向前兼容；破坏性数据变更先扩展再迁移、最后收缩，明确恢复方案。向量模型或维度升级使用新列/表重建后切换，保留旧索引到验证结束。备份恢复在阶段 9 实际演练，覆盖 PostgreSQL 与 RustFS 对象的一致性。
 
