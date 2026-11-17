@@ -82,6 +82,13 @@ def install_error_handlers(app: FastAPI) -> None:
 
     @app.exception_handler(Exception)
     async def handle_unexpected_error(_request: Request, exc: Exception) -> JSONResponse:
+        if isinstance(exc, NotImplementedError):
+            # Documented-contract stubs raise this before their implementing
+            # task lands; they answer 501 instead of a fake 500.
+            return JSONResponse(
+                status_code=501,
+                content={"error": _error_body("not_implemented", "该接口的实现将在后续任务完成")},
+            )
         logger.error("Unhandled API exception type=%s", type(exc).__name__)
         return JSONResponse(
             status_code=500,

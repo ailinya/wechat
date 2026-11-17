@@ -16,6 +16,7 @@ from app.schemas.auth import (
     LoginRequest,
     PermissionCode,
 )
+from app.schemas.async_jobs import AsyncJobOut
 from app.schemas.users import UserCreate, UserOut
 
 
@@ -45,6 +46,12 @@ def test_openapi_is_generatable_with_all_contract_paths(client: TestClient) -> N
         "/api/v1/roles",
         "/api/v1/roles/{role_id}",
         "/api/v1/roles/{role_id}/permissions",
+        "/api/v1/async-jobs",
+        "/api/v1/async-jobs/{job_id}",
+        "/api/v1/async-jobs/{job_id}/cancel",
+        "/api/v1/files/upload-grants",
+        "/api/v1/files/upload-grants/{grant_id}/complete",
+        "/api/v1/files/{object_id}/download-grant",
     }
     assert expected_paths <= set(spec["paths"])
 
@@ -52,7 +59,16 @@ def test_openapi_is_generatable_with_all_contract_paths(client: TestClient) -> N
 def test_openapi_documents_success_and_error_schemas(client: TestClient) -> None:
     spec = client.get("/openapi.json").json()
     schemas = spec["components"]["schemas"]
-    for name in ("ErrorEnvelope", "CurrentUser", "LoginResponse", "PermissionCode"):
+    for name in (
+        "ErrorEnvelope",
+        "CurrentUser",
+        "LoginResponse",
+        "PermissionCode",
+        "AsyncJobOut",
+        "UploadGrantOut",
+        "StoredObjectOut",
+        "DownloadGrantOut",
+    ):
         assert name in schemas
 
     login_ok = spec["paths"]["/api/v1/auth/login"]["post"]["responses"]["200"]
@@ -69,7 +85,7 @@ def test_success_and_failure_examples_conform_to_their_schema(client: TestClient
     CurrentUser.model_validate(example_user)
 
     for status, example in ERROR_EXAMPLES.items():
-        assert status in {400, 401, 403, 404, 409, 422}
+        assert status in {400, 401, 403, 404, 409, 422, 503}
         ErrorEnvelope.model_validate(example)
 
 
@@ -121,3 +137,47 @@ def test_auth_login_validation_error_uses_error_envelope(client: TestClient) -> 
     body = response.json()
     ErrorEnvelope.model_validate(body)
     assert body["error"]["code"] == "validation_error"
+
+
+def test_async_accepted_contract_example_conforms(client: TestClient) -> None:
+    spec = client.get("/openapi.json").json()
+    cancel = spec["paths"]["/api/v1/async-jobs/{job_id}/cancel"]
+    # 202 acceptance is shared by future side-effect endpoints via
+    # AsyncJobAccepted; the query path documents the "not ready" running state.
+    job_get = spec["paths"]["/api/v1/async-jobs/{job_id}"]["get"]["responses"]["200"]
+    example = job_get["content"]["application/json"]["example"]
+    AsyncJobOut.model_validate(example)
+    assert example["status"] in ("pending", "running")
+    assert "409" in cancel["post"]["responses"]
+
+
+def test_file_contract_documents_expired_and_forbidden_examples(client: TestClient) -> None:
+    spec = client.get("/openapi.json").json()
+    complete = spec["paths"]["/api/v1/files/upload-grants/{grant_id}/complete"]["post"]
+    responses = complete["responses"]
+    examples_400 = responses["400"]["content"]["application/json"]["examples"]
+    codes = {e["value"]["error"]["code"] for e in examples_400.values()}
+    assert "grant_expired" in codes and "object_mismatch" in codes
+    assert "403" in responses
+    ErrorEnvelope.model_validate(responses["403"]["content"]["application/json"]["example"])
+    grant = spec["paths"]["/api/v1/files/upload-grants"]["post"]["responses"]
+    assert "409" in grant  # idempotency conflict documented where the header applies
+
+
+def test_async_accepted_schema_defined_and_idempotency_conflict_documented() -> None:
+    # The 202 acceptance contract (async_job_id + resource_id) lives in
+    # schemas/common.AsyncJobAccepted; side-effect endpoints use it from 2.3 on.
+    from app.schemas.common import AsyncJobAccepted
+
+    accepted = AsyncJobAccepted(
+        async_job_id="0d1c6a3e-6f4a-4a5d-9a44-8d0b6c5f21aa",
+        resource_type="collection_run",
+        resource_id="7b2d8c1a-1e2f-4b3c-8d4e-5f6a7b8c9d0e",
+    )
+    assert accepted.model_dump(mode="json") == {
+        "async_job_id": "0d1c6a3e-6f4a-4a5d-9a44-8d0b6c5f21aa",
+        "resource_type": "collection_run",
+        "resource_id": "7b2d8c1a-1e2f-4b3c-8d4e-5f6a7b8c9d0e",
+        "status": "accepted",
+    }
+    assert "idempotency_conflict_response" in dir(__import__("app.api.responses", fromlist=["x"]))

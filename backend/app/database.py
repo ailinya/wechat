@@ -35,3 +35,8 @@ def get_db(request: Request) -> Iterator[Session]:
     engine = get_engine(settings)
     with Session(engine) as session:
         yield session
+
+
+def session_for(settings: Settings) -> Session:
+    """A standalone session for workers/dispatchers (no request context)."""
+    return Session(get_engine(settings))

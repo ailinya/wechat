@@ -52,6 +52,46 @@ class Settings(BaseSettings):
         default="wetchat_csrf", validation_alias="CSRF_COOKIE_NAME"
     )
 
+    # 异步执行（任务 2.3）：Celery broker 与任务运行约束
+    redis_url: str = Field(
+        default="redis://127.0.0.1:6379/0",
+        validation_alias="REDIS_URL",
+    )
+    celery_task_always_eager: bool = Field(
+        default=False,
+        validation_alias="CELERY_TASK_ALWAYS_EAGER",
+    )
+    job_soft_time_limit_seconds: int = Field(
+        default=300, ge=1, validation_alias="JOB_SOFT_TIME_LIMIT_SECONDS",
+    )
+    job_max_attempts: int = Field(
+        default=3, ge=1, validation_alias="JOB_MAX_ATTEMPTS",
+    )
+    job_retry_backoff_seconds: int = Field(
+        default=5, ge=0, validation_alias="JOB_RETRY_BACKOFF_SECONDS",
+    )
+    job_stale_timeout_minutes: int = Field(
+        default=30, ge=1, validation_alias="JOB_STALE_TIMEOUT_MINUTES",
+    )
+
+    # 对象存储（任务 2.6）：RustFS S3 兼容端点与授权有效期
+    rustfs_endpoint: str = Field(
+        default="http://127.0.0.1:9000",
+        validation_alias="RUSTFS_ENDPOINT",
+    )
+    rustfs_access_key: str = Field(default="", validation_alias="RUSTFS_ACCESS_KEY")
+    rustfs_secret_key: SecretStr = Field(
+        default=SecretStr(""),
+        validation_alias="RUSTFS_SECRET_KEY",
+    )
+    rustfs_bucket: str = Field(default="attachments", validation_alias="RUSTFS_BUCKET")
+    upload_grant_ttl_minutes: int = Field(
+        default=15, ge=1, validation_alias="UPLOAD_GRANT_TTL_MINUTES",
+    )
+    download_grant_ttl_minutes: int = Field(
+        default=5, ge=1, validation_alias="DOWNLOAD_GRANT_TTL_MINUTES",
+    )
+
 
 def load_settings() -> Settings:
     try:

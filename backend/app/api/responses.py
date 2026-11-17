@@ -31,6 +31,7 @@ ERROR_EXAMPLES: dict[int, dict[str, Any]] = {
     404: _error_example("not_found", "请求的资源不存在"),
     409: _error_example("conflict", "请求与当前资源状态冲突"),
     422: FIELD_ERROR_EXAMPLE,
+    503: _error_example("service_unavailable", "依赖服务暂不可用"),
 }
 
 
@@ -62,4 +63,34 @@ NOT_IMPLEMENTED = {
             }
         },
     }
+}
+
+
+IDEMPOTENCY_CONFLICT_EXAMPLE = {
+    "error": {
+        "code": "idempotency_conflict",
+        "message": "该幂等键已被用于不同的请求内容",
+    }
+}
+
+
+def idempotency_conflict_response() -> dict[str, Any]:
+    """OpenAPI description for the 409 raised when an Idempotency-Key is
+    reused with a different request fingerprint (enforced by task 2.5)."""
+    return {
+        "model": ErrorEnvelope,
+        "description": "同一作用域内幂等键被不同内容复用",
+        "content": {"application/json": {"example": IDEMPOTENCY_CONFLICT_EXAMPLE}},
+    }
+
+
+IDEMPOTENCY_KEY_PARAMETER = {
+    "name": "Idempotency-Key",
+    "in": "header",
+    "required": False,
+    "description": (
+        "副作用请求的幂等键：同一用户在同一动作作用域内，同键同内容返回原结果，"
+        "同键不同内容返回 409 idempotency_conflict。作用域由服务端按端点固定。"
+    ),
+    "schema": {"type": "string", "maxLength": 128},
 }

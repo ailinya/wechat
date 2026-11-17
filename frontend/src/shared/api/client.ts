@@ -42,6 +42,8 @@ export interface RequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
   body?: unknown
   signal?: AbortSignal
+  /** Extra request headers (e.g. Idempotency-Key). */
+  headers?: Record<string, string>
 }
 
 /** Perform an authenticated API request. Cookies are always included. */
@@ -54,6 +56,7 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
     headers[CSRF_HEADER] = getCsrfToken() ?? ''
     if (options.body !== undefined) headers['Content-Type'] = 'application/json'
   }
+  Object.assign(headers, options.headers)
 
   let response: Response
   try {

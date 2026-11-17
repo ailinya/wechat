@@ -7,6 +7,11 @@ import { LoginPage } from './app/LoginPage'
 import { moduleByPath } from './app/modules'
 import { navigate, useHashRoute } from './app/router'
 import { Placeholder } from './features/Placeholder'
+import { DashboardHome } from './features/dashboard/Home'
+import { JobPollingDemoPage } from './features/dashboard/JobPollingDemoPage'
+import { ListDemoPage } from './features/dashboard/ListDemoPage'
+import { UploadDemoPage } from './features/dashboard/UploadDemoPage'
+import { FeedbackProvider } from './shared/components/feedback'
 
 function Routes() {
   const { status, hasPermission } = useAuth()
@@ -51,24 +56,39 @@ function Routes() {
 
   const allowed = module.permission === null || hasPermission(module.permission)
 
-  return (
-    <AppShell currentPath={route.path}>
-      {allowed ? (
-        <Placeholder module={module} />
-      ) : (
+  const pageContent = (() => {
+    if (!allowed) {
+      return (
         <section className="center-state" role="alert">
           <h1>无访问权限</h1>
           <p>当前账号没有访问「{module.label}」所需的权限。</p>
         </section>
-      )}
-    </AppShell>
-  )
+      )
+    }
+    if (route.path === '/dashboard/components-demo') {
+      return <ListDemoPage />
+    }
+    if (route.path === '/dashboard/job-demo') {
+      return <JobPollingDemoPage />
+    }
+    if (route.path === '/dashboard/upload-demo') {
+      return <UploadDemoPage />
+    }
+    if (module.key === 'dashboard') {
+      return <DashboardHome module={module} />
+    }
+    return <Placeholder module={module} />
+  })()
+
+  return <AppShell currentPath={route.path}>{pageContent}</AppShell>
 }
 
 export default function App() {
   return (
     <AuthProvider>
-      <Routes />
+      <FeedbackProvider>
+        <Routes />
+      </FeedbackProvider>
     </AuthProvider>
   )
 }

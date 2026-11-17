@@ -17,6 +17,3 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     application.include_router(api_router, prefix="/api/v1")
     install_error_handlers(application)
     return application
-
-
-app = create_app()

@@ -250,3 +250,115 @@
   .topbar { padding: 0 16px; }
   .user-account, .user-roles { display: none; }
 }
+
+/* --- Shared list page conventions (task 1.8) --- */
+
+.list-page { padding: 24px 32px; }
+.list-page h1 { margin: 0 0 8px; font-size: 20px; }
+.list-page-note { margin: 0 0 16px; color: #5c6b68; font-size: 13px; }
+
+.list-filters {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.list-filters input[type="search"] {
+  width: 240px;
+  padding: 6px 10px;
+  border: 1px solid #c8d2cf;
+  border-radius: 6px;
+  background: #fff;
+}
+.list-filters select {
+  padding: 6px 10px;
+  border: 1px solid #c8d2cf;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #dde4e2;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.data-table th,
+.data-table td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid #e7eceb;
+  font-size: 14px;
+}
+.data-table th { background: #f0f3f2; font-weight: 600; color: #3c4a47; }
+.data-table tbody tr:last-child td { border-bottom: none; }
+
+.list-state {
+  padding: 48px 24px;
+  text-align: center;
+  color: #5c6b68;
+  background: #fff;
+  border: 1px dashed #c8d2cf;
+  border-radius: 8px;
+}
+.list-state h2 { margin: 0 0 8px; font-size: 16px; color: #263634; }
+.list-state p { margin: 0 0 12px; }
+.list-state[data-state="error"] { border-color: #d8a5a5; color: #8c3a3a; }
+
+.pagination {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #5c6b68;
+}
+.pagination-size { display: inline-flex; gap: 4px; align-items: center; }
+.pagination-size select { padding: 4px 6px; border: 1px solid #c8d2cf; border-radius: 6px; }
+.pagination button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.toast-host {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 100;
+}
+.toast {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+.toast-success { background: #e5f3ec; color: #1f5c3d; border: 1px solid #b5dcc6; }
+.toast-error { background: #fbeaea; color: #8c3a3a; border: 1px solid #e3bcbc; }
+
+.demo-entry { padding: 0 32px 24px; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* --- Task 2.8/2.9 demo cards --- */
+.job-card, .upload-card {
+  background: #fff;
+  border: 1px solid #dde4e2;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-top: 16px;
+  max-width: 720px;
+}
+.job-card p, .upload-card p { margin: 6px 0; font-size: 14px; }
+.job-error, .upload-error { color: #8c3a3a; }
+.job-meta { color: #5c6b68; font-size: 12px; }
+.upload-result { color: #1f5c3d; }
