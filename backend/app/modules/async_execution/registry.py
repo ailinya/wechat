@@ -35,6 +35,16 @@ class JobCancelled(Exception):
 
 
 _REGISTRY: dict[str, Handler] = {}
+_ENGINE_REGISTRY: dict[str, Callable] = {}
+
+
+def register_engine_handler(job_type: str, handler: Callable) -> None:
+    """Handlers with network I/O own their transactions using an engine."""
+    _ENGINE_REGISTRY[job_type] = handler
+
+
+def get_engine_handler(job_type: str):
+    return _ENGINE_REGISTRY.get(job_type)
 
 
 def register_handler(job_type: str, handler: Handler) -> None:

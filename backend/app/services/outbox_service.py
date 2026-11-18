@@ -45,6 +45,7 @@ def claim_batch(conn: Connection, batch_size: int = 20) -> list[dict]:
         text(
             "SELECT id, event_type, payload FROM outbox_events "
             "WHERE status = 'pending' AND available_at <= now() "
+            "AND (event_type <> 'material.ready' OR payload ? 'task') "
             "ORDER BY created_at LIMIT :batch FOR UPDATE SKIP LOCKED"
         ),
         {"batch": batch_size},

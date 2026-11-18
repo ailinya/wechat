@@ -14,10 +14,14 @@ dependencies = [
     "redis>=5.0,<7.0",
     "minio>=7.2,<8.0",
     "fastapi>=0.115,<1.0",
+    "feedparser>=6.0,<7.0",
+    "beautifulsoup4>=4.12,<5.0",
     "psycopg[binary]>=3.1,<4.0",
     "pydantic-settings>=2.6,<3.0",
     "sqlalchemy>=2.0,<3.0",
     "uvicorn[standard]>=0.34,<1.0",
+    "trafilatura>=2.3,<3.0",
+    "python-dotenv>=1.0,<2.0",
 ]
 
 [dependency-groups]
@@ -31,6 +35,10 @@ wetchat-create-admin = "app.commands.create_admin:main"
 
 [tool.uv]
 package = true
+
+[[tool.uv.index]]
+url = "https://mirrors.aliyun.com/pypi/simple"
+default = true
 
 [tool.hatch.build.targets.wheel]
 packages = ["app"]

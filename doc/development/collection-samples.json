@@ -1,0 +1,43 @@
+{
+  "version": "2026-11-18",
+  "description": "任务 3.13 固定中文标注样例集。冻结 URL，逐例记录评估结果；重跑时不得更改 URL，仅可追加新样例并注明日期。",
+  "articles": [
+    { "id": "off-1", "category": "official", "url": "https://www.cac.gov.cn/2026-10/19/c_1794086281588959.htm", "expect": { "title": "关于开展未成年人用户数量巨大和对未成年人群体具有显著影响的网络平台服务提供者认定工作的公告", "body_ok": true, "date": "2026-10-19" }, "notes": "网信办公告页，验证干净提取" },
+    { "id": "off-2", "category": "official", "url": "https://www.cac.gov.cn/2026-09/18/c_1791482017777471.htm", "expect": { "title": "国家互联网信息办公室关于《国务院关于保障未成年人健康安全使用网络的规定（征求意见稿）》公开征求意见的通知", "body_ok": true, "date": "2026-09-18" }, "notes": "法规征求意见通知" },
+    { "id": "off-3", "category": "official", "url": "https://www.stats.gov.cn/sj/zxfb/202611/t20261116_1965844.html", "expect": { "body_ok": true, "date": "2026-11-16", "title_polluted": true }, "notes": "统计局发布页标题位于 document.write JS，验证标题污染限制" },
+    { "id": "off-4", "category": "official", "url": "https://www.stats.gov.cn/sj/zxfb/202611/t20261116_1965842.html", "expect": { "body_ok": true, "date": "2026-11-16", "title_polluted": true }, "notes": "统计局发布页第二篇" },
+    { "id": "off-5", "category": "official", "url": "https://www.stats.gov.cn/sj/zxfb/202611/t20261116_1965841.html", "expect": { "body_ok": true, "date": "2026-11-16", "title_polluted": true }, "notes": "统计局发布页第三篇" },
+    { "id": "ind-1", "category": "industry", "url": "https://www.ifanr.com/1689994", "expect": { "body_ok": true, "date": "2026-11-18" }, "notes": "爱范儿文章页" },
+    { "id": "ind-2", "category": "industry", "url": "https://www.ifanr.com/1689915", "expect": { "body_ok": true, "date": "2026-11-18" }, "notes": "爱范儿早报页" },
+    { "id": "ind-3", "category": "industry", "url": "https://www.ifanr.com/1689832", "expect": { "body_ok": true }, "notes": "爱范儿第三篇" },
+    { "id": "ind-4", "category": "industry", "url": "https://sspai.com/post/119210", "expect": { "body_ok": true, "date": "2026-11-18" }, "notes": "少数派早报" },
+    { "id": "ind-5", "category": "industry", "url": "https://sspai.com/post/119184", "expect": { "body_ok": true }, "notes": "少数派文章" },
+    { "id": "news-1", "category": "news", "url": "https://www.chinanews.com.cn/cj/2026/11-17/10733326.shtml", "expect": { "body_ok": true, "date": "2026-11-17" }, "notes": "中新网财经报道" },
+    { "id": "news-2", "category": "news", "url": "https://news.cctv.com/2026/11/18/ARTIJvt5sSZY1iifqA7kzrCV261118.shtml", "expect": { "body_ok": true, "date": "2026-11-18" }, "notes": "央视新闻（生态环境监管）" },
+    { "id": "news-3", "category": "news", "url": "https://www.jiemian.com/article/9943448.html", "expect": { "body_ok": true, "date": "2023-08-17" }, "notes": "界面消费者报道（旧文，验证时间筛选/旧文召回）" },
+    { "id": "news-4", "category": "news", "url": "https://www.solidot.org/story?sid=85915", "expect": { "body_ok": false }, "notes": "Solidot 科技新闻（已知正文不可提取，验证失败样本的明确状态）" },
+    { "id": "news-5", "category": "news", "url": "https://www.bbc.com/zhongwen/articles/cmpdwn010nyvo/trad", "expect": { "body_ok": false }, "notes": "BBC 中文（本网络抓取超时/受限，记录网络限制）" }
+  ],
+  "feeds": [
+    { "id": "rss-1", "category": "industry", "url": "https://sspai.com/feed", "expect": { "parse_ok": true } },
+    { "id": "rss-2", "category": "industry", "url": "https://www.ifanr.com/feed", "expect": { "parse_ok": true } },
+    { "id": "rss-3", "category": "news", "url": "https://www.solidot.org/index.rss", "expect": { "parse_ok": true } },
+    { "id": "rss-4", "category": "industry", "url": "https://36kr.com/feed", "expect": { "parse_ok": false }, "notes": "36氪对非浏览器 UA 返回 JS 挑战页（HTML 非 XML），站点侧限制" },
+    { "id": "rss-5", "category": "industry", "url": "https://www.jiqizhixin.com/rss", "expect": { "parse_ok": false }, "notes": "机器之心 RSS 重定向后 XML 非法" }
+  ],
+  "list_pages": [
+    { "id": "list-1", "category": "official", "url": "https://www.stats.gov.cn/sj/zxfb/", "expect": { "links_discoverable": true }, "notes": "统计局数据发布栏目页" },
+    { "id": "list-2", "category": "official", "url": "https://www.cac.gov.cn/", "expect": { "links_discoverable": true }, "notes": "网信办首页（栏目发现）" }
+  ],
+  "search_queries": [
+    { "id": "q-1", "query": "国家统计局 2026年10月份国民经济运行情况", "expect_domains": ["stats.gov.cn"] },
+    { "id": "q-2", "query": "未成年人网络保护 征求意见 网信办", "expect_domains": ["cac.gov.cn"] },
+    { "id": "q-3", "query": "英伟达 黄仁勋 回归 董事会", "expect_domains": ["ifanr.com", "jiemian.com", "chinanews.com.cn"] },
+    { "id": "q-4", "query": "国家统计局 10月份国民经济运行", "include_domains": ["stats.gov.cn"], "expect_domains": ["stats.gov.cn"], "notes": "域名过滤测试" }
+  ],
+  "known_gaps": [
+    "跨站转载样例：本轮未找到可固定验证的同一事件跨站转载对，后续补充（影响 3.21 判重评估）。",
+    "时间缺失样例：本轮 15 篇文章均能取到日期或标题内含日期；无「正文无任何日期」样例，后续补充。",
+    "分析模型（LLM）无可用凭据，结构化输出与原文引用验证阻塞，见评估报告阻塞记录。"
+  ]
+}

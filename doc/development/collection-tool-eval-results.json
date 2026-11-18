@@ -1,0 +1,478 @@
+{
+  "generated_at": "2026-11-18T02:59:24.318986+00:00",
+  "tool_versions": {
+    "feedparser": "6.0.14",
+    "trafilatura": "2.3.1",
+    "requests": "2.34.2"
+  },
+  "feeds": [
+    {
+      "id": "rss-1",
+      "url": "https://sspai.com/feed",
+      "latency_ms": 203,
+      "parse_ok": true,
+      "entry_count": 10,
+      "version": "rss20",
+      "bozo_reason": null,
+      "first_entry": {
+        "title": "派早报：国区 App Store 将 AIGC 合规设为上架必填、OpenAI 发布 GPT-6.2 Astra 等",
+        "link": "https://sspai.com/post/119210",
+        "published": "Wed, 18 Nov 2026 08:46:03 +0800"
+      },
+      "expect_pass": true,
+      "matches_expectation": true
+    },
+    {
+      "id": "rss-2",
+      "url": "https://www.ifanr.com/feed",
+      "latency_ms": 437,
+      "parse_ok": true,
+      "entry_count": 20,
+      "version": "rss20",
+      "bozo_reason": null,
+      "first_entry": {
+        "title": "黄仁勋官宣愿意回归，英伟达董事会：不考虑！",
+        "link": "https://www.ifanr.com/1689994?utm_source=rss&utm_medium=rss&utm_campaign=",
+        "published": "Wed, 18 Nov 2026 00:39:56 +0000"
+      },
+      "expect_pass": true,
+      "matches_expectation": true
+    },
+    {
+      "id": "rss-3",
+      "url": "https://www.solidot.org/index.rss",
+      "latency_ms": 233,
+      "parse_ok": true,
+      "entry_count": 20,
+      "version": "rss20",
+      "bozo_reason": null,
+      "first_entry": {
+        "title": "学校禁止手机有助于提高学生成绩",
+        "link": "https://www.solidot.org/story?sid=85915",
+        "published": "Wed, 18 Nov 2026 00:24:55 +0800"
+      },
+      "expect_pass": true,
+      "matches_expectation": true
+    },
+    {
+      "id": "rss-4",
+      "url": "https://36kr.com/feed",
+      "latency_ms": 156,
+      "parse_ok": false,
+      "entry_count": 0,
+      "version": null,
+      "bozo_reason": "<unknown>:11:168: not well-formed (invalid token)",
+      "first_entry": null,
+      "expect_pass": false,
+      "matches_expectation": true
+    },
+    {
+      "id": "rss-5",
+      "url": "https://www.jiqizhixin.com/rss",
+      "latency_ms": 218,
+      "parse_ok": false,
+      "entry_count": 0,
+      "version": null,
+      "bozo_reason": "<unknown>:8:82: not well-formed (invalid token)",
+      "first_entry": null,
+      "expect_pass": false,
+      "matches_expectation": true
+    }
+  ],
+  "articles": [
+    {
+      "id": "off-1",
+      "url": "https://www.cac.gov.cn/2026-10/19/c_1794086281588959.htm",
+      "fetch_ms": 78,
+      "total_ms": 438,
+      "body_ok": true,
+      "body_length": 1632,
+      "title": "关于开展未成年人用户数量巨大和对未成年人群体具有显著影响的网络平台服务提供者认定工作的公告",
+      "title_polluted": false,
+      "date": "2026-10-19",
+      "date_present": true,
+      "expect_pass": true,
+      "matches_expectation": true
+    },
+    {
+      "id": "off-2",
+      "url": "https://www.cac.gov.cn/2026-09/18/c_1791482017777471.htm",
+      "fetch_ms": 15,
+      "total_ms": 61,
+      "body_ok": true,
+      "body_length": 7031,
+      "title": "国家互联网信息办公室关于《国务院关于保障未成年人健康安全使用网络的规定（征求意见稿）》公开征求意见的通知",
+      "title_polluted": false,
+      "date": "2026-09-18",
+      "date_present": true,
+      "expect_pass": true,
+      "matches_expectation": true
+    },
+    {
+      "id": "off-3",
+      "url": "https://www.stats.gov.cn/sj/zxfb/202611/t20261116_1965844.html",
+      "fetch_ms": 188,
+      "total_ms": 608,
+      "body_ok": false,
+      "body_length": 7346,
+      "title": "var title1 = '10月份国民经济运行总体平稳、向新向优'; var title2 = ''; var tit",
+      "title_polluted": true,
+      "date": "2026-11-16",
+      "date_present": true,
+      "expect_pass": true,
+      "matches_expectation": false
+    },
+    {
+      "id": "off-4",
+      "url": "https://www.stats.gov.cn/sj/zxfb/202611/t20261116_1965842.html",
+      "fetch_ms": 157,
+      "total_ms": 547,
+      "body_ok": false,
+      "body_length": 5149,
+      "title": "var title1 = '2026年10月份规模以上工业增加值增长4.8%'; var title2 = ''; va",
+      "title_polluted": true,
+      "date": "2026-11-16",
+      "date_present": true,
+      "expect_pass": true,
+      "matches_expectation": false
+    },
+    {
+      "id": "off-5",
+      "url": "https://www.stats.gov.cn/sj/zxfb/202611/t20261116_1965841.html",
+      "fetch_ms": 63,
+      "total_ms": 297,
+      "body_ok": false,
+      "body_length": 3105,
+      "title": "var title1 = '2026年1—10月份全国固定资产投资基本情况'; var title2 = ''; var",
+      "title_polluted": true,
+      "date": "2026-11-16",
+      "date_present": true,
+      "expect_pass": true,
+      "matches_expectation": false
+    },
+    {
+      "id": "ind-1",
+      "url": "https://www.ifanr.com/1689994",
+      "fetch_ms": 171,
+      "total_ms": 202,
+      "body_ok": true,
+      "body_length": 4064,
+      "title": "黄仁勋官宣愿意回归，英伟达董事会：不考虑！",
+      "title_polluted": false,
+      "date": "2026-11-18",
+      "date_present": true,
+      "expect_pass": true,
+      "matches_expectation": true
+    },
+    {
+      "id": "ind-2",
+      "url": "https://www.ifanr.com/1689915",
+      "fetch_ms": 77,
+      "total_ms": 141,
+      "body_ok": true,
+      "body_length": 17467,
+      "title": "早报｜黄仁勋称愿重返英伟达/李飞飞加入AMD，向苏姿丰直接汇报/红果短剧治理肖像侵权",
+      "title_polluted": false,
+      "date": "2026-11-18",
+      "date_present": true,
+      "expect_pass": true,
+      "matches_expectation": true
+    },
+    {
+      "id": "ind-3",
+      "url": "https://www.ifanr.com/1689832",
+      "fetch_ms": 531,
+      "total_ms": 561,
+      "body_ok": true,
+      "body_length": 4837,
+      "title": "Mac 收紧权限，苹果开始防着 AI 了",
+      "title_polluted": false,
+      "date": "2026-11-17",
+      "date_present": true,
+      "expect_pass": true,
+      "matches_expectation": true
+    },
+    {
+      "id": "ind-4",
+      "url": "https://sspai.com/post/119210",
+      "fetch_ms": 1094,
+      "total_ms": 1141,
+      "body_ok": true,
+      "body_length": 7224,
+      "title": "派早报：国区 App Store 将 AIGC 合规设为上架必填、OpenAI 发布 GPT-6.2 Astra 等 -",
+      "title_polluted": false,
+      "date": "2026-11-18",
+      "date_present": true,
+      "expect_pass": true,
+      "matches_expectation": true
+    },
+    {
+      "id": "ind-5",
+      "url": "https://sspai.com/post/119184",
+      "fetch_ms": 313,
+      "total_ms": 358,
+      "body_ok": true,
+      "body_length": 9874,
+      "title": "社区速递 166｜柯尼卡胶片机、iPhone Duo 体验与假期省钱实操大赏 - 少数派",
+      "title_polluted": false,
+      "date": "2026-11-17",
+      "date_present": true,
+      "expect_pass": true,
+      "matches_expectation": true
+    },
+    {
+      "id": "news-1",
+      "url": "https://www.chinanews.com.cn/cj/2026/11-17/10733326.shtml",
+      "fetch_ms": 110,
+      "total_ms": 235,
+      "body_ok": true,
+      "body_length": 1834,
+      "title": "APEC让数字红利惠及亚太",
+      "title_polluted": false,
+      "date": "2026-11-17",
+      "date_present": true,
+      "expect_pass": true,
+      "matches_expectation": true
+    },
+    {
+      "id": "news-2",
+      "url": "https://news.cctv.com/2026/11/18/ARTIJvt5sSZY1iifqA7kzrCV261118.shtml",
+      "fetch_ms": 61,
+      "total_ms": 2436,
+      "body_ok": true,
+      "body_length": 481,
+      "title": "生态环境部：将进一步加强废电器处理的监督管理",
+      "title_polluted": false,
+      "date": "2026-11-18",
+      "date_present": true,
+      "expect_pass": true,
+      "matches_expectation": true
+    },
+    {
+      "id": "news-3",
+      "url": "https://www.jiemian.com/article/9943448.html",
+      "fetch_ms": 125,
+      "total_ms": 188,
+      "body_ok": true,
+      "body_length": 1409,
+      "title": "伊丽莎白雅顿：“两杯奶茶钱”可买全套产品，有关部门：违规宣传，罚款两万｜消费者报告|界面新闻",
+      "title_polluted": false,
+      "date": "2023-08-17",
+      "date_present": true,
+      "expect_pass": true,
+      "matches_expectation": true
+    },
+    {
+      "id": "news-4",
+      "url": "https://www.solidot.org/story?sid=85915",
+      "fetch_ms": 202,
+      "total_ms": 233,
+      "body_ok": true,
+      "body_length": 790,
+      "title": "奇客Solidot",
+      "title_polluted": false,
+      "date": "2026-11-17",
+      "date_present": true,
+      "expect_pass": false,
+      "matches_expectation": false
+    },
+    {
+      "id": "news-5",
+      "url": "https://www.bbc.com/zhongwen/articles/cmpdwn010nyvo/trad",
+      "fetch_ms": 21062,
+      "body_ok": false,
+      "error": "fetch_failed_or_timeout",
+      "expect_pass": false,
+      "matches_expectation": true
+    }
+  ],
+  "list_pages": [
+    {
+      "id": "list-1",
+      "url": "https://www.stats.gov.cn/sj/zxfb/",
+      "status": 200,
+      "latency_ms": 1467,
+      "links_found": 19,
+      "fresh_links": 15,
+      "sample_links": [
+        "./202611/t20261116_1965844.html",
+        "./202611/t20261116_1965842.html",
+        "./202611/t20261116_1965841.html"
+      ],
+      "links_discoverable": true,
+      "matches_expectation": true
+    },
+    {
+      "id": "list-2",
+      "url": "https://www.cac.gov.cn/",
+      "status": 200,
+      "latency_ms": 47,
+      "links_found": 10,
+      "fresh_links": 4,
+      "sample_links": [
+        "//www.cac.gov.cn/2026-11/17/c_1796675904753434.htm",
+        "//www.cac.gov.cn/2026-10/19/c_1794086281588959.htm",
+        "//www.cac.gov.cn/2026-09/18/c_1791482017777471.htm"
+      ],
+      "links_discoverable": true,
+      "matches_expectation": true
+    }
+  ],
+  "search": [
+    {
+      "id": "q-1",
+      "query": "国家统计局 2026年10月份国民经济运行情况",
+      "blocked": false,
+      "status": 200,
+      "latency_ms": 516,
+      "results": [
+        {
+          "score": 0.809,
+          "url": "https://www.stats.gov.cn/sj/sjjd/202611/t20261116_1965869.html",
+          "title": "国家统计局新闻发言人就2026年10月份国民经济运行情况答记者问 - 国家统计局"
+        },
+        {
+          "score": 0.794,
+          "url": "https://m.sohu.com/a/1102422535_122014422?scm=10001.325_13-325_13.0.0-0-0-0-0.5_1334",
+          "title": "10月国民经济运行总体平稳、向新向优_搜狐网"
+        },
+        {
+          "score": 0.784,
+          "url": "http://www.xinhuanet.com/fortune/20261116/9e572fdeafbe4df991a7d92603b24094/c.html",
+          "title": "10月份国民经济运行总体平稳、向新向优-新华网"
+        },
+        {
+          "score": 0.781,
+          "url": "https://www.stats.gov.cn/sj/zxfb",
+          "title": "数据发布 - 国家统计局"
+        },
+        {
+          "score": 0.704,
+          "url": "https://www.stats.gov.cn/sj/zxfbhjd",
+          "title": "最新发布和解读聚合 - 国家统计局"
+        }
+      ],
+      "expected_domain_in_results": true,
+      "matches_expectation": true
+    },
+    {
+      "id": "q-2",
+      "query": "未成年人网络保护 征求意见 网信办",
+      "blocked": false,
+      "status": 200,
+      "latency_ms": 2875,
+      "results": [
+        {
+          "score": 0.757,
+          "url": "https://www.huitianyunhai.com/news/327.html",
+          "title": "全球瞭望|10月全球网络安全大事件速览_济南慧天云海信息技术有限公司"
+        },
+        {
+          "score": 0.752,
+          "url": "https://baike.baidu.com/item/%E5%9B%BD%E5%8A%A1%E9%99%A2%E5%85%B3%E4%BA%8E%E4%BF%9D%E9%9A%",
+          "title": "国务院关于保障未成年人健康安全使用网络的规定"
+        },
+        {
+          "score": 0.725,
+          "url": "http://paper.people.com.cn/rmrb/pc/content/202611/11/content_30190554.html",
+          "title": "以法之力共护清朗网络家园（“十五五”开好局起好步）"
+        },
+        {
+          "score": 0.71,
+          "url": "https://www.cac.gov.cn/2026-11/12/c_1796238053809322.htm",
+          "title": "以法之力共护清朗网络家园（“十五五”开好局起好步）_中央网络安全和信息化委员会办公室"
+        },
+        {
+          "score": 0.401,
+          "url": "https://www.thepaper.cn/newsDetail_forward_34385688",
+          "title": "广东拟出新规：手机、电话手表不得带入学校！_澎湃号·政务_澎湃新闻-The Paper"
+        }
+      ],
+      "expected_domain_in_results": true,
+      "matches_expectation": true
+    },
+    {
+      "id": "q-3",
+      "query": "英伟达 黄仁勋 回归 董事会",
+      "blocked": false,
+      "status": 200,
+      "latency_ms": 4297,
+      "results": [
+        {
+          "score": 0.843,
+          "url": "https://www.tradingkey.com/zh-hans/analysis/stocks/us-stock/262309485-nvidia-stock-pares-l",
+          "title": "黄仁勋表态愿重返CEO岗位，英伟达股价跌幅收窄至1%"
+        },
+        {
+          "score": 0.834,
+          "url": "https://m.sohu.com/a/1102573280_180220?scm=10001.325_13-325_13.0.0-0-0-0-0.5_1334",
+          "title": "英伟达董事会：没考虑黄仁勋回归_搜狐网"
+        },
+        {
+          "score": 0.824,
+          "url": "https://zhuanlan.zhihu.com/p/2105607552016856094",
+          "title": "突发！黄仁勋与盟友商讨重返英伟达CEO之位"
+        },
+        {
+          "score": 0.804,
+          "url": "https://news.mydrivers.com/1/1166/1166275.htm",
+          "title": "特朗普称黄仁勋回归“不是坏主意”！英伟达董事会却被曝未考虑复职--快科技--科技改变未来"
+        },
+        {
+          "score": 0.79,
+          "url": "https://www.bbc.com/zhongwen/articles/ck3rgq3l5yr1o/simp",
+          "title": "“让黄仁勋回归”运动：Nvidia驳斥　特朗普支持 - BBC News 中文"
+        }
+      ],
+      "expected_domain_in_results": false,
+      "matches_expectation": false
+    },
+    {
+      "id": "q-4",
+      "query": "国家统计局 10月份国民经济运行",
+      "blocked": false,
+      "status": 200,
+      "latency_ms": 4329,
+      "results": [
+        {
+          "score": 0.821,
+          "url": "https://www.stats.gov.cn/sj/sjjd/202611/t20261116_1965869.html",
+          "title": "国家统计局新闻发言人就2026年10月份国民经济运行情况答记者问 - 国家统计局"
+        },
+        {
+          "score": 0.791,
+          "url": "https://www.stats.gov.cn/sj/zxfb",
+          "title": "数据发布 - 国家统计局"
+        },
+        {
+          "score": 0.721,
+          "url": "https://www.stats.gov.cn/sj/zxfbhjd",
+          "title": "最新发布和解读聚合 - 国家统计局"
+        },
+        {
+          "score": 0.701,
+          "url": "https://www.stats.gov.cn/sj/zxfbhjd/202611/t20261116_1965842.html",
+          "title": "2026年10月份规模以上工业增加值增长4.8% - 国家统计局"
+        },
+        {
+          "score": 0.695,
+          "url": "https://www.stats.gov.cn/sj/zxfb/202611/t20261116_1965844.html",
+          "title": "10月份国民经济运行总体平稳、向新向优 - 国家统计局"
+        }
+      ],
+      "expected_domain_in_results": true,
+      "matches_expectation": true
+    }
+  ],
+  "analysis_model": {
+    "tool": "analysis model (LLM structured output + citation)",
+    "blocked": true,
+    "blocker": "未找到任何模型凭据（ZHIPUAI_API_KEY, GLM_API_KEY, BIGMODEL_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, DASHSCOPE_API_KEY, DEEPSEEK_API_KEY, MOONSHOT_API_KEY 均未设置）",
+    "verification": "中文结构化输出与原文引用能力未验证；不能用 fixture 宣称通过。待凭据可用后在 3.16/3.20 复验。"
+  },
+  "known_gaps": [
+    "跨站转载样例：本轮未找到可固定验证的同一事件跨站转载对，后续补充（影响 3.21 判重评估）。",
+    "时间缺失样例：本轮 15 篇文章均能取到日期或标题内含日期；无「正文无任何日期」样例，后续补充。",
+    "分析模型（LLM）无可用凭据，结构化输出与原文引用验证阻塞，见评估报告阻塞记录。"
+  ]
+}

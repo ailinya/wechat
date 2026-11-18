@@ -92,6 +92,24 @@ class Settings(BaseSettings):
         default=5, ge=1, validation_alias="DOWNLOAD_GRANT_TTL_MINUTES",
     )
 
+    # 检索（任务 4.1）：embedding 模型与固定维度。默认本地确定性哈希模型，
+    # 无需外部凭据；切换到外部模型时通过 EMBEDDING_* 配置并提供 adapter。
+    embedding_model: str = Field(
+        default="local-hash-cn-v1", validation_alias="EMBEDDING_MODEL",
+    )
+    embedding_dim: int = Field(
+        default=384, ge=1, le=2000, validation_alias="EMBEDDING_DIM",
+    )
+    embedding_api_url: str | None = Field(
+        default=None, validation_alias="EMBEDDING_API_URL",
+    )
+    embedding_api_key: SecretStr | None = Field(
+        default=None, validation_alias="EMBEDDING_API_KEY",
+    )
+    search_keyword_weight: float = Field(
+        default=0.5, ge=0.0, le=1.0, validation_alias="SEARCH_KEYWORD_WEIGHT",
+    )
+
 
 def load_settings() -> Settings:
     try:

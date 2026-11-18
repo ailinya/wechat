@@ -1,0 +1,35 @@
+{
+  "checked_at": "2026-11-18T08:53:05.082640+00:00",
+  "model_name": "deepseek-chat",
+  "connection_test": {
+    "reachable": true,
+    "latency_ms": 687,
+    "error": null
+  },
+  "material_id": "9858d26c-8370-4dd8-8954-758dc8984de1",
+  "job_id": "e06b476e-a4dc-4fa8-890c-d04730ca467f",
+  "job_status": "succeeded",
+  "analysis_statuses": [
+    "succeeded"
+  ],
+  "analysis_ids": [
+    "5f7d7d87-a2e2-421b-9a92-5bc9428110cd"
+  ],
+  "usage": [
+    {
+      "total_tokens": 461,
+      "prompt_tokens": 260,
+      "completion_tokens": 201,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 260
+    }
+  ],
+  "summary": [
+    "固定测试样例，非真实报道：星河公司于2026年11月17日发布新型传感器，其采样率为每秒200次，比上一代提高25%，公司表示将于12月开始交付。"
+  ],
+  "errors": [],
+  "passed": true
+}

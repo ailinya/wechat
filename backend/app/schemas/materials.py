@@ -63,6 +63,8 @@ class MaterialOut(TimestampedModel):
     current_revision_id: UUID
     category_id: UUID | None = None
     tags: list[TagOut] = []
+    metadata_version: int = 1
+    summary: str = ''
 
 
 class MaterialRevisionOut(BaseModel):
@@ -82,6 +84,20 @@ class MaterialCreateIn(BaseModel):
     tag_ids: list[UUID] = []
 
 
+class MaterialLinkIn(BaseModel):
+    """Create a material from a web link (task 3.8)."""
+
+    url: str = Field(min_length=1, max_length=2048, examples=["https://example.com/article"])
+    title: str | None = Field(default=None, max_length=256)
+
+
+class MaterialUploadIn(BaseModel):
+    """Create a material from an already-registered stored object (task 3.8)."""
+
+    object_id: UUID
+    title: str = Field(min_length=1, max_length=256)
+
+
 class MaterialUpdateIn(BaseModel):
     """content_markdown/title change creates a NEW revision (immutable history);
     usage_status/category/tags mutate the material itself."""
@@ -91,6 +107,8 @@ class MaterialUpdateIn(BaseModel):
     usage_status: UsageStatus | None = None
     category_id: UUID | None = None
     tag_ids: list[UUID] | None = None
+    summary: str | None = Field(default=None,max_length=4000)
+    base_metadata_version: int | None = Field(default=None,ge=1)
 
 
 class MaterialDetailOut(MaterialOut):

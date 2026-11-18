@@ -7,8 +7,9 @@
 - [前端模块设计](frontend-design.md)
 - [数据库设计](database-design.md)
 - [API 设计](api-design.md)
+- [采集增强设计](collection-design.md)（主题搜索、链接发现、LLM 素材分析，待实施）
 
-设计依据为 `AGENT.md`、`doc/instruction/PRD.md` 和 `doc/html/` 原型。原型中的 JSON 是演示数据，不作为生产数据模型。注意：`AGENT.md` 当前仍引用不存在的 `doc/instruction/介绍.md`，实际 PRD 文件为 `doc/instruction/PRD.md`。
+设计依据为 `AGENT.md`、`doc/instruction/PRD.md` 和 `doc/html/` 原型。原型中的 JSON 是演示数据，不作为生产数据模型；AGENT.md 的 PRD 引用已修正。已实现基础与待实施增强分别以代码、任务和阶段证据为准。
 
 ## 2. 技术架构
 
@@ -31,6 +32,7 @@ FastAPI 模块化单体 ───────── PostgreSQL + pgvector
 - Redis 负责 Celery Broker，可选用于短期任务结果查询；业务状态必须持久化到 PostgreSQL。数据库写入与任务投递通过 outbox/dispatcher 衔接。
 - PostgreSQL 保存业务数据、Markdown 正文、审核/发布历史和 pgvector 向量；RustFS 保存二进制文件，数据库保存对象键和元数据。
 - LangGraph 编排 Agent 内部步骤。Agent 可以检索素材和生成内容，不能改变审核结论或跳过运营发布确认。
+- 采集增强采用固定流程：搜索/来源发现 adapter → 抓取 → 正文提取 → 可选 LLM 分析 → 入库决策；不引入采集 Agent。搜索、分析和模型配置经后端服务调用，复用 Celery/outbox。公共模型服务先支持素材分析，再供 LangGraph 创作复用。
 
 ## 3. 前端模块
 
@@ -43,8 +45,8 @@ FastAPI 模块化单体 ───────── PostgreSQL + pgvector
 | 模块 | 职责 |
 | --- | --- |
 | `auth` | 登录、用户、角色、权限和鉴权 |
-| `collection` | 来源适配、采集任务、结果和执行记录 |
-| `materials` | 入库、去重、Markdown、标签分类、文件和检索 |
+| `collection` | 来源适配、主题搜索、文章链接发现、采集任务、候选和阶段执行记录 |
+| `materials` | 入库决策、去重/新进展、正文快照及修订、LLM 分析建议、标签分类、文件和检索 |
 | `creation` | 自动规则、素材/主题创作、条件判断和任务记录 |
 | `agent` | LangGraph 状态图、模型和工具调用、生成结果 |
 | `articles` | 草稿、版本、编辑、排版和审核状态 |
@@ -60,12 +62,14 @@ FastAPI 模块化单体 ───────── PostgreSQL + pgvector
 ### 采集入库
 
 ```text
-定时/手动触发 → 创建采集执行记录和异步任务
-→ Celery 采集来源并保存采集结果
-→ 解析正文、去重候选匹配
-→ 自动入库或等待人工选择
+定时/手动触发 → 创建运行配置快照、异步任务与 outbox
+→ 指定来源发现文章链接 / 按主题调用搜索服务
+→ 候选规范化和范围检查 → 抓取原文并保存结果
+→ 正文/日期提取 → 关键词与时间筛选 → 完全重复匹配
+→ 可选 LLM 分析与疑似重复/新进展比较
+→ 满足条件自动入库 / 等待人工筛选
 → 创建素材正文版本并异步生成 embedding
-→ 按任务开关和关联规则检查是否触发创作
+→ 素材就绪事件 → 按任务开关和关联规则检查是否触发创作
 ```
 
 ### 素材/主题创作
@@ -99,6 +103,7 @@ FastAPI 模块化单体 ───────── PostgreSQL + pgvector
 
 - 实现来源、采集任务、执行记录、结果入库和解析重试。
 - 实现 RustFS 文件、素材 Markdown 版本、去重/事件更新关系、分类标签和引用追溯。
+- 在原基础上实施增量任务 3.13–3.28：工具验证、主题搜索/RSS/栏目发现、正文提取、公共模型配置、LLM 分析、人工保护及独立验收。旧任务完成记录不代表增强完成。
 - 实现 embedding 生成、关键词与向量检索预览。
 
 ### 阶段三：智能创作与文章
@@ -120,6 +125,7 @@ FastAPI 模块化单体 ───────── PostgreSQL + pgvector
 ## 7. 实现前待确认
 
 - embedding 模型与维度决定首次 `vector(D)` 迁移；上线前需确定并记录重建向量方案。
+- 搜索/解析候选 Tavily Search、feedparser、Trafilatura 及 analysis 模型须由中文来源样例验证确定，当前未接入；详情及后续任务见采集增强设计。
 - 采集来源按实际合法接入能力确定，确认正文、原文链接和附件可用范围。
 - 微信授权、素材同步、定时发布和运营数据按公众号真实接口权限启用。
 - “修改后待复审”建议映射为新版本重新进入“待审核”，旧审核记录仍绑定旧版本。

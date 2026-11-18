@@ -34,11 +34,22 @@ def reset_schema() -> None:
     with engine.connect() as conn:
         conn.execute(
             text(
-                "DROP TABLE IF EXISTS upload_grants, idempotency_keys, "
+                "DROP TABLE IF EXISTS collection_searches, collection_candidate_discoveries, "
+                "material_ready_events, collection_analyses, "
+                "collection_snapshots, collection_stage_attempts, collection_candidates, "
+                "search_configs, model_configs, "
+                "collection_results, collection_runs, "
+                "collection_task_sources, collection_tasks, collection_sources, "
+                "material_favorites, material_relations, material_files, "
+                "material_tags, tags, material_revisions, materials, material_categories, "
+                "upload_grants, idempotency_keys, "
                 "stored_objects, operation_logs, outbox_events, async_jobs, "
                 "sessions, role_permissions, user_roles, users, permissions, "
                 "roles, alembic_version CASCADE"
             )
+        )
+        conn.execute(
+            text("DROP FUNCTION IF EXISTS assert_collection_task_schedulable()")
         )
         conn.commit()
     engine.dispose()

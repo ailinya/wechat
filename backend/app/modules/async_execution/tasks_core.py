@@ -8,8 +8,8 @@ import time
 from celery.exceptions import SoftTimeLimitExceeded
 
 from app.config import Settings
-from app.database import session_for
-from app.modules.async_execution.registry import JobCancelled, JobContext, get_handler
+from app.database import session_for, get_engine
+from app.modules.async_execution.registry import JobCancelled, JobContext, get_handler, get_engine_handler
 from app.services import async_job_service, outbox_service
 
 
@@ -34,16 +34,20 @@ def execute_job(job_id: str, settings: Settings | None = None) -> dict:
                 return {"status": "skipped", "reason": "not_pending"}
 
     handler = get_handler(job["job_type"])
+    engine_handler = get_engine_handler(job["job_type"])
     error: Exception | None = None
     last_error_text: str | None = None
     try:
-        if handler is None:
+        if handler is None and engine_handler is None:
             raise LookupError(f"no handler registered for {job['job_type']}")
         for attempt in range(max_attempts):
             try:
-                with session_for(settings) as conn:
-                    with conn.begin():
-                        handler(JobContext(job_id=job_id, job_type=job["job_type"], payload=job["payload"], conn=conn))
+                if engine_handler:
+                    engine_handler(get_engine(settings), job)
+                else:
+                    with session_for(settings) as conn:
+                        with conn.begin():
+                            handler(JobContext(job_id=job_id, job_type=job["job_type"], payload=job["payload"], conn=conn))
                 with session_for(settings) as conn:
                     with conn.begin():
                         async_job_service.finish_job(conn, job_id, "succeeded")

@@ -19,6 +19,8 @@ TEST_URL = os.environ.get("TEST_DATABASE_URL")
 @pytest.fixture
 def schema_engine():
     """Migrated empty schema without seeded accounts (no seeding needed here)."""
+    if not TEST_URL:
+        pytest.skip("TEST_DATABASE_URL not set")
     from conftest import reset_schema
 
     reset_schema()

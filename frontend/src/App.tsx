@@ -7,6 +7,9 @@ import { LoginPage } from './app/LoginPage'
 import { moduleByPath } from './app/modules'
 import { navigate, useHashRoute } from './app/router'
 import { Placeholder } from './features/Placeholder'
+import { CollectionPage } from './features/collection/CollectionPage'
+import { CollectionSettings } from './features/collection/CollectionSettings'
+import { MaterialsPage } from './features/materials/MaterialsPage'
 import { DashboardHome } from './features/dashboard/Home'
 import { JobPollingDemoPage } from './features/dashboard/JobPollingDemoPage'
 import { ListDemoPage } from './features/dashboard/ListDemoPage'
@@ -77,6 +80,13 @@ function Routes() {
     if (module.key === 'dashboard') {
       return <DashboardHome module={module} />
     }
+    if (module.key === 'collection') {
+      return <CollectionPage />
+    }
+    if (module.key === 'materials') {
+      return <MaterialsPage />
+    }
+    if (module.key === 'settings') return <CollectionSettings />
     return <Placeholder module={module} />
   })()
 

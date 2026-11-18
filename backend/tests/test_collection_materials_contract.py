@@ -48,11 +48,11 @@ def test_collection_and_material_paths_registered(client: TestClient) -> None:
 
 
 def test_literal_paths_are_not_swallowed_by_param_routes(client: TestClient) -> None:
-    """GET /materials/favorites must route to the favorites handler (501 stub),
-    not into GET /materials/{material_id} (which would 422 on 'favorites')."""
+    """GET /materials/favorites must route to the favorites handler (401 without
+    auth), not into GET /materials/{material_id} (which would 422 on 'favorites')."""
     resp = client.get("/api/v1/materials/favorites")
-    assert resp.status_code == 501
-    assert resp.json()["error"]["code"] == "not_implemented"
+    assert resp.status_code == 401
+    assert resp.json()["error"]["code"] == "unauthorized"
 
 
 def test_bulk_result_example_conforms_to_schema(client: TestClient) -> None:

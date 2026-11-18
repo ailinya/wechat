@@ -362,3 +362,35 @@
 .job-error, .upload-error { color: #8c3a3a; }
 .job-meta { color: #5c6b68; font-size: 12px; }
 .upload-result { color: #1f5c3d; }
+.collection-form { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; margin:16px 0 24px; }
+.collection-form label { display:flex; flex-direction:column; gap:6px; min-width:0; }
+.collection-form input, .collection-form select { max-width:100%; min-width:0; padding:8px; }
+.collection-form fieldset { border:1px solid #ccc; min-width:0; }
+.analysis-row { padding:12px 0; border-bottom:1px solid #ddd; overflow-wrap:anywhere; }
+.article-body { white-space:pre-wrap; overflow-wrap:anywhere; max-width:100%; }
+.table-scroll { max-width:100%; overflow-x:auto; }
+.table-scroll table { min-width:640px; }
+.list-page { min-width:0; }
+.list-page details { padding:12px 0; border-bottom:1px solid #dde4e2; overflow-wrap:anywhere; }
+.list-page button:not(.primary-button):not(.ghost-button) { padding:7px 11px; border:1px solid #c8d2cf; border-radius:4px; background:#fff; cursor:pointer; }
+.sub-nav { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
+.list-page h2 { font-size:20px; }
+.list-page h3 { font-size:16px; }
+.list-page input,.list-page select { max-width:100%; box-sizing:border-box; }
+.list-filters > button { width:auto; flex-shrink:0; }
+.collection-form label:has(input[type="checkbox"]) { flex-direction:row; align-items:center; }
+@media (max-width:640px) {
+  .shell { display:block; }
+  .sidebar { width:100%; }
+  .sidebar-brand { height:48px; }
+  .sidebar nav { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); padding:4px; gap:2px; }
+  .nav-item { padding:10px 6px; font-size:12px; justify-content:center; }
+  .nav-lock { display:none; }
+  .topbar { height:auto; min-height:60px; padding:10px 16px; gap:8px; flex-wrap:wrap; }
+  .topbar-user { flex-wrap:wrap; }
+  .content,.list-page { padding:16px; }
+  .collection-form { grid-template-columns:minmax(0,1fr); }
+  .list-filters { flex-wrap:wrap; }
+  .pagination { flex-wrap:wrap; justify-content:flex-start; }
+  .toast-host { max-width:calc(100% - 32px); }
+}

@@ -65,6 +65,22 @@ def presigned_get(settings: Settings, object_key: str, expires_minutes: int) -> 
         raise ApiError(503, "storage_unavailable", "对象存储不可用") from exc
 
 
+def get_object(settings: Settings, object_key: str) -> bytes:
+    """Read an object's bytes for server-side parsing (never sent to browser)."""
+    client = _client(settings)
+    try:
+        response = client.get_object(settings.rustfs_bucket, object_key)
+        try:
+            return response.read()
+        finally:
+            response.close()
+            response.release_conn()
+    except ApiError:
+        raise
+    except Exception as exc:
+        raise ApiError(503, "storage_unavailable", "对象存储不可用") from exc
+
+
 def stat_object(settings: Settings, object_key: str) -> dict | None:
     """Return size/content_type for an uploaded object, or None when absent."""
     client = _client(settings)

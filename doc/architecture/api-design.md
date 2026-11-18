@@ -35,37 +35,46 @@
 | `GET` | `/dashboard/overview` | 核心指标 |
 | `GET` | `/dashboard/activities` | 任务和文章动态 |
 | `GET` | `/dashboard/alerts` | 失败、待审核和授权提醒 |
-| `GET/POST` | `/collection-sources` | 来源列表/新增来源 |
-| `PATCH/DELETE` | `/collection-sources/{id}` | 修改/停用来源 |
-| `POST` | `/collection-sources/{id}/test` | 测试来源连接 |
-| `GET/POST` | `/collection-tasks` | 查询/创建采集任务 |
-| `GET/PATCH/DELETE` | `/collection-tasks/{id}` | 查看、修改、删除/停用任务 |
-| `POST` | `/collection-tasks/{id}/runs` | 立即执行采集任务 |
-| `GET` | `/collection-runs`、`/collection-runs/{id}` | 执行记录与详情 |
-| `GET` | `/collection-results`、`/collection-results/{id}` | 结果列表与详情 |
-| `POST` | `/collection-results/{id}/materialize` | 单条结果入库为素材 |
-| `POST` | `/collection-results/bulk-materialize` | 批量入库，body 为 `result_ids` |
-| `POST` | `/collection-results/{id}/ignore` | 忽略结果 |
-| `POST` | `/collection-results/{id}/retry-parse` | 重试正文解析 |
+| `GET/POST` | `/collection/sources` | 来源列表（分页/关键词）/新增来源 |
+| `GET/PATCH/DELETE` | `/collection/sources/{id}` | 详情/修改/停用或删除（保留历史追溯） |
+| `POST` | `/collection/sources/{id}/test` | 测试来源连接（范围/重定向/超时/大小受限） |
+| `GET/POST` | `/collection/tasks` | 查询（分页/状态）/创建采集任务 |
+| `GET/PATCH/DELETE` | `/collection/tasks/{id}` | 详情/修改/删除（置 `archived`） |
+| `POST` | `/collection/tasks/{id}/pause`、`/resume` | 暂停/恢复调度 |
+| `POST` | `/collection/tasks/{id}/run` | 立即执行（202 受理） |
+| `GET` | `/collection/runs`、`/runs/{id}` | 执行记录（按任务/触发/状态筛选）与详情 |
+| `GET` | `/collection/results`、`/results/{id}` | 结果列表（按 run/解析/入库状态筛选）与详情 |
+| `POST` | `/collection/results/{id}/materialize` | 单条结果入库为素材（202 异步） |
+| `POST` | `/collection/results/bulk-materialize` | 批量入库，body 为 `result_ids`（≤100），返回逐项结果 |
+| `POST` | `/collection/results/{id}/ignore` | 忽略结果（置 `ignored`） |
+| `POST` | `/collection/results/{id}/retry-parse` | 重试正文解析（202 异步） |
+| `GET` | `/collection/analysis`、`/analysis/{id}` | 分析结果列表与详情（含结构化建议与原文引用） |
+| `POST` | `/collection/analysis/{id}/retry` | 重试分析（同一正文快照，不重新抓取） |
+| `POST` | `/collection/analysis/{id}/apply` | 采用分析建议（`base_metadata_version` 冲突 409） |
+| `POST` | `/collection/results/{id}/retain` | 人工保留为待筛选素材（填写原因） |
 
-采集任务创建请求包含名称、关键词、来源 ID、来源类型/范围、时间范围、频率与时区、自动入库、自动创作开关和启停状态。列表筛选支持状态、来源和时间；执行结果保留原文 URL、发布时间、采集时间、解析状态、去重候选和失败原因。
+采集任务创建请求包含名称、采集模式、主题/关键词、来源 ID 或网站范围、时间范围、频率与时区、数量/分页限制、分析配置、自动入库、自动创作开关和启停状态。两种模式：`source`（默认，至少一个来源）与 `topic_search`（非空主题、可无来源、用 `allowed_domains` 限定网站；带 `source_ids` 为 422 模式冲突）。旧请求省略 `mode` 默认 `source`、省略 `analysis` 默认关闭；更新用 `CollectionTaskUpdateIn` 部分更新，省略字段保留原值。列表筛选支持状态、来源和时间；执行结果保留原文 URL、发布时间、采集时间、解析状态、去重候选和失败原因，运行计数区分 discovered/fetched/parsed/analyzed/materialized/filtered/review_required/failed。采集端点权限码：`collection:read`（查询）、`collection:write`（增删改/停用/忽略/重试/采用/保留）、`collection:run`（执行/入库）。批量入库返回 `BulkResultOut.items[]` 逐项状态与 `counts` 分类计数，批次不整体失败。详见 [阶段 3 接口契约](../development/api-phase-03.md)。
 
 ### 3.3 素材、文件和检索
 
 | 方法 | 路径 | 用途 |
 | --- | --- | --- |
-| `GET/POST` | `/materials` | 查询/手工新建素材 |
-| `GET/PATCH/DELETE` | `/materials/{id}` | 素材详情、更新、删除 |
-| `POST` | `/materials/{id}/archive` | 归档素材 |
-| `GET` | `/materials/{id}/relations` | 重复、更新和相关素材关系 |
-| `GET` | `/materials/{id}/articles` | 被引用文章和版本 |
-| `GET/POST` | `/material-categories`、`/tags` | 分类/标签查询和维护 |
-| `POST` | `/materials/search` | 关键词与向量混合检索预览 |
-| `POST` | `/files/upload-authorizations` | 获取限定对象键、类型和大小的短时上传授权 |
-| `POST` | `/files/complete` | 上传完成后校验并登记对象元数据 |
-| `GET` | `/files/{id}/download-authorization` | 获取受控短时下载授权 |
+| `GET/POST` | `/materials` | 查询（状态/分类/标签/关键词/我的收藏筛选）/手工新建素材 |
+| `GET/PATCH/DELETE` | `/materials/{id}` | 素材详情、更新、软删除（引用保持可解析） |
+| `GET` | `/materials/{id}/revisions` | 全部修订（`revision_no` 唯一递增） |
+| `GET` | `/materials/{id}/relations` | 来源关联（采集结果/上传/链接等） |
+| `GET` | `/materials/{id}/articles` | 被引用文章版本（含当时使用的修订） |
+| `PUT/DELETE` | `/materials/{id}/favorite` | 收藏（同用户幂等）/取消收藏（按用户隔离） |
+| `GET` | `/materials/favorites` | 我的收藏列表 |
+| `POST` | `/materials/bulk` | 批量操作，返回逐项结果 |
+| `GET/POST` | `/materials/categories`、`/categories/{id}` PATCH/DELETE | 分类树维护（父级不得成环） |
+| `GET/POST` | `/materials/tags`、`/tags/{id}` PATCH/DELETE | 标签维护（删除仅解除关联） |
+| `POST` | `/materials/search` | 关键词与向量混合检索预览（阶段 4） |
+| `POST` | `/files/upload-grants` | 获取限定对象键、类型和大小的短时上传授权 |
+| `POST` | `/files/upload-grants/{id}/complete` | 上传完成后校验并登记对象元数据 |
+| `POST` | `/files/{object_id}/download-grant` | 获取受控短时下载授权 |
 
-素材搜索请求字段：`query`、`scope`、`from`、`to`、`statuses`、`top_k`、`min_relevance`、`keyword_mode`。响应包含素材 ID、标题、匹配片段、相关度、来源和发布时间。创作接口必须提交最终选择的 `material_ids`，服务端持久化检索/采用关系。
+素材搜索请求字段：`query`、`scope`、`from`、`to`、`statuses`、`top_k`、`min_relevance`、`keyword_mode`。响应包含素材 ID、标题、匹配片段、相关度、来源和发布时间。创作接口必须提交最终选择的 `material_ids`，服务端持久化检索/采用关系。素材端点权限码：`material:read`（查询）、`material:write`（增删改/归档/批量/分类标签/收藏）。正文或标题变更创建新修订（不可变历史），状态/分类/标签原地变更；`DELETE` 为软删除。批量操作返回 `BulkActionOut.items[]` 逐项状态。详见 [阶段 3 接口契约](../development/api-phase-03.md)。
 
 RustFS 凭据不暴露给浏览器；上传授权只允许访问特定对象键和有效期。完成回调应校验对象确实存在、大小和类型符合授权，再写入 `stored_objects`。
 
@@ -126,9 +135,11 @@ RustFS 凭据不暴露给浏览器；上传授权只允许访问特定对象键�
 | 方法 | 路径 | 用途 |
 | --- | --- | --- |
 | `GET/PUT` | `/settings/platform` | 平台信息、时区和通用任务配置 |
-| `GET/POST` | `/model-configs` | 查询/新增模型配置 |
+| `GET/POST` | `/model-configs` | 查询/新增模型配置（用途 analysis/generation/embedding） |
 | `PATCH` | `/model-configs/{id}` | 修改模型配置 |
 | `POST` | `/model-configs/{id}/test` | 测试模型连接 |
+| `GET/POST` | `/search-configs` | 查询/新增搜索配置（独立于采集来源与 embedding） |
+| `POST` | `/search-configs/{id}/test` | 测试搜索服务连接 |
 | `GET/PUT` | `/settings/notifications` | 通知类型与渠道配置 |
 | `GET` | `/operation-logs` | 按用户、模块、结果和时间筛选操作日志 |
 | `GET` | `/async-jobs/{id}` | 查询异步任务状态、进度和错误摘要 |
@@ -148,14 +159,15 @@ RustFS 凭据不暴露给浏览器；上传授权只允许访问特定对象键�
 ### 采集入库
 
 ```text
-POST /collection-tasks/{id}/runs
+POST /collection/tasks/{id}/run
 → 创建 collection_run + async_job + outbox_event
-→ Celery Worker 执行来源适配器
-→ 保存 collection_results 和解析状态
-→ 去重候选匹配、自动入库或等待人工选择
+→ Celery Worker 执行来源发现 / 主题搜索，保存候选
+→ 抓取、正文提取、时间与关键词筛选，保存 collection_results
+→ 完全重复匹配 → 可选 LLM 分析与新进展比较
+→ 满足条件自动入库 / 等待人工筛选
 → 创建 material/material_revision
 → 异步生成 material_chunks embedding
-→ 满足规则时创建 creation_task
+→ 发送一次素材就绪事件，阶段 5 检查规则后创建 creation_task
 ```
 
 ### 主题/素材创作
@@ -180,4 +192,77 @@ POST /materials/search → 前端展示候选并允许勾选
 → 每次微信调用写 publish_attempt
 → 更新订单和文章状态，失败可创建新 attempt 重试
 ```
+
+## 6. 采集增强契约（待实现，任务 3.14–3.25）
+
+本节为现有 `/collection/*` 契约的增量设计，不表示 OpenAPI 已生成或接口已实现。运行行为及默认预算见 [采集增强设计](collection-design.md)。原阶段 3 实现记录保留在 [api-phase-03.md](../development/api-phase-03.md)，新能力实现后另附验收。
+
+### 6.1 创建与更新兼容
+
+`POST /collection/tasks` 保留现有字段，增加下列字段；PATCH 省略的字段保留现有值，显式清空必须通过对应模式校验。
+
+| 字段 | 默认与规则 |
+| --- | --- |
+| `mode` | `source`；另支持 `topic_search` |
+| `source_ids` | source 模式至少一个；topic_search 可省略/空，非空返回 422，网站范围使用 allowed_domains |
+| `topic` | 主题搜索必填非空；指定来源可选，供相关性分析使用 |
+| `search_config_id` | 主题搜索必填且配置启用；source 不调用搜索服务 |
+| `allowed_domains` | 默认空；主机及其子域限制，后端再次校验结果和重定向；source 可作为额外限制 |
+| `max_articles`、`max_pages_per_source` | 默认 20、5；分别 1–100、1–20；运行总预算由管理员配置限制 |
+| `analysis_enabled`、`analysis_model_config_id` | 默认 false；开启时必须指定可用 analysis 配置 |
+| `analysis_apply_policy` | `suggest_only` 默认；另支持 `fill_empty`，只能填充空且无人维护的字段 |
+
+来源接口的 `web_page` 增加 `page_kind=article/list`（默认 article），list 必须提交文章链接和下一页规则；RSS 使用条目发现。`keywords` 为空不做短语筛选，非空在两模式均匹配标题/正文任一短语；主题模式同时用于固定搜索词。`time_range_days` 沿用既有字段，运行保存冻结窗口。
+
+### 6.2 配置与安全选项
+
+| 端点 | 权限与用途 |
+| --- | --- |
+| `GET/POST /search-configs`、`GET/PATCH /search-configs/{id}` | settings:read/write；管理搜索提供方、能力、版本、限额、启停及凭据引用 |
+| `POST /search-configs/{id}/test` | settings:write；有限连接测试，审计实际外部调用，凭据错误与无结果区分 |
+| `GET/POST /model-configs`、`GET/PATCH /model-configs/{id}`、`POST /model-configs/{id}/test` | 原规划端点提前实现，读为 settings:read，写/测试为 settings:write；用途 analysis/generation/embedding |
+| `GET /collection/config-options` | collection:read；仅返回可选搜索及 analysis 模型的 ID、名称、用途、可用性和限额摘要，不泄露 endpoint/credential_ref |
+| `GET /materials/analysis-options` | material:read；仅返回素材分析可选模型的同类安全摘要 |
+
+配置更新增加版本；查询不回显明文密钥，凭据通过只写输入或受控引用提供。现有 settings 权限复用，不为普通编辑开放配置管理。选项可用性不替代执行前权限、配置与预算复验。
+
+### 6.3 阶段记录和分析操作
+
+| 端点 | 契约与权限 |
+| --- | --- |
+| `GET /collection/runs/{id}/candidates` | collection:read；分页候选、发现来源/查询、URL、搜索摘要、筛选原因、阶段状态及关联 result_id |
+| `GET /collection/runs/{id}/stages` | collection:read；阶段/attempt、计数、错误、预算、起止时间、当前 async_job_id |
+| `POST /collection/runs/{id}/retry` | collection:run；202，仅恢复原运行失败且允许重试的步骤；请求指定 stage（discovery/fetch/parse/analysis），复用已完成快照与原预算 |
+| `POST /collection/results/{id}/analyze` | collection:write；202，按保存正文和任务分析配置创建或复用分析；新配置显式提交，原失败重试也复用正文 |
+| `POST /materials/{id}/analyze` | material:write；202，提交 material_revision_id、model_config_id 及可选主题/关键词，绑定明确修订 |
+| `GET /collection/results/{id}/analyses`、`GET /materials/{id}/analyses` | 分别 collection:read/material:read；分页返回分析及 attempts、版本、输入依据、是否过期，不回显凭据 |
+| `POST /materials/{id}/analyses/{analysis_id}/apply` | material:write；选择采用字段/确认新标签分类，提交 base_revision_id、base_metadata_version；409 表示正文/人工字段冲突 |
+| `POST /collection/results/{id}/review` | collection:run；记录人工筛选动作和原因；支持保留待筛选、确认可用、确认重复及确认新进展；关联目标素材/修订需校验存在及权限，创建新分类标签另需 material:write |
+
+所有副作用接受 `Idempotency-Key`；同键同内容返回原受理结果，同键异内容 409。review 若需要入库返回 202，并复用现有入库服务；仅记录决定可返回 200。候选无可读正文只能忽略/重试，不能确认可用。失败分析可以人工保留为 pending_review，不能通过“保留”动作伪造成功；确认可用须显式复核筛选原因并记录人工覆盖依据。
+
+原 materialize/bulk-materialize 端点继续可用，但必须执行增强后的时间/分析/判重前置条件；未满足返回逐项稳定原因（如 `analysis_required`、`review_required`），不能成为绕过新规则的入口。人工已入库素材确认可用沿用素材状态更新端点，增加 `reason`、`base_revision_id` 和 `base_metadata_version`，对存在就绪阻塞的对象执行同样的显式复核，不允许普通状态 PATCH 静默绕过。
+
+### 6.4 响应与状态
+
+- 保留 result 的现有解析/入库状态，新增 `analysis_status`、`decision_status`、原因、正文快照/hash、分析 ID 和 ready 状态；decision 区分 eligible/excluded/needs_review/duplicate/new_progress。查询包含 summary 时标明 source/analysis/manual 的来源。
+- 分析结果包含 purpose（single_material/dedup_compare）、模型和提示词版本、任务输入指纹、原文快照/素材修订、summary、category/tag 建议、relevance/reason、facts（提取事实+原文引用），比较结果另含目标修订和新增事实依据；基于当前版本返回 `stale` 标识。summary/schema 不合法的记录不返回为成功建议。
+- 阶段状态和计数区分搜索空结果、技术失败、筛选排除、待人工和预算耗尽；旧任务 analysis_status 为 skipped，而非 succeeded。瞬时网络失败可重试，非法模型输出/配置需修正后人工重试，预算用尽不能通过普通 retry 重置；新运行才重新分配预算。
+- 保留 401/403/409/422 契约；无分析配置/模式冲突在提交时校验，运行时外部错误写阶段记录。兼容字段与 OpenAPI/前端类型在 3.14 固化，实际接入证据在 3.28 记录。
+
+### 3.22–3.27 已实现的增量接口
+
+| 接口 | 行为及权限 |
+| --- | --- |
+| GET /collection/config-options | collection:read；返回启用的来源/搜索/analysis 模型 ID 和名称，不返回凭据引用 |
+| GET /collection/runs/{id}/candidates | collection:read；候选、搜索摘要/排名、阶段 attempt 和正文快照/hash/提取器版本 |
+| POST /collection/runs/{id}/retry | collection:run + CSRF；202；复用成功阶段，取消/非失败运行返回 409，原预算不重置 |
+| GET /collection/analysis、/{id} | collection:read；分析/比较用途、输入快照/hash、模型/提示词版本、目标修订和动态 stale |
+| POST /collection/analysis/{id}/retry | collection:run + CSRF；202；从保存正文恢复，生成 async_job 与 outbox，不重新搜索抓取 |
+| POST /collection/analysis/{id}/apply | collection:write + CSRF；提交 base_metadata_version、apply 和已确认分类/标签；过期、归档及版本冲突 409，未知对象需确认 422 |
+| POST /collection/results/{id}/retain | collection:write + CSRF；reason 必填，保留待筛选并写审计，不生成就绪事件 |
+| POST /materials/{id}/analysis | material:write + CSRF；202；model_config_id、可选 topic/keywords，绑定当前不可变修订 |
+| GET/PATCH /model-configs/{id} | settings:read/write；变更增加 config_version，省略凭据引用时保留原配置；响应只给 credential_configured |
+
+MaterialOut/MaterialDetailOut 增加 summary、metadata_version；素材更新可提交 base_metadata_version。人工编辑递增版本并记录字段来源，异步 fill_empty 不覆盖人工维护字段。实现、真实连接限制及复验见 [阶段 3 增强验收](../development/phase-03-enhancement.md)。
 

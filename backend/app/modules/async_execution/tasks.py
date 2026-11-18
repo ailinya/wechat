@@ -7,6 +7,10 @@ from app.modules.async_execution.registry import register_handler
 from app.services import async_job_service
 from app.modules.async_execution.tasks_core import dispatch_outbox_once, execute_job, reap_stale_jobs_once
 
+# Importing the collection module registers the collection.run handler and
+# defines the Beat scheduling task.
+from app.modules.collection import tasks as _collection_tasks  # noqa: F401
+
 
 @celery_app.task(name="app.modules.async_execution.tasks.run_async_job")
 def run_async_job(job_id: str) -> dict:

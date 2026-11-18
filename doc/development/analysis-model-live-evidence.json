@@ -1,0 +1,154 @@
+{
+  "checked_at": "2026-11-18T08:47:58.789953+00:00",
+  "provider": "DeepSeek",
+  "model_name": "deepseek-chat",
+  "credential_ref": "DEEPSEEK_API_KEY",
+  "source_url": "https://www.cac.gov.cn/2026-10/19/c_1794086281588959.htm",
+  "source_http_status": 200,
+  "cases": [
+    {
+      "case": "fixed-chinese",
+      "passed": true,
+      "latency_ms": 1703,
+      "input_characters": 65,
+      "suggestions": {
+        "summary": "星河公司于2026年11月17日发布新型传感器，该传感器采样率为每秒200次，比上一代提高25%，公司表示将于12月开始交付。",
+        "category_candidates": [
+          {
+            "category_id": null,
+            "name": "传感器产品发布",
+            "exists": false
+          }
+        ],
+        "tag_suggestions": [
+          "传感器",
+          "产品发布",
+          "星河公司",
+          "采样率",
+          "交付计划"
+        ],
+        "relevance": "relevant",
+        "relevance_reason": "正文直接描述传感器新品的发布时间、性能指标与交付安排，与“传感器产品发布”主题一致。",
+        "facts": [
+          {
+            "statement": "星河公司于2026年11月17日发布了新型传感器。",
+            "quote": "星河公司于2026年11月17日发布了新型传感器。",
+            "ref_index": 0
+          },
+          {
+            "statement": "该传感器的采样率为每秒200次。",
+            "quote": "该传感器的采样率为每秒200次",
+            "ref_index": 0
+          },
+          {
+            "statement": "该传感器采样率比上一代提高25%。",
+            "quote": "比上一代提高25%",
+            "ref_index": 0
+          },
+          {
+            "statement": "公司表示将于12月开始交付。",
+            "quote": "公司表示将于12月开始交付。",
+            "ref_index": 0
+          }
+        ],
+        "compare_verdict": null,
+        "compare_target_revision_id": null
+      },
+      "usage": {
+        "prompt_tokens": 253,
+        "completion_tokens": 236,
+        "total_tokens": 489,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 253
+      }
+    },
+    {
+      "case": "official-chinese",
+      "passed": true,
+      "latency_ms": 3297,
+      "input_characters": 1583,
+      "suggestions": {
+        "summary": "国家互联网信息办公室发布通知及配套《认定工作指南》，启动未成年人用户数量巨大和对未成年人群体具有显著影响的网络平台服务提供者认定工作，明确适用范围、量化标准、综合考量因素、申报方式（20个工作日内向省级网信部门报送）、申报要求及申报材料清单。",
+        "category_candidates": [
+          {
+            "category_id": null,
+            "name": "未成年人网络保护",
+            "exists": false
+          },
+          {
+            "category_id": null,
+            "name": "网络平台监管",
+            "exists": false
+          }
+        ],
+        "tag_suggestions": [
+          "未成年人网络保护",
+          "网络平台服务提供者认定",
+          "国家互联网信息办公室",
+          "申报指南",
+          "平台主体责任"
+        ],
+        "relevance": "relevant",
+        "relevance_reason": "正文围绕未成年人网络平台服务提供者认定的启动通知与申报指南，直接对应主题。",
+        "facts": [
+          {
+            "statement": "《认定办法》自2026年4月1日起施行。",
+            "quote": "《未成年人用户数量巨大和对未成年人群体具有显著影响的网络平台服务提供者认定办法》（以下简称《认定办法》）自2026年4月1日起施行。",
+            "ref_index": 0
+          },
+          {
+            "statement": "专门以未成年人为服务对象的平台，注册用户在1000万以上或月活跃用户在100万以上应申报。",
+            "quote": "该网络平台提供的产品或者服务专门以未成年人为服务对象，注册用户在1000万以上或者月活跃用户在100万以上；",
+            "ref_index": 0
+          },
+          {
+            "statement": "对象不局限于未成年人的平台，未成年人注册用户1000万以上或月活跃未成年人用户100万以上应申报。",
+            "quote": "该网络平台提供的产品或者服务的对象不局限于未成年人的，未成年人注册用户数量在1000万以上或者月活跃未成年人用户在100万以上。",
+            "ref_index": 0
+          },
+          {
+            "statement": "显著影响认定需综合考虑近3年涉未成年人违法违规情况等因素。",
+            "quote": "该网络平台在近3年内存在较多涉未成年人违法违规问题，产生较大负面影响；",
+            "ref_index": 0
+          },
+          {
+            "statement": "平台应在通知发布之日起20个工作日内提交申报材料。",
+            "quote": "网络平台服务提供者应当在通知发布之日起20个工作日内，通过送达书面材料并附带电子版的方式提交认定申报材料。",
+            "ref_index": 0
+          },
+          {
+            "statement": "纸质申报材料一式三份并加盖公章，连同电子版光盘寄送省级网信部门。",
+            "quote": "将纸质申报材料（一式三份，加盖公章）及电子版光盘寄送省级网信部门（具体地址和联系电话见附件2）",
+            "ref_index": 0
+          },
+          {
+            "statement": "符合标准但未主动申报的，认定工作咨询委员会将通知提交。",
+            "quote": "符合未成年人用户数量巨大和对未成年人群体具有显著影响的网络平台服务提供者认定标准但未主动提交申报材料的，认定工作咨询委员会将通知及时提交申报材料。",
+            "ref_index": 0
+          },
+          {
+            "statement": "申报材料包括申报书、情况表、自评估报告、承诺书及其他证明材料。",
+            "quote": "1.《XX公司关于申请认定为未成年人用户数量巨大和对未成年人群体具有显著影响的网络平台服务提供者的申报书》",
+            "ref_index": 0
+          }
+        ],
+        "compare_verdict": null,
+        "compare_target_revision_id": null
+      },
+      "usage": {
+        "prompt_tokens": 1107,
+        "completion_tokens": 627,
+        "total_tokens": 1734,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1107
+      }
+    }
+  ],
+  "passed": true
+}
