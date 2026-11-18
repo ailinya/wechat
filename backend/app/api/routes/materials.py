@@ -27,6 +27,10 @@ from app.schemas.materials import (
     BulkActionIn,
     BulkActionOut,
     FavoriteOut,
+    EmbeddingRebuildIn,
+    EmbeddingRebuildOut,
+    MaterialSearchIn,
+    MaterialSearchOut,
     MaterialCategoryIn,
     MaterialCategoryOut,
     MaterialCreateIn,
@@ -40,14 +44,21 @@ from app.schemas.materials import (
     TagIn,
     TagOut,
 )
-from app.services import material_service
+from app.services import material_embedding_service, material_search_service, material_service
 from app.schemas.analysis import MaterialAnalysisIn
 
 router = APIRouter(prefix="/materials", tags=["materials"])
 
 READ = Depends(require_permission(PermissionCode.MATERIAL_READ))
 WRITE = Depends(require_permission(PermissionCode.MATERIAL_WRITE))
+REBUILD = Depends(require_permission(PermissionCode.SETTINGS_WRITE))
+SEARCH = Depends(require_permission(PermissionCode.MATERIAL_SEARCH))
 CSRF = Depends(verify_csrf)
+
+
+@router.post("/search", response_model=MaterialSearchOut, responses=error_responses(401, 403, 422))
+def search_materials(payload: MaterialSearchIn, db: DbSession, _csrf=CSRF, _perm=SEARCH):
+    return MaterialSearchOut(**material_search_service.search(db.connection(), payload))
 
 
 @router.post(
@@ -98,6 +109,40 @@ async def request_analysis(
         "resource_type": "material",
         "status": "accepted",
     }
+
+
+@router.post(
+    "/{material_id}/embedding-rebuild",
+    response_model=EmbeddingRebuildOut,
+    status_code=202,
+    responses=error_responses(401, 403, 404, 409, 422),
+    summary="为素材正文修订异步重建向量",
+)
+async def request_embedding_rebuild(
+    material_id: UUID,
+    db: DbSession,
+    user: CurrentUserDep,
+    payload: EmbeddingRebuildIn | None = None,
+    _csrf=CSRF,
+    _perm=REBUILD,
+) -> EmbeddingRebuildOut:
+    result = material_embedding_service.enqueue_rebuild(
+        db.connection(),
+        material_id,
+        revision_id=payload.revision_id if payload else None,
+        user_id=user.id,
+    )
+    from app.services import audit_service
+
+    audit_service.record_operation(
+        db.connection(),
+        user_id=user.id,
+        action="material.embedding.rebuild",
+        object_type="material",
+        object_id=material_id,
+    )
+    db.commit()
+    return EmbeddingRebuildOut(**result)
 
 
 def _category_out(row: dict) -> MaterialCategoryOut:
@@ -581,13 +626,14 @@ async def list_relations(material_id: UUID, db: DbSession, _perm=READ) -> list[d
     "/{material_id}/articles",
     response_model=list[dict],
     responses=error_responses(401, 403, 404),
-    summary="引用该素材的文章版本（阶段 5 实现后返回真实数据）",
+    summary="引用该素材的文章版本",
 )
-async def list_articles(material_id: UUID, db: DbSession, _perm=READ) -> list[dict]:
+async def list_articles(material_id: UUID, db: DbSession, _perm=READ, _article=Depends(require_permission(PermissionCode.ARTICLE_READ))) -> list[dict]:
     if not repo.material_by_id(db.connection(), material_id):
         raise ApiError(404, "not_found", "素材不存在")
-    # article_materials is created in task 5.3; until then no references exist.
-    return []
+    from sqlalchemy import text
+    rows = db.connection().execute(text("SELECT a.id AS article_id,ar.title AS article_title,ar.id AS article_revision_id,am.material_revision_id,ar.created_at AS used_at FROM article_materials am JOIN article_revisions ar ON ar.id=am.article_revision_id JOIN articles a ON a.id=ar.article_id WHERE am.material_id=:id ORDER BY ar.created_at DESC,ar.id"), {"id": str(material_id)}).mappings().all()
+    return [dict(row) for row in rows]
 
 
 # --- favorites (user-isolated) ---

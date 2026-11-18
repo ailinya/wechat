@@ -67,6 +67,7 @@
 | `PUT/DELETE` | `/materials/{id}/favorite` | 收藏（同用户幂等）/取消收藏（按用户隔离） |
 | `GET` | `/materials/favorites` | 我的收藏列表 |
 | `POST` | `/materials/bulk` | 批量操作，返回逐项结果 |
+| `POST` | `/materials/{id}/embedding-rebuild` | 锁定一个素材修订并异步重建向量 |
 | `GET/POST` | `/materials/categories`、`/categories/{id}` PATCH/DELETE | 分类树维护（父级不得成环） |
 | `GET/POST` | `/materials/tags`、`/tags/{id}` PATCH/DELETE | 标签维护（删除仅解除关联） |
 | `POST` | `/materials/search` | 关键词与向量混合检索预览（阶段 4） |
@@ -74,11 +75,51 @@
 | `POST` | `/files/upload-grants/{id}/complete` | 上传完成后校验并登记对象元数据 |
 | `POST` | `/files/{object_id}/download-grant` | 获取受控短时下载授权 |
 
-素材搜索请求字段：`query`、`scope`、`from`、`to`、`statuses`、`top_k`、`min_relevance`、`keyword_mode`。响应包含素材 ID、标题、匹配片段、相关度、来源和发布时间。创作接口必须提交最终选择的 `material_ids`，服务端持久化检索/采用关系。素材端点权限码：`material:read`（查询）、`material:write`（增删改/归档/批量/分类标签/收藏）。正文或标题变更创建新修订（不可变历史），状态/分类/标签原地变更；`DELETE` 为软删除。批量操作返回 `BulkActionOut.items[]` 逐项状态。详见 [阶段 3 接口契约](../development/api-phase-03.md)。
+`POST /materials/search` 请求字段：
+
+| 字段 | 类型/约束 | 说明 |
+| --- | --- | --- |
+| `query` | string, 1–500 chars | 用户主题或关键词；空白归一化后不得为空 |
+| `scope` | `current` / `all` | 默认 `current`；`all` 可包含已使用素材，但不包含已归档/软删除素材 |
+| `from`, `to` | RFC 3339 timestamp, optional | 按素材来源发布时间筛选；未知时间不满足显式时间边界 |
+| `statuses` | material status[], optional | 与 `scope` 及权限过滤取交集 |
+| `top_k` | integer, 1–100; default 20 | 返回上限 |
+| `min_relevance` | number, 0–1; optional | 对最终混合相关度分数过滤 |
+| `keyword_mode` | `hybrid` / `keyword_only` | 默认 `hybrid`；请求 `hybrid` 时语义服务失败按下述降级契约处理 |
+
+关键词检索先对正文和查询执行 Unicode NFKC、大小写折叠及空白/标点归一化；中文连续字符生成重叠二元组，拉丁字母与数字按词项匹配。关键词分数为命中查询词项权重占比，范围 `[0,1]`。语义分数使用余弦相似度 `c` 映射为 `V=clamp((c+1)/2, 0, 1)`；关键词分数为 `L`，混合分数为 `R=w*L+(1-w)*V`，`w` 默认 `0.5`，后续可由检索配置固定。三者都不是概率或事实可信度。按 `R` 降序、素材 ID 升序稳定排序；`min_relevance` 比较 `R`。关键词单路时 `R=L`，响应仍标明模式。当前向量配置来自根目录 `.env`：`EMBEDDING_MODEL=qwen3.7-text-embedding-flash`、`EMBEDDING_DIMENSION=1024`，凭据引用 `OPENAI_API_KEY`；API key 不得进入请求日志、证据或 API 响应。文本模型同样从 `MODEL_NAME`、`OPENAI_BASE_URL` 和 `OPENAI_API_KEY` 读取。
+
+响应 `items[]` 含 `material_id`、`title`、`matched_revision_id`、`snippet`、`source`（来源类型、来源标题、规范化 URL 或附件标识）、`published_at`、`keyword_score`、`semantic_score`（降级时为 null）、`relevance_score`、`score_explanation` 和 `usage_status`；顶层含 `mode`、`degraded`、`degradation_reason`。无论 `scope` 为何，只允许素材当前有效正文修订参与默认检索；历史修订只用于明确的历史追溯，不可提升为当前命中。无匹配返回空 `items`，不合成结果。
+
+当 `keyword_mode=hybrid` 的 embedding 配置缺失、禁用、超时或返回维度不符时，返回可识别的 `keyword_only` 降级结果（`degraded=true`，给出稳定错误码/原因）；若关键词检索也不可用则返回标准错误，不得把服务故障伪装成零结果。明确请求 `keyword_only` 时不调用 embedding 服务。
+
+向量重建使用 `POST /materials/{material_id}/embedding-rebuild`，可选 `revision_id`；省略时锁定请求受理时的当前修订。接受后返回 `202`、`async_job_id`、`resource_id` 与目标 `revision_id`。重复请求按素材、修订、embedding 配置版本幂等；调用者通过 `/async-jobs/{id}` 查询进度。只允许设置权限发起；新修订产生后，旧修订的重建任务不得写成当前修订结果。失败保留可查询原因，可对同一修订显式重试；不删除其他模型版本或历史修订向量。
+
+创作接口必须提交最终选择的 `material_ids`，服务端持久化检索/采用关系。素材端点权限码：`material:read`（查询）、`material:write`（增删改/归档/批量/分类标签/收藏）、`material:search`（检索）、`settings:write`（重建向量）。正文或标题变更创建新修订（不可变历史），状态/分类/标签原地变更；`DELETE` 为软删除。批量操作返回 `BulkActionOut.items[]` 逐项状态。详见 [阶段 3 接口契约](../development/api-phase-03.md)。
 
 RustFS 凭据不暴露给浏览器；上传授权只允许访问特定对象键和有效期。完成回调应校验对象确实存在、大小和类型符合授权，再写入 `stored_objects`。
 
 ### 3.4 创作与 Agent
+
+阶段 5 创作契约：
+
+| 方法 | 路径 | 行为 |
+| --- | --- | --- |
+| `GET/POST` | `/creation-rules` | 分页查询、创建规则；规则字段由 `RuleIn` 定义，目标账号接入阶段 7 前必须为空 |
+| `GET/PATCH/DELETE` | `/creation-rules/{id}` | 规则详情、修改及停用；需保留已有任务快照 |
+| `POST` | `/creation-rules/{id}/run` | 人工触发自动规则；触发窗口和请求幂等键防止重复批次 |
+| `GET/POST` | `/creation-tasks` | 查询创作记录；素材/主题请求必须提交最终素材及对应修订，主题模式还须提交主题 |
+| `GET` | `/creation-tasks/{id}` | 查询触发来源、窗口、决策、执行状态、候选和实际采用记录 |
+| `GET` | `/creation-tasks/{id}/outputs` | 查询批次槽位、文章及版本、完整生成结果和实际素材引用 |
+| `POST` | `/creation-tasks/{id}/cancel` | 取消待执行或执行中任务，不覆盖已完成产物 |
+| `POST` | `/creation-tasks/{id}/retry` | 重试失败任务的未完成槽位；保留已完成文章 |
+| `POST` | `/creation-tasks/{id}/regenerate` | 创建关联原任务的新任务，不改写历史结果 |
+
+自动模式只从规则触发，素材由服务端选择；手动模式提交 `materials: [{material_id, revision_id}]` 并在受理时校验该修订仍为当前版本，避免检索后悄然替换输入。请求 `mode` 为 `material` 或 `topic`；前者和后者都不得提交空素材，后者的 `topic` 不得为空。模型必须引用启用的 `generation` 配置，调用时文本模型及地址由根目录 `.env` 决定。`Idempotency-Key` 按用户及请求内容保护，同键不同内容返回 409。
+
+响应区分 `pending/running/insufficient/succeeded/failed/cancelled`；`insufficient` 的决策包含 `new_materials_insufficient`、`material_count_insufficient`、`relevance_insufficient`、`body_unavailable`、`duplicate_topic`、`active_task` 等稳定原因。已受理异步执行返回 `async_job_id` 和 `resource_id`；条件不足可返回无作业的创作记录。输出包括标题、候选标题、摘要、大纲、正文、关键词、封面建议、文章/修订 ID 和素材/修订引用；封面建议不表示图片已生成。所有端点分别受 `creation:read`、`creation:write` 约束。
+
+`GET /creation-tasks/models` 供有 `creation:write` 权限的用户选择启用的生成配置；`GET /articles/{id}` 需要 `article:read`，返回当前草稿及其引用的素材历史正文和来源；`GET /materials/{id}/articles` 需要 `material:read` 和 `article:read`，返回反向引用。全库规则记录检索模式和降级原因，候选和采用记录包含具体修订及相关度。规则可用 PUT 完整更新或 PATCH 局部更新。
 
 | 方法 | 路径 | 用途 |
 | --- | --- | --- |
@@ -94,18 +135,39 @@ RustFS 凭据不暴露给浏览器；上传授权只允许访问特定对象键�
 
 ### 3.5 文章、编辑与审核
 
-| 方法 | 路径 | 用途 |
-| --- | --- | --- |
-| `GET/POST` | `/articles` | 文章列表/新建人工草稿 |
-| `GET` | `/articles/{id}` | 文章详情与当前版本 |
-| `POST` | `/articles/{id}/revisions` | 保存编辑内容并创建新版本 |
-| `GET` | `/articles/{id}/revisions` | 版本历史 |
-| `POST` | `/articles/{id}/ai-actions` | 润色、续写、改写、摘要或标题优化 |
-| `POST` | `/articles/{id}/submit-review` | 提交当前版本审核 |
-| `GET` | `/reviews/queue` | 待审核队列 |
-| `POST` | `/article-revisions/{revision_id}/reviews` | 对指定版本提交审核结论 |
+任务 6.1 定义以下契约。当前 `GET /articles/{id}` 已实现；保存端点已做基准修订的只读预检查，基准过期返回 409，基准有效时仍返回 `501 not_implemented`。其余端点为已鉴权的契约占位，返回 501。实际保存及事务内冲突复验、提审和审核分别由 6.3–6.5 实现，不能将下述目标行为视为当前已上线功能。
 
-文章列表筛选支持状态、创作来源、公众号、创建时间和发布时间。文章版本字段包括标题、作者、关键词、摘要、Markdown 正文、封面对象和排版配置。AI 编辑接口返回建议结果，不直接覆盖已存版本；保存必须创建新 revision。
+| 方法 | 路径 | 权限及用途 |
+| --- | --- | --- |
+| `GET` | `/articles` | `article:read`；按状态、来源、创建时间筛选，创建时间及 ID 倒序分页 |
+| `POST` | `/articles` | `article:write`；创建人工草稿及首修订，201 |
+| `GET` | `/articles/{id}` | `article:read`；当前版本及引用素材的历史正文，已实现 |
+| `GET` | `/articles/{id}/revisions` | `article:read`；修订历史按版本号倒序分页 |
+| `GET` | `/articles/{id}/revisions/{revision_id}` | `article:read`；特定历史修订及该版本引用 |
+| `POST` | `/articles/{id}/revisions` | `article:write`；基于当前修订保存新修订，201 |
+| `POST` | `/articles/{id}/ai-actions` | `article:write`；返回基于指定修订的 AI 建议，不自动保存 |
+| `POST` | `/articles/{id}/submit-review` | `article:write`；提交指定当前修订审核，200 |
+| `GET` | `/reviews/queue` | `article:review`；按提审时间及文章 ID 升序分页 |
+| `GET` | `/article-revisions/{revision_id}/reviews` | `article:read`；查询指定修订的审核历史 |
+| `POST` | `/article-revisions/{revision_id}/reviews` | `article:review`；对当前待审修订提交人工结论，201 |
+
+所有写请求要求已登录并通过 CSRF 校验。分页使用 `page`、`page_size`，响应为 `items/total/page/page_size`；时间为带时区 UTC ISO 8601。文章列表的公众号和发布时间筛选依赖阶段 7，当前契约不提供这两个筛选。版本内容包含 `title`、`author`、`keywords`、`summary`、`body_markdown`、`cover_object_id`、`layout_config`，以及按顺序排列的 `materials`，每项必须明确 `material_id` 与属于该素材的 `material_revision_id`；同一素材不能重复引用。人工创建及保存新版本返回 `article_id`、`current_revision_id`、`status=draft` 和完整 `revision`。
+
+保存新版本请求必须提交 `base_revision_id`。服务端未来须在同一事务中锁定文章、比较基准、写新版本和引用；不匹配返回 HTTP 409，`error.code=revision_conflict`，`field_errors` 标识 `base_revision_id`。调用方随后读取 `GET /articles/{id}` 和版本历史，不能自动覆盖。提审请求也须提交 `base_revision_id`；审核提交的路径本身绑定 `revision_id`，服务端须校验它仍是当前待审修订，否则返回相同版本冲突；状态不允许时返回 409 `invalid_article_state`。401、403、404、422 使用统一错误信封。
+
+AI 编辑请求为 `base_revision_id`、`action`、`model_config_id`、可选 `selected_text` 和 `instruction`。`action` 为 `polish/continue/expand/shorten/rewrite/title/summary`；响应带文章、基准修订、动作、建议及模型配置版本，用户自行决定采用并另行保存。建议本身不创建文章修订或审核记录。
+
+审核 `checklist` 固定 key 为 `title`、`content`、`facts`、`citations`、`image_copyright`、`account_compliance`、`layout`，值为 `pass/fail/not_applicable`。通过时每项必须为 `pass`，仅 `image_copyright` 可为 `not_applicable`；退回和驳回允许部分检查项，但 `comment` 必须含非空意见。审核记录绑定操作者、动作、意见及明确修订；审核历史不能改写。
+
+| 操作 | 原状态 | 新状态 | 版本及审核语义 |
+| --- | --- | --- | --- |
+| 新建人工草稿 | 无 | `draft` | 创建首修订 |
+| AI 创作成功 | 无 | `pending_review` | 阶段 5 已实现，首修订进入审核队列 |
+| 保存编辑 | `draft/pending_review/approved/returned/rejected` | `draft` | 新建修订，旧版本和旧审核保留；新版本必须重新提审 |
+| 提交审核 | `draft/returned/rejected` | `pending_review` | 仅提交当前修订；退回或驳回后可修改并复审 |
+| 审核通过/退回/驳回 | `pending_review` | `approved/returned/rejected` | 必须审核当前修订；记录对应结论 |
+
+“修改后待复审”表示保存新修订后的 `draft` 及其再次提审后的 `pending_review`，不是独立状态。旧批准始终只对旧修订有效；发布须单独验证当前版本已经过人工批准。`published` 的后续修改和发布状态由阶段 7 的发布契约处理，本阶段不声明它可直接保存或提审。
 
 审核请求包含 `action`（`approve`/`return`/`reject`）、`checklist` 和 `comment`。退回/驳回需填写意见；通过动作只能作用于当前待审核版本。新版本提交后必须重新审核，旧版本审核记录保留但不能授权新版本发布。
 

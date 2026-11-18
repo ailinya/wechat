@@ -1,6 +1,6 @@
 from typing import Literal
 
-from pydantic import Field, SecretStr, ValidationError
+from pydantic import AliasChoices, Field, SecretStr, ValidationError
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -92,19 +92,22 @@ class Settings(BaseSettings):
         default=5, ge=1, validation_alias="DOWNLOAD_GRANT_TTL_MINUTES",
     )
 
-    # 检索（任务 4.1）：embedding 模型与固定维度。默认本地确定性哈希模型，
-    # 无需外部凭据；切换到外部模型时通过 EMBEDDING_* 配置并提供 adapter。
+    # 检索（任务 4.1）：向量模型及服务地址来自根目录 .env。
     embedding_model: str = Field(
-        default="local-hash-cn-v1", validation_alias="EMBEDDING_MODEL",
+        default="qwen3.7-text-embedding-flash", validation_alias="EMBEDDING_MODEL",
     )
     embedding_dim: int = Field(
-        default=384, ge=1, le=2000, validation_alias="EMBEDDING_DIM",
+        default=1024,
+        ge=1024,
+        le=1024,
+        validation_alias=AliasChoices("EMBEDDING_DIMENSION", "EMBEDDING_DIM"),
     )
     embedding_api_url: str | None = Field(
-        default=None, validation_alias="EMBEDDING_API_URL",
+        default="https://cn-beijing.maas.qianwenaiapi.com/api/v1",
+        validation_alias=AliasChoices("EMBEDDING_BASE_URL", "EMBEDDING_API_URL"),
     )
     embedding_api_key: SecretStr | None = Field(
-        default=None, validation_alias="EMBEDDING_API_KEY",
+        default=None, validation_alias="OPENAI_API_KEY",
     )
     search_keyword_weight: float = Field(
         default=0.5, ge=0.0, le=1.0, validation_alias="SEARCH_KEYWORD_WEIGHT",

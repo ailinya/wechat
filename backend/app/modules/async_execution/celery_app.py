@@ -45,6 +45,10 @@ def create_celery_app(settings=None) -> Celery:
             "task": "app.modules.async_execution.tasks.schedule_collection_runs",
             "schedule": 60.0,
         },
+        "schedule-creation-rules": {
+            "task": "app.modules.async_execution.tasks.schedule_creation_rules",
+            "schedule": 60.0,
+        },
     }
     app.conf.wetchat_settings = settings
     return app

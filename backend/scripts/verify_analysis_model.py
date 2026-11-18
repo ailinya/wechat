@@ -1,27 +1,20 @@
-"""Verify the explicitly configured DeepSeek analysis model without logging secrets."""
+"""Verify the configured text model without logging secrets."""
 
 import json
-import os
 import time
 import sys
 from urllib.parse import urlsplit
 from datetime import datetime, timezone
 from pathlib import Path
-from dotenv import dotenv_values
-from app.credentials import ENV_FILE, resolve_credential
+from app.credentials import resolve_credential, resolve_setting
 from app.adapters.model_client import ModelClient, ModelError
-from app.adapters.source_fetch import fetch
-from app.services.document_parser import parse_article_html
 
 
 def configured_model():
-    values = dotenv_values(ENV_FILE, encoding="utf-8-sig")
-    endpoint = os.getenv("DEEPSEEK_BASE_URL") or values.get("DEEPSEEK_BASE_URL")
-    model = os.getenv("DEEPSEEK_MODEL") or values.get("DEEPSEEK_MODEL")
-    if not endpoint or not model or not resolve_credential("DEEPSEEK_API_KEY"):
-        raise RuntimeError(
-            "DEEPSEEK_BASE_URL, DEEPSEEK_MODEL and DEEPSEEK_API_KEY must be configured"
-        )
+    endpoint = resolve_setting("OPENAI_BASE_URL")
+    model = resolve_setting("MODEL_NAME")
+    if not endpoint or not model or not resolve_credential("OPENAI_API_KEY"):
+        raise RuntimeError("OPENAI_BASE_URL, MODEL_NAME and OPENAI_API_KEY must be configured")
     endpoint = endpoint.rstrip("/")
     if not endpoint.endswith("/chat/completions"):
         endpoint += "/chat/completions"
@@ -30,7 +23,7 @@ def configured_model():
         "purpose": "analysis",
         "endpoint": endpoint,
         "model_name": model,
-        "credential_ref": "DEEPSEEK_API_KEY",
+        "credential_ref": "OPENAI_API_KEY",
         "max_input_tokens": 8000,
         "max_output_tokens": 2000,
         "timeout_seconds": 60,
@@ -38,6 +31,9 @@ def configured_model():
 
 
 def verify():
+    from app.adapters.source_fetch import fetch
+    from app.services.document_parser import parse_article_html
+
     config = configured_model()
     public_url = "https://www.cac.gov.cn/2026-10/19/c_1794086281588959.htm"
     response = fetch(public_url)
@@ -58,9 +54,9 @@ def verify():
     ]
     evidence = {
         "checked_at": datetime.now(timezone.utc).isoformat(),
-        "provider": "DeepSeek",
+        "provider": "Qwen MaaS",
         "model_name": config["model_name"],
-        "credential_ref": "DEEPSEEK_API_KEY",
+        "credential_ref": "OPENAI_API_KEY",
         "source_url": public_url,
         "source_http_status": response.status_code,
         "cases": [],

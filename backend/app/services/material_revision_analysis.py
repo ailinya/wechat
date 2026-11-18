@@ -3,7 +3,7 @@
 import hashlib
 import json
 from sqlalchemy import text
-from app.adapters.model_client import ModelClient, ModelError
+from app.adapters.model_client import ModelClient, ModelError, effective_text_config
 from app.errors import ApiError
 from app.repositories import model_config_repository
 
@@ -31,6 +31,8 @@ def analyze_material(
         config = model_config_repository.get_config(conn, model_config_id)
         if not config or not config["enabled"] or config["purpose"] != "analysis":
             raise ApiError(409, "model_unavailable", "分析模型不可用")
+        config = effective_text_config(config)
+        endpoint_hash = hashlib.sha256(config["endpoint"].encode()).hexdigest()
         context = {
             "topic": topic,
             "keywords": keywords or [],
@@ -42,6 +44,8 @@ def analyze_material(
                     str(material["current_revision_id"]),
                     str(model_config_id),
                     config["config_version"],
+                    config["model_name"],
+                    endpoint_hash,
                     topic,
                     keywords,
                 ],
@@ -77,7 +81,7 @@ def analyze_material(
                 "attempt": attempt,
                 "hash": material["content_hash"],
                 "context": json.dumps(context, ensure_ascii=False),
-                "config": json.dumps({"config_version": config["config_version"]}),
+                "config": json.dumps({"config_version": config["config_version"], "model_name": config["model_name"], "endpoint_hash": endpoint_hash}),
                 "lease": config["timeout_seconds"] + 30,
             },
         ).scalar_one()

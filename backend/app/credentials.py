@@ -14,3 +14,10 @@ def resolve_credential(reference: str | None) -> str | None:
     if reference in os.environ:
         return os.environ[reference]
     return dotenv_values(ENV_FILE, encoding="utf-8-sig").get(reference)
+
+
+def resolve_setting(reference: str) -> str | None:
+    """Resolve a non-secret setting, preferring process environment over .env."""
+    if reference in os.environ:
+        return os.environ[reference]
+    return dotenv_values(ENV_FILE, encoding="utf-8-sig").get(reference)

@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-11-18T15:32:34.853356+00:00",
+  "provider": "Qwen MaaS",
+  "endpoint_host": "cn-beijing.maas.qianwenaiapi.com",
+  "model_name": "qwen3.7-text-embedding-flash",
+  "requested_dimension": 1024,
+  "actual_dimension": 1024,
+  "returned_model": null,
+  "total_tokens": 28,
+  "request_id": null,
+  "http_status": 200,
+  "latency_ms": 324,
+  "passed": true,
+  "credential_ref": "OPENAI_API_KEY"
+}

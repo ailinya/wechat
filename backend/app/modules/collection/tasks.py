@@ -9,11 +9,15 @@ from app.modules.collection.analysis_tasks import analyze_result_once, analysis_
 from app.services import collection_service, materialization_service
 from app.services.collection_pipeline import collection_job_handler
 from app.services.material_revision_analysis import material_analysis_job
+from app.services.material_embedding_service import material_embedding_job
+from app.services.creation_worker import creation_job
 from app.services.material_comparison_service import comparison_job_handler
 
 register_engine_handler("collection.run", collection_job_handler)
 register_engine_handler("collection.analysis", analysis_job_handler)
 register_engine_handler("material.analysis", material_analysis_job)
+register_engine_handler("material.embedding", material_embedding_job)
+register_engine_handler("creation.generate", creation_job)
 register_engine_handler("collection.comparison", comparison_job_handler)
 
 
@@ -49,3 +53,12 @@ def schedule_collection_runs_once(settings: Settings | None = None) -> dict:
 @celery_app.task(name="app.modules.async_execution.tasks.schedule_collection_runs")
 def schedule_collection_runs() -> dict:
     return schedule_collection_runs_once()
+
+
+@celery_app.task(name="app.modules.async_execution.tasks.schedule_creation_rules")
+def schedule_creation_rules() -> dict:
+    from app.services.creation_scheduler import schedule_rules
+
+    with session_for(Settings.model_validate({})) as conn:
+        with conn.begin():
+            return schedule_rules(conn.connection())

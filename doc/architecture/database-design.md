@@ -1,5 +1,9 @@
 # 智媒助手数据库设计
 
+## 阶段 5 实施补充
+
+迁移 `0015_creation`、`0016_articles` 建立创作规则、规则与采集任务关系、创作任务、候选素材、输出槽位、已消费事件、文章、文章修订和文章素材引用。规则触发类型及窗口唯一约束防止重复批次；输出的任务与槽位唯一。候选记录保存素材修订和是否采用，文章引用保存实际引用的素材修订，当前文章修订必须属于该文章。文章创建时为 `pending_review`，不依赖尚未接入的公众号表。重试复用已完成槽位；显式重新生成创建关联来源任务的新记录。模型配置复用 `model_configs`，不存放明文密钥。
+
 ## 1. 目的与依据
 
 本文定义智媒助手首期 PostgreSQL 数据模型，包括业务表、表关系、关键约束及 pgvector 用法。设计依据为 `AGENT.md`、`doc/instruction/PRD.md` 和 `doc/html/` 静态原型；原型 JSON 是演示数据，不作为生产表结构。
@@ -44,7 +48,7 @@
 | `stored_objects` | `id`, `bucket`, `object_key`, `size_bytes`, `content_type`, `sha256`, `uploader_id`, `created_at`；`(bucket, object_key)` 唯一 |
 | `material_files` | `id`, `material_id`, `stored_object_id`, `role`；`(material_id, stored_object_id, role)` 唯一防重，关联原始附件或素材图片 |
 | `material_favorites` | `id`, `material_id`, `user_id`, `created_at`；`(material_id, user_id)` 唯一，按用户隔离 |
-| `material_chunks` | `id`, `material_revision_id`, `chunk_index`, `content`, `content_hash`, `embedding`, `embedding_model`, `created_at`（阶段 4） |
+| `material_chunks` | `id`, `material_revision_id`, `chunk_index`, `content`, `content_hash`, nullable `embedding vector(1024)`, `embedding_model_config_id`, `embedding_config_version`, `embedding_model_name`, `embedding_dimension`, `created_at`（迁移 0013；向量可空以支持分块先建、异步回填） |
 
 采集结果始终保留；自动或人工入库通过 `material_id` 关联素材（迁移 0004 已补 FK，软删除时置 NULL）。重复项关联已有素材；同事件新进展创建新素材，通过 `material_relations` 关联，不覆盖旧正文。采集结果支持未入库、已入库、忽略和解析失败等状态。
 
@@ -58,7 +62,9 @@
 
 ### pgvector 约定
 
-`material_chunks.embedding` 使用 pgvector。首次迁移前必须确定 embedding 模型及向量维度 `D`，字段类型为 `vector(D)`；不同维度不能混在同一向量列。换模型或维度时使用新列/新表并重建向量。正文修订创建新 chunk，保留旧版本 chunk 以支持审计和重现检索结果。
+`material_chunks.embedding` 使用 pgvector。迁移 0013 启用 `vector` 扩展并创建修订级分块表；embedding 暂允许 NULL，以便作业先持久化分块、再回填向量。`(material_revision_id, chunk_index, embedding_model_config_id, embedding_config_version)` 唯一防止同修订、同配置版本重复分块。迁移 0014 的 `material_embedding_runs` 以修订和配置版本唯一，记录异步任务、尝试状态及脱敏失败码。当前根目录 `.env` 指定 Qwen MaaS `qwen3.7-text-embedding-flash`、`EMBEDDING_DIMENSION=1024`，原生 API 基址为 `EMBEDDING_BASE_URL`，凭据引用 `OPENAI_API_KEY`；API key 不写入仓库。2026-11-18 实测 HTTP 200 并返回 1024 维，证据见 `doc/development/embedding-model-live-evidence.json`。此前 `text-embedding-v3` 使用 DashScope 公共兼容端点的探针曾返回 `401 invalid_api_key`，该结果不验证当前 Qwen 配置。字段类型为 `vector(1024)`，不同维度不能混在同一向量列。配置版本与维度写入每个 chunk，确保不能把其他模型空间的向量混合比较。换模型或维度时使用新列/新表并重建向量，验证完成后再切换；正文修订创建新 chunk，保留旧版本 chunk 以支持审计和重现检索结果。
+
+中文关键词检索对查询与 chunk 正文作 Unicode NFKC、大小写折叠和空白/标点归一化；CJK 连续字符拆成重叠二元词项，拉丁字母/数字按词项匹配。阶段 4 以可复现的词项覆盖率作为关键词分数，并在固定样例集验证，不依赖 PostgreSQL 默认全文分词器对中文的行为。混合排序使用归一化关键词分数 `L` 和归一化余弦分数 `V=clamp((cosine+1)/2,0,1)`：`R=w*L+(1-w)*V`，首期 `w=0.5`；`R` 是排序相关度而非概率或事实可信度。最终并列按素材 UUID 稳定排序。向量服务不可用时允许明确标记的关键词降级，不能伪装为混合结果。
 
 首期可先用精确向量搜索；数据规模和延迟有实际指标后，再建立 HNSW/IVFFlat 索引。结合 PostgreSQL 关键词检索做混合召回；检索结果记录素材、正文片段、相似度和来源。
 

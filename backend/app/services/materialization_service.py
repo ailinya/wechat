@@ -15,7 +15,12 @@ from sqlalchemy import Connection, text
 from app.errors import ApiError
 from app.repositories import collection_repository as collection_repo
 from app.repositories import material_repository as material_repo
-from app.services import async_job_service, document_parser, outbox_service
+from app.services import (
+    async_job_service,
+    document_parser,
+    material_embedding_service,
+    outbox_service,
+)
 
 TERMINAL = {"materialized", "duplicate", "new_progress"}
 IGNORED = "ignored"
@@ -173,6 +178,13 @@ def materialize(
         created_by=user_id,
         source_result_id=result_id,
     )
+    if conn is not None:
+        material_embedding_service.enqueue_rebuild(
+            conn,
+            created["material_id"],
+            revision_id=created["revision_id"],
+            user_id=user_id,
+        )
     materialize_status = "materialized"
     if target_id:
         material_repo.add_relation(conn, created["material_id"], target_id, "update_of")

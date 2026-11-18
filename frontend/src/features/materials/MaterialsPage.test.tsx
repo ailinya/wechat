@@ -9,6 +9,8 @@ import { apiRequest } from '../../shared/api/client'
 import { FeedbackProvider } from '../../shared/components/feedback'
 import { MaterialsPage } from './MaterialsPage'
 
+vi.mock('../../app/AuthContext', () => ({ useAuth: () => ({ hasPermission: () => true }) }))
+
 vi.mock('../../shared/api/client', () => ({
   ApiError: class MockApiError extends Error {
     status: number
@@ -25,7 +27,7 @@ vi.mock('../../shared/api/client', () => ({
 vi.mock('../../shared/api/materials', () => ({
   materialsApi: {
     list: vi.fn(), create: vi.fn(), createFromLink: vi.fn(), createFromUpload: vi.fn(),
-    get: vi.fn(), update: vi.fn(), remove: vi.fn(), bulk: vi.fn(),
+    get: vi.fn(), articles: vi.fn(), update: vi.fn(), remove: vi.fn(), bulk: vi.fn(),
     listCategories: vi.fn(), createCategory: vi.fn(), listTags: vi.fn(),
     createTag: vi.fn(), renameTag: vi.fn(), deleteTag: vi.fn(),
     favorite: vi.fn(), unfavorite: vi.fn(),
@@ -60,6 +62,7 @@ beforeEach(() => {
   vi.clearAllMocks()
   mockRequest.mockResolvedValue({ ...emptyPage, items: [material], total: 1 } as never)
   api.get.mockResolvedValue(detail as never)
+  api.articles.mockResolvedValue([])
   api.favorite.mockResolvedValue(undefined as never)
 })
 
@@ -96,7 +99,7 @@ describe('MaterialsPage', () => {
     window.location.hash = '#/materials?material_id=m1'
     renderPage()
     await userEvent.setup().click(await screen.findByRole('button', { name: '详情' }))
-    expect(await screen.findByText(/引用关系将在智能创作能力接入后显示/)).toBeTruthy()
+    expect(await screen.findByText('暂无引用文章。')).toBeTruthy()
   })
 
   it('favorites a material through the API with feedback', async () => {

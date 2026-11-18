@@ -18,7 +18,7 @@ from datetime import datetime
 from typing import Literal
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 from app.schemas.common import TimestampedModel
 
@@ -75,6 +75,73 @@ class MaterialRevisionOut(BaseModel):
     file_ids: list[UUID] = []
     created_by: UUID | None = None
     created_at: datetime
+
+
+class EmbeddingRebuildIn(BaseModel):
+    revision_id: UUID | None = None
+
+
+class EmbeddingRebuildOut(BaseModel):
+    async_job_id: UUID
+    resource_id: UUID
+    revision_id: UUID
+    status: Literal["pending", "running", "succeeded"]
+    reused: bool
+
+
+class MaterialSearchIn(BaseModel):
+    query: str = Field(min_length=1, max_length=500)
+    scope: Literal["current", "all"] = "current"
+    from_time: datetime | None = Field(default=None, alias="from")
+    to: datetime | None = None
+    statuses: list[UsageStatus] | None = None
+    top_k: int = Field(default=20, ge=1, le=100)
+    min_relevance: float = Field(default=0, ge=0, le=1)
+    keyword_mode: Literal["hybrid", "keyword_only"] = "hybrid"
+
+    @field_validator("query")
+    @classmethod
+    def nonempty_query(cls, value: str) -> str:
+        if not value.strip():
+            raise ValueError("查询不能为空")
+        return value.strip()
+
+    @model_validator(mode="after")
+    def valid_dates(self):
+        for value in (self.from_time, self.to):
+            if value is not None and (value.tzinfo is None or value.utcoffset() is None):
+                raise ValueError("时间必须包含时区")
+        if self.from_time and self.to and self.from_time > self.to:
+            raise ValueError("开始时间不能晚于结束时间")
+        return self
+
+
+class MaterialSearchSource(BaseModel):
+    type: str
+    title: str | None = None
+    url: str | None = None
+    attachment_id: UUID | None = None
+
+
+class MaterialSearchItem(BaseModel):
+    material_id: UUID
+    title: str
+    matched_revision_id: UUID
+    snippet: str
+    source: MaterialSearchSource
+    published_at: datetime | None = None
+    keyword_score: float
+    semantic_score: float | None = None
+    relevance_score: float
+    score_explanation: str
+    usage_status: UsageStatus
+
+
+class MaterialSearchOut(BaseModel):
+    items: list[MaterialSearchItem]
+    mode: Literal["hybrid", "keyword_only"]
+    degraded: bool = False
+    degradation_reason: str | None = None
 
 
 class MaterialCreateIn(BaseModel):

@@ -12,7 +12,8 @@ import { MaterialAnalysisForm } from '../collection/MaterialAnalysisForm'
 
 import { useHashRoute } from '../../app/router'
 import { FileUploadDemo } from '../dashboard/FileUploadDemo'
-import { materialsApi } from '../../shared/api/materials'
+import { materialsApi, type MaterialArticleReference } from '../../shared/api/materials'
+import { useAuth } from '../../app/AuthContext'
 import { ApiError } from '../../shared/api/client'
 import type { MaterialDetailOut, MaterialOut, StoredObjectOut } from '../../shared/api/types'
 import { DataTable, type Column } from '../../shared/components/DataTable'
@@ -53,6 +54,8 @@ function errorMessage(cause: unknown): string {
 }
 
 export function MaterialsPage() {
+  const { hasPermission } = useAuth()
+  const canReadArticles = hasPermission('article:read')
   const route = useHashRoute()
   const patchQuery = useUrlQuery(route.path, route.query)
   const notify = useFeedback().notify
@@ -72,6 +75,14 @@ export function MaterialsPage() {
   const [tagName, setTagName] = useState('')
   const [checked, setChecked] = useState<Set<string>>(new Set())
   const [detail, setDetail] = useState<MaterialDetailOut | null>(null)
+  const [references, setReferences] = useState<MaterialArticleReference[]>([])
+  const [referenceError, setReferenceError] = useState('')
+  useEffect(() => {
+    let active = true
+    setReferences([]); setReferenceError('')
+    if (selectedId && canReadArticles) void materialsApi.articles(selectedId).then(items => { if (active) setReferences(items) }).catch(cause => { if (active) setReferenceError(errorMessage(cause)) })
+    return () => { active = false }
+  }, [selectedId, canReadArticles])
   useEffect(()=>{
     let active=true
     if(selectedId) void materialsApi.get(selectedId).then(data=>{if(active)setDetail(data)}).catch(()=>{})
@@ -188,6 +199,7 @@ export function MaterialsPage() {
   return (
     <section className="list-page" aria-label="素材库">
       <h1>素材库</h1>
+      <p><a href="#/materials/search">高级搜索</a></p>
 
       <div className="material-tools">
         <form className="list-filters" onSubmit={(event) => {
@@ -293,7 +305,7 @@ export function MaterialsPage() {
           <p>收藏数：{detail.favorite_count ?? 0}</p>
           <section className="material-references" aria-label="引用该素材的文章">
             <h3>引用文章</h3>
-            <p>引用关系将在智能创作能力接入后显示。</p>
+            {!canReadArticles ? <p>需要文章查看权限。</p> : referenceError ? <p role="alert">{referenceError}</p> : references.length ? <ul>{references.map(item => <li key={item.article_revision_id}><a href={`#/content/articles/${item.article_id}`}>{item.article_title}</a> · 素材修订 {item.material_revision_id} · {new Date(item.used_at).toLocaleString()}</li>)}</ul> : <p>暂无引用文章。</p>}
           </section>
           <button type="button" className="ghost-button" onClick={() => { setDetail(null); patchQuery({ material_id: null }) }}>关闭</button>
         </section>

@@ -34,8 +34,10 @@ def reset_schema() -> None:
     with engine.connect() as conn:
         conn.execute(
             text(
-                "DROP TABLE IF EXISTS collection_searches, collection_candidate_discoveries, "
-                "material_ready_events, collection_analyses, "
+                "DROP TABLE IF EXISTS article_materials, article_revisions, articles, "
+                "creation_consumed_events, creation_outputs, creation_task_materials, creation_tasks, "
+                "creation_rule_collection_tasks, creation_rules, collection_searches, collection_candidate_discoveries, "
+                "material_embedding_runs, material_chunks, material_ready_events, collection_analyses, "
                 "collection_snapshots, collection_stage_attempts, collection_candidates, "
                 "search_configs, model_configs, "
                 "collection_results, collection_runs, "

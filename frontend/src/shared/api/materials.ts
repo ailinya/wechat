@@ -20,7 +20,45 @@ function pageQuery(page: number, pageSize: number, params: Record<string, string
   return query.toString()
 }
 
+export interface SearchItem {
+  material_id: string
+  title: string
+  matched_revision_id: string
+  snippet: string
+  source: { type: string; title: string | null; url: string | null; attachment_id: string | null }
+  published_at: string | null
+  keyword_score: number
+  semantic_score: number | null
+  relevance_score: number
+  score_explanation: string
+  usage_status: string
+}
+
+export interface SearchResponse {
+  items: SearchItem[]
+  mode: 'hybrid' | 'keyword_only'
+  degraded: boolean
+  degradation_reason: string | null
+}
+
+export interface SearchRequest {
+  query: string
+  scope: 'current' | 'all'
+  keyword_mode: 'hybrid' | 'keyword_only'
+  top_k: number
+  min_relevance: number
+  statuses?: string[]
+  from?: string
+  to?: string
+}
+
+export interface MaterialArticleReference {
+  article_id: string; article_title: string; article_revision_id: string; material_revision_id: string; used_at: string
+}
+
 export const materialsApi = {
+  search: (payload: SearchRequest) =>
+    apiRequest<SearchResponse>('/materials/search', { method: 'POST', body: payload }),
   list: (
     page: number,
     pageSize: number,
@@ -42,6 +80,7 @@ export const materialsApi = {
   createFromUpload: (payload: MaterialUploadIn) =>
     apiRequest<MaterialOut>('/materials/from-upload', { method: 'POST', body: payload }),
   get: (id: string) => apiRequest<MaterialDetailOut>(`/materials/${id}`),
+  articles: (id: string) => apiRequest<MaterialArticleReference[]>(`/materials/${id}/articles`),
   update: (id: string, payload: MaterialUpdateIn) =>
     apiRequest<MaterialDetailOut>(`/materials/${id}`, { method: 'PATCH', body: payload }),
   remove: (id: string) => apiRequest(`/materials/${id}`, { method: 'DELETE' }),

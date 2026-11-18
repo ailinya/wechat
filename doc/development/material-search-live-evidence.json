@@ -1,0 +1,89 @@
+{
+  "checked_at": "2026-11-18T16:11:26.358558+00:00",
+  "dataset": "synthetic Chinese fixtures",
+  "material_count": 3,
+  "embedding_model": "qwen3.7-text-embedding-flash",
+  "dimension": 1024,
+  "queries": [
+    {
+      "query": "传感器采样率提升",
+      "expected_first_title": "传感器新品发布",
+      "mode": "hybrid",
+      "degraded": false,
+      "latency_ms": 275,
+      "results": [
+        {
+          "title": "传感器新品发布",
+          "revision_id": "451ac592-4a3b-4553-a127-3a99578be33f",
+          "relevance": 0.7193
+        },
+        {
+          "title": "城市气象服务升级",
+          "revision_id": "b05d8cd3-ca16-43cd-a247-b3a1b3155f04",
+          "relevance": 0.3864
+        },
+        {
+          "title": "新能源汽车电池回收",
+          "revision_id": "29caad31-910f-49a0-ae86-e6f509c81b08",
+          "relevance": 0.352
+        }
+      ]
+    },
+    {
+      "query": "动力电池循环利用",
+      "expected_first_title": "新能源汽车电池回收",
+      "mode": "hybrid",
+      "degraded": false,
+      "latency_ms": 281,
+      "results": [
+        {
+          "title": "新能源汽车电池回收",
+          "revision_id": "29caad31-910f-49a0-ae86-e6f509c81b08",
+          "relevance": 0.7437
+        },
+        {
+          "title": "城市气象服务升级",
+          "revision_id": "b05d8cd3-ca16-43cd-a247-b3a1b3155f04",
+          "relevance": 0.3514
+        },
+        {
+          "title": "传感器新品发布",
+          "revision_id": "451ac592-4a3b-4553-a127-3a99578be33f",
+          "relevance": 0.3261
+        }
+      ]
+    },
+    {
+      "query": "暴雨预警和内涝",
+      "expected_first_title": "城市气象服务升级",
+      "mode": "hybrid",
+      "degraded": false,
+      "latency_ms": 286,
+      "results": [
+        {
+          "title": "城市气象服务升级",
+          "revision_id": "b05d8cd3-ca16-43cd-a247-b3a1b3155f04",
+          "relevance": 0.7651
+        },
+        {
+          "title": "新能源汽车电池回收",
+          "revision_id": "29caad31-910f-49a0-ae86-e6f509c81b08",
+          "relevance": 0.334
+        },
+        {
+          "title": "传感器新品发布",
+          "revision_id": "451ac592-4a3b-4553-a127-3a99578be33f",
+          "relevance": 0.3331
+        }
+      ]
+    },
+    {
+      "query": "古典诗词格律",
+      "expected_first_title": null,
+      "mode": "hybrid",
+      "degraded": false,
+      "latency_ms": 248,
+      "results": []
+    }
+  ]
+}

@@ -10,6 +10,9 @@ import { Placeholder } from './features/Placeholder'
 import { CollectionPage } from './features/collection/CollectionPage'
 import { CollectionSettings } from './features/collection/CollectionSettings'
 import { MaterialsPage } from './features/materials/MaterialsPage'
+import { MaterialSearchPage } from './features/materials/MaterialSearchPage'
+import { CreationPage } from './features/creation/CreationPage'
+import { ArticleDetailPage } from './features/creation/ArticleDetailPage'
 import { DashboardHome } from './features/dashboard/Home'
 import { JobPollingDemoPage } from './features/dashboard/JobPollingDemoPage'
 import { ListDemoPage } from './features/dashboard/ListDemoPage'
@@ -83,6 +86,10 @@ function Routes() {
     if (module.key === 'collection') {
       return <CollectionPage />
     }
+    if (route.path === '/materials/search') return <MaterialSearchPage />
+    if (module.key === 'creation') return <CreationPage />
+    const articleId = route.path.match(/^\/content\/articles\/([^/]+)$/)?.[1]
+    if (articleId) return <ArticleDetailPage id={articleId} />
     if (module.key === 'materials') {
       return <MaterialsPage />
     }

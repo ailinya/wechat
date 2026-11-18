@@ -65,6 +65,8 @@ def analyze_result(
         config = model_config_repository.get_config(conn, model_config["id"])
         if not config or not config["enabled"] or config["purpose"] != "analysis":
             raise ApiError(409, "model_unavailable", "analysis 用途模型不可用或已禁用")
+        config = model_client.effective_text_config(config)
+        endpoint_hash = hashlib.sha256(config["endpoint"].encode()).hexdigest()
         snapshot = _snapshot(conn, result_id)
         run = (
             conn.execute(
@@ -87,6 +89,8 @@ def analyze_result(
             "hash": snapshot["content_hash"],
             "config_id": str(config["id"]),
             "config_version": config["config_version"],
+            "model_name": config["model_name"],
+            "endpoint_hash": endpoint_hash,
             "prompt": prompt_version,
             "context": context,
         }
@@ -144,6 +148,7 @@ def analyze_result(
                 "timeout_seconds",
             )
         }
+        safe_config["endpoint_hash"] = endpoint_hash
         analysis_id = conn.execute(
             text(
                 "INSERT INTO collection_analyses (scope,result_id,status,model_config_id,prompt_version,"

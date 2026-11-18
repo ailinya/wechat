@@ -15,6 +15,7 @@ from app.services import material_service as service
 
 @pytest.fixture
 def patched(monkeypatch):
+    monkeypatch.setattr(service.material_embedding_service, "enqueue_rebuild", lambda *a, **k: None)
     monkeypatch.setattr(service.repo,'lock_metadata',lambda *a:{'metadata_version':1,'manual_fields':[]})
     monkeypatch.setattr(service.repo,'record_manual_metadata',lambda *a:None)
     state = {

@@ -10,7 +10,7 @@ from sqlalchemy import Connection, text
 from app.adapters import source_fetch
 from app.errors import ApiError
 from app.repositories import material_repository as repo
-from app.services import audit_service, document_parser
+from app.services import audit_service, document_parser, material_embedding_service
 
 
 def _tags(conn: Connection, tag_ids: list[UUID | str]) -> list[str]:
@@ -50,9 +50,12 @@ def create_material(
         {"title": title[:256], "origin": origin, "category": category,
          "user": str(user_id) if user_id else None},
     ).scalar_one()
-    repo.add_revision(
+    revision = repo.add_revision(
         conn, material_id, revision_no=1, content_markdown=content_markdown,
         title=title, created_by=user_id, file_ids=file_ids,
+    )
+    material_embedding_service.enqueue_rebuild(
+        conn, material_id, revision_id=revision["id"], user_id=user_id
     )
     repo.set_material_tags(conn, material_id, tag_values)
     if source_url:
@@ -160,9 +163,12 @@ def update_material(
     if payload.title is not None or payload.content_markdown is not None:
         revision = repo.current_revision(conn, material_id)
         body = payload.content_markdown or revision["content_markdown"]
-        repo.add_revision(
+        revision = repo.add_revision(
             conn, material_id, revision_no=repo.next_revision_no(conn, material_id),
             content_markdown=body, title=payload.title, created_by=user_id,
+        )
+        material_embedding_service.enqueue_rebuild(
+            conn, material_id, revision_id=revision["id"], user_id=user_id
         )
     if payload.usage_status is not None:
         repo.update_material_fields(conn, material_id, usage_status=payload.usage_status)

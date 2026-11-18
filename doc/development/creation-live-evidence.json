@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-11-18T17:03:29.976829+00:00",
+  "sample": "synthetic",
+  "embedding_model": "qwen3.7-text-embedding-flash",
+  "embedding_dimension": "1024",
+  "text_model": "qwen4-max",
+  "search_mode": "hybrid",
+  "search_degraded": false,
+  "search_score": 0.9455141304688633,
+  "article_status": "pending_review",
+  "citation_count": 1,
+  "elapsed_seconds": 17.43,
+  "passed": true
+}
