@@ -28,6 +28,18 @@ def terms(value: str) -> set[str]:
     return result
 
 
+def _term_patterns(query_terms: set[str]) -> dict[str, re.Pattern]:
+    patterns = {}
+    for term in query_terms:
+        escaped = re.escape(term)
+        if "\u3400" <= term[0] <= "\u9fff":
+            pattern = escaped if len(term) > 1 else rf"(?<![\u3400-\u9fff]){escaped}(?![\u3400-\u9fff])"
+        else:
+            pattern = rf"(?<![a-z0-9]){escaped}(?![a-z0-9])"
+        patterns[term] = re.compile(pattern)
+    return patterns
+
+
 def _active_config(conn):
     model = resolve_setting("EMBEDDING_MODEL") or "qwen3.7-text-embedding-flash"
     endpoint = (resolve_setting("EMBEDDING_BASE_URL") or "https://cn-beijing.maas.qianwenaiapi.com/api/v1").rstrip("/")
@@ -55,12 +67,15 @@ def _partial_lexical_candidates(conn,params,where,source_join):
     return conn.execute(text(sql),params).scalars()
 
 
-def search(conn, request, *, embed=embedding_client.embed_texts) -> dict:
+def search(conn, request, *, embed=embedding_client.embed_texts, expected_config=None) -> dict:
     query_terms = terms(request.query)
+    term_patterns = _term_patterns(query_terms)
     mode, reason, vectors, config = request.keyword_mode, None, None, None
     if mode == "hybrid":
         try:
             config, model, endpoint, dimension = _active_config(conn)
+            if expected_config is not None and (str(config['id']), config['config_version']) != (expected_config.get('id'), expected_config.get('config_version')):
+                raise embedding_client.EmbeddingError('embedding_configuration_changed', '向量模型配置已变化')
             vectors, _ = embed([request.query], expected_model=model, expected_base_url=endpoint, expected_dimension=dimension)
         except embedding_client.EmbeddingError as exc:
             mode, reason = "keyword_only", exc.code
@@ -87,10 +102,16 @@ def search(conn, request, *, embed=embedding_client.embed_texts) -> dict:
         # batch first, so common Chinese phrases do not sort the entire corpus.
         lexical_source = source_join if request.from_time or request.to else ''
         for column in ['m.search_terms','r.search_terms']:
-            full = conn.execute(text(
+            # Probe without ordering so rare terms use the GIN index instead of
+            # scanning the material primary key while looking for 100 matches.
+            # If the bounded probe fills, retain the original deterministic order.
+            base = (
                 'SELECT m.id FROM materials m JOIN material_revisions r ON r.id=m.current_revision_id '+lexical_source+
-                'WHERE '+where+' AND '+column+' @> CAST(:terms AS text[]) ORDER BY m.id LIMIT :candidate_limit'
-            ),params).scalars()
+                'WHERE '+where+' AND '+column+' @> CAST(:terms AS text[])'
+            )
+            full = conn.execute(text(base+' LIMIT :candidate_limit'),params).scalars().all()
+            if len(full) == params['candidate_limit']:
+                full = conn.execute(text(base+' ORDER BY m.id LIMIT :candidate_limit'),params).scalars().all()
             candidate_ids.update(full)
         if len(candidate_ids) < params['candidate_limit']:
             lexical_candidates = _partial_lexical_candidates(conn,params,where,source_join)
@@ -152,23 +173,19 @@ def search(conn, request, *, embed=embedding_client.embed_texts) -> dict:
         if request.to and (not date or date > request.to):
             continue
         content = row["content_markdown"]
-        matched = query_terms & terms(row["title"] + " " + content)
+        normalized = unicodedata.normalize("NFKC", row["title"] + " " + content).casefold()
+        matched = {term for term, pattern in term_patterns.items() if pattern.search(normalized)}
         lexical = len(matched) / len(query_terms) if query_terms else 0.0
         match = semantic.get(row["revision_id"])
         score = max(0.0, min(1.0, (float(match["cosine"]) + 1) / 2)) if match else None
         relevance = lexical if mode == "keyword_only" else 0.5 * lexical + 0.5 * (score or 0.0)
         if relevance <= 0 or relevance < request.min_relevance:
             continue
-        snippet = match["content"] if match and not matched else content
-        if matched and content:
-            normalized = unicodedata.normalize("NFKC", content).casefold()
-            positions = [normalized.find(term) for term in matched if normalized.find(term) >= 0]
-            start = max(0, min(positions) - 60) if positions else 0
-            snippet = content[start:start + 240]
         files = row["file_ids"] or []
         results.append({
             "material_id": row["id"], "title": row["title"], "matched_revision_id": row["revision_id"],
-            "snippet": snippet[:240], "source": {"type": row["origin"], "title": row["source_title"],
+            "_content": content, "_matched": matched, "_semantic_content": match["content"] if match else None,
+            "source": {"type": row["origin"], "title": row["source_title"],
                 "url": row["source_url"] or (row["summary"] if row["origin"] == "link" else None),
                 "attachment_id": files[0] if files else None},
             "published_at": date, "keyword_score": lexical, "semantic_score": score,
@@ -176,4 +193,16 @@ def search(conn, request, *, embed=embedding_client.embed_texts) -> dict:
             "usage_status": status,
         })
     results.sort(key=lambda item: (-item["relevance_score"], str(item["material_id"])))
-    return {"items": results[:request.top_k], "mode": mode, "degraded": reason is not None, "degradation_reason": reason}
+    items = results[:request.top_k]
+    for item in items:
+        content = item.pop("_content")
+        matched = item.pop("_matched")
+        semantic_content = item.pop("_semantic_content")
+        snippet = semantic_content if semantic_content is not None and not matched else content
+        if matched and content:
+            normalized_content = unicodedata.normalize("NFKC", content).casefold()
+            positions = [normalized_content.find(term) for term in matched if normalized_content.find(term) >= 0]
+            start = max(0, min(positions) - 60) if positions else 0
+            snippet = content[start:start + 240]
+        item["snippet"] = snippet[:240]
+    return {"items": items, "mode": mode, "degraded": reason is not None, "degradation_reason": reason}

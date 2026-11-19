@@ -20,7 +20,10 @@ from app.errors import ApiError
 
 @lru_cache(maxsize=8)
 def _engine_for(url: str) -> Engine:
-    return create_engine(url, pool_pre_ping=True, connect_args={"connect_timeout": 10})
+    # One API process can receive all 30 concurrent users; the previous
+    # 15-connection ceiling could exhaust the pool during mixed searches.
+    return create_engine(url, pool_pre_ping=True, pool_size=10, max_overflow=20,
+                         connect_args={"connect_timeout": 10})
 
 
 def get_engine(settings: Settings) -> Engine:

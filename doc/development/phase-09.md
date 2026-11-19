@@ -1,12 +1,12 @@
 # 阶段 9：首版集成验收与部署交付
 
-验收日期：2026-11-19。当前共享向量索引修正正在补验迁移、恢复与部署证据；9.6 的数据库短时中断与 9.7 年规模性能测量仍在执行，9.10 待最终结果收口。本文不会把尚未完成的压测声明为通过。
+验收日期：2026-11-19。阶段 9 的集成、迁移、恢复、部署及约定规模性能验收已通过；真实微信 API 发布未获授权且未验收。
 
 ## 验收环境与边界
 
 独立 Compose 项目 `wetchat-acceptance`，前端 55179、API 58019、PostgreSQL 55439、Redis 56379、RustFS 59000，全部绑定 loopback。随机凭据位于忽略的 `.acceptance/stack.env`，未复制真实公众号或模型 key。数据库和对象实际运行于容器；正文、队列、异步 Worker、outbox、静态前端和文件均使用真实实现。
 
-来源页面、模型生成、向量生成和微信 transport 明确使用 acceptance adapter，代码只进入 `acceptance` 构建 target，必须同时满足显式测试环境、隔离库和 fixture 开关。正式 `runtime` target 不包含这些文件。另以 `wetchat-release-final` 项目验证正式镜像的空库部署、初始化、登录、前端、进程重启与测试端点缺席，结束后停止探针容器并保留卷。
+来源页面、模型生成、向量生成和微信 transport 明确使用 acceptance adapter，代码只进入 `acceptance` 构建 target，必须同时满足显式测试环境、隔离库和 fixture 开关。正式 `runtime` target 不包含这些文件。另以每次新建的 `wetchat-release-*` 项目验证正式镜像的空库部署、初始化、登录、前端、进程重启与测试端点缺席，结束后停止探针容器并保留卷。
 
 个人订阅号的交付流程为“生成→编辑→人工审核→确认同步微信草稿→公众号后台手动发布”。模拟人工登记明确记录 `publication_source=operator`，不能证明真实发布。真实账号连接与草稿写入/读回使用已有 [连接证据](wechat-live-evidence.json) 和 [草稿证据](wechat-draft-live-evidence.json)，本阶段未执行真实发布。
 
@@ -19,10 +19,11 @@
 | 9.3 API 收口 | 有效路由与 OpenAPI 的 167 个方法/路径组合一致，导出完整字段、状态码、会话、权限与 CSRF 矩阵；公共错误信封统一文档；旧客户端新错误码、字段错误、非 JSON 502、断网、202/204 兼容验证。见 [权限矩阵](../architecture/api-permissions.md)、[字段契约](../architecture/api-catalog.json) |
 | 9.4 前端联调 | 生产静态构建通过 8 模块导航、刷新、浏览器返回、390px 窄屏、慢网、断网恢复；会话内撤回权限后服务端 403，刷新权限及直接地址均拒绝。`tests/e2e/release.spec.ts` 三项通过，含浏览器真实跨域上传，无 pageerror |
 | 9.5 完整闭环 | 实际 API→outbox→Redis→Worker 完成采集、自动入库、检索、两文章复用、退回编辑复审、旧批准阻断、超时草稿核对、模拟人工登记、统计；素材更新后文章仍读取历史“100吨”引用。[工作流证据](release-evidence/workflow.json) |
-| 9.6 故障恢复（执行中） | 已通过 Broker 中断后持久投递、Worker 停启、模型超时重试单产物、RustFS 就绪失败与恢复、执行中强制杀 Worker 后回收重试、未知草稿跨 Worker 重启查询恢复且只写一次。[依赖故障](release-evidence/faults.json)、[进程中断](release-evidence/worker-interruption.json)。实际 RustFS 停止时草稿准备明确 `storage_unavailable`，恢复后人工重试仅写一次，并保留两次尝试，见 [准备失败](release-evidence/storage-preparation-failure.json)。数据库短时中断待测 |
-| 9.7 性能（执行中） | 独立 `wetchat_acceptance_perf` 灌入目标 50 万素材/250 万个 1024 维向量；向量来自 1 万确定性合成样本，不冒充真实语义质量。完成后执行 30 并发 5 分钟测量，记录服务端 p50/p95/p99、RPS、错误率及 20 作业队列测量 |
+| 9.6 故障恢复 | 已通过 Broker 中断后持久投递、Worker 停启、模型超时重试单产物、RustFS 就绪失败与恢复、执行中强制杀 Worker 后回收重试、未知草稿跨 Worker 重启查询恢复且只写一次。[依赖故障](release-evidence/faults.json)、[进程中断](release-evidence/worker-interruption.json)。实际 RustFS 停止时草稿准备明确 `storage_unavailable`，恢复后人工重试仅写一次，并保留两次尝试，见 [准备失败](release-evidence/storage-preparation-failure.json)。[数据库中断](release-evidence/database-outage.json)验证就绪降级、连接恢复和原待处理作业单次领取；为测试超时回收，人工调整了隔离库中的任务时间。 |
+| 9.7 性能 | 50 万素材、250 万分块及向量、30 并发持续 300.70 秒；列表服务端 p50/p95/p99 为 169.75/410.42/519.83ms，满足 p95 ≤ 500ms；29,903 请求零错误，99.45 RPS。稀有词、常见词、语义检索 p95 分别为 584.60/1011.23/1336.47ms，阶段 4 未约定检索延迟阈值。20 个队列作业全部完成，端到完成 p95 3032.68ms。[性能证据](release-evidence/performance.json)、[队列证据](release-evidence/queue-performance.json)、[检索质量边界](release-evidence/search-quality.json) |
 | 9.8 联合备份恢复 | 停写后完整 pg_dump 和 RustFS 对象快照，恢复到新库/新桶；全部表行数/内容哈希及全部对象 SHA-256 一致，恢复后可登录读取正文、历史引用和人工登记链。已验证恢复后的已完成上传重复登记返回同一对象、认证下载哈希一致及原密钥能解密账号凭据；桶切换同时映射文件和上传授权，未完成授权过期后重新申请。通用对象工具另验证拒绝覆盖已有桶、损坏快照在创建目标前被拒绝。[恢复证据](release-evidence/backup-restore.json)、[对象工具](release-evidence/object-snapshot-command.json) |
 | 9.9 部署交付 | 前端/API/Worker/Beat/dispatcher/PG/Redis/RustFS/migrate 独立部署；应用非 root，首管理员不在重启重置；公网签名端点与内部存储端点分离。[部署证据](release-evidence/runtime-deployment.json)、[运行手册](../deployment/runbook.md) |
+| 9.10 交付验收 | 验收记录、[交付清单](release-checklist.md)和既有 [追踪矩阵](traceability.md)汇总首版通过项、外部接入证据及限制；真实 API 发布明确未验收。 |
 
 ## 测试记录
 
@@ -30,6 +31,7 @@
 - 后续定向复测：运行恢复/日志/采集快照/外部未知状态和异步作业/健康检查 **22 passed，60.27 秒**。列表批量标签优化的素材相关复测 **18 passed，42.07 秒**；新增 CSRF 和 UUID 审计序列化后运行专项 **9 passed，26.67 秒**；新增领取前消息丢失恢复及运营相关复测 **25 passed，84.59 秒**。
 - 前端完整 **56 项通过，48.13 秒**（含旧客户端错误处理 3 项）；TypeScript 与生产构建通过。lint 无错误，有仓库已有 React effect/快速刷新等警告。
 - 新部署浏览器测试 **3 项通过，19.8 秒**，包含窄屏、会话权限撤回与真实跨域上传；截图位于忽略的 `test-results/release-mobile.png`。
+- 0024 计数、分块死锁重试及检索相关定向回归 **14 passed，25.02 秒**；包括批量操作、软删除/恢复、事务回滚、清空回滚、并发写入及检索词边界。
 - OpenSpec 严格校验通过；`git diff --check` 无空白错误。
 
 ## 本阶段发现并修复
@@ -46,6 +48,20 @@
 
 正式公网 DNS、TLS 证书、文件域名 CORS 和目标模型供应商可达性须按目标运维配置验证；loopback 容器验收不等于公网部署已上线。回退只演练新增搜索结构的兼容边界，更早破坏性业务迁移使用联合备份恢复到新库/新桶，禁止直接降库删除历史。
 
-年规模性能未完成前，9.7 和首版最终交付验收不勾选。最终交付清单见 [release-checklist.md](release-checklist.md)。
+最终交付清单见 [release-checklist.md](release-checklist.md)。
 
 年规模检查发现原全分块HNSW在大量重复向量下漏召回，失败结果保留于 `search-quality-before-dedup.json`。0023 将同一模型配置/版本的相同向量建立共享索引，再关联当前分块，保留原始250万向量和全部修订。性能报告必须同时披露原始向量数、映射数与索引唯一向量数；本次合成语料仅1万种不同向量，不代表250万互异向量索引或真实中文相关性质量。
+
+## 2026-11-19 补验进度
+
+先前的隔离验收数据和环境文件当前不可用，已重新生成随机测试凭据，并仅用本机镜像启动独立的 PostgreSQL、Redis 和 RustFS。新建空库从初始版本成功迁移至 `0023_distinct_search_vectors`，查询到 public schema 未验证约束数为 0。这只覆盖 9.1 的空库部分，不能代替带历史种子数据的升级、回退和恢复演练。
+
+Docker Desktop 原代理地址在宿主机无法解析；经用户同意重启后，改用本机代理并成功构建隔离与正式镜像。已重新执行工作流和浏览器三项验证，以及迁移、联合恢复、故障及正式镜像部署验证。迁移测试另在隔离恢复副本中插入明确标记的失败发布订单及尝试，以检查发布历史保留，不涉及真实发布。首次并发灌数遇到共享向量唯一键插入死锁，事务已回滚；保留已提交测试数据并继续灌数，最终完成年规模测试。
+
+针对上述死锁，验收灌数脚本和业务向量批次写入对 PostgreSQL 死锁执行有限次完整事务重试；业务重试不会再次调用模型，7 项向量/检索隔离测试通过。性能实例单独将 `shared_buffers` 设置为 1GB、`max_wal_size` 设置为 8GB；测量报告记录实际值。调整后从已提交批次继续灌数，不删除测试数据。
+
+后续混合负载中，无筛选列表每次对 50 万行执行精确计数，且检索候选重排对正文反复分词。新增 0024 用数据库事务维护有效素材精确总数，仅无筛选列表读取；筛选仍按实际条件计数。检索按原词项边界匹配查询词，并仅为最终结果生成摘要。批量、软删除/恢复、并发、清空与回滚及检索边界的 14 项定向测试通过。新 head 在空库部署及历史恢复副本回退再升级均已验证。数量变化的写入会竞争计数行，高写入负载需监控。
+
+修复前列表 p95 为 839.40ms，查询优化后为 599.05ms，计数优化后为 648.94ms，检索重排首轮优化后为 549.19ms；这些未达标结果均保留在 `release-evidence/performance-*.json`。最终增加按需数据库连接池容量、推迟非返回候选的摘要生成后，复测达到 410.42ms 且无错误。运行环境为 Windows 11、Docker 32 vCPU/15.439GiB、PostgreSQL 16.15、两个 API 进程；平均正文 2954.56 字，数据库 `shared_buffers=1GB`、`max_wal_size=8GB`、`work_mem=4MB`。流量直连 API，模型调用为确定性 fixture，未包含真实模型网络延迟；250 万向量只包含 1 万个不同合成向量，不能将结果外推到 250 万互异向量或真实语义相关性。
+
+压测后查询 PostgreSQL 表及索引总大小：materials 259MB、material_revisions 605MB、material_chunks 14GB、分块向量映射 390MB、共享向量表 66MB；实际数量以性能证据中的精确统计为准，数据库统计表的估算行数可能有偏差。

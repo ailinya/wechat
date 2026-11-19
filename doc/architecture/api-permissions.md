@@ -171,5 +171,14 @@
 | GET | /api/v1/settings/integrations | session | settings:read | 否 | 200, 400, 401, 403, 404, 409, 422, 503 |
 | POST | /api/v1/settings/integrations/storage/test | session | settings:write | 是 | 200, 400, 401, 403, 404, 409, 422, 503 |
 | POST | /api/v1/settings/integrations/embedding/test | session | settings:write | 是 | 200, 400, 401, 403, 404, 409, 422, 503 |
+| GET | /api/v1/assistance/models | session | article:read, material:read | 否 | 200, 400, 401, 403, 404, 409, 422, 503 |
+| POST | /api/v1/assistance/topics | session | article:read, creation:write, material:read | 是 | 200, 400, 401, 403, 404, 409, 422, 503 |
+| GET | /api/v1/assistance/runs/{run_id} | session | — | 否 | 200, 400, 401, 403, 404, 409, 422, 503 |
+| POST | /api/v1/assistance/materials/{material_id}/relations | session | material:read, material:search | 是 | 200, 400, 401, 403, 404, 409, 422, 503 |
+| GET | /api/v1/assistance/materials/{material_id}/relations | session | material:read, material:search | 否 | 200, 400, 401, 403, 404, 409, 422, 503 |
+| POST | /api/v1/assistance/relations/{suggestion_id}/ignore | session | material:read, material:search, material:write | 是 | 200, 400, 401, 403, 404, 409, 422, 503 |
+| POST | /api/v1/assistance/search | session | material:read, material:search | 是 | 200, 400, 401, 403, 404, 409, 422, 503 |
+| POST | /api/v1/assistance/articles/{article_id}/quality | session | article:read, material:read | 是 | 200, 400, 401, 403, 404, 409, 422, 503 |
+| GET | /api/v1/assistance/analytics/reuse | session | account:read, analytics:read, article:read, material:read, publish:read | 否 | 200, 400, 401, 403, 404, 409, 422, 503 |
 
-“—”表示没有额外权限码，不代表没有对象级检查。异步作业限本人创建，上传授权与完成限本人，文件下载限上传者或已取得对应资源访问权。公开 OAuth 占位路径固定返回410，直连模式不会执行授权副作用。图片访问返回307短期重定向，报表导出为text/csv。
+“—”表示路由依赖未声明额外权限码，不代表没有动态权限或对象级检查。GET /api/v1/assistance/runs/{run_id} 仅限本人，按记录类型额外要求：topic 为 creation:write、material:read、article:read；relation 和 search 为 material:read、material:search；quality 为 article:read、material:read。异步作业限本人创建，上传授权与完成限本人，文件下载限上传者或已取得对应资源访问权。公开 OAuth 占位路径固定返回410，直连模式不会执行授权副作用。图片访问返回307短期重定向，报表导出为text/csv。

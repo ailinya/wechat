@@ -5,6 +5,7 @@ import json
 import os
 import time
 from sqlalchemy import text
+from sqlalchemy.exc import OperationalError
 from sqlalchemy.engine import URL
 from alembic import command
 from alembic.config import Config
@@ -42,7 +43,7 @@ def main():
         create_admin('admin','验收管理员',values['WETCHAT_ADMIN_PASSWORD'])
     started=time.monotonic()
     seeded_batches=[]
-    def seed_batch(first):
+    def seed_batch_once(first):
         last=min(first+4999,args.materials)
         with perf.connect() as check:
             complete=check.execute(text("SELECT count(*) FROM material_chunks WHERE material_revision_id=CAST(md5('perf-revision-'||CAST(:last AS text)) AS uuid)"),{'last':last}).scalar_one()==5
@@ -56,6 +57,17 @@ def main():
             conn.execute(text("INSERT INTO material_chunks(material_revision_id,chunk_index,content,content_hash,embedding,embedding_model_config_id,embedding_config_version,embedding_model_name) SELECT md5('perf-revision-'||n)::uuid,c,'[perf] sample'||n||' chunk'||c,md5(n::text||':'||c)||md5('seed'||n||':'||c),p.embedding,:config,:version,:model FROM generate_series(CAST(:first AS integer),CAST(:last AS integer)) n CROSS JOIN generate_series(0,4) c JOIN acceptance_vector_palette p ON p.id=mod(n*5+c,10000) ON CONFLICT DO NOTHING"),params)
         seeded_batches.append(last)
         print(json.dumps({'seeded_materials':last,'target':args.materials,'elapsed_seconds':round(time.monotonic()-started,1)}),flush=True)
+    def seed_batch(first):
+        # Different batches can introduce the same new vector fingerprints in
+        # different orders. Retry the entire rolled-back transaction on deadlock.
+        for attempt in range(6):
+            try:
+                return seed_batch_once(first)
+            except OperationalError as exc:
+                if getattr(exc.orig, 'sqlstate', None) != '40P01' or attempt == 5:
+                    raise
+                print(json.dumps({'deadlock_retry_batch':first,'attempt':attempt+1}),flush=True)
+                time.sleep((attempt + 1) * .5)
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
         list(pool.map(seed_batch,range(1,args.materials+1,5000)))
     print('verifying distinct-vector search index',flush=True)

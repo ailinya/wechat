@@ -34,7 +34,7 @@ def reset_schema() -> None:
     with engine.connect() as conn:
         conn.execute(
             text(
-                "DROP TABLE IF EXISTS account_article_metrics, notifications, notification_preferences, system_settings, wechat_draft_attempts, wechat_draft_deliveries, publish_attempts, publish_orders, account_synced_materials, account_sync_runs, wechat_accounts, reviews, article_materials, article_revisions, articles, "
+                "DROP TABLE IF EXISTS assistance_relations, assistance_run_materials, assistance_runs, account_article_metrics, notifications, notification_preferences, system_settings, wechat_draft_attempts, wechat_draft_deliveries, publish_attempts, publish_orders, account_synced_materials, account_sync_runs, wechat_accounts, reviews, article_materials, article_revisions, articles, "
                 "creation_consumed_events, creation_outputs, creation_task_materials, creation_tasks, "
                 "creation_rule_collection_tasks, creation_rules, collection_searches, collection_candidate_discoveries, "
                 "material_embedding_runs, material_chunk_search_vectors, material_search_vectors, material_chunks, material_ready_events, collection_analyses, "
@@ -43,7 +43,7 @@ def reset_schema() -> None:
                 "collection_results, collection_runs, "
                 "collection_task_sources, collection_tasks, collection_sources, "
                 "material_favorites, material_relations, material_files, "
-                "material_tags, tags, material_revisions, materials, material_categories, "
+                "material_tags, tags, material_revisions, materials, material_counts, material_categories, "
                 "upload_grants, idempotency_keys, "
                 "stored_objects, operation_logs, outbox_events, async_jobs, "
                 "sessions, role_permissions, user_roles, users, permissions, "

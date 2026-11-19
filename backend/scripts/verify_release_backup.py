@@ -91,6 +91,12 @@ def main():
     from app.main import create_app
     settings = Settings(APP_SECRET_KEY=values['APP_SECRET_KEY'], DATABASE_URL=restored.url.render_as_string(hide_password=False), REDIS_URL='redis://127.0.0.1:'+values['REDIS_PORT']+'/14', RUSTFS_ENDPOINT='http://127.0.0.1:'+values['RUSTFS_API_PORT'], RUSTFS_ACCESS_KEY=values['RUSTFS_ACCESS_KEY'], RUSTFS_SECRET_KEY=values['RUSTFS_SECRET_KEY'], RUSTFS_BUCKET=restore_bucket)
     record = json.loads((ROOT/'.acceptance/workflow.json').read_text())
+    with restored.connect() as conn:
+        assert conn.execute(text("""SELECT count(*) FROM wechat_draft_deliveries d
+            JOIN reviews r ON r.article_id=d.article_id AND r.article_revision_id=d.article_revision_id
+            WHERE d.id=:delivery AND d.article_id=:article AND d.article_revision_id=:revision
+              AND r.action='approve' AND d.status='manual_published' AND d.publication_source='operator'"""),
+            {'delivery':record['delivery_id'],'article':record['article_id'],'revision':record['revision_id']}).scalar_one() > 0
     with TestClient(create_app(settings)) as restored_client:
         assert restored_client.post('/api/v1/auth/login',json={'account':'admin','password':values['WETCHAT_ADMIN_PASSWORD']}).status_code == 200
         article = restored_client.get('/api/v1/articles/'+record['article_id']).json()
@@ -110,7 +116,7 @@ def main():
         with restored.connect() as conn:
             encrypted = conn.execute(text('SELECT secret_encrypted FROM wechat_accounts WHERE id=:id'),{'id':record['account_id']}).scalar_one()
         assert decrypt(settings,encrypted)=='acceptance-only-not-real-secret'
-    save('backup-restore', {'passed':True,'backup_id':stamp,'database_version':schema_version,'table_count':len(before),'objects':[{k:v for k,v in obj.items() if k!='file'} for obj in manifest],'database_sha256':hashlib.sha256((backup/'database.dump').read_bytes()).hexdigest(),'backup_seconds':round(backup_seconds,2),'restore_seconds':round(time.monotonic()-restore_started,2),'checks':['all_table_counts_and_checksums','all_object_sha256','restored_login','article_and_historical_citation','manual_delivery_history','completed_upload_replay_same_object','authenticated_attachment_download','encrypted_account_secret_decrypts'],'restore_metadata_adjustments':['stored_objects_and_upload_grants_bucket_remap','expire_unfinished_upload_grants'],'restore_database':restore_db,'restore_bucket':restore_bucket,'credentials_in_backup':'encrypted database fields; retain APP_SECRET_KEY separately'})
+    save('backup-restore', {'passed':True,'backup_id':stamp,'database_version':schema_version,'table_count':len(before),'objects':[{k:v for k,v in obj.items() if k!='file'} for obj in manifest],'database_sha256':hashlib.sha256((backup/'database.dump').read_bytes()).hexdigest(),'backup_seconds':round(backup_seconds,2),'restore_seconds':round(time.monotonic()-restore_started,2),'checks':['all_table_counts_and_checksums','all_object_sha256','restored_login','article_and_historical_citation','approved_revision_and_manual_delivery_history','completed_upload_replay_same_object','authenticated_attachment_download','encrypted_account_secret_decrypts'],'restore_metadata_adjustments':['stored_objects_and_upload_grants_bucket_remap','expire_unfinished_upload_grants'],'restore_database':restore_db,'restore_bucket':restore_bucket,'credentials_in_backup':'encrypted database fields; retain APP_SECRET_KEY separately'})
 
 
 if __name__ == '__main__':

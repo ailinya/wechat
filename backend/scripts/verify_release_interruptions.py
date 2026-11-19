@@ -1,6 +1,7 @@
 """Hard worker loss, unknown external result and optional database outage drills."""
 import argparse
 import json
+import subprocess
 import time
 from uuid import uuid4
 from sqlalchemy import text
@@ -21,9 +22,11 @@ def main():
         wait_until(dispatched)
         try:
             compose('stop', 'postgres')
-            compose('start','worker')
+            # `compose start worker` also starts its dependencies, including the
+            # database under test. Start this isolated container directly.
+            subprocess.run(['docker','start','wetchat-acceptance-worker-1'], check=True, capture_output=True)
             response = c.get('/ready')
-            assert response.status_code == 503 and not response.json()['checks']['database']['ready']
+            assert response.status_code == 503 and not response.json()['checks']['database']['ready'], f'Unexpected readiness response: {response.status_code} {response.text[:300]}'
             assert c.get('/health').status_code == 200
             time.sleep(10)
         finally:

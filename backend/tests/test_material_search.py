@@ -72,3 +72,34 @@ def test_search_http_contract_and_current_revision(client):
     assert item["material_id"] == material["id"]
     assert item["matched_revision_id"] == material["current_revision_id"]
     assert item["source"]["type"] == "manual"
+
+
+def test_saturated_keyword_candidates_keep_sorted_eligible_results(db_engine):
+    with db_engine.begin() as conn:
+        expected = []
+        for index in range(125):
+            status = 'archived' if index < 15 else 'ready_to_use'
+            material = conn.execute(text("INSERT INTO materials(title,usage_status) VALUES ('同主题',:status) RETURNING id"), {'status':status}).scalar_one()
+            revision = conn.execute(text("INSERT INTO material_revisions(material_id,revision_no,content_markdown) VALUES (:id,1,'同主题') RETURNING id"), {'id':material}).scalar_one()
+            conn.execute(text('UPDATE materials SET current_revision_id=:revision WHERE id=:id'), {'id':material,'revision':revision})
+            if status != 'archived':
+                expected.append(material)
+        result = material_search_service.search(conn, MaterialSearchIn(query='同主题', scope='all', keyword_mode='keyword_only', top_k=10))
+        assert [item['material_id'] for item in result['items']] == sorted(expected, key=str)[:10]
+
+
+def test_query_term_patterns_match_tokenizer_boundaries():
+    from app.services.material_search_service import _term_patterns, terms
+    import unicodedata
+
+    cases = [
+        ("中文文词 x A123", "中文文词 x a1234"),
+        ("电池回收 A-ß 中", "电池回收 a ss 中中"),
+        ("ABC １２３ 中", "abc 123 中!"),
+        ("中文 文词", "中文词"),
+    ]
+    for query, document in cases:
+        query_terms = terms(query)
+        normalized = unicodedata.normalize('NFKC', document).casefold()
+        actual = {term for term, pattern in _term_patterns(query_terms).items() if pattern.search(normalized)}
+        assert actual == query_terms & terms(document)

@@ -1,10 +1,14 @@
 {
-  "checked_at": "2026-11-19T08:35:07.462425+00:00",
+  "checked_at": "2026-11-19T13:02:50.009988+00:00",
   "passed": true,
   "material_count": 500000,
   "chunk_count": 2500000,
   "vector_count": 2500000,
-  "duration_seconds": 990.83,
+  "mapped_chunk_count": 2500000,
+  "indexed_distinct_vector_count": 10000,
+  "schema_head": "0023_distinct_search_vectors",
+  "duration_seconds": 761.82,
+  "duration_scope": "final resumable invocation; earlier seeding attempts excluded",
   "vector_palette_size": 10000,
   "embedding_dimension": 1024,
   "synthetic": true,
@@ -150,14 +154,19 @@
       "bytes": 8192
     },
     {
+      "relname": "material_chunk_search_vectors",
+      "n_live_tup": 2500000,
+      "bytes": 409452544
+    },
+    {
       "relname": "material_chunks",
-      "n_live_tup": 2500007,
-      "bytes": 15091261440
+      "n_live_tup": 2499968,
+      "bytes": 14832271360
     },
     {
       "relname": "material_embedding_runs",
       "n_live_tup": 500000,
-      "bytes": 124248064
+      "bytes": 123510784
     },
     {
       "relname": "material_favorites",
@@ -181,8 +190,13 @@
     },
     {
       "relname": "material_revisions",
-      "n_live_tup": 500002,
-      "bytes": 634322944
+      "n_live_tup": 500009,
+      "bytes": 634126336
+    },
+    {
+      "relname": "material_search_vectors",
+      "n_live_tup": 10000,
+      "bytes": 68919296
     },
     {
       "relname": "material_tags",
@@ -192,7 +206,7 @@
     {
       "relname": "materials",
       "n_live_tup": 500000,
-      "bytes": 278511616
+      "bytes": 271622144
     },
     {
       "relname": "model_configs",
@@ -304,11 +318,5 @@
       "n_live_tup": 0,
       "bytes": 32768
     }
-  ],
-  "duration_scope": "final resumable invocation; earlier seeding attempts excluded",
-  "index_build": {
-    "maintenance_work_mem": "3GB",
-    "max_parallel_maintenance_workers": 2,
-    "postgres_shm_size": "4GB"
-  }
+  ]
 }

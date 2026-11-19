@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import hashlib
 import json
+import time
 from uuid import uuid4
 
 from sqlalchemy import Connection, text
+from sqlalchemy.exc import OperationalError
 
 from app.adapters import embedding_client
 from app.errors import ApiError
@@ -17,6 +19,31 @@ JOB_TASK = "app.modules.async_execution.tasks.run_async_job"
 MODEL_CONFIG_NAME = "Environment embedding"
 CHUNK_SIZE = 1200
 CHUNK_OVERLAP = 100
+
+
+def _persist_embedding_batch(engine, job_id, batch, vectors, done, total):
+    """Retry the whole transaction if shared-vector registration deadlocks."""
+    for attempt in range(3):
+        try:
+            with engine.begin() as conn:
+                status = conn.execute(
+                    text("SELECT status FROM async_jobs WHERE id=:id FOR UPDATE"),
+                    {"id": job_id},
+                ).scalar_one_or_none()
+                if status != "running":
+                    raise JobCancelled()
+                for row, vector in zip(batch, vectors, strict=True):
+                    encoded = "[" + ",".join(format(value, ".9g") for value in vector) + "]"
+                    conn.execute(
+                        text("UPDATE material_chunks SET embedding=CAST(:vector AS vector) WHERE id=:id AND embedding IS NULL"),
+                        {"vector": encoded, "id": row["id"]},
+                    )
+                async_job_service.update_progress(conn, job_id, "embedding", int(done * 95 / max(1, total)))
+            return
+        except OperationalError as exc:
+            if getattr(exc.orig, "sqlstate", None) != "40P01" or attempt == 2:
+                raise
+            time.sleep((attempt + 1) * 0.1)
 
 
 def chunk_text(content: str) -> list[dict[str, str | int]]:
@@ -286,23 +313,8 @@ def material_embedding_job(engine, job: dict) -> None:
                 expected_base_url=payload["base_url"],
                 expected_dimension=payload["dimension"],
             )
-            with engine.begin() as conn:
-                status = conn.execute(
-                    text("SELECT status FROM async_jobs WHERE id=:id FOR UPDATE"),
-                    {"id": job["id"]},
-                ).scalar_one_or_none()
-                if status != "running":
-                    raise JobCancelled()
-                for row, vector in zip(batch, vectors, strict=True):
-                    encoded = "[" + ",".join(format(value, ".9g") for value in vector) + "]"
-                    conn.execute(
-                        text("UPDATE material_chunks SET embedding=CAST(:vector AS vector) WHERE id=:id AND embedding IS NULL"),
-                        {"vector": encoded, "id": row["id"]},
-                    )
-                done = min(offset + len(batch), len(pending))
-                async_job_service.update_progress(
-                    conn, job["id"], "embedding", int(done * 95 / max(1, len(pending)))
-                )
+            done = min(offset + len(batch), len(pending))
+            _persist_embedding_batch(engine, job["id"], batch, vectors, done, len(pending))
         with engine.begin() as conn:
             status = conn.execute(
                 text("SELECT status FROM async_jobs WHERE id=:id FOR UPDATE"),

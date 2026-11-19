@@ -5,6 +5,7 @@ import { operationsApi, reportKinds, operationStatus, operationSource, type Repo
 import type { ReportOut, ConnectionOut } from '../../shared/api/types'
 import { accountsApi, type Account } from '../../shared/api/wechat'
 import './operations.css'
+import { ReusePanel } from '../assistance/AssistancePanels'
 
 const supported: Record<ReportKind,string[]> = { collection:['collection_task_id'], materials:['collection_task_id','creation_task_id'], creation:['collection_task_id','creation_task_id'], reviews:['creation_task_id'], publishing:['account_id','creation_task_id'], accounts:['account_id'] }
 const filterLabels: Record<string,string> = { collection_task_id:'采集任务ID', creation_task_id:'创作任务ID', account_id:'公众号' }
@@ -39,6 +40,7 @@ export function AnalyticsPage() {
         <div className="ops-pagination"><button disabled={page<=1} onClick={()=>{const q=new URLSearchParams(route.query);q.set('page',String(page-1));navigate('/analytics',q)}}>上一页报表</button><span>第{page}页 · 共{data.total}条</span><button disabled={page*20>=data.total} onClick={()=>{const q=new URLSearchParams(route.query);q.set('page',String(page+1));navigate('/analytics',q)}}>下一页报表</button></div>
       </section>
     </>}
+    {['analytics:read','material:read','article:read','publish:read','account:read'].every(permission => hasPermission(permission as Parameters<typeof hasPermission>[0])) && <ReusePanel />}
     {kind==='accounts'&&hasPermission('account:write')&&<form className="ops-card ops-filters" onSubmit={event=>{event.preventDefault();const form=new FormData(event.currentTarget);void act(()=>operationsApi.metrics(String(form.get('account')),String(form.get('date'))))}}><h2>只读采集微信指标</h2><label>指标公众号<select name="account" required><option value="">请选择</option>{accounts.filter(a=>a.status==='active').map(a=><option key={a.id} value={a.id}>{a.name}</option>)}</select></label><label>群发日期（北京昨日或此前7天）<input type="date" name="date" required/></label><button disabled={busy}>读取实际可用指标</button><p>仅针对群发图文的累计数据；无权限、无数据和缺失字段显示不可用。</p></form>}
   </section>
 }

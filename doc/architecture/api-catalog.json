@@ -25828,6 +25828,1451 @@
         }
       },
       "in_openapi": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/assistance/models",
+      "authentication": "session",
+      "permissions": [
+        "article:read",
+        "material:read"
+      ],
+      "csrf": false,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "503"
+      ],
+      "request_schema": {},
+      "response_schema": {
+        "200": {
+          "description": "Successful Response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object"
+                },
+                "type": "array",
+                "title": "Response Analysis Models Api V1 Assistance Models Get"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "请求无效",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "bad_request",
+                  "message": "请求无效"
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "请先登录",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "unauthorized",
+                  "message": "请先登录"
+                }
+              }
+            }
+          }
+        },
+        "403": {
+          "description": "没有执行此操作的权限",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "forbidden",
+                  "message": "没有执行此操作的权限"
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "请求的资源不存在",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "not_found",
+                  "message": "请求的资源不存在"
+                }
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "请求与当前资源状态冲突",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "conflict",
+                  "message": "请求与当前资源状态冲突"
+                }
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "请求参数不合法",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "validation_error",
+                  "message": "请求参数不合法",
+                  "field_errors": [
+                    {
+                      "field": "page",
+                      "message": "必须大于等于 1"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "503": {
+          "description": "依赖服务暂不可用",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "service_unavailable",
+                  "message": "依赖服务暂不可用"
+                }
+              }
+            }
+          }
+        }
+      },
+      "in_openapi": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/assistance/topics",
+      "authentication": "session",
+      "permissions": [
+        "article:read",
+        "creation:write",
+        "material:read"
+      ],
+      "csrf": true,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "503"
+      ],
+      "request_schema": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TopicRequest"
+            }
+          }
+        },
+        "required": true
+      },
+      "response_schema": {
+        "200": {
+          "description": "Successful Response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Response Topics Api V1 Assistance Topics Post"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "请求无效",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "bad_request",
+                  "message": "请求无效"
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "请先登录",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "unauthorized",
+                  "message": "请先登录"
+                }
+              }
+            }
+          }
+        },
+        "403": {
+          "description": "没有执行此操作的权限",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "forbidden",
+                  "message": "没有执行此操作的权限"
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "请求的资源不存在",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "not_found",
+                  "message": "请求的资源不存在"
+                }
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "请求与当前资源状态冲突",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "conflict",
+                  "message": "请求与当前资源状态冲突"
+                }
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "请求参数不合法",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "validation_error",
+                  "message": "请求参数不合法",
+                  "field_errors": [
+                    {
+                      "field": "page",
+                      "message": "必须大于等于 1"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "503": {
+          "description": "依赖服务暂不可用",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "service_unavailable",
+                  "message": "依赖服务暂不可用"
+                }
+              }
+            }
+          }
+        }
+      },
+      "in_openapi": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/assistance/runs/{run_id}",
+      "authentication": "session",
+      "permissions": [],
+      "csrf": false,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "503"
+      ],
+      "request_schema": {},
+      "response_schema": {
+        "200": {
+          "description": "Successful Response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "title": "Response Run Api V1 Assistance Runs  Run Id  Get"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "请求无效",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "bad_request",
+                  "message": "请求无效"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "请先登录",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "unauthorized",
+                  "message": "请先登录"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "403": {
+          "description": "没有执行此操作的权限",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "forbidden",
+                  "message": "没有执行此操作的权限"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "请求的资源不存在",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "not_found",
+                  "message": "请求的资源不存在"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "请求与当前资源状态冲突",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "conflict",
+                  "message": "请求与当前资源状态冲突"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "请求参数不合法",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "validation_error",
+                  "message": "请求参数不合法",
+                  "field_errors": [
+                    {
+                      "field": "page",
+                      "message": "必须大于等于 1"
+                    }
+                  ]
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "503": {
+          "description": "依赖服务暂不可用",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "service_unavailable",
+                  "message": "依赖服务暂不可用"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "in_openapi": true,
+      "permission_conditions": {
+        "owner_only": true,
+        "by_kind": {
+          "topic": [
+            "creation:write",
+            "material:read",
+            "article:read"
+          ],
+          "relation": [
+            "material:read",
+            "material:search"
+          ],
+          "search": [
+            "material:read",
+            "material:search"
+          ],
+          "quality": [
+            "article:read",
+            "material:read"
+          ]
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/assistance/materials/{material_id}/relations",
+      "authentication": "session",
+      "permissions": [
+        "material:read",
+        "material:search"
+      ],
+      "csrf": true,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "503"
+      ],
+      "request_schema": {},
+      "response_schema": {
+        "200": {
+          "description": "Successful Response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "title": "Response Generate Relations Api V1 Assistance Materials  Material Id  Relations Post"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "请求无效",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "bad_request",
+                  "message": "请求无效"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "请先登录",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "unauthorized",
+                  "message": "请先登录"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "403": {
+          "description": "没有执行此操作的权限",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "forbidden",
+                  "message": "没有执行此操作的权限"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "请求的资源不存在",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "not_found",
+                  "message": "请求的资源不存在"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "请求与当前资源状态冲突",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "conflict",
+                  "message": "请求与当前资源状态冲突"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "请求参数不合法",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "validation_error",
+                  "message": "请求参数不合法",
+                  "field_errors": [
+                    {
+                      "field": "page",
+                      "message": "必须大于等于 1"
+                    }
+                  ]
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "503": {
+          "description": "依赖服务暂不可用",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "service_unavailable",
+                  "message": "依赖服务暂不可用"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "in_openapi": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/assistance/materials/{material_id}/relations",
+      "authentication": "session",
+      "permissions": [
+        "material:read",
+        "material:search"
+      ],
+      "csrf": false,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "503"
+      ],
+      "request_schema": {},
+      "response_schema": {
+        "200": {
+          "description": "Successful Response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": true
+                },
+                "title": "Response Relations Api V1 Assistance Materials  Material Id  Relations Get"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "请求无效",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "bad_request",
+                  "message": "请求无效"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "请先登录",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "unauthorized",
+                  "message": "请先登录"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "403": {
+          "description": "没有执行此操作的权限",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "forbidden",
+                  "message": "没有执行此操作的权限"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "请求的资源不存在",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "not_found",
+                  "message": "请求的资源不存在"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "请求与当前资源状态冲突",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "conflict",
+                  "message": "请求与当前资源状态冲突"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "请求参数不合法",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "validation_error",
+                  "message": "请求参数不合法",
+                  "field_errors": [
+                    {
+                      "field": "page",
+                      "message": "必须大于等于 1"
+                    }
+                  ]
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "503": {
+          "description": "依赖服务暂不可用",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "service_unavailable",
+                  "message": "依赖服务暂不可用"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "in_openapi": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/assistance/relations/{suggestion_id}/ignore",
+      "authentication": "session",
+      "permissions": [
+        "material:read",
+        "material:search",
+        "material:write"
+      ],
+      "csrf": true,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "503"
+      ],
+      "request_schema": {},
+      "response_schema": {
+        "200": {
+          "description": "Successful Response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "title": "Response Ignore Relation Api V1 Assistance Relations  Suggestion Id  Ignore Post"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "请求无效",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "bad_request",
+                  "message": "请求无效"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "请先登录",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "unauthorized",
+                  "message": "请先登录"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "403": {
+          "description": "没有执行此操作的权限",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "forbidden",
+                  "message": "没有执行此操作的权限"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "请求的资源不存在",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "not_found",
+                  "message": "请求的资源不存在"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "请求与当前资源状态冲突",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "conflict",
+                  "message": "请求与当前资源状态冲突"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "请求参数不合法",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "validation_error",
+                  "message": "请求参数不合法",
+                  "field_errors": [
+                    {
+                      "field": "page",
+                      "message": "必须大于等于 1"
+                    }
+                  ]
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "503": {
+          "description": "依赖服务暂不可用",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "service_unavailable",
+                  "message": "依赖服务暂不可用"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "in_openapi": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/assistance/search",
+      "authentication": "session",
+      "permissions": [
+        "material:read",
+        "material:search"
+      ],
+      "csrf": true,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "503"
+      ],
+      "request_schema": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/EnhancedSearchRequest"
+            }
+          }
+        },
+        "required": true
+      },
+      "response_schema": {
+        "200": {
+          "description": "Successful Response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Response Search Api V1 Assistance Search Post"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "请求无效",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "bad_request",
+                  "message": "请求无效"
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "请先登录",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "unauthorized",
+                  "message": "请先登录"
+                }
+              }
+            }
+          }
+        },
+        "403": {
+          "description": "没有执行此操作的权限",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "forbidden",
+                  "message": "没有执行此操作的权限"
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "请求的资源不存在",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "not_found",
+                  "message": "请求的资源不存在"
+                }
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "请求与当前资源状态冲突",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "conflict",
+                  "message": "请求与当前资源状态冲突"
+                }
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "请求参数不合法",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "validation_error",
+                  "message": "请求参数不合法",
+                  "field_errors": [
+                    {
+                      "field": "page",
+                      "message": "必须大于等于 1"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "503": {
+          "description": "依赖服务暂不可用",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              },
+              "example": {
+                "error": {
+                  "code": "service_unavailable",
+                  "message": "依赖服务暂不可用"
+                }
+              }
+            }
+          }
+        }
+      },
+      "in_openapi": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/assistance/articles/{article_id}/quality",
+      "authentication": "session",
+      "permissions": [
+        "article:read",
+        "material:read"
+      ],
+      "csrf": true,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "503"
+      ],
+      "request_schema": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/QualityRequest"
+            }
+          }
+        }
+      },
+      "response_schema": {
+        "200": {
+          "description": "Successful Response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "title": "Response Quality Api V1 Assistance Articles  Article Id  Quality Post"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "请求无效",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "bad_request",
+                  "message": "请求无效"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "请先登录",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "unauthorized",
+                  "message": "请先登录"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "403": {
+          "description": "没有执行此操作的权限",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "forbidden",
+                  "message": "没有执行此操作的权限"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "请求的资源不存在",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "not_found",
+                  "message": "请求的资源不存在"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "请求与当前资源状态冲突",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "conflict",
+                  "message": "请求与当前资源状态冲突"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "请求参数不合法",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "validation_error",
+                  "message": "请求参数不合法",
+                  "field_errors": [
+                    {
+                      "field": "page",
+                      "message": "必须大于等于 1"
+                    }
+                  ]
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "503": {
+          "description": "依赖服务暂不可用",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "service_unavailable",
+                  "message": "依赖服务暂不可用"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "in_openapi": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/assistance/analytics/reuse",
+      "authentication": "session",
+      "permissions": [
+        "account:read",
+        "analytics:read",
+        "article:read",
+        "material:read",
+        "publish:read"
+      ],
+      "csrf": false,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "409",
+        "422",
+        "503"
+      ],
+      "request_schema": {},
+      "response_schema": {
+        "200": {
+          "description": "Successful Response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "title": "Response Reuse Api V1 Assistance Analytics Reuse Get"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "请求无效",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "bad_request",
+                  "message": "请求无效"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "请先登录",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "unauthorized",
+                  "message": "请先登录"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "403": {
+          "description": "没有执行此操作的权限",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "forbidden",
+                  "message": "没有执行此操作的权限"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "请求的资源不存在",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "not_found",
+                  "message": "请求的资源不存在"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "请求与当前资源状态冲突",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "conflict",
+                  "message": "请求与当前资源状态冲突"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "请求参数不合法",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "validation_error",
+                  "message": "请求参数不合法",
+                  "field_errors": [
+                    {
+                      "field": "page",
+                      "message": "必须大于等于 1"
+                    }
+                  ]
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "503": {
+          "description": "依赖服务暂不可用",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": {
+                  "code": "service_unavailable",
+                  "message": "依赖服务暂不可用"
+                }
+              },
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "in_openapi": true
     }
   ],
   "components": {
@@ -29810,6 +31255,104 @@
         ],
         "title": "EmbeddingRebuildOut"
       },
+      "EnhancedSearchRequest": {
+        "properties": {
+          "query": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Query"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "current",
+              "all"
+            ],
+            "title": "Scope",
+            "default": "current"
+          },
+          "from": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "From"
+          },
+          "to": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "To"
+          },
+          "statuses": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "pending_review",
+                    "ready_to_use",
+                    "partially_used",
+                    "used",
+                    "archived",
+                    "duplicate"
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Statuses"
+          },
+          "top_k": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "title": "Top K",
+            "default": 20
+          },
+          "min_relevance": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Min Relevance",
+            "default": 0
+          },
+          "keyword_mode": {
+            "type": "string",
+            "enum": [
+              "hybrid",
+              "keyword_only"
+            ],
+            "title": "Keyword Mode",
+            "default": "hybrid"
+          },
+          "expand_relations": {
+            "type": "boolean",
+            "title": "Expand Relations",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "query"
+        ],
+        "title": "EnhancedSearchRequest"
+      },
       "ErrorDetail": {
         "properties": {
           "code": {
@@ -33216,6 +34759,26 @@
         ],
         "title": "PublishOrderOut"
       },
+      "QualityRequest": {
+        "properties": {
+          "revision_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Revision Id"
+          },
+          "model_config_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Model Config Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "revision_id",
+          "model_config_id"
+        ],
+        "title": "QualityRequest"
+      },
       "ReadinessOut": {
         "properties": {
           "status": {
@@ -35030,6 +36593,31 @@
           "name"
         ],
         "title": "TagOut"
+      },
+      "TopicRequest": {
+        "properties": {
+          "material_ids": {
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "minItems": 1,
+            "title": "Material Ids"
+          },
+          "model_config_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Model Config Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "material_ids",
+          "model_config_id"
+        ],
+        "title": "TopicRequest"
       },
       "TrendPoint": {
         "properties": {

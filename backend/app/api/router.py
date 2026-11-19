@@ -36,3 +36,5 @@ api_router.include_router(wechat_drafts.router)
 api_router.include_router(roles.router)
 from app.api.routes import operations
 api_router.include_router(operations.router)
+from app.api.routes import assistance
+api_router.include_router(assistance.router)

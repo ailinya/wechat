@@ -210,9 +210,12 @@ def list_materials(
         )
         params["fav_user"] = str(favorite_user_id)
     clause = " AND ".join(where)
-    total = conn.execute(
-        text(f"SELECT count(*) FROM materials m WHERE {clause}"), params
-    ).scalar_one()
+    if len(where) == 1:
+        total = conn.execute(text("SELECT active_count FROM material_counts WHERE singleton")).scalar_one()
+    else:
+        total = conn.execute(
+            text(f"SELECT count(*) FROM materials m WHERE {clause}"), params
+        ).scalar_one()
     rows = (
         conn.execute(
             text(

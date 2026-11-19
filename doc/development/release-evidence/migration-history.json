@@ -1,11 +1,13 @@
 {
-  "checked_at": "2026-11-19T08:15:03.615167+00:00",
+  "checked_at": "2026-11-19T13:31:53.146106+00:00",
   "passed": true,
-  "head": "0022_search_indexes",
+  "head": "0024_material_counts",
   "checks": [
     "empty_database_all_migrations_deployed",
-    "historical_restore_0022_to_0021_to_0022",
+    "historical_restore_head_to_0021_to_head",
+    "synthetic_publication_order_and_attempt_preserved",
     "all_business_row_counts_and_hashes_preserved",
+    "derived_material_count_matches",
     "all_constraints_validated"
   ],
   "tables": {
@@ -22,72 +24,72 @@
       "checksum": "d41d8cd98f00b204e9800998ecf8427e"
     },
     "article_materials": {
-      "count": 16,
-      "checksum": "52fdcab6fcc9bf3b41a5151c09735ae6"
+      "count": 11,
+      "checksum": "21220f9b4ac04224f6bc86c00acdc272"
     },
     "article_revisions": {
-      "count": 18,
-      "checksum": "37480eacf1e4cf416cd542f3b46597d3"
+      "count": 12,
+      "checksum": "043bbf701bc4c78d471ecabd86b5f9eb"
     },
     "articles": {
-      "count": 11,
-      "checksum": "d6de04a15cc28cc963dc39f9f387560f"
+      "count": 7,
+      "checksum": "628747ed2d613e2907d8091263467353"
     },
     "async_jobs": {
-      "count": 30,
-      "checksum": "35543570ea3b96bfa13aa6b3b74eb81c"
+      "count": 82,
+      "checksum": "710d0f2312346f5bf4c0c04af755e1d7"
     },
     "collection_analyses": {
       "count": 0,
       "checksum": "d41d8cd98f00b204e9800998ecf8427e"
     },
     "collection_candidate_discoveries": {
-      "count": 4,
-      "checksum": "d908b7eef98bbb63d6c2c14272056030"
+      "count": 2,
+      "checksum": "eab4378ec9ff4e90b2b7783e174875d3"
     },
     "collection_candidates": {
-      "count": 4,
-      "checksum": "7ed7a9d980a369fbdae880b061acb251"
+      "count": 2,
+      "checksum": "1f3c795e5ea3c10d592474ad471ae30c"
     },
     "collection_results": {
-      "count": 4,
-      "checksum": "cf4d9afb572df5fbf4b26b2273f66d5d"
+      "count": 2,
+      "checksum": "096d6f16aff673adf0e57ec7199b495e"
     },
     "collection_runs": {
-      "count": 5,
-      "checksum": "13926a43d1542f60a1d3b9038210d042"
+      "count": 2,
+      "checksum": "8e10ac0e7b7c05ed5442d65cb0a98fb6"
     },
     "collection_searches": {
       "count": 0,
       "checksum": "d41d8cd98f00b204e9800998ecf8427e"
     },
     "collection_snapshots": {
-      "count": 8,
-      "checksum": "2817aedbd9c417125684a3014eadd30a"
+      "count": 4,
+      "checksum": "7e76f52cceb22e9be0e93c59ba75d81c"
     },
     "collection_sources": {
-      "count": 5,
-      "checksum": "af46b8dd8ec375f2496ffd971d409391"
+      "count": 2,
+      "checksum": "b6253a0f177eca078cb529b7a72b312e"
     },
     "collection_stage_attempts": {
-      "count": 11,
-      "checksum": "938ff3b3fd1945bc189a58345a660d43"
+      "count": 6,
+      "checksum": "afa4492129a93190562566514eae3596"
     },
     "collection_task_sources": {
-      "count": 5,
-      "checksum": "b3d170e43d8bc7473c40ddf4ab23cb15"
+      "count": 2,
+      "checksum": "933aa930bfa4aada4dfbd7ffec3e725a"
     },
     "collection_tasks": {
-      "count": 5,
-      "checksum": "8f7cb21dc3e99eb26551c08bbfd40694"
+      "count": 2,
+      "checksum": "3091928e2f39a6023d63677b7250df9a"
     },
     "creation_consumed_events": {
       "count": 0,
       "checksum": "d41d8cd98f00b204e9800998ecf8427e"
     },
     "creation_outputs": {
-      "count": 9,
-      "checksum": "a5acc800c7a2e1090e6bb71a65880cc5"
+      "count": 6,
+      "checksum": "c6bd93bca34325015c025b8d914f6fd4"
     },
     "creation_rule_collection_tasks": {
       "count": 0,
@@ -98,16 +100,16 @@
       "checksum": "d41d8cd98f00b204e9800998ecf8427e"
     },
     "creation_task_materials": {
-      "count": 6,
-      "checksum": "049ab45ff4c168d017187488c9652bad"
+      "count": 4,
+      "checksum": "18bf2c1ad8f90a729667b7b4a7bcb858"
     },
     "creation_tasks": {
-      "count": 6,
-      "checksum": "b919e7061dc8e6c0d4e2afc33110cbe0"
+      "count": 4,
+      "checksum": "568167007a3bc1fd133f439c77d288b8"
     },
     "idempotency_keys": {
-      "count": 5,
-      "checksum": "a8d62e63609b0cec62c385282fb8caf6"
+      "count": 3,
+      "checksum": "e11d73e493354aeb59904c4ec746042c"
     },
     "material_categories": {
       "count": 0,
@@ -115,11 +117,11 @@
     },
     "material_chunks": {
       "count": 6,
-      "checksum": "19c3da9fa7930c2d8db0d2e9991fbd4d"
+      "checksum": "37e7bd9f4d00596b7eb5d33874b23d0a"
     },
     "material_embedding_runs": {
       "count": 4,
-      "checksum": "b88a22ef9c5968b3f597a8798f198bb5"
+      "checksum": "6b81ec687fefdb0526b1cca8eaf4db8f"
     },
     "material_favorites": {
       "count": 0,
@@ -131,7 +133,7 @@
     },
     "material_ready_events": {
       "count": 2,
-      "checksum": "874c791e3b994b34d82e032ece87ab19"
+      "checksum": "f5b2109eb77f01a4dce90d064758b09e"
     },
     "material_relations": {
       "count": 0,
@@ -139,7 +141,7 @@
     },
     "material_revisions": {
       "count": 4,
-      "checksum": "9f5f4149cd9aa2dfe36af51dac99f9f9"
+      "checksum": "ab160110b0cca93658fe6a6f18c865b6"
     },
     "material_tags": {
       "count": 0,
@@ -147,95 +149,95 @@
     },
     "materials": {
       "count": 2,
-      "checksum": "e630bd9f22a01172101ba4e23212a1c2"
+      "checksum": "6eb1126ad7478ef7e06e03bfe28575a8"
     },
     "model_configs": {
-      "count": 4,
-      "checksum": "1cc3ce23fca172ce5fc0c19fb9a59e8e"
+      "count": 3,
+      "checksum": "2893bf2bb69f047a07d339cc279311c0"
     },
     "notification_preferences": {
       "count": 0,
       "checksum": "d41d8cd98f00b204e9800998ecf8427e"
     },
     "notifications": {
-      "count": 34,
-      "checksum": "ea19957392b453a15128db9192eb7086"
+      "count": 22,
+      "checksum": "ec2e63a3437576b82dd7971c5c26804b"
     },
     "operation_logs": {
-      "count": 109,
-      "checksum": "951518a128aa7125ffe0180f24961052"
+      "count": 71,
+      "checksum": "6360665fbada08183a3d71e2f20d2616"
     },
     "outbox_events": {
-      "count": 32,
-      "checksum": "9dd968f932e44b8a78d158eaa2152ca0"
+      "count": 84,
+      "checksum": "22b5e6ce58e1da30df108416e6918143"
     },
     "permissions": {
       "count": 25,
-      "checksum": "85d6d0308b303005b4cfbe74fe6f9f3e"
+      "checksum": "c08921ba7d14845d4148674406243e3c"
     },
     "publish_attempts": {
-      "count": 0,
-      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+      "count": 1,
+      "checksum": "3caa965296630d83b847e443a77d2b1c"
     },
     "publish_orders": {
-      "count": 0,
-      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+      "count": 1,
+      "checksum": "f0c4c7d678238905d01763f800bb3c05"
     },
     "reviews": {
-      "count": 12,
-      "checksum": "535d16dde9937db3b7b3386aaa7395b1"
+      "count": 8,
+      "checksum": "0b8d3f9b349e31d0a24d4ff8f82ef6b7"
     },
     "role_permissions": {
       "count": 49,
-      "checksum": "ae2f44ccba14f5db7d1d72b75baa17d8"
+      "checksum": "32eb2f2afcc7e66e821c421bdc0e100c"
     },
     "roles": {
-      "count": 7,
-      "checksum": "410e274b0dfbb8b93ddfe986378fe46d"
+      "count": 5,
+      "checksum": "fd7495dc53cde974d7bdf46efb1aa3e2"
     },
     "search_configs": {
       "count": 0,
       "checksum": "d41d8cd98f00b204e9800998ecf8427e"
     },
     "sessions": {
-      "count": 28,
-      "checksum": "3e69ecd85363b0ad9e5b9ad412c25186"
+      "count": 21,
+      "checksum": "c133993d4bb41c3befddf30910640436"
     },
     "stored_objects": {
-      "count": 4,
-      "checksum": "9bfe30b5844d212eab0483864f2cfc0f"
+      "count": 3,
+      "checksum": "a4e8df699d0222830b098303919c7b8f"
     },
     "system_settings": {
       "count": 2,
-      "checksum": "fb446738493740b0c38340e2b56ffc50"
+      "checksum": "3d254588c14e2068ef55bc8b80c7c716"
     },
     "tags": {
       "count": 0,
       "checksum": "d41d8cd98f00b204e9800998ecf8427e"
     },
     "upload_grants": {
-      "count": 2,
-      "checksum": "9de670b905506f2f8fbec773d2584142"
+      "count": 1,
+      "checksum": "f91a7d934a284ab46eb2c15e500e999e"
     },
     "user_roles": {
-      "count": 4,
-      "checksum": "d264c78a614ad2dcecc7ad4f678eaa5d"
+      "count": 2,
+      "checksum": "877f5fab32f664af481cc087d79da43d"
     },
     "users": {
-      "count": 4,
-      "checksum": "694b86ebed0d9079635f784fe1912927"
+      "count": 2,
+      "checksum": "9e8723b5d15408f0e2fdbe39cb4287af"
     },
     "wechat_accounts": {
       "count": 1,
-      "checksum": "b692b1c7fb7db87654f110226f60a2ae"
+      "checksum": "ebc3b1f9a8c1753e18ad9c1fae021ab5"
     },
     "wechat_draft_attempts": {
-      "count": 8,
-      "checksum": "e54980920ffdbbf7dde25b5511cd87f5"
+      "count": 5,
+      "checksum": "ad45750a5b87537a14d64a5b8575ec1a"
     },
     "wechat_draft_deliveries": {
-      "count": 6,
-      "checksum": "c842d70b294da9ace332a3ce0e5b9967"
+      "count": 4,
+      "checksum": "2aafab7192fdaf7de83a8270ee569b7a"
     }
   },
   "constraints": [
@@ -1507,6 +1509,27 @@
       "definition": "PRIMARY KEY (id)"
     },
     {
+      "table_name": "material_chunk_search_vectors",
+      "conname": "material_chunk_search_vectors_chunk_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (chunk_id) REFERENCES material_chunks(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "material_chunk_search_vectors",
+      "conname": "material_chunk_search_vectors_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (chunk_id)"
+    },
+    {
+      "table_name": "material_chunk_search_vectors",
+      "conname": "material_chunk_search_vectors_vector_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (vector_id) REFERENCES material_search_vectors(id) ON DELETE RESTRICT"
+    },
+    {
       "table_name": "material_chunks",
       "conname": "material_chunks_chunk_index_check",
       "contype": "c",
@@ -1568,6 +1591,27 @@
       "contype": "p",
       "convalidated": true,
       "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "material_counts",
+      "conname": "material_counts_active_count_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((active_count >= 0))"
+    },
+    {
+      "table_name": "material_counts",
+      "conname": "material_counts_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (singleton)"
+    },
+    {
+      "table_name": "material_counts",
+      "conname": "material_counts_singleton_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (singleton)"
     },
     {
       "table_name": "material_embedding_runs",
@@ -1813,6 +1857,41 @@
       "contype": "c",
       "convalidated": true,
       "definition": "CHECK ((revision_no >= 1))"
+    },
+    {
+      "table_name": "material_search_vectors",
+      "conname": "material_search_vectors_embedding_config_version_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((embedding_config_version > 0))"
+    },
+    {
+      "table_name": "material_search_vectors",
+      "conname": "material_search_vectors_embedding_model_config_id_embedding_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (embedding_model_config_id, embedding_config_version, fingerprint)"
+    },
+    {
+      "table_name": "material_search_vectors",
+      "conname": "material_search_vectors_embedding_model_config_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (embedding_model_config_id) REFERENCES model_configs(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "material_search_vectors",
+      "conname": "material_search_vectors_fingerprint_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((length((fingerprint)::text) = 64))"
+    },
+    {
+      "table_name": "material_search_vectors",
+      "conname": "material_search_vectors_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
     },
     {
       "table_name": "material_tags",
@@ -2613,5 +2692,6 @@
       "definition": "CHECK (((status)::text = ANY (ARRAY[('pending'::character varying)::text, ('preparing'::character varying)::text, ('syncing'::character varying)::text, ('unknown'::character varying)::text, ('awaiting_manual_publish'::character varying)::text, ('manual_published'::character varying)::text, ('failed'::character varying)::text, ('cancelled'::character varying)::text])))"
     }
   ],
-  "rollback_policy": "Only additive 0022 schema rollback demonstrated; earlier business migrations require coordinated snapshot restore"
+  "publication_history": "synthetic failed order and attempt; no external publication",
+  "rollback_policy": "Only additive 0022 through 0024 schema rollback demonstrated; earlier business migrations require coordinated snapshot restore"
 }

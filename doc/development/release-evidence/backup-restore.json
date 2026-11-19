@@ -1,44 +1,38 @@
 {
-  "checked_at": "2026-11-19T08:11:33.471953+00:00",
+  "checked_at": "2026-11-19T13:31:04.547445+00:00",
   "passed": true,
-  "backup_id": "20261119T081043Z-58e0d7",
-  "database_version": "0022_search_indexes",
-  "table_count": 58,
+  "backup_id": "20261119T133047Z-786d87",
+  "database_version": "0024_material_counts",
+  "table_count": 61,
   "objects": [
     {
-      "key": "2026/11/8d213cec-acceptance-cover.png",
+      "key": "2026/11/68a9c52a-acceptance-cover.png",
       "size": 68,
       "sha256": "24727b82a4a69a5c78397f79b4fdbfc273e3632a78dc267c8899d8661476dcfe",
       "content_type": "image/png"
     },
     {
-      "key": "acceptance/7931d45976ef4ec99e0724ca0217446f.png",
+      "key": "acceptance/9209069d69754f92aed737d5ea740438.png",
       "size": 68,
       "sha256": "24727b82a4a69a5c78397f79b4fdbfc273e3632a78dc267c8899d8661476dcfe",
       "content_type": "image/png"
     },
     {
-      "key": "acceptance/83560b8987324a1fa6abeb5d71cadb97.png",
-      "size": 68,
-      "sha256": "24727b82a4a69a5c78397f79b4fdbfc273e3632a78dc267c8899d8661476dcfe",
-      "content_type": "image/png"
-    },
-    {
-      "key": "acceptance/ecc6bbe45b5b4545b8360b8aa0e6328f.png",
+      "key": "acceptance/ca7e44e4d3ca47d0b947196300f1e2af.png",
       "size": 68,
       "sha256": "24727b82a4a69a5c78397f79b4fdbfc273e3632a78dc267c8899d8661476dcfe",
       "content_type": "image/png"
     }
   ],
-  "database_sha256": "dfe596eb69b8a7dd97ea75d80d40e9e606b82f6204fff1040b4ea0c9250661be",
-  "backup_seconds": 5.0,
-  "restore_seconds": 13.97,
+  "database_sha256": "743b0dd86fe0cc3e02803f31b258f0317391686827d5db018a52235864b4d51a",
+  "backup_seconds": 3.6,
+  "restore_seconds": 4.88,
   "checks": [
     "all_table_counts_and_checksums",
     "all_object_sha256",
     "restored_login",
     "article_and_historical_citation",
-    "manual_delivery_history",
+    "approved_revision_and_manual_delivery_history",
     "completed_upload_replay_same_object",
     "authenticated_attachment_download",
     "encrypted_account_secret_decrypts"
@@ -47,7 +41,7 @@
     "stored_objects_and_upload_grants_bucket_remap",
     "expire_unfinished_upload_grants"
   ],
-  "restore_database": "wetchat_acceptance_restore_3dc832be",
-  "restore_bucket": "acceptance-restore-2c6f26c92114",
+  "restore_database": "wetchat_acceptance_restore_bea82f16",
+  "restore_bucket": "acceptance-restore-3d4550777b9a",
   "credentials_in_backup": "encrypted database fields; retain APP_SECRET_KEY separately"
 }

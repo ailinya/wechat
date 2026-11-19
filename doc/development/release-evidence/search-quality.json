@@ -1,6 +1,6 @@
 {
-  "checked_at": "2026-11-19T08:35:53.679390+00:00",
-  "passed": false,
+  "checked_at": "2026-11-19T13:47:29.629678+00:00",
+  "passed": true,
   "checks": [
     {
       "palette": 0,
@@ -11,20 +11,20 @@
     {
       "palette": 1,
       "returned": 10,
-      "min_score": 0.5445491141652806,
-      "passed": false
+      "min_score": 1.0,
+      "passed": true
     },
     {
       "palette": 7,
       "returned": 10,
-      "min_score": 0.49593732439222404,
-      "passed": false
+      "min_score": 1.0,
+      "passed": true
     },
     {
       "palette": 42,
       "returned": 10,
-      "min_score": 0.5621420428927165,
-      "passed": false
+      "min_score": 1.0,
+      "passed": true
     },
     {
       "palette": 123,
@@ -41,8 +41,8 @@
     {
       "palette": 2048,
       "returned": 10,
-      "min_score": 0.5103455147708229,
-      "passed": false
+      "min_score": 1.0,
+      "passed": true
     },
     {
       "palette": 5000,

@@ -21,7 +21,9 @@ curl -fsS http://127.0.0.1:55179/health
 curl -fsS http://127.0.0.1:55179/ready
 ```
 
-`migrate` 在依赖就绪后升级 Alembic head、创建桶并按需初始化管理员，成功退出后才启动应用进程。初始化失败时先检查 `dc logs migrate`，不要绕过失败的迁移直接启动 Worker。升级版本为 `0023_distinct_search_vectors`。API `/ready` 为 200 且数据库、Broker、存储各项就绪后才导入流量。
+`migrate` 在依赖就绪后升级 Alembic head、创建桶并按需初始化管理员，成功退出后才启动应用进程。初始化失败时先检查 `dc logs migrate`，不要绕过失败的迁移直接启动 Worker。升级版本为 `0024_material_counts`。API `/ready` 为 200 且数据库、Broker、存储各项就绪后才导入流量。
+
+每个应用进程的数据库连接池保留最多 10 个连接，突发时最多 30 个；连接按需创建。扩展 API 进程及 Worker 时，应按各进程池上限、运维连接和 PostgreSQL `max_connections` 核算容量，避免耗尽数据库连接。
 
 公网域名入口代理转发到 `127.0.0.1:55179`；文件域名代理到 `127.0.0.1:59000`，必须保留 Host、路径和签名查询串。将 `RUSTFS_PUBLIC_ENDPOINT` 设置为实际文件 HTTPS 域名，内部仍用 `http://rustfs:9000`，浏览器不能访问 Docker 服务名。配置 `RUSTFS_CORS_ALLOWED_ORIGINS` 为实际前端 Origin（多个 Origin 用英文逗号分隔），Compose 将其注入 RustFS。RustFS 默认值为空，不会返回通用 CORS 头，必须确认浏览器预检及签名 PUT/GET 成功。仅修改 API 的环境不能生效，变更此值需重建 RustFS 容器并保留原数据卷。公网使用 TLS 和 `SESSION_COOKIE_SECURE=true`；loopback HTTP 验收环境明确设为 false。TLS 证书与公网 DNS 是站点运维配置，容器验收不声明这些已上线。
 
@@ -39,7 +41,7 @@ dc up -d --no-build api worker beat dispatcher web
 curl -fsS http://127.0.0.1:55179/ready
 ```
 
-同一 schema head 内优先只切回兼容旧镜像；就绪检查严格核对镜像所带迁移版本，跨 head 回退需在停写窗口降到旧镜像对应版本。0023 的派生索引映射可移除重建，原始分块向量全部保留；降至0022时会恢复旧全分块索引，可能耗时。`head→0021→head` 演练核对业务历史哈希及重建映射。新检索代码依赖0023，不能在其运行时降 schema。更早业务迁移有删除历史表的 downgrade，禁止把降库当作常规回退；不兼容时恢复成新库/新桶，校验后切换连接配置。切回旧镜像时仍保留原 `APP_SECRET_KEY`。
+同一 schema head 内优先只切回兼容旧镜像；就绪检查严格核对镜像所带迁移版本，跨 head 回退需在停写窗口降到旧镜像对应版本。0024 的素材计数是事务维护的派生数据，升级时锁定素材表并从现有数据初始化；新代码依赖此表。0023 的派生索引映射可移除重建，原始分块向量全部保留；降至0022时会恢复旧全分块索引，可能耗时。`head→0021→head` 演练核对业务历史哈希及重建映射。新检索代码依赖0023，不能在其运行时降 schema。更早业务迁移有删除历史表的 downgrade，禁止把降库当作常规回退；不兼容时恢复成新库/新桶，校验后切换连接配置。切回旧镜像时仍保留原 `APP_SECRET_KEY`。
 
 ## 故障处理
 

@@ -68,11 +68,14 @@ def main():
     db = engine('wetchat_acceptance_perf')
     with db.connect() as conn:
         counts = dict(conn.execute(text('SELECT (SELECT count(*) FROM materials) AS materials,(SELECT count(*) FROM material_chunks) AS chunks,(SELECT count(*) FROM material_chunks WHERE embedding IS NOT NULL) AS vectors')).mappings().one())
+        index_counts = dict(conn.execute(text('SELECT (SELECT count(*) FROM material_chunk_search_vectors) AS mapped_chunks,(SELECT count(*) FROM material_search_vectors) AS distinct_vectors')).mappings().one())
         version = conn.execute(text('SELECT version()')).scalar_one()
+        pg_settings = {name:conn.execute(text('SELECT current_setting(:name)'), {'name':name}).scalar_one() for name in ('shared_buffers','max_wal_size','work_mem','checkpoint_timeout','max_parallel_workers_per_gather')}
         body_size = float(conn.execute(text('SELECT avg(length(content_markdown)) FROM (SELECT content_markdown FROM material_revisions LIMIT 1000) sample')).scalar_one() or 0)
         indexes = conn.execute(text("SELECT indexname FROM pg_indexes WHERE schemaname='public' AND indexname IN ('ix_material_list_active','ix_material_search_vectors_binary_hnsw')")).scalars().all()
     if not args.probe:
         assert counts == {'materials':500000,'chunks':2500000,'vectors':2500000}, 'Full annual-scale corpus required'
+        assert index_counts['mapped_chunks'] == counts['vectors'], 'Every embedded chunk must have an index mapping'
         assert len(indexes) == 2, 'Search and list indexes must be complete'
         with db.connect().execution_options(isolation_level='AUTOCOMMIT') as conn:
             conn.execute(text('VACUUM (ANALYZE) materials'))
@@ -93,10 +96,13 @@ def main():
     docker_info = subprocess.check_output(['docker','info','--format','{{.NCPU}} {{.MemTotal}}'],text=True).split()
     metrics = {kind:{'requests':len(times),'server_ms':percentiles(times),'client_ms':percentiles(wall[kind])} for kind,times in samples.items()}
     total = sum(statuses.values())
-    result = {'passed':bool(samples['materials_list']) and metrics['materials_list']['server_ms']['p95']<=500 and len(errors)/max(total,1)<.001,'environment':{'host':platform.platform(),'docker_cpus':8,'docker_memory_gib':8,'postgres':version,'api_workers':2,'data_location':'D drive Windows Docker bind mount','external_embedding':'deterministic fixture; model network time excluded'},'concurrent_users':30,'duration_seconds':round(elapsed,2),'counts':counts,'average_body_characters_sample_1000':body_size,'mix':'70% paginated list, 10% selective keyword, 10% common Chinese keyword, 10% semantic','metrics':metrics,'rps':round(total/elapsed,2),'statuses':dict(statuses),'error_rate':len(errors)/max(total,1),'errors':errors[:20],'search_slo':'No annual-scale search latency SLO was fixed in phase 4; measured separately from list target','raw_server_samples_ms':samples}
+    result = {'passed':bool(samples['materials_list']) and metrics['materials_list']['server_ms']['p95']<=500 and len(errors)/max(total,1)<.001,'environment':{'host':platform.platform(),'docker_cpus':8,'docker_memory_gib':8,'postgres':version,'api_workers':2,'data_location':values['ACCEPTANCE_DATA_ROOT'],'external_embedding':'deterministic fixture; model network time excluded'},'concurrent_users':30,'duration_seconds':round(elapsed,2),'counts':counts,'average_body_characters_sample_1000':body_size,'mix':'70% paginated list, 10% selective keyword, 10% common Chinese keyword, 10% semantic','metrics':metrics,'rps':round(total/elapsed,2),'statuses':dict(statuses),'error_rate':len(errors)/max(total,1),'errors':errors[:20],'search_slo':'No annual-scale search latency SLO was fixed in phase 4; measured separately from list target','raw_server_samples_ms':samples}
     result['environment']['docker_cpus'] = int(docker_info[0])
     result['environment']['docker_memory_gib'] = round(int(docker_info[1])/(1024**3),3)
     result['environment']['transport'] = 'direct API port 58020; server timings exclude client network'
+    result['environment']['postgres_settings'] = pg_settings
+    result['search_index_counts'] = index_counts
+    result['synthetic_vector_limitation'] = 'The 1024-dimensional vectors use a 10000-vector synthetic palette; this does not represent 2500000 distinct vectors or real semantic quality.'
     save('performance',result)
     # Independent 20-job burst uses the main acceptance Worker/broker, no model calls.
     main_client = client()

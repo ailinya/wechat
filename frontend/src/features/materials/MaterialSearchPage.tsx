@@ -3,6 +3,8 @@ import { useAuth } from '../../app/AuthContext'
 import { materialsApi, type SearchItem, type SearchRequest, type SearchResponse } from '../../shared/api/materials'
 import { creationApi, type GenerationModel } from '../../shared/api/creation'
 import { navigate } from '../../app/router'
+import { assistanceApi } from '../../shared/api/assistance'
+import { TopicPanel } from '../assistance/AssistancePanels'
 
 interface SavedSearch {
   query: string
@@ -27,6 +29,7 @@ export function MaterialSearchPage({ topic = false, materialMode = false, onPick
     catch { return initial }
   })
   const [busy, setBusy] = useState(false)
+  const [expandRelations, setExpandRelations] = useState(false)
   const [error, setError] = useState('')
   const [models, setModels] = useState<GenerationModel[]>([])
   const [modelId, setModelId] = useState('')
@@ -48,7 +51,7 @@ export function MaterialSearchPage({ topic = false, materialMode = false, onPick
       if (state.status) request.statuses = [state.status]
       if (state.from) request.from = new Date(`${state.from}T00:00:00`).toISOString()
       if (state.to) request.to = new Date(`${state.to}T23:59:59`).toISOString()
-      const response = await materialsApi.search(request)
+      const response = expandRelations ? await assistanceApi.search(request) : await materialsApi.search(request)
       setState(current => ({ ...current, response }))
     } catch (cause) { setError(cause instanceof Error ? cause.message : '检索失败，请重试') }
     finally { setBusy(false) }
@@ -82,11 +85,14 @@ export function MaterialSearchPage({ topic = false, materialMode = false, onPick
       <label>发布时间从 <input type="date" value={state.from} onChange={e => update({ from: e.target.value })} /></label>{' '}
       <label>至 <input type="date" value={state.to} onChange={e => update({ to: e.target.value })} /></label>{' '}
       <label>相关度下限 <input type="number" min="0" max="1" step="0.05" value={state.min} onChange={e => update({ min: Number(e.target.value) })} /></label>{' '}
+      {hasPermission('material:read') && <label><input type="checkbox" checked={expandRelations} onChange={e => setExpandRelations(e.target.checked)} />包含未忽略的当前素材关联建议</label>}{' '}
       <label>数量 <input type="number" min="1" max="100" value={state.top} onChange={e => update({ top: Number(e.target.value) })} /></label>{' '}
       <button type="submit" disabled={busy}>{busy ? '检索中…' : '检索'}</button>
     </form>
     {error && <p role="alert">{error}</p>}
     {state.response?.degraded && <p role="status">语义检索暂不可用，已使用关键词检索（{state.response.degradation_reason}）。</p>}
+    {topic && state.selected.length > 0 && state.selected.length <= 20 && hasPermission('creation:write') && hasPermission('material:read') && hasPermission('article:read') && <TopicPanel key={state.selected.map(item => item.material_id).sort().join(',')} materialIds={state.selected.map(item => item.material_id)} onChoose={title => update({ query: title })} />}
+    {topic && state.selected.length > 20 && <p>主题推荐最多选择 20 个素材。</p>}
     {state.response && <section aria-label="检索结果"><h2>检索结果（{state.response.items.length}）</h2>
       {!state.response.items.length && <p>没有符合条件的素材，请调整关键词或筛选条件。</p>}
       <ul>{state.response.items.map(item => <li key={item.material_id}>

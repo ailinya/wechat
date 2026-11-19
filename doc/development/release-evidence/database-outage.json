@@ -1,0 +1,13 @@
+{
+  "checked_at": "2026-11-19T12:30:28.589336+00:00",
+  "passed": true,
+  "checks": [
+    "database_outage_readiness",
+    "liveness_independent",
+    "connection_pool_recovers",
+    "preexisting_dispatched_job_recovers_same_id_single_claim",
+    "post_recovery_job_succeeds"
+  ],
+  "recovered_pending": 1,
+  "stale_clock_simulated_for_pending_recovery": true
+}

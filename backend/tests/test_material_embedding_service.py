@@ -96,7 +96,9 @@ def test_embedding_client_rejects_changed_env_snapshot(monkeypatch):
 def test_embedding_build_retry_and_new_revision(monkeypatch):
     if not os.getenv("TEST_DATABASE_URL"):
         pytest.skip("TEST_DATABASE_URL not set")
-    from sqlalchemy import create_engine, text
+    from sqlalchemy import create_engine, event, text
+    from sqlalchemy.exc import OperationalError
+    from psycopg.errors import DeadlockDetected
     from conftest import reset_schema
     from app.services import async_job_service, material_embedding_service as service
 
@@ -139,8 +141,8 @@ def test_embedding_build_retry_and_new_revision(monkeypatch):
             assert conn.execute(text("SELECT count(*) FROM material_chunks WHERE embedding IS NOT NULL")).scalar_one() == 1
             assert service.enqueue_rebuild(conn, material)["async_job_id"] == retry["async_job_id"]
             second_revision = conn.execute(
-                text("INSERT INTO material_revisions(material_id,revision_no,content_markdown) VALUES (:id,2,'updated revision') RETURNING id"),
-                {"id": material},
+                text("INSERT INTO material_revisions(material_id,revision_no,content_markdown) VALUES (:id,2,:content) RETURNING id"),
+                {"id": material, "content": "updated revision " * 100},
             ).scalar_one()
             conn.execute(text("UPDATE materials SET current_revision_id=:revision WHERE id=:id"), {"revision": second_revision, "id": material})
             new_build = service.enqueue_rebuild(conn, material)
@@ -149,8 +151,21 @@ def test_embedding_build_retry_and_new_revision(monkeypatch):
             assert conn.execute(text("SELECT count(*) FROM material_chunks WHERE material_revision_id=:id AND embedding IS NOT NULL"), {"id": first_revision}).scalar_one() == 1
             assert async_job_service.claim_job(conn, new_build["async_job_id"])
             new_job = async_job_service.get_job(conn, new_build["async_job_id"])
-        service.material_embedding_job(engine, new_job)
+        seen_updates = []
+        def deadlock_once(_conn, _cursor, statement, parameters, _context, _many):
+            if statement.startswith('UPDATE material_chunks SET embedding='):
+                seen_updates.append(True)
+                if len(seen_updates) == 2:
+                    raise OperationalError(statement, parameters, DeadlockDetected('fixture deadlock'))
+        event.listen(engine, 'before_cursor_execute', deadlock_once)
+        calls_before = len(calls)
+        try:
+            service.material_embedding_job(engine, new_job)
+        finally:
+            event.remove(engine, 'before_cursor_execute', deadlock_once)
+        assert len(seen_updates) == 4  # First write rolls back, then both chunks are retried.
+        assert len(calls) == calls_before + 1  # Retrying a DB transaction must not call the model again.
         with engine.connect() as conn:
-            assert conn.execute(text("SELECT count(*) FROM material_chunks WHERE material_revision_id=:id AND embedding IS NOT NULL"), {"id": second_revision}).scalar_one() == 1
+            assert conn.execute(text("SELECT count(*) FROM material_chunks WHERE material_revision_id=:id AND embedding IS NOT NULL"), {"id": second_revision}).scalar_one() == 2
     finally:
         engine.dispose()

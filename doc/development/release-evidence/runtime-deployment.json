@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-19T08:27:20.458918+00:00",
+  "checked_at": "2026-11-19T13:47:15.497500+00:00",
   "passed": true,
   "checks": [
     "runtime_target_no_external_fixtures",
@@ -12,7 +12,7 @@
     "restart_preserves_session",
     "acceptance_endpoints_absent"
   ],
-  "project": "wetchat-release-final",
+  "project": "wetchat-release-c3bb32a9",
   "tls": "loopback HTTP smoke only; public deployment requires TLS termination",
   "real_external_calls": false
 }

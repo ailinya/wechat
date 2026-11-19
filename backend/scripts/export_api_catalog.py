@@ -34,6 +34,8 @@ def main():
             operation = spec.get('paths',{}).get(route.path,{}).get(method.lower())
             assert operation is not None or not route.include_in_schema
             records.append({'method':method,'path':route.path,'authentication':'session' if any(name=='current_user' for name,_ in deps) else 'public','permissions':sorted({str(code) for _,code in deps if code is not None}),'csrf':any(name=='verify_csrf' for name,_ in deps),'responses':sorted(operation['responses']) if operation else ['200'],'request_schema':operation.get('requestBody',{}) if operation else {},'response_schema':operation['responses'] if operation else {},'in_openapi':route.include_in_schema})
+            if method == 'GET' and route.path == '/api/v1/assistance/runs/{run_id}':
+                records[-1]['permission_conditions'] = {'owner_only': True, 'by_kind': {'topic': ['creation:write', 'material:read', 'article:read'], 'relation': ['material:read', 'material:search'], 'search': ['material:read', 'material:search'], 'quality': ['article:read', 'material:read']}}
     assert len(records) > 100, 'Route traversal did not cover the implemented API'
     for row in records:
         if row['method'] in {'POST','PUT','PATCH','DELETE'} and row['path']!='/api/v1/auth/login' and '410' not in row['responses']:
@@ -47,7 +49,7 @@ def main():
         lines.append('| '+ ' | '.join([row['method'],row['path'],row['authentication'],', '.join(row['permissions']) or '—','是' if row['csrf'] else '否',', '.join(row['responses'])])+' |')
     (root/'doc/architecture/api-permissions.md').write_text('\n'.join(lines)+'\n',encoding='utf-8')
     with (root/'doc/architecture/api-permissions.md').open('a',encoding='utf-8') as output:
-        output.write('\n“—”表示没有额外权限码，不代表没有对象级检查。异步作业限本人创建，上传授权与完成限本人，文件下载限上传者或已取得对应资源访问权。公开 OAuth 占位路径固定返回410，直连模式不会执行授权副作用。图片访问返回307短期重定向，报表导出为text/csv。\n')
+        output.write('\n“—”表示路由依赖未声明额外权限码，不代表没有动态权限或对象级检查。GET /api/v1/assistance/runs/{run_id} 仅限本人，按记录类型额外要求：topic 为 creation:write、material:read、article:read；relation 和 search 为 material:read、material:search；quality 为 article:read、material:read。异步作业限本人创建，上传授权与完成限本人，文件下载限上传者或已取得对应资源访问权。公开 OAuth 占位路径固定返回410，直连模式不会执行授权副作用。图片访问返回307短期重定向，报表导出为text/csv。\n')
     print(f'Exported {len(records)} implemented method/path contracts')
 
 

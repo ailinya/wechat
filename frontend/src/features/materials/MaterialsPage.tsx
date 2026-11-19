@@ -9,6 +9,7 @@
 import { useEffect, useState } from 'react'
 import { AnalysisPanel } from '../collection/AnalysisPanel'
 import { MaterialAnalysisForm } from '../collection/MaterialAnalysisForm'
+import { RelationPanel } from '../assistance/AssistancePanels'
 
 import { useHashRoute } from '../../app/router'
 import { FileUploadDemo } from '../dashboard/FileUploadDemo'
@@ -302,6 +303,7 @@ export function MaterialsPage() {
           <pre className="material-body">{detail.current_revision.content_markdown}</pre>
           <AnalysisPanel materialId={detail.id} />
           <MaterialAnalysisForm materialId={detail.id} />
+          {hasPermission('material:search') && hasPermission('material:read') && <RelationPanel key={detail.id} materialId={detail.id} canWrite={hasPermission('material:write')} />}
           <p>收藏数：{detail.favorite_count ?? 0}</p>
           <section className="material-references" aria-label="引用该素材的文章">
             <h3>引用文章</h3>
