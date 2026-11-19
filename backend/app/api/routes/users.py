@@ -6,7 +6,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, Query
 
-from app.api.deps import DbSession, require_permission, verify_csrf
+from app.api.deps import DbSession, require_permission, require_audited_permission, verify_csrf
 from app.api.responses import error_responses
 from app.errors import ApiError
 from app.repositories import auth_repository as repo
@@ -14,11 +14,12 @@ from app.schemas.auth import PermissionCode, RoleSummary
 from app.schemas.common import PaginatedResponse
 from app.schemas.users import UserCreate, UserOut, UserUpdate
 from app.services.auth_service import hash_password
+from app.services.audit_service import record_operation
 
 router = APIRouter(prefix="/users", tags=["users"])
 
 READ = Depends(require_permission(PermissionCode.USER_READ))
-WRITE = Depends(require_permission(PermissionCode.USER_WRITE))
+WRITE = Depends(require_audited_permission(PermissionCode.USER_WRITE))
 CSRF = Depends(verify_csrf)
 
 
@@ -84,6 +85,7 @@ async def create_user(
         password_hash=hash_password(payload.password),
         role_ids=role_ids,
     )
+    record_operation(conn, user_id=_perm.id, action='user.create', object_type='user', object_id=user_id, detail={'role_ids': [str(r) for r in role_ids]})
     db.commit()
     return _user_out(repo.get_user(db.connection(), user_id), db)
 
@@ -131,9 +133,12 @@ async def update_user(
         status=payload.status,
         role_ids=role_ids,
     )
+    record_operation(conn, user_id=_perm.id, action='user.update', object_type='user', object_id=user_id, detail={'status': payload.status, 'role_ids': [str(r) for r in role_ids] if role_ids is not None else None})
     db.commit()
     return _user_out(repo.get_user(db.connection(), user_id), db)
 
 
 def _resolve_role_ids(conn, role_ids: list[UUID]) -> list[UUID]:
-    return [rid for rid in role_ids if repo.get_role(conn, rid)]
+    if any(not repo.get_role(conn, rid) for rid in role_ids):
+        raise ApiError(422, 'invalid_role', '所选角色不存在')
+    return list(dict.fromkeys(role_ids))

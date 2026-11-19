@@ -17,6 +17,17 @@ from app.errors import ApiError
 _REGION = None
 
 
+def probe(settings):
+    import urllib3
+    parsed = urlparse(settings.rustfs_endpoint)
+    try:
+        client = Minio(parsed.netloc, access_key=settings.rustfs_access_key, secret_key=settings.rustfs_secret_key.get_secret_value(), secure=parsed.scheme=='https', http_client=urllib3.PoolManager(timeout=urllib3.Timeout(connect=3, read=5), retries=False))
+        exists = client.bucket_exists(settings.rustfs_bucket)
+        return {'reachable': exists, 'reason': '已只读验证存储桶可访问' if exists else '存储桶不存在，请检查部署配置'}
+    except Exception:
+        return {'reachable': False, 'reason': '文件存储不可达或凭据/桶权限不足'}
+
+
 def _client(settings: Settings) -> Minio:
     parsed = urlparse(settings.rustfs_endpoint)
     if not parsed.netloc:
@@ -28,6 +39,7 @@ def _client(settings: Settings) -> Minio:
             access_key=settings.rustfs_access_key,
             secret_key=settings.rustfs_secret_key.get_secret_value(),
             secure=secure,
+            region=settings.rustfs_region,
         )
     except Exception as exc:  # invalid credentials shape etc.
         raise ApiError(503, "storage_unavailable", "对象存储不可用") from exc
@@ -46,7 +58,7 @@ def ensure_bucket(settings: Settings) -> None:
 
 
 def presigned_put(settings: Settings, object_key: str, expires_minutes: int) -> str:
-    client = _client(settings)
+    client = _client(settings.model_copy(update={'rustfs_endpoint': settings.rustfs_public_endpoint}) if settings.rustfs_public_endpoint else settings)
     try:
         return client.presigned_put_object(
             settings.rustfs_bucket, object_key, timedelta(minutes=expires_minutes)
@@ -56,7 +68,7 @@ def presigned_put(settings: Settings, object_key: str, expires_minutes: int) -> 
 
 
 def presigned_get(settings: Settings, object_key: str, expires_minutes: int) -> str:
-    client = _client(settings)
+    client = _client(settings.model_copy(update={'rustfs_endpoint': settings.rustfs_public_endpoint}) if settings.rustfs_public_endpoint else settings)
     try:
         return client.presigned_get_object(
             settings.rustfs_bucket, object_key, timedelta(minutes=expires_minutes)

@@ -1,0 +1,34 @@
+{
+  "checked_at": "2026-11-19T07:48:11.673515+00:00",
+  "passed": true,
+  "backend": {
+    "passed": 386,
+    "skipped": 1,
+    "seconds": 928.2,
+    "skip": "CREATION_LIVE_TEST requires explicit opt-in"
+  },
+  "frontend": {
+    "passed": 56,
+    "seconds": 48.13,
+    "typescript_and_production_build": "passed",
+    "lint_errors": 0,
+    "lint_existing_warnings": true
+  },
+  "browser": {
+    "passed": 3,
+    "seconds": 19.8,
+    "checks": [
+      "eight_module_navigation",
+      "reload_and_back",
+      "390px_layout",
+      "slow_network_and_failure_recovery",
+      "permission_revocation_in_existing_session",
+      "browser_presigned_object_upload"
+    ],
+    "screenshot_sha256": "0e4c69b600a25619a0402db05784c0445487040721f142c2f31db50db5bbf889"
+  },
+  "api_method_path_count": 167,
+  "credential_scan": "no configured secret values in nonignored source artifacts",
+  "openspec_strict": "passed",
+  "diff_whitespace": "passed"
+}

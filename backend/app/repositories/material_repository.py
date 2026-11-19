@@ -242,6 +242,16 @@ def tags_for_material(conn: Connection, material_id: UUID | str) -> list[dict]:
     return [dict(row) for row in rows]
 
 
+def tags_for_materials(conn: Connection, material_ids: list) -> dict[str,list[dict]]:
+    result = {str(value):[] for value in material_ids}
+    if not material_ids:
+        return result
+    rows = conn.execute(text('SELECT mt.material_id,t.id,t.name FROM material_tags mt JOIN tags t ON t.id=mt.tag_id WHERE mt.material_id=ANY(CAST(:ids AS uuid[])) ORDER BY t.name,t.id'), {'ids':[str(value) for value in material_ids]}).mappings()
+    for row in rows:
+        result[str(row['material_id'])].append({'id':row['id'],'name':row['name']})
+    return result
+
+
 def set_material_tags(
     conn: Connection, material_id: UUID | str, tag_ids: list[UUID | str]
 ) -> None:

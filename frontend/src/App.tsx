@@ -8,11 +8,15 @@ import { moduleByPath } from './app/modules'
 import { navigate, useHashRoute } from './app/router'
 import { Placeholder } from './features/Placeholder'
 import { CollectionPage } from './features/collection/CollectionPage'
-import { CollectionSettings } from './features/collection/CollectionSettings'
+import { SettingsPage } from './features/operations/SettingsPage'
+import { AnalyticsPage } from './features/operations/AnalyticsPage'
 import { MaterialsPage } from './features/materials/MaterialsPage'
 import { MaterialSearchPage } from './features/materials/MaterialSearchPage'
 import { CreationPage } from './features/creation/CreationPage'
-import { ArticleDetailPage } from './features/creation/ArticleDetailPage'
+import { ArticleEditor } from './features/content/ArticleEditor'
+import { ContentPage } from './features/content/ContentPage'
+import { AccountsPage } from './features/accounts/AccountsPage'
+import { PublishOrdersPage } from './features/content/PublishOrdersPage'
 import { DashboardHome } from './features/dashboard/Home'
 import { JobPollingDemoPage } from './features/dashboard/JobPollingDemoPage'
 import { ListDemoPage } from './features/dashboard/ListDemoPage'
@@ -81,7 +85,7 @@ function Routes() {
       return <UploadDemoPage />
     }
     if (module.key === 'dashboard') {
-      return <DashboardHome module={module} />
+      return <DashboardHome />
     }
     if (module.key === 'collection') {
       return <CollectionPage />
@@ -89,11 +93,16 @@ function Routes() {
     if (route.path === '/materials/search') return <MaterialSearchPage />
     if (module.key === 'creation') return <CreationPage />
     const articleId = route.path.match(/^\/content\/articles\/([^/]+)$/)?.[1]
-    if (articleId) return <ArticleDetailPage id={articleId} />
+    if (articleId) return <ArticleEditor key={articleId} id={articleId} />
+    if (route.path === '/content/new') return <ArticleEditor key="new" />
+    if (route.path === '/content/publishing') return hasPermission('publish:read') ? <PublishOrdersPage /> : <p role="alert">无发布记录权限</p>
+    if (module.key === 'content') return <ContentPage />
+    if (module.key === 'accounts') return <AccountsPage />
     if (module.key === 'materials') {
       return <MaterialsPage />
     }
-    if (module.key === 'settings') return <CollectionSettings />
+    if (module.key === 'settings') return <SettingsPage />
+    if (module.key === 'analytics') return <AnalyticsPage />
     return <Placeholder module={module} />
   })()
 

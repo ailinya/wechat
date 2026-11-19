@@ -159,7 +159,7 @@ def _tag_out(row: dict) -> TagOut:
     return TagOut(id=row["id"], name=row["name"])
 
 
-def _material_out(row: dict, db) -> MaterialOut:
+def _material_out(row: dict, db, tags: list | None = None) -> MaterialOut:
     return MaterialOut(
         id=row["id"],
         title=row["title"],
@@ -170,7 +170,7 @@ def _material_out(row: dict, db) -> MaterialOut:
         metadata_version=row.get("metadata_version", 1),
         summary=row.get("summary", ""),
         tags=[
-            _tag_out(tag) for tag in repo.tags_for_material(db.connection(), row["id"])
+            _tag_out(tag) for tag in (repo.tags_for_material(db.connection(), row["id"]) if tags is None else tags)
         ],
         created_at=row["created_at"],
         updated_at=row["updated_at"],
@@ -213,7 +213,7 @@ def _detail_out(detail: dict, db) -> MaterialDetailOut:
     responses=error_responses(401, 403),
     summary="分页查询素材（状态/分类/标签/关键词/我的收藏筛选）",
 )
-async def list_materials(
+def list_materials(
     db: DbSession,
     user: CurrentUserDep,
     _perm=READ,
@@ -236,8 +236,9 @@ async def list_materials(
         keyword=keyword,
         favorite_mine=favorite_mine,
     )
+    tags = repo.tags_for_materials(db.connection(), [row['id'] for row in rows])
     return PaginatedResponse(
-        items=[_material_out(row, db) for row in rows],
+        items=[_material_out(row, db, tags[str(row['id'])]) for row in rows],
         total=total,
         page=page,
         page_size=page_size,
@@ -330,7 +331,7 @@ async def create_from_upload(
     responses=error_responses(401, 403),
     summary="我的收藏列表（按用户隔离）",
 )
-async def my_favorites(
+def my_favorites(
     db: DbSession,
     user: CurrentUserDep,
     _perm=READ,
@@ -348,8 +349,9 @@ async def my_favorites(
         keyword=None,
         favorite_mine=True,
     )
+    tags = repo.tags_for_materials(db.connection(), [row['id'] for row in rows])
     return PaginatedResponse(
-        items=[_material_out(row, db) for row in rows],
+        items=[_material_out(row, db, tags[str(row['id'])]) for row in rows],
         total=total,
         page=page,
         page_size=page_size,

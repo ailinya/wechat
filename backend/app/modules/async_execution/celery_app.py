@@ -10,6 +10,13 @@ from __future__ import annotations
 from celery import Celery
 
 from app.config import load_settings
+from celery.signals import setup_logging
+
+
+@setup_logging.connect
+def structured_celery_logging(**kwargs):
+    from app.logging_config import configure_logging
+    configure_logging(load_settings().log_level)
 
 
 def create_celery_app(settings=None) -> Celery:
@@ -30,6 +37,8 @@ def create_celery_app(settings=None) -> Celery:
         task_soft_time_limit=settings.job_soft_time_limit_seconds,
         task_acks_late=True,
         worker_prefetch_multiplier=1,
+        broker_connection_timeout=3,
+        broker_transport_options={'socket_connect_timeout':3,'socket_timeout':3,'visibility_timeout':600},
         task_routes={"app.modules.async_execution.*": {"queue": "async_jobs"}},
     )
     app.conf.beat_schedule = {
@@ -49,7 +58,12 @@ def create_celery_app(settings=None) -> Celery:
             "task": "app.modules.async_execution.tasks.schedule_creation_rules",
             "schedule": 60.0,
         },
+        'schedule-publications': {
+            'task': 'app.modules.async_execution.tasks.schedule_publications',
+            'schedule': 30.0,
+        },
     }
+    app.conf.beat_schedule['deliver-notifications'] = {'task': 'app.modules.async_execution.tasks.deliver_notifications', 'schedule': 30.0}
     app.conf.wetchat_settings = settings
     return app
 

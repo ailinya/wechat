@@ -89,7 +89,7 @@ def deliver(settings, event: dict) -> None:
         raise ValueError(f"outbox event {event['id']} has no task to deliver")
     from app.modules.async_execution.celery_app import create_celery_app
 
-    create_celery_app(settings).send_task(task_name, kwargs=payload.get("kwargs") or {})
+    create_celery_app(settings).send_task(task_name, kwargs=payload.get("kwargs") or {}, retry=False)
 
 
 def dispatch_pending(conn: Connection, settings, deliver_fn=None) -> dict:
@@ -104,7 +104,8 @@ def dispatch_pending(conn: Connection, settings, deliver_fn=None) -> dict:
         try:
             deliver_fn(settings, event)
         except Exception as exc:  # noqa: BLE001 - delivery failures are data
-            mark_delivery_failure(conn, str(event["id"]), f"{type(exc).__name__}: {exc}", backoff, max_attempts)
+            from app.logging_config import safe_text
+            mark_delivery_failure(conn, str(event["id"]), safe_text(f"{type(exc).__name__}: {exc}"), backoff, max_attempts)
             failed.append(str(event["id"]))
             continue
         mark_dispatched(conn, str(event["id"]))

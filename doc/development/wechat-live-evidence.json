@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-11-19T03:46:54.963860+00:00",
+  "state": "connected",
+  "appid_fingerprint": "7e01ce71edde",
+  "capabilities": {
+    "materials": {
+      "available": true,
+      "reason": "只读接口检测通过"
+    },
+    "drafts": {
+      "available": true,
+      "reason": "只读接口检测通过"
+    },
+    "published_read": {
+      "available": false,
+      "reason": "公众号无此接口权限或接口已停用"
+    },
+    "publish": {
+      "available": false,
+      "reason": "需运营确认微信后台发布接口权限，且草稿与发布读取检测通过"
+    }
+  },
+  "real_publish_executed": false
+}

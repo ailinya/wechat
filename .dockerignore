@@ -1,0 +1,13 @@
+.git
+.env
+.env.*
+.acceptance
+backups
+node_modules
+frontend/node_modules
+frontend/dist
+backend/.venv
+**/__pycache__
+test-results
+playwright-report
+.codex

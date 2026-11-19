@@ -215,7 +215,11 @@ def _create_run_with_job(
     )
     snapshot = dict(task)
     snapshot["source_ids"] = [str(s["id"]) for s in repo.task_sources(conn, task["id"])]
-    snapshot["sources"] = repo.task_sources(conn, task["id"])
+    snapshot["sources"] = [dict(row) for row in conn.execute(text(
+        'SELECT s.id,s.name,s.source_type,s.base_url,s.page_kind,s.article_link_selector,s.next_page_selector '
+        'FROM collection_sources s JOIN collection_task_sources ts ON ts.source_id=s.id '
+        'WHERE ts.task_id=:id AND s.deleted_at IS NULL AND s.enabled ORDER BY s.id'
+    ),{'id':task['id']}).mappings()]
     conn.execute(
         text(
             "UPDATE collection_runs SET config_snapshot=CAST(:snapshot AS jsonb) WHERE id=:id"

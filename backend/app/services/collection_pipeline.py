@@ -598,6 +598,8 @@ def execute_collection(
         if len(rows) > config.get("max_fetch", 20) and end_reason == "completed":
             end_reason, error = "budget_exhausted", "fetch_limit_reached"
         status = "partial" if error and fetched else "failed" if error else "succeeded"
+        if error and end_reason=='completed':
+            end_reason='error'
         conn.execute(
             text(
                 "UPDATE collection_runs SET status=:status,end_reason=:end,error=:error,discovered_count=:discovered,fetched_count=:fetched,parsed_count=:parsed,analyzed_count=:analyzed,failed_count=:failed,filtered_count=:filtered,review_required_count=:review,materialized_count=:materialized,finished_at=now(),lease_until=NULL WHERE id=:id AND lease_token=:token"

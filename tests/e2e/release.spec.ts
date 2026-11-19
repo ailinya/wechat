@@ -1,0 +1,92 @@
+import { test, expect } from '@playwright/test'
+import { readFileSync } from 'node:fs'
+
+test.skip(!process.env.E2E_RELEASE, '仅运行在独立的容器验收栈')
+const values = Object.fromEntries(readFileSync('.acceptance/stack.env', 'utf8').split(/\r?\n/).filter(line => line.includes('=')).map(line => { const at = line.indexOf('='); return [line.slice(0, at), line.slice(at + 1)] }))
+
+test('生产构建导航、刷新返回、窄屏及网络错误恢复', async ({ page }) => {
+  test.setTimeout(120_000)
+  const errors: string[] = []
+  page.on('pageerror', error => errors.push(error.message))
+  await page.goto('/#/login')
+  await page.getByRole('textbox', { name: '账号', exact: true }).fill('admin')
+  await page.getByLabel('密码', { exact: true }).fill(values.WETCHAT_ADMIN_PASSWORD)
+  await page.getByRole('button', { name: '登录', exact: true }).click()
+  await expect(page).toHaveURL(/#\/dashboard/)
+  for (const module of ['采集管理', '智能创作', '内容管理', '素材库', '账号管理', '数据统计分析', '系统设置', '工作台']) {
+    await page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: module, exact: true }).click()
+    await expect(page.getByText('页面不存在', { exact: true })).toHaveCount(0)
+    await page.reload()
+    await expect(page.getByRole('navigation', { name: '主导航' })).toBeVisible()
+  }
+  await page.goto('/#/settings?tab=jobs')
+  await expect(page.getByRole('heading', { name: '运行恢复', exact: true })).toBeVisible()
+  await expect(page.getByText('正在检查运行状态…', { exact: true })).toHaveCount(0)
+  await page.route('**/api/v1/settings/runtime', route => route.abort('failed'))
+  await page.getByRole('button', { name: '刷新运行状态', exact: true }).click()
+  await expect(page.getByRole('alert').first()).toBeVisible()
+  await page.unroute('**/api/v1/settings/runtime')
+  await page.route('**/api/v1/settings/runtime', async route => { await new Promise(resolve => setTimeout(resolve, 1500)); await route.continue() })
+  await page.getByRole('button', { name: '刷新运行状态', exact: true }).click()
+  await expect(page.getByRole('alert')).toHaveCount(0)
+  await page.unroute('**/api/v1/settings/runtime')
+  await page.goto('/#/analytics?kind=reviews')
+  await expect(page.getByRole('combobox', { name: '数据类型', exact: true })).toHaveValue('reviews')
+  await page.goto('/#/settings?tab=jobs')
+  await page.goBack()
+  await expect(page.getByRole('combobox', { name: '数据类型', exact: true })).toHaveValue('reviews')
+  await page.setViewportSize({ width: 390, height: 844 })
+  for (const path of ['/dashboard','/collection','/creation','/content','/materials','/accounts','/analytics','/settings?tab=jobs']) {
+    await page.goto('/#'+path)
+    await expect(page.getByRole('navigation', { name: '主导航' })).toBeVisible()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth), path).toBeLessThanOrEqual(390)
+  }
+  await page.screenshot({ path: 'test-results/release-mobile.png', fullPage: true })
+  expect(errors).toEqual([])
+})
+
+test('会话内权限撤回、刷新权限与直接地址拦截', async ({ page, browser }) => {
+  const suffix = Date.now().toString()
+  await page.goto('/#/login')
+  await page.getByRole('textbox', { name: '账号', exact: true }).fill('admin')
+  await page.getByLabel('密码', { exact: true }).fill(values.WETCHAT_ADMIN_PASSWORD)
+  await page.getByRole('button', { name: '登录', exact: true }).click()
+  await expect(page).toHaveURL(/#\/dashboard/)
+  const csrf = await page.evaluate(() => decodeURIComponent(document.cookie.split('; ').find(value => value.startsWith('wetchat_csrf='))!.split('=')[1]))
+  const headers = { 'X-CSRF-Token': csrf }
+  const roleResponse = await page.request.post('/api/v1/roles', { headers, data: { name: 'release-reader-'+suffix } })
+  expect(roleResponse.status()).toBe(201)
+  const role = await roleResponse.json()
+  expect((await page.request.put(`/api/v1/roles/${role.id}/permissions`, { headers, data: { permission_codes: ['article:read'] } })).ok()).toBeTruthy()
+  expect((await page.request.post('/api/v1/users', { headers, data: { account: 'release-reader-'+suffix, name: '验收只读用户', password: 'synthetic-reader-password', role_ids: [role.id] } })).status()).toBe(201)
+  const context = await browser.newContext()
+  try {
+    const reader = await context.newPage()
+    await reader.goto('http://127.0.0.1:55179/#/login')
+    await reader.getByRole('textbox', { name: '账号', exact: true }).fill('release-reader-'+suffix)
+    await reader.getByLabel('密码', { exact: true }).fill('synthetic-reader-password')
+    await reader.getByRole('button', { name: '登录', exact: true }).click()
+    await expect(reader).toHaveURL(/#\/dashboard/)
+    await reader.goto('http://127.0.0.1:55179/#/content')
+    await expect(reader.getByRole('heading', { name: '内容管理', exact: true })).toBeVisible()
+    expect((await page.request.put(`/api/v1/roles/${role.id}/permissions`, { headers, data: { permission_codes: [] } })).ok()).toBeTruthy()
+    expect((await reader.request.get('http://127.0.0.1:55179/api/v1/articles')).status()).toBe(403)
+    await reader.getByRole('button', { name: '刷新权限', exact: true }).click()
+    await expect(reader.getByRole('heading', { name: '无访问权限', exact: true })).toBeVisible()
+    await reader.reload()
+    await expect(reader.getByRole('heading', { name: '无访问权限', exact: true })).toBeVisible()
+  } finally { await context.close() }
+})
+
+test('浏览器通过公共签名端点上传真实对象并登记', async ({ page }) => {
+  await page.goto('/#/login')
+  await page.getByRole('textbox', { name: '账号', exact: true }).fill('admin')
+  await page.getByLabel('密码', { exact: true }).fill(values.WETCHAT_ADMIN_PASSWORD)
+  await page.getByRole('button', { name: '登录', exact: true }).click()
+  await expect(page).toHaveURL(/#\/dashboard/)
+  await page.goto('/#/dashboard/upload-demo')
+  await page.getByLabel('选择文件', { exact: true }).setInputFiles({ name: 'acceptance-cover.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1kAAAAASUVORK5CYII=', 'base64') })
+  await page.getByRole('button', { name: '上传', exact: true }).click()
+  await expect(page.getByText(/文件已登记：/)).toBeVisible({ timeout: 20_000 })
+  await expect(page.getByRole('alert')).toHaveCount(0)
+})

@@ -53,6 +53,8 @@ def test_connection(conn: Connection, config_id: UUID | str, client: model_clien
     config = get_config(conn, config_id)
     if not config.get("enabled"):
         raise ApiError(409, "model_disabled", "模型配置已禁用，无法测试")
+    if config['purpose'] == 'embedding':
+        raise ApiError(409, 'embedding_environment_managed', '向量服务使用部署环境配置，请在第三方接口页面检查向量连接')
     client = client or model_client.ModelClient()
     started = time.monotonic()
     try:

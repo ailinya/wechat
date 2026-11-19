@@ -1,0 +1,2617 @@
+{
+  "checked_at": "2026-11-19T08:15:03.615167+00:00",
+  "passed": true,
+  "head": "0022_search_indexes",
+  "checks": [
+    "empty_database_all_migrations_deployed",
+    "historical_restore_0022_to_0021_to_0022",
+    "all_business_row_counts_and_hashes_preserved",
+    "all_constraints_validated"
+  ],
+  "tables": {
+    "account_article_metrics": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "account_sync_runs": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "account_synced_materials": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "article_materials": {
+      "count": 16,
+      "checksum": "52fdcab6fcc9bf3b41a5151c09735ae6"
+    },
+    "article_revisions": {
+      "count": 18,
+      "checksum": "37480eacf1e4cf416cd542f3b46597d3"
+    },
+    "articles": {
+      "count": 11,
+      "checksum": "d6de04a15cc28cc963dc39f9f387560f"
+    },
+    "async_jobs": {
+      "count": 30,
+      "checksum": "35543570ea3b96bfa13aa6b3b74eb81c"
+    },
+    "collection_analyses": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "collection_candidate_discoveries": {
+      "count": 4,
+      "checksum": "d908b7eef98bbb63d6c2c14272056030"
+    },
+    "collection_candidates": {
+      "count": 4,
+      "checksum": "7ed7a9d980a369fbdae880b061acb251"
+    },
+    "collection_results": {
+      "count": 4,
+      "checksum": "cf4d9afb572df5fbf4b26b2273f66d5d"
+    },
+    "collection_runs": {
+      "count": 5,
+      "checksum": "13926a43d1542f60a1d3b9038210d042"
+    },
+    "collection_searches": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "collection_snapshots": {
+      "count": 8,
+      "checksum": "2817aedbd9c417125684a3014eadd30a"
+    },
+    "collection_sources": {
+      "count": 5,
+      "checksum": "af46b8dd8ec375f2496ffd971d409391"
+    },
+    "collection_stage_attempts": {
+      "count": 11,
+      "checksum": "938ff3b3fd1945bc189a58345a660d43"
+    },
+    "collection_task_sources": {
+      "count": 5,
+      "checksum": "b3d170e43d8bc7473c40ddf4ab23cb15"
+    },
+    "collection_tasks": {
+      "count": 5,
+      "checksum": "8f7cb21dc3e99eb26551c08bbfd40694"
+    },
+    "creation_consumed_events": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "creation_outputs": {
+      "count": 9,
+      "checksum": "a5acc800c7a2e1090e6bb71a65880cc5"
+    },
+    "creation_rule_collection_tasks": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "creation_rules": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "creation_task_materials": {
+      "count": 6,
+      "checksum": "049ab45ff4c168d017187488c9652bad"
+    },
+    "creation_tasks": {
+      "count": 6,
+      "checksum": "b919e7061dc8e6c0d4e2afc33110cbe0"
+    },
+    "idempotency_keys": {
+      "count": 5,
+      "checksum": "a8d62e63609b0cec62c385282fb8caf6"
+    },
+    "material_categories": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "material_chunks": {
+      "count": 6,
+      "checksum": "19c3da9fa7930c2d8db0d2e9991fbd4d"
+    },
+    "material_embedding_runs": {
+      "count": 4,
+      "checksum": "b88a22ef9c5968b3f597a8798f198bb5"
+    },
+    "material_favorites": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "material_files": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "material_ready_events": {
+      "count": 2,
+      "checksum": "874c791e3b994b34d82e032ece87ab19"
+    },
+    "material_relations": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "material_revisions": {
+      "count": 4,
+      "checksum": "9f5f4149cd9aa2dfe36af51dac99f9f9"
+    },
+    "material_tags": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "materials": {
+      "count": 2,
+      "checksum": "e630bd9f22a01172101ba4e23212a1c2"
+    },
+    "model_configs": {
+      "count": 4,
+      "checksum": "1cc3ce23fca172ce5fc0c19fb9a59e8e"
+    },
+    "notification_preferences": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "notifications": {
+      "count": 34,
+      "checksum": "ea19957392b453a15128db9192eb7086"
+    },
+    "operation_logs": {
+      "count": 109,
+      "checksum": "951518a128aa7125ffe0180f24961052"
+    },
+    "outbox_events": {
+      "count": 32,
+      "checksum": "9dd968f932e44b8a78d158eaa2152ca0"
+    },
+    "permissions": {
+      "count": 25,
+      "checksum": "85d6d0308b303005b4cfbe74fe6f9f3e"
+    },
+    "publish_attempts": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "publish_orders": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "reviews": {
+      "count": 12,
+      "checksum": "535d16dde9937db3b7b3386aaa7395b1"
+    },
+    "role_permissions": {
+      "count": 49,
+      "checksum": "ae2f44ccba14f5db7d1d72b75baa17d8"
+    },
+    "roles": {
+      "count": 7,
+      "checksum": "410e274b0dfbb8b93ddfe986378fe46d"
+    },
+    "search_configs": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "sessions": {
+      "count": 28,
+      "checksum": "3e69ecd85363b0ad9e5b9ad412c25186"
+    },
+    "stored_objects": {
+      "count": 4,
+      "checksum": "9bfe30b5844d212eab0483864f2cfc0f"
+    },
+    "system_settings": {
+      "count": 2,
+      "checksum": "fb446738493740b0c38340e2b56ffc50"
+    },
+    "tags": {
+      "count": 0,
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "upload_grants": {
+      "count": 2,
+      "checksum": "9de670b905506f2f8fbec773d2584142"
+    },
+    "user_roles": {
+      "count": 4,
+      "checksum": "d264c78a614ad2dcecc7ad4f678eaa5d"
+    },
+    "users": {
+      "count": 4,
+      "checksum": "694b86ebed0d9079635f784fe1912927"
+    },
+    "wechat_accounts": {
+      "count": 1,
+      "checksum": "b692b1c7fb7db87654f110226f60a2ae"
+    },
+    "wechat_draft_attempts": {
+      "count": 8,
+      "checksum": "e54980920ffdbbf7dde25b5511cd87f5"
+    },
+    "wechat_draft_deliveries": {
+      "count": 6,
+      "checksum": "c842d70b294da9ace332a3ce0e5b9967"
+    }
+  },
+  "constraints": [
+    {
+      "table_name": "account_article_metrics",
+      "conname": "account_article_metrics_account_id_external_article_id_metr_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (account_id, external_article_id, metric_date)"
+    },
+    {
+      "table_name": "account_article_metrics",
+      "conname": "account_article_metrics_account_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (account_id) REFERENCES wechat_accounts(id)"
+    },
+    {
+      "table_name": "account_article_metrics",
+      "conname": "account_article_metrics_article_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (article_id) REFERENCES articles(id)"
+    },
+    {
+      "table_name": "account_article_metrics",
+      "conname": "account_article_metrics_availability_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((availability)::text = ANY (ARRAY[('available'::character varying)::text, ('partial'::character varying)::text, ('unavailable'::character varying)::text])))"
+    },
+    {
+      "table_name": "account_article_metrics",
+      "conname": "account_article_metrics_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((((availability)::text <> 'unavailable'::text) OR ((reads IS NULL) AND (likes IS NULL) AND (shares IS NULL))))"
+    },
+    {
+      "table_name": "account_article_metrics",
+      "conname": "account_article_metrics_likes_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((likes >= 0))"
+    },
+    {
+      "table_name": "account_article_metrics",
+      "conname": "account_article_metrics_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "account_article_metrics",
+      "conname": "account_article_metrics_reads_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((reads >= 0))"
+    },
+    {
+      "table_name": "account_article_metrics",
+      "conname": "account_article_metrics_shares_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((shares >= 0))"
+    },
+    {
+      "table_name": "account_sync_runs",
+      "conname": "account_sync_runs_account_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (account_id) REFERENCES wechat_accounts(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "account_sync_runs",
+      "conname": "account_sync_runs_async_job_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (async_job_id) REFERENCES async_jobs(id)"
+    },
+    {
+      "table_name": "account_sync_runs",
+      "conname": "account_sync_runs_created_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (created_by) REFERENCES users(id)"
+    },
+    {
+      "table_name": "account_sync_runs",
+      "conname": "account_sync_runs_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "account_sync_runs",
+      "conname": "account_sync_runs_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('pending'::character varying)::text, ('running'::character varying)::text, ('succeeded'::character varying)::text, ('failed'::character varying)::text])))"
+    },
+    {
+      "table_name": "account_synced_materials",
+      "conname": "account_synced_materials_account_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (account_id) REFERENCES wechat_accounts(id)"
+    },
+    {
+      "table_name": "account_synced_materials",
+      "conname": "account_synced_materials_item_index_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((item_index >= 0))"
+    },
+    {
+      "table_name": "account_synced_materials",
+      "conname": "account_synced_materials_material_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "account_synced_materials",
+      "conname": "account_synced_materials_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (account_id, media_id, item_index)"
+    },
+    {
+      "table_name": "account_synced_materials",
+      "conname": "account_synced_materials_sync_run_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (sync_run_id) REFERENCES account_sync_runs(id)"
+    },
+    {
+      "table_name": "alembic_version",
+      "conname": "alembic_version_pkc",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (version_num)"
+    },
+    {
+      "table_name": "article_materials",
+      "conname": "article_materials_article_revision_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (article_revision_id) REFERENCES article_revisions(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "article_materials",
+      "conname": "article_materials_article_revision_id_reference_order_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (article_revision_id, reference_order)"
+    },
+    {
+      "table_name": "article_materials",
+      "conname": "article_materials_material_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "article_materials",
+      "conname": "article_materials_material_revision_id_material_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (material_revision_id, material_id) REFERENCES material_revisions(id, material_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "article_materials",
+      "conname": "article_materials_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (article_revision_id, material_id)"
+    },
+    {
+      "table_name": "article_materials",
+      "conname": "article_materials_reference_order_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((reference_order >= 1))"
+    },
+    {
+      "table_name": "article_revisions",
+      "conname": "article_revisions_article_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "article_revisions",
+      "conname": "article_revisions_article_id_version_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (article_id, version)"
+    },
+    {
+      "table_name": "article_revisions",
+      "conname": "article_revisions_cover_object_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (cover_object_id) REFERENCES stored_objects(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "article_revisions",
+      "conname": "article_revisions_created_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "article_revisions",
+      "conname": "article_revisions_id_article_id_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (id, article_id)"
+    },
+    {
+      "table_name": "article_revisions",
+      "conname": "article_revisions_keywords_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((jsonb_typeof(keywords) = 'array'::text))"
+    },
+    {
+      "table_name": "article_revisions",
+      "conname": "article_revisions_layout_config_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((jsonb_typeof(layout_config) = 'object'::text))"
+    },
+    {
+      "table_name": "article_revisions",
+      "conname": "article_revisions_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "article_revisions",
+      "conname": "article_revisions_version_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((version >= 1))"
+    },
+    {
+      "table_name": "articles",
+      "conname": "articles_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((((creation_task_id IS NULL) AND (slot IS NULL)) OR ((creation_task_id IS NOT NULL) AND (slot IS NOT NULL))))"
+    },
+    {
+      "table_name": "articles",
+      "conname": "articles_created_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "articles",
+      "conname": "articles_creation_task_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (creation_task_id) REFERENCES creation_tasks(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "articles",
+      "conname": "articles_creation_task_id_slot_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (creation_task_id, slot)"
+    },
+    {
+      "table_name": "articles",
+      "conname": "articles_origin_type_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((origin_type)::text = ANY (ARRAY[('manual'::character varying)::text, ('generated'::character varying)::text])))"
+    },
+    {
+      "table_name": "articles",
+      "conname": "articles_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "articles",
+      "conname": "articles_slot_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((slot >= 1) AND (slot <= 20)))"
+    },
+    {
+      "table_name": "articles",
+      "conname": "articles_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('draft'::character varying)::text, ('pending_review'::character varying)::text, ('approved'::character varying)::text, ('returned'::character varying)::text, ('rejected'::character varying)::text, ('published'::character varying)::text])))"
+    },
+    {
+      "table_name": "articles",
+      "conname": "fk_article_current_revision",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (current_revision_id, id) REFERENCES article_revisions(id, article_id) DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "table_name": "async_jobs",
+      "conname": "async_jobs_created_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "async_jobs",
+      "conname": "async_jobs_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "async_jobs",
+      "conname": "async_jobs_progress_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((progress >= 0) AND (progress <= 100)))"
+    },
+    {
+      "table_name": "async_jobs",
+      "conname": "async_jobs_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('pending'::character varying)::text, ('running'::character varying)::text, ('succeeded'::character varying)::text, ('failed'::character varying)::text, ('cancelled'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_analyses",
+      "conname": "collection_analyses_attempt_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((attempt >= 1))"
+    },
+    {
+      "table_name": "collection_analyses",
+      "conname": "collection_analyses_material_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "collection_analyses",
+      "conname": "collection_analyses_material_revision_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (material_revision_id) REFERENCES material_revisions(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "collection_analyses",
+      "conname": "collection_analyses_model_config_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (model_config_id) REFERENCES model_configs(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "collection_analyses",
+      "conname": "collection_analyses_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "collection_analyses",
+      "conname": "collection_analyses_result_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (result_id) REFERENCES collection_results(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "collection_analyses",
+      "conname": "collection_analyses_scope_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((scope)::text = ANY (ARRAY[('collection_result'::character varying)::text, ('material_revision'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_analyses",
+      "conname": "collection_analyses_snapshot_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (snapshot_id) REFERENCES collection_snapshots(id)"
+    },
+    {
+      "table_name": "collection_analyses",
+      "conname": "collection_analyses_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('pending'::character varying)::text, ('running'::character varying)::text, ('succeeded'::character varying)::text, ('failed'::character varying)::text, ('skipped'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_analyses",
+      "conname": "collection_analyses_target_revision_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (target_revision_id) REFERENCES material_revisions(id)"
+    },
+    {
+      "table_name": "collection_candidate_discoveries",
+      "conname": "collection_candidate_discover_candidate_id_source_id_discov_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (candidate_id, source_id, discovery_url, discovery_type, provenance_key)"
+    },
+    {
+      "table_name": "collection_candidate_discoveries",
+      "conname": "collection_candidate_discoveries_candidate_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (candidate_id) REFERENCES collection_candidates(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "collection_candidate_discoveries",
+      "conname": "collection_candidate_discoveries_discovery_type_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((discovery_type)::text = ANY (ARRAY[('rss'::character varying)::text, ('list'::character varying)::text, ('article'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_candidate_discoveries",
+      "conname": "collection_candidate_discoveries_page_number_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((page_number >= 1))"
+    },
+    {
+      "table_name": "collection_candidate_discoveries",
+      "conname": "collection_candidate_discoveries_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "collection_candidate_discoveries",
+      "conname": "collection_candidate_discoveries_source_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (source_id) REFERENCES collection_sources(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "collection_candidates",
+      "conname": "collection_candidates_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "collection_candidates",
+      "conname": "collection_candidates_result_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (result_id) REFERENCES collection_results(id)"
+    },
+    {
+      "table_name": "collection_candidates",
+      "conname": "collection_candidates_result_id_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (result_id)"
+    },
+    {
+      "table_name": "collection_candidates",
+      "conname": "collection_candidates_run_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (run_id) REFERENCES collection_runs(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "collection_candidates",
+      "conname": "collection_candidates_run_id_normalized_url_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (run_id, normalized_url)"
+    },
+    {
+      "table_name": "collection_candidates",
+      "conname": "collection_candidates_source_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((source)::text = ANY (ARRAY[('search'::character varying)::text, ('rss'::character varying)::text, ('list'::character varying)::text, ('article'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_candidates",
+      "conname": "collection_candidates_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('discovered'::character varying)::text, ('fetched'::character varying)::text, ('parsed'::character varying)::text, ('filtered'::character varying)::text, ('materialized'::character varying)::text, ('review_required'::character varying)::text, ('failed'::character varying)::text, ('duplicate'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_results",
+      "conname": "collection_results_materialize_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((materialize_status)::text = ANY (ARRAY[('pending'::character varying)::text, ('materialized'::character varying)::text, ('duplicate'::character varying)::text, ('new_progress'::character varying)::text, ('ignored'::character varying)::text, ('failed'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_results",
+      "conname": "collection_results_parse_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((parse_status)::text = ANY (ARRAY[('pending'::character varying)::text, ('parsed'::character varying)::text, ('failed'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_results",
+      "conname": "collection_results_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "collection_results",
+      "conname": "collection_results_raw_object_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (raw_object_id) REFERENCES stored_objects(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "collection_results",
+      "conname": "collection_results_run_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (run_id) REFERENCES collection_runs(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "collection_results",
+      "conname": "collection_results_source_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (source_id) REFERENCES collection_sources(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "collection_results",
+      "conname": "fk_collection_results_material",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "collection_runs",
+      "conname": "ck_collection_runs_end_reason",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((end_reason)::text = ANY (ARRAY[('completed'::character varying)::text, ('cancelled'::character varying)::text, ('budget_exhausted'::character varying)::text, ('error'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_runs",
+      "conname": "collection_runs_async_job_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (async_job_id) REFERENCES async_jobs(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "collection_runs",
+      "conname": "collection_runs_failed_count_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((failed_count >= 0))"
+    },
+    {
+      "table_name": "collection_runs",
+      "conname": "collection_runs_fetched_count_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((fetched_count >= 0))"
+    },
+    {
+      "table_name": "collection_runs",
+      "conname": "collection_runs_materialized_count_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((materialized_count >= 0))"
+    },
+    {
+      "table_name": "collection_runs",
+      "conname": "collection_runs_parsed_count_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((parsed_count >= 0))"
+    },
+    {
+      "table_name": "collection_runs",
+      "conname": "collection_runs_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "collection_runs",
+      "conname": "collection_runs_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('pending'::character varying)::text, ('running'::character varying)::text, ('succeeded'::character varying)::text, ('partial'::character varying)::text, ('failed'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_runs",
+      "conname": "collection_runs_task_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (task_id) REFERENCES collection_tasks(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "collection_runs",
+      "conname": "collection_runs_trigger_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((trigger)::text = ANY (ARRAY[('manual'::character varying)::text, ('scheduled'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_searches",
+      "conname": "collection_searches_attempts_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((attempts >= 0) AND (attempts <= 3)))"
+    },
+    {
+      "table_name": "collection_searches",
+      "conname": "collection_searches_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((window_start <= window_end))"
+    },
+    {
+      "table_name": "collection_searches",
+      "conname": "collection_searches_max_results_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((max_results >= 1) AND (max_results <= 20)))"
+    },
+    {
+      "table_name": "collection_searches",
+      "conname": "collection_searches_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "collection_searches",
+      "conname": "collection_searches_run_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (run_id) REFERENCES collection_runs(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "collection_searches",
+      "conname": "collection_searches_run_id_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (run_id)"
+    },
+    {
+      "table_name": "collection_searches",
+      "conname": "collection_searches_search_config_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (search_config_id) REFERENCES search_configs(id)"
+    },
+    {
+      "table_name": "collection_searches",
+      "conname": "collection_searches_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('pending'::character varying)::text, ('running'::character varying)::text, ('succeeded'::character varying)::text, ('failed'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_snapshots",
+      "conname": "collection_snapshots_candidate_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (candidate_id) REFERENCES collection_candidates(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "collection_snapshots",
+      "conname": "collection_snapshots_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "collection_snapshots",
+      "conname": "collection_snapshots_result_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (result_id) REFERENCES collection_results(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "collection_sources",
+      "conname": "ck_collection_sources_page_kind",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((page_kind)::text = ANY (ARRAY[('article'::character varying)::text, ('list'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_sources",
+      "conname": "collection_sources_created_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "collection_sources",
+      "conname": "collection_sources_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "collection_sources",
+      "conname": "collection_sources_source_type_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((source_type)::text = ANY (ARRAY[('rss'::character varying)::text, ('web_page'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_sources",
+      "conname": "collection_sources_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('active'::character varying)::text, ('inactive'::character varying)::text, ('unavailable'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_stage_attempts",
+      "conname": "collection_stage_attempts_attempt_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((attempt >= 1))"
+    },
+    {
+      "table_name": "collection_stage_attempts",
+      "conname": "collection_stage_attempts_candidate_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (candidate_id) REFERENCES collection_candidates(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "collection_stage_attempts",
+      "conname": "collection_stage_attempts_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "collection_stage_attempts",
+      "conname": "collection_stage_attempts_stage_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((stage)::text = ANY (ARRAY[('discover'::character varying)::text, ('fetch'::character varying)::text, ('parse'::character varying)::text, ('analyze'::character varying)::text, ('materialize'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_stage_attempts",
+      "conname": "collection_stage_attempts_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('pending'::character varying)::text, ('running'::character varying)::text, ('succeeded'::character varying)::text, ('failed'::character varying)::text, ('skipped'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_task_sources",
+      "conname": "collection_task_sources_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (task_id, source_id)"
+    },
+    {
+      "table_name": "collection_task_sources",
+      "conname": "collection_task_sources_source_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (source_id) REFERENCES collection_sources(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "collection_task_sources",
+      "conname": "collection_task_sources_task_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (task_id) REFERENCES collection_tasks(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "collection_tasks",
+      "conname": "ck_collection_tasks_apply_policy",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((analysis_apply_policy)::text = ANY (ARRAY[('suggest_only'::character varying)::text, ('fill_empty'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_tasks",
+      "conname": "ck_collection_tasks_mode",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((mode)::text = ANY (ARRAY[('source'::character varying)::text, ('topic_search'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_tasks",
+      "conname": "collection_tasks_analysis_model_config_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (analysis_model_config_id) REFERENCES model_configs(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "collection_tasks",
+      "conname": "collection_tasks_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((((schedule_frequency)::text <> 'cron'::text) OR (schedule_cron_expr IS NOT NULL)))"
+    },
+    {
+      "table_name": "collection_tasks",
+      "conname": "collection_tasks_created_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "collection_tasks",
+      "conname": "collection_tasks_keywords_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((jsonb_typeof(keywords) = 'array'::text))"
+    },
+    {
+      "table_name": "collection_tasks",
+      "conname": "collection_tasks_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "collection_tasks",
+      "conname": "collection_tasks_schedule_frequency_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((schedule_frequency)::text = ANY (ARRAY[('manual'::character varying)::text, ('hourly'::character varying)::text, ('daily'::character varying)::text, ('weekly'::character varying)::text, ('cron'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_tasks",
+      "conname": "collection_tasks_search_config_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (search_config_id) REFERENCES search_configs(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "collection_tasks",
+      "conname": "collection_tasks_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('active'::character varying)::text, ('paused'::character varying)::text, ('archived'::character varying)::text])))"
+    },
+    {
+      "table_name": "collection_tasks",
+      "conname": "collection_tasks_time_range_days_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((time_range_days >= 1) AND (time_range_days <= 365)))"
+    },
+    {
+      "table_name": "creation_consumed_events",
+      "conname": "creation_consumed_events_creation_task_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (creation_task_id) REFERENCES creation_tasks(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "creation_consumed_events",
+      "conname": "creation_consumed_events_event_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (event_id) REFERENCES outbox_events(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "creation_consumed_events",
+      "conname": "creation_consumed_events_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (event_id, rule_id)"
+    },
+    {
+      "table_name": "creation_consumed_events",
+      "conname": "creation_consumed_events_rule_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (rule_id) REFERENCES creation_rules(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "creation_outputs",
+      "conname": "creation_outputs_article_id_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (article_id)"
+    },
+    {
+      "table_name": "creation_outputs",
+      "conname": "creation_outputs_article_revision_id_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (article_revision_id)"
+    },
+    {
+      "table_name": "creation_outputs",
+      "conname": "creation_outputs_candidate_titles_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((jsonb_typeof(candidate_titles) = 'array'::text))"
+    },
+    {
+      "table_name": "creation_outputs",
+      "conname": "creation_outputs_citations_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((jsonb_typeof(citations) = 'array'::text))"
+    },
+    {
+      "table_name": "creation_outputs",
+      "conname": "creation_outputs_creation_task_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (creation_task_id) REFERENCES creation_tasks(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "creation_outputs",
+      "conname": "creation_outputs_creation_task_id_slot_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (creation_task_id, slot)"
+    },
+    {
+      "table_name": "creation_outputs",
+      "conname": "creation_outputs_keywords_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((jsonb_typeof(keywords) = 'array'::text))"
+    },
+    {
+      "table_name": "creation_outputs",
+      "conname": "creation_outputs_model_config_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (model_config_id) REFERENCES model_configs(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "creation_outputs",
+      "conname": "creation_outputs_model_snapshot_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((jsonb_typeof(model_snapshot) = 'object'::text))"
+    },
+    {
+      "table_name": "creation_outputs",
+      "conname": "creation_outputs_outline_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((jsonb_typeof(outline) = 'array'::text))"
+    },
+    {
+      "table_name": "creation_outputs",
+      "conname": "creation_outputs_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "creation_outputs",
+      "conname": "creation_outputs_slot_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((slot >= 1) AND (slot <= 20)))"
+    },
+    {
+      "table_name": "creation_outputs",
+      "conname": "fk_output_article_revision",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (article_revision_id, article_id) REFERENCES article_revisions(id, article_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "creation_rule_collection_tasks",
+      "conname": "creation_rule_collection_tasks_collection_task_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (collection_task_id) REFERENCES collection_tasks(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "creation_rule_collection_tasks",
+      "conname": "creation_rule_collection_tasks_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (rule_id, collection_task_id)"
+    },
+    {
+      "table_name": "creation_rule_collection_tasks",
+      "conname": "creation_rule_collection_tasks_rule_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (rule_id) REFERENCES creation_rules(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "creation_rules",
+      "conname": "creation_rules_batch_count_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((batch_count >= 1) AND (batch_count <= 20)))"
+    },
+    {
+      "table_name": "creation_rules",
+      "conname": "creation_rules_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((max_words >= min_words) AND (max_words <= 20000)))"
+    },
+    {
+      "table_name": "creation_rules",
+      "conname": "creation_rules_created_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "creation_rules",
+      "conname": "creation_rules_filters_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((jsonb_typeof(filters) = 'object'::text))"
+    },
+    {
+      "table_name": "creation_rules",
+      "conname": "creation_rules_material_strategy_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((material_strategy)::text = ANY (ARRAY[('new_only'::character varying)::text, ('new_and_unused'::character varying)::text, ('all'::character varying)::text])))"
+    },
+    {
+      "table_name": "creation_rules",
+      "conname": "creation_rules_min_material_count_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((min_material_count >= 1) AND (min_material_count <= 100)))"
+    },
+    {
+      "table_name": "creation_rules",
+      "conname": "creation_rules_min_new_material_count_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((min_new_material_count >= 0) AND (min_new_material_count <= 100)))"
+    },
+    {
+      "table_name": "creation_rules",
+      "conname": "creation_rules_min_relevance_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((min_relevance >= (0)::double precision) AND (min_relevance <= (1)::double precision)))"
+    },
+    {
+      "table_name": "creation_rules",
+      "conname": "creation_rules_min_words_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((min_words >= 1) AND (min_words <= 20000)))"
+    },
+    {
+      "table_name": "creation_rules",
+      "conname": "creation_rules_model_config_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (model_config_id) REFERENCES model_configs(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "creation_rules",
+      "conname": "creation_rules_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "creation_rules",
+      "conname": "creation_rules_reference_count_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((reference_count >= 1) AND (reference_count <= 100)))"
+    },
+    {
+      "table_name": "creation_rules",
+      "conname": "creation_rules_trigger_config_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((jsonb_typeof(trigger_config) = 'object'::text))"
+    },
+    {
+      "table_name": "creation_rules",
+      "conname": "creation_rules_trigger_type_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((trigger_type)::text = ANY (ARRAY[('collection_completed'::character varying)::text, ('schedule'::character varying)::text, ('new_material_count'::character varying)::text, ('manual'::character varying)::text])))"
+    },
+    {
+      "table_name": "creation_rules",
+      "conname": "fk_rule_account",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (target_account_id) REFERENCES wechat_accounts(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "creation_task_materials",
+      "conname": "creation_task_materials_creation_task_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (creation_task_id) REFERENCES creation_tasks(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "creation_task_materials",
+      "conname": "creation_task_materials_material_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "creation_task_materials",
+      "conname": "creation_task_materials_material_revision_id_material_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (material_revision_id, material_id) REFERENCES material_revisions(id, material_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "creation_task_materials",
+      "conname": "creation_task_materials_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (creation_task_id, material_id)"
+    },
+    {
+      "table_name": "creation_task_materials",
+      "conname": "creation_task_materials_relevance_score_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((relevance_score >= (0)::double precision) AND (relevance_score <= (1)::double precision)))"
+    },
+    {
+      "table_name": "creation_tasks",
+      "conname": "creation_tasks_async_job_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (async_job_id) REFERENCES async_jobs(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "creation_tasks",
+      "conname": "creation_tasks_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((((mode)::text = 'automatic'::text) AND (rule_id IS NOT NULL)) OR ((mode)::text <> 'automatic'::text)))"
+    },
+    {
+      "table_name": "creation_tasks",
+      "conname": "creation_tasks_config_snapshot_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((jsonb_typeof(config_snapshot) = 'object'::text))"
+    },
+    {
+      "table_name": "creation_tasks",
+      "conname": "creation_tasks_created_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "creation_tasks",
+      "conname": "creation_tasks_decision_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((decision IS NULL) OR (jsonb_typeof(decision) = 'object'::text)))"
+    },
+    {
+      "table_name": "creation_tasks",
+      "conname": "creation_tasks_mode_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((mode)::text = ANY (ARRAY[('automatic'::character varying)::text, ('material'::character varying)::text, ('topic'::character varying)::text])))"
+    },
+    {
+      "table_name": "creation_tasks",
+      "conname": "creation_tasks_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "creation_tasks",
+      "conname": "creation_tasks_rule_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (rule_id) REFERENCES creation_rules(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "creation_tasks",
+      "conname": "creation_tasks_source_task_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (source_task_id) REFERENCES creation_tasks(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "creation_tasks",
+      "conname": "creation_tasks_stages_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((jsonb_typeof(stages) = 'object'::text))"
+    },
+    {
+      "table_name": "creation_tasks",
+      "conname": "creation_tasks_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('pending'::character varying)::text, ('running'::character varying)::text, ('insufficient'::character varying)::text, ('succeeded'::character varying)::text, ('failed'::character varying)::text, ('cancelled'::character varying)::text])))"
+    },
+    {
+      "table_name": "creation_tasks",
+      "conname": "creation_tasks_trigger_type_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((trigger_type)::text = ANY (ARRAY[('collection_completed'::character varying)::text, ('schedule'::character varying)::text, ('new_material_count'::character varying)::text, ('manual'::character varying)::text])))"
+    },
+    {
+      "table_name": "idempotency_keys",
+      "conname": "idempotency_keys_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "idempotency_keys",
+      "conname": "idempotency_keys_scope_user_id_key_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (scope, user_id, key)"
+    },
+    {
+      "table_name": "idempotency_keys",
+      "conname": "idempotency_keys_user_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "material_categories",
+      "conname": "material_categories_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((parent_id IS NULL) OR (parent_id <> id)))"
+    },
+    {
+      "table_name": "material_categories",
+      "conname": "material_categories_parent_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (parent_id) REFERENCES material_categories(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "material_categories",
+      "conname": "material_categories_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "material_chunks",
+      "conname": "material_chunks_chunk_index_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((chunk_index >= 0))"
+    },
+    {
+      "table_name": "material_chunks",
+      "conname": "material_chunks_content_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((length(content) > 0))"
+    },
+    {
+      "table_name": "material_chunks",
+      "conname": "material_chunks_content_hash_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((length((content_hash)::text) = 64))"
+    },
+    {
+      "table_name": "material_chunks",
+      "conname": "material_chunks_embedding_config_version_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((embedding_config_version >= 1))"
+    },
+    {
+      "table_name": "material_chunks",
+      "conname": "material_chunks_embedding_dimension_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((embedding_dimension = 1024))"
+    },
+    {
+      "table_name": "material_chunks",
+      "conname": "material_chunks_embedding_model_config_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (embedding_model_config_id) REFERENCES model_configs(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "material_chunks",
+      "conname": "material_chunks_material_revision_id_chunk_index_embedding__key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (material_revision_id, chunk_index, embedding_model_config_id, embedding_config_version)"
+    },
+    {
+      "table_name": "material_chunks",
+      "conname": "material_chunks_material_revision_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (material_revision_id) REFERENCES material_revisions(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "material_chunks",
+      "conname": "material_chunks_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "material_embedding_runs",
+      "conname": "material_embedding_runs_async_job_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (async_job_id) REFERENCES async_jobs(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "material_embedding_runs",
+      "conname": "material_embedding_runs_async_job_id_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (async_job_id)"
+    },
+    {
+      "table_name": "material_embedding_runs",
+      "conname": "material_embedding_runs_attempts_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((attempts >= 1))"
+    },
+    {
+      "table_name": "material_embedding_runs",
+      "conname": "material_embedding_runs_embedding_config_version_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((embedding_config_version >= 1))"
+    },
+    {
+      "table_name": "material_embedding_runs",
+      "conname": "material_embedding_runs_embedding_model_config_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (embedding_model_config_id) REFERENCES model_configs(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "material_embedding_runs",
+      "conname": "material_embedding_runs_material_revision_id_embedding_mode_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (material_revision_id, embedding_model_config_id, embedding_config_version)"
+    },
+    {
+      "table_name": "material_embedding_runs",
+      "conname": "material_embedding_runs_material_revision_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (material_revision_id) REFERENCES material_revisions(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "material_embedding_runs",
+      "conname": "material_embedding_runs_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "material_embedding_runs",
+      "conname": "material_embedding_runs_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('pending'::character varying)::text, ('running'::character varying)::text, ('succeeded'::character varying)::text, ('failed'::character varying)::text])))"
+    },
+    {
+      "table_name": "material_favorites",
+      "conname": "material_favorites_material_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "material_favorites",
+      "conname": "material_favorites_material_id_user_id_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (material_id, user_id)"
+    },
+    {
+      "table_name": "material_favorites",
+      "conname": "material_favorites_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "material_favorites",
+      "conname": "material_favorites_user_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "material_files",
+      "conname": "material_files_material_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "material_files",
+      "conname": "material_files_material_id_stored_object_id_role_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (material_id, stored_object_id, role)"
+    },
+    {
+      "table_name": "material_files",
+      "conname": "material_files_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "material_files",
+      "conname": "material_files_stored_object_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (stored_object_id) REFERENCES stored_objects(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "material_ready_events",
+      "conname": "material_ready_events_event_key_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (event_key)"
+    },
+    {
+      "table_name": "material_ready_events",
+      "conname": "material_ready_events_material_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "material_ready_events",
+      "conname": "material_ready_events_material_revision_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (material_revision_id) REFERENCES material_revisions(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "material_ready_events",
+      "conname": "material_ready_events_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "material_relations",
+      "conname": "material_relations_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((source_material_id <> target_material_id))"
+    },
+    {
+      "table_name": "material_relations",
+      "conname": "material_relations_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "material_relations",
+      "conname": "material_relations_relation_type_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((relation_type)::text = ANY (ARRAY[('duplicate_of'::character varying)::text, ('update_of'::character varying)::text, ('related_to'::character varying)::text])))"
+    },
+    {
+      "table_name": "material_relations",
+      "conname": "material_relations_source_material_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (source_material_id) REFERENCES materials(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "material_relations",
+      "conname": "material_relations_source_material_id_target_material_id_re_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (source_material_id, target_material_id, relation_type)"
+    },
+    {
+      "table_name": "material_relations",
+      "conname": "material_relations_target_material_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (target_material_id) REFERENCES materials(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "material_revisions",
+      "conname": "material_revisions_created_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "material_revisions",
+      "conname": "material_revisions_created_from_result_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (created_from_result_id) REFERENCES collection_results(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "material_revisions",
+      "conname": "material_revisions_file_ids_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((jsonb_typeof(file_ids) = 'array'::text))"
+    },
+    {
+      "table_name": "material_revisions",
+      "conname": "material_revisions_id_material_id_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (id, material_id)"
+    },
+    {
+      "table_name": "material_revisions",
+      "conname": "material_revisions_material_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "material_revisions",
+      "conname": "material_revisions_material_id_revision_no_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (material_id, revision_no)"
+    },
+    {
+      "table_name": "material_revisions",
+      "conname": "material_revisions_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "material_revisions",
+      "conname": "material_revisions_revision_no_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((revision_no >= 1))"
+    },
+    {
+      "table_name": "material_tags",
+      "conname": "material_tags_material_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "material_tags",
+      "conname": "material_tags_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (material_id, tag_id)"
+    },
+    {
+      "table_name": "material_tags",
+      "conname": "material_tags_tag_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "materials",
+      "conname": "fk_materials_current_revision",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (current_revision_id, id) REFERENCES material_revisions(id, material_id) DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "table_name": "materials",
+      "conname": "materials_category_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (category_id) REFERENCES material_categories(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "materials",
+      "conname": "materials_created_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "materials",
+      "conname": "materials_origin_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((origin)::text = ANY (ARRAY[('collection'::character varying)::text, ('upload'::character varying)::text, ('link'::character varying)::text, ('manual'::character varying)::text, ('article'::character varying)::text, ('enterprise'::character varying)::text])))"
+    },
+    {
+      "table_name": "materials",
+      "conname": "materials_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "materials",
+      "conname": "materials_usage_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((usage_status)::text = ANY (ARRAY[('pending_review'::character varying)::text, ('ready_to_use'::character varying)::text, ('partially_used'::character varying)::text, ('used'::character varying)::text, ('archived'::character varying)::text, ('duplicate'::character varying)::text])))"
+    },
+    {
+      "table_name": "model_configs",
+      "conname": "model_configs_config_version_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((config_version >= 1))"
+    },
+    {
+      "table_name": "model_configs",
+      "conname": "model_configs_max_input_tokens_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((max_input_tokens > 0))"
+    },
+    {
+      "table_name": "model_configs",
+      "conname": "model_configs_max_output_tokens_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((max_output_tokens > 0))"
+    },
+    {
+      "table_name": "model_configs",
+      "conname": "model_configs_name_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (name)"
+    },
+    {
+      "table_name": "model_configs",
+      "conname": "model_configs_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "model_configs",
+      "conname": "model_configs_purpose_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((purpose)::text = ANY (ARRAY[('analysis'::character varying)::text, ('generation'::character varying)::text, ('embedding'::character varying)::text])))"
+    },
+    {
+      "table_name": "model_configs",
+      "conname": "model_configs_timeout_seconds_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((timeout_seconds >= 1) AND (timeout_seconds <= 600)))"
+    },
+    {
+      "table_name": "notification_preferences",
+      "conname": "notification_preferences_category_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((category)::text = ANY (ARRAY[('collection'::character varying)::text, ('creation'::character varying)::text, ('review'::character varying)::text, ('publishing'::character varying)::text, ('exception'::character varying)::text])))"
+    },
+    {
+      "table_name": "notification_preferences",
+      "conname": "notification_preferences_channel_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((channel)::text = 'in_app'::text))"
+    },
+    {
+      "table_name": "notification_preferences",
+      "conname": "notification_preferences_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (user_id, category, channel)"
+    },
+    {
+      "table_name": "notification_preferences",
+      "conname": "notification_preferences_user_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "notifications",
+      "conname": "notifications_category_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((category)::text = ANY (ARRAY[('collection'::character varying)::text, ('creation'::character varying)::text, ('review'::character varying)::text, ('publishing'::character varying)::text, ('exception'::character varying)::text])))"
+    },
+    {
+      "table_name": "notifications",
+      "conname": "notifications_channel_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((channel)::text = 'in_app'::text))"
+    },
+    {
+      "table_name": "notifications",
+      "conname": "notifications_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "notifications",
+      "conname": "notifications_recipient_id_event_key_channel_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (recipient_id, event_key, channel)"
+    },
+    {
+      "table_name": "notifications",
+      "conname": "notifications_recipient_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (recipient_id) REFERENCES users(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "notifications",
+      "conname": "notifications_required_permission_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (required_permission) REFERENCES permissions(code)"
+    },
+    {
+      "table_name": "operation_logs",
+      "conname": "operation_logs_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "operation_logs",
+      "conname": "operation_logs_result_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((result)::text = ANY (ARRAY[('success'::character varying)::text, ('denied'::character varying)::text, ('failed'::character varying)::text])))"
+    },
+    {
+      "table_name": "operation_logs",
+      "conname": "operation_logs_user_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL"
+    },
+    {
+      "table_name": "outbox_events",
+      "conname": "outbox_events_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "outbox_events",
+      "conname": "outbox_events_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('pending'::character varying)::text, ('dispatched'::character varying)::text, ('failed'::character varying)::text])))"
+    },
+    {
+      "table_name": "permissions",
+      "conname": "permissions_code_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (code)"
+    },
+    {
+      "table_name": "permissions",
+      "conname": "permissions_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "publish_attempts",
+      "conname": "publish_attempts_attempt_no_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((attempt_no > 0))"
+    },
+    {
+      "table_name": "publish_attempts",
+      "conname": "publish_attempts_order_id_attempt_no_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (order_id, attempt_no)"
+    },
+    {
+      "table_name": "publish_attempts",
+      "conname": "publish_attempts_order_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (order_id) REFERENCES publish_orders(id)"
+    },
+    {
+      "table_name": "publish_attempts",
+      "conname": "publish_attempts_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "publish_attempts",
+      "conname": "publish_attempts_reconciled_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (reconciled_by) REFERENCES users(id)"
+    },
+    {
+      "table_name": "publish_attempts",
+      "conname": "publish_attempts_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('preparing'::character varying)::text, ('submitting'::character varying)::text, ('publishing'::character varying)::text, ('unknown'::character varying)::text, ('succeeded'::character varying)::text, ('failed'::character varying)::text])))"
+    },
+    {
+      "table_name": "publish_orders",
+      "conname": "publish_orders_account_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (account_id) REFERENCES wechat_accounts(id)"
+    },
+    {
+      "table_name": "publish_orders",
+      "conname": "publish_orders_article_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (article_id) REFERENCES articles(id)"
+    },
+    {
+      "table_name": "publish_orders",
+      "conname": "publish_orders_article_revision_id_article_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (article_revision_id, article_id) REFERENCES article_revisions(id, article_id)"
+    },
+    {
+      "table_name": "publish_orders",
+      "conname": "publish_orders_async_job_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (async_job_id) REFERENCES async_jobs(id)"
+    },
+    {
+      "table_name": "publish_orders",
+      "conname": "publish_orders_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((((mode)::text = 'immediate'::text) AND (scheduled_at IS NULL)) OR (((mode)::text = 'scheduled'::text) AND (scheduled_at IS NOT NULL))))"
+    },
+    {
+      "table_name": "publish_orders",
+      "conname": "publish_orders_check1",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((confirmed_by IS NULL) = (confirmed_at IS NULL)))"
+    },
+    {
+      "table_name": "publish_orders",
+      "conname": "publish_orders_confirmed_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (confirmed_by) REFERENCES users(id)"
+    },
+    {
+      "table_name": "publish_orders",
+      "conname": "publish_orders_created_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (created_by) REFERENCES users(id)"
+    },
+    {
+      "table_name": "publish_orders",
+      "conname": "publish_orders_mode_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((mode)::text = ANY (ARRAY[('immediate'::character varying)::text, ('scheduled'::character varying)::text])))"
+    },
+    {
+      "table_name": "publish_orders",
+      "conname": "publish_orders_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "publish_orders",
+      "conname": "publish_orders_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('awaiting_confirmation'::character varying)::text, ('confirmed'::character varying)::text, ('preparing'::character varying)::text, ('submitting'::character varying)::text, ('publishing'::character varying)::text, ('unknown'::character varying)::text, ('succeeded'::character varying)::text, ('failed'::character varying)::text, ('cancelled'::character varying)::text])))"
+    },
+    {
+      "table_name": "reviews",
+      "conname": "reviews_action_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((action)::text = ANY (ARRAY[('approve'::character varying)::text, ('return'::character varying)::text, ('reject'::character varying)::text])))"
+    },
+    {
+      "table_name": "reviews",
+      "conname": "reviews_article_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "reviews",
+      "conname": "reviews_article_revision_id_article_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (article_revision_id, article_id) REFERENCES article_revisions(id, article_id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "reviews",
+      "conname": "reviews_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((((action)::text = 'approve'::text) OR (length(TRIM(BOTH FROM comment)) > 0)))"
+    },
+    {
+      "table_name": "reviews",
+      "conname": "reviews_checklist_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((jsonb_typeof(checklist) = 'object'::text))"
+    },
+    {
+      "table_name": "reviews",
+      "conname": "reviews_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "reviews",
+      "conname": "reviews_reviewer_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (reviewer_id) REFERENCES users(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "role_permissions",
+      "conname": "role_permissions_permission_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (permission_id) REFERENCES permissions(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "role_permissions",
+      "conname": "role_permissions_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (role_id, permission_id)"
+    },
+    {
+      "table_name": "role_permissions",
+      "conname": "role_permissions_role_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "roles",
+      "conname": "roles_name_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (name)"
+    },
+    {
+      "table_name": "roles",
+      "conname": "roles_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "search_configs",
+      "conname": "search_configs_config_version_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((config_version >= 1))"
+    },
+    {
+      "table_name": "search_configs",
+      "conname": "search_configs_max_results_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((max_results >= 1) AND (max_results <= 20)))"
+    },
+    {
+      "table_name": "search_configs",
+      "conname": "search_configs_name_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (name)"
+    },
+    {
+      "table_name": "search_configs",
+      "conname": "search_configs_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "search_configs",
+      "conname": "search_configs_provider_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((provider)::text = 'tavily'::text))"
+    },
+    {
+      "table_name": "sessions",
+      "conname": "sessions_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "sessions",
+      "conname": "sessions_token_hash_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (token_hash)"
+    },
+    {
+      "table_name": "sessions",
+      "conname": "sessions_user_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "stored_objects",
+      "conname": "stored_objects_bucket_object_key_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (bucket, object_key)"
+    },
+    {
+      "table_name": "stored_objects",
+      "conname": "stored_objects_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "stored_objects",
+      "conname": "stored_objects_size_bytes_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((size_bytes >= 0))"
+    },
+    {
+      "table_name": "stored_objects",
+      "conname": "stored_objects_uploader_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (uploader_id) REFERENCES users(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "system_settings",
+      "conname": "system_settings_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (key)"
+    },
+    {
+      "table_name": "system_settings",
+      "conname": "system_settings_updated_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (updated_by) REFERENCES users(id)"
+    },
+    {
+      "table_name": "system_settings",
+      "conname": "system_settings_value_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((jsonb_typeof(value) = 'object'::text))"
+    },
+    {
+      "table_name": "system_settings",
+      "conname": "system_settings_version_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((version > 0))"
+    },
+    {
+      "table_name": "tags",
+      "conname": "tags_name_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (name)"
+    },
+    {
+      "table_name": "tags",
+      "conname": "tags_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "upload_grants",
+      "conname": "upload_grants_bucket_object_key_created_at_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (bucket, object_key, created_at)"
+    },
+    {
+      "table_name": "upload_grants",
+      "conname": "upload_grants_max_bytes_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((max_bytes > 0))"
+    },
+    {
+      "table_name": "upload_grants",
+      "conname": "upload_grants_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "upload_grants",
+      "conname": "upload_grants_token_hash_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (token_hash)"
+    },
+    {
+      "table_name": "upload_grants",
+      "conname": "upload_grants_user_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "user_roles",
+      "conname": "user_roles_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (user_id, role_id)"
+    },
+    {
+      "table_name": "user_roles",
+      "conname": "user_roles_role_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE RESTRICT"
+    },
+    {
+      "table_name": "user_roles",
+      "conname": "user_roles_user_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "users",
+      "conname": "users_account_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (account)"
+    },
+    {
+      "table_name": "users",
+      "conname": "users_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "users",
+      "conname": "users_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('active'::character varying)::text, ('disabled'::character varying)::text])))"
+    },
+    {
+      "table_name": "wechat_accounts",
+      "conname": "wechat_accounts_account_type_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((account_type)::text = ANY (ARRAY[('subscription'::character varying)::text, ('service'::character varying)::text])))"
+    },
+    {
+      "table_name": "wechat_accounts",
+      "conname": "wechat_accounts_app_id_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (app_id)"
+    },
+    {
+      "table_name": "wechat_accounts",
+      "conname": "wechat_accounts_created_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (created_by) REFERENCES users(id)"
+    },
+    {
+      "table_name": "wechat_accounts",
+      "conname": "wechat_accounts_credential_version_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((credential_version > 0))"
+    },
+    {
+      "table_name": "wechat_accounts",
+      "conname": "wechat_accounts_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "wechat_accounts",
+      "conname": "wechat_accounts_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('active'::character varying)::text, ('invalid'::character varying)::text, ('unbound'::character varying)::text])))"
+    },
+    {
+      "table_name": "wechat_draft_attempts",
+      "conname": "wechat_draft_attempts_attempt_no_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((attempt_no > 0))"
+    },
+    {
+      "table_name": "wechat_draft_attempts",
+      "conname": "wechat_draft_attempts_delivery_id_attempt_no_key",
+      "contype": "u",
+      "convalidated": true,
+      "definition": "UNIQUE (delivery_id, attempt_no)"
+    },
+    {
+      "table_name": "wechat_draft_attempts",
+      "conname": "wechat_draft_attempts_delivery_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (delivery_id) REFERENCES wechat_draft_deliveries(id)"
+    },
+    {
+      "table_name": "wechat_draft_attempts",
+      "conname": "wechat_draft_attempts_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "wechat_draft_attempts",
+      "conname": "wechat_draft_attempts_reconciled_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (reconciled_by) REFERENCES users(id)"
+    },
+    {
+      "table_name": "wechat_draft_attempts",
+      "conname": "wechat_draft_attempts_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('preparing'::character varying)::text, ('syncing'::character varying)::text, ('unknown'::character varying)::text, ('synced'::character varying)::text, ('failed'::character varying)::text])))"
+    },
+    {
+      "table_name": "wechat_draft_deliveries",
+      "conname": "wechat_draft_deliveries_account_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (account_id) REFERENCES wechat_accounts(id)"
+    },
+    {
+      "table_name": "wechat_draft_deliveries",
+      "conname": "wechat_draft_deliveries_article_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (article_id) REFERENCES articles(id)"
+    },
+    {
+      "table_name": "wechat_draft_deliveries",
+      "conname": "wechat_draft_deliveries_article_revision_id_article_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (article_revision_id, article_id) REFERENCES article_revisions(id, article_id)"
+    },
+    {
+      "table_name": "wechat_draft_deliveries",
+      "conname": "wechat_draft_deliveries_async_job_id_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (async_job_id) REFERENCES async_jobs(id)"
+    },
+    {
+      "table_name": "wechat_draft_deliveries",
+      "conname": "wechat_draft_deliveries_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((((status)::text <> 'awaiting_manual_publish'::text) OR (remote_media_id IS NOT NULL)))"
+    },
+    {
+      "table_name": "wechat_draft_deliveries",
+      "conname": "wechat_draft_deliveries_check1",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK ((((status)::text <> 'manual_published'::text) OR ((remote_media_id IS NOT NULL) AND (manual_published_by IS NOT NULL) AND (manual_published_at IS NOT NULL) AND (manual_article_url IS NOT NULL) AND (manual_note IS NOT NULL) AND (length(TRIM(BOTH FROM manual_note)) > 0) AND (publication_source IS NOT NULL))))"
+    },
+    {
+      "table_name": "wechat_draft_deliveries",
+      "conname": "wechat_draft_deliveries_confirmed_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (confirmed_by) REFERENCES users(id)"
+    },
+    {
+      "table_name": "wechat_draft_deliveries",
+      "conname": "wechat_draft_deliveries_manual_published_by_fkey",
+      "contype": "f",
+      "convalidated": true,
+      "definition": "FOREIGN KEY (manual_published_by) REFERENCES users(id)"
+    },
+    {
+      "table_name": "wechat_draft_deliveries",
+      "conname": "wechat_draft_deliveries_pkey",
+      "contype": "p",
+      "convalidated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "wechat_draft_deliveries",
+      "conname": "wechat_draft_deliveries_publication_source_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((publication_source)::text = 'operator'::text))"
+    },
+    {
+      "table_name": "wechat_draft_deliveries",
+      "conname": "wechat_draft_deliveries_status_check",
+      "contype": "c",
+      "convalidated": true,
+      "definition": "CHECK (((status)::text = ANY (ARRAY[('pending'::character varying)::text, ('preparing'::character varying)::text, ('syncing'::character varying)::text, ('unknown'::character varying)::text, ('awaiting_manual_publish'::character varying)::text, ('manual_published'::character varying)::text, ('failed'::character varying)::text, ('cancelled'::character varying)::text])))"
+    }
+  ],
+  "rollback_policy": "Only additive 0022 schema rollback demonstrated; earlier business migrations require coordinated snapshot restore"
+}

@@ -52,15 +52,13 @@ class RuleIn(BaseModel):
     model_config_id: UUID
     prompt: str = Field(default="", max_length=10000)
     require_analysis: bool = False
-    target_account_id: UUID | None = Field(default=None, description="阶段 7 接入前必须为空")
+    target_account_id: UUID | None = Field(default=None, description="建议目标公众号；仍须人工审核和逐单确认发布")
     enabled: bool = True
 
     @model_validator(mode="after")
     def validate_rule(self):
         if self.min_words > self.max_words:
             raise ValueError("最小字数不能大于最大字数")
-        if self.target_account_id is not None:
-            raise ValueError("目标账号尚未接入")
         if self.trigger_type == "schedule" and not self.trigger_config.cron:
             raise ValueError("定时触发需要 cron")
         if self.trigger_config.cron and not croniter.is_valid(self.trigger_config.cron):

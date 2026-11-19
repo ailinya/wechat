@@ -25,6 +25,8 @@ dependencies = [
     "langgraph>=1,<2",
     "croniter>=6,<7",
     "tzdata>=2025.2",
+    "markdown-it-py>=3,<5",
+    "cryptography>=44,<48",
 ]
 
 [dependency-groups]

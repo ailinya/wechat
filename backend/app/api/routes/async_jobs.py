@@ -11,7 +11,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, Query
 
-from app.api.deps import CurrentUserDep, DbSession
+from app.api.deps import CurrentUserDep, DbSession, verify_csrf
 from app.api.responses import error_responses
 from app.errors import ApiError
 from app.services import audit_service
@@ -131,10 +131,12 @@ async def get_job(job_id: UUID, db: DbSession, user: CurrentUserDep) -> AsyncJob
     },
     summary="取消待执行或执行中的任务",
 )
-async def cancel_job(job_id: UUID, db: DbSession, user: CurrentUserDep) -> AsyncJobOut:
+async def cancel_job(job_id: UUID, db: DbSession, user: CurrentUserDep, _csrf=Depends(verify_csrf)) -> AsyncJobOut:
     row = repo.get_job(db.connection(), job_id)
     if not row:
         raise ApiError(404, "not_found", "任务不存在")
+    if row['job_type'] in ('publish.execute', 'account.sync', 'wechat.draft'):
+        raise ApiError(409, 'job_not_cancellable', '该任务请使用业务页面处理；发布只能在未执行时取消订单')
     if row["created_by"] != user.id:
         audit_service.record_operation(
             db.connection(), user_id=user.id, action="async_job.cancel",

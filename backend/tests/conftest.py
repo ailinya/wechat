@@ -34,10 +34,10 @@ def reset_schema() -> None:
     with engine.connect() as conn:
         conn.execute(
             text(
-                "DROP TABLE IF EXISTS article_materials, article_revisions, articles, "
+                "DROP TABLE IF EXISTS account_article_metrics, notifications, notification_preferences, system_settings, wechat_draft_attempts, wechat_draft_deliveries, publish_attempts, publish_orders, account_synced_materials, account_sync_runs, wechat_accounts, reviews, article_materials, article_revisions, articles, "
                 "creation_consumed_events, creation_outputs, creation_task_materials, creation_tasks, "
                 "creation_rule_collection_tasks, creation_rules, collection_searches, collection_candidate_discoveries, "
-                "material_embedding_runs, material_chunks, material_ready_events, collection_analyses, "
+                "material_embedding_runs, material_chunk_search_vectors, material_search_vectors, material_chunks, material_ready_events, collection_analyses, "
                 "collection_snapshots, collection_stage_attempts, collection_candidates, "
                 "search_configs, model_configs, "
                 "collection_results, collection_runs, "

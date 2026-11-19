@@ -11,7 +11,8 @@ from datetime import datetime
 from typing import Literal
 from uuid import UUID
 
-from pydantic import BaseModel, Field, ConfigDict, model_validator
+from pydantic import BaseModel, Field, ConfigDict, model_validator, field_validator
+from urllib.parse import urlsplit
 
 from app.schemas.common import TimestampedModel
 
@@ -25,13 +26,28 @@ class ModelConfigIn(BaseModel):
     endpoint: str = Field(min_length=1, max_length=512)
     model_name: str = Field(min_length=1, max_length=128, examples=["gpt-4o-mini"])
     credential_ref: str | None = Field(
-        default=None, max_length=255, description="外部凭据引用标识，非明文"
+        default=None, max_length=255, pattern=r'^[A-Z][A-Z0-9_]*$', description="环境变量凭据引用，非明文"
     )
     enabled: bool = True
     max_input_tokens: int = Field(default=8000, ge=1)
     max_output_tokens: int = Field(default=2000, ge=1)
     timeout_seconds: int = Field(default=60, ge=1, le=600)
     params: dict = Field(default_factory=dict)
+
+    @field_validator('endpoint')
+    @classmethod
+    def safe_endpoint(cls, value):
+        url = urlsplit(value)
+        if url.scheme not in ('https','http') or not url.hostname or url.username or url.password or url.query or url.fragment:
+            raise ValueError('接口地址须为HTTP(S)，不包含凭据、查询参数或片段')
+        return value
+
+    @field_validator('params')
+    @classmethod
+    def safe_params(cls, value):
+        if value:
+            raise ValueError('当前仅支持明确的输入/输出上限和超时参数，自定义参数尚未接入')
+        return value
 
 
 class ModelConfigOut(TimestampedModel):
@@ -61,12 +77,17 @@ class ModelConnectionTestOut(BaseModel):
 class ModelConfigUpdateIn(BaseModel):
     model_config = ConfigDict(extra="forbid")
     enabled: bool | None = None
-    credential_ref: str | None = Field(default=None, max_length=255)
+    credential_ref: str | None = Field(default=None, max_length=255, pattern=r'^[A-Z][A-Z0-9_]*$')
     endpoint: str | None = Field(default=None, min_length=1, max_length=512)
     model_name: str | None = Field(default=None, min_length=1, max_length=128)
     max_input_tokens: int | None = Field(default=None, ge=1)
     max_output_tokens: int | None = Field(default=None, ge=1)
     timeout_seconds: int | None = Field(default=None, ge=1, le=600)
+
+    @field_validator('endpoint')
+    @classmethod
+    def safe_endpoint(cls, value):
+        return ModelConfigIn.safe_endpoint(value) if value is not None else value
 
     @model_validator(mode="after")
     def reject_null_settings(self):

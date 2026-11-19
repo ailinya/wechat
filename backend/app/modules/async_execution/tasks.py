@@ -36,3 +36,29 @@ def _system_healthcheck(ctx) -> None:
 
 
 register_handler("system.healthcheck", _system_healthcheck)
+
+from app.modules.async_execution.registry import register_engine_handler
+from app.services.wechat_sync_worker import sync_job
+from app.services.publishing_worker import publish_job, schedule_once
+from app.services.wechat_draft_worker import draft_job, recover_stale
+from app.database import get_engine
+from app.config import load_settings
+
+register_engine_handler('account.sync', sync_job)
+register_engine_handler('publish.execute', publish_job)
+register_engine_handler('wechat.draft', draft_job)
+
+
+@celery_app.task(name='app.modules.async_execution.tasks.schedule_publications')
+def schedule_publications():
+    settings = load_settings()
+    with get_engine(settings).begin() as conn:
+        recover_stale(conn, settings.job_stale_timeout_minutes)
+    return schedule_once(get_engine(settings), settings)
+
+
+@celery_app.task(name='app.modules.async_execution.tasks.deliver_notifications')
+def deliver_notifications():
+    from app.services.notification_service import deliver
+    with get_engine(load_settings()).begin() as conn:
+        return {'delivered': deliver(conn)}

@@ -6,7 +6,7 @@ import { creationApi } from '../../shared/api/creation'
 
 vi.mock('../../app/AuthContext', () => { const hasPermission = () => true; return { useAuth: () => ({ hasPermission }) } })
 vi.mock('../materials/MaterialSearchPage', () => ({ MaterialSearchPage: () => <p>素材检索</p> }))
-vi.mock('../../shared/api/creation', () => ({ creationApi: { tasks: vi.fn(), rules: vi.fn(), models: vi.fn(), task: vi.fn(), outputs: vi.fn(), changeRule: vi.fn(), action: vi.fn() } }))
+vi.mock('../../shared/api/creation', () => ({ creationApi: { tasks: vi.fn(), rules: vi.fn(), models: vi.fn(), targetAccounts: vi.fn(), task: vi.fn(), outputs: vi.fn(), changeRule: vi.fn(), action: vi.fn() } }))
 vi.mock('../../shared/api/collection', () => ({ collectionApi: { listTasks: vi.fn().mockResolvedValue({ items: [] }) } }))
 
 const api = vi.mocked(creationApi)
@@ -18,6 +18,7 @@ beforeEach(() => {
   api.tasks.mockResolvedValue({ items: [task], total: 1, page: 1, page_size: 100 })
   api.rules.mockResolvedValue({ items: [rule], total: 1, page: 1, page_size: 100 })
   api.models.mockResolvedValue([{ id: 'model-1', name: '生成', model_name: 'model' }])
+  api.targetAccounts.mockResolvedValue([])
   api.task.mockResolvedValue(task)
   api.outputs.mockResolvedValue([])
   api.changeRule.mockResolvedValue(rule)

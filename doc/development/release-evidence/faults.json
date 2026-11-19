@@ -1,0 +1,12 @@
+{
+  "checked_at": "2026-11-19T07:00:00.918116+00:00",
+  "passed": true,
+  "checks": [
+    "broker_outage_durable_outbox_recovery",
+    "worker_restart_pending_job_once",
+    "object_storage_outage_readiness_and_recovery",
+    "model_timeout_retry_single_output"
+  ],
+  "external_services": "deterministic adapters; model timeout injected",
+  "real_publish_executed": false
+}

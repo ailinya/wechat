@@ -19,7 +19,7 @@ interface SavedSearch {
 
 const initial: SavedSearch = { query: '', scope: 'current', mode: 'hybrid', status: '', from: '', to: '', top: 20, min: 0, response: null, selected: [] }
 
-export function MaterialSearchPage({ topic = false, materialMode = false }: { topic?: boolean; materialMode?: boolean }) {
+export function MaterialSearchPage({ topic = false, materialMode = false, onPick }: { topic?: boolean; materialMode?: boolean; onPick?: (item: SearchItem) => void }) {
   const { hasPermission, user } = useAuth()
   const storageKey = `${topic ? (materialMode ? 'material-creation-search-v1' : 'topic-material-search-v1') : 'material-search-v1'}:${user?.id ?? 'anonymous'}`
   const [state, setState] = useState<SavedSearch>(() => {
@@ -92,6 +92,7 @@ export function MaterialSearchPage({ topic = false, materialMode = false }: { to
       <ul>{state.response.items.map(item => <li key={item.material_id}>
         {topic && <label><input type="checkbox" checked={state.selected.some(x => x.material_id === item.material_id)} onChange={() => toggle(item)} />选择</label>}{' '}
         <strong>{item.title}</strong> · 相关度 {item.relevance_score.toFixed(2)} · {item.usage_status}<br />
+        {onPick && <button type="button" onClick={() => onPick(item)}>引用该素材修订</button>}
         {item.snippet}<br />来源：{item.source.title || item.source.type}{item.source.url && /^https?:\/\//i.test(item.source.url) && <> · <a href={item.source.url} target="_blank" rel="noreferrer">查看来源</a></>}
         {item.published_at && <> · {new Date(item.published_at).toLocaleDateString()}</>}
       </li>)}</ul>

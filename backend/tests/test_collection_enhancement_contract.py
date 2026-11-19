@@ -87,7 +87,7 @@ def test_model_config_never_exposes_credential() -> None:
     incoming = ModelConfigIn(
         name="analysis 模型", provider="openai-compatible", purpose="analysis",
         endpoint="https://example.com/v1", model_name="gpt-4o-mini",
-        credential_ref="ref://secret-store/an",
+        credential_ref="ANALYSIS_API_KEY",
     )
     outgoing_fields = ModelConfigOut.model_fields
     assert "credential_configured" in outgoing_fields

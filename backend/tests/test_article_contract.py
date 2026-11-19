@@ -24,14 +24,12 @@ def test_article_openapi_exposes_conflict_and_review_contract():
     with contract_client([PermissionCode.ARTICLE_READ, PermissionCode.ARTICLE_WRITE]) as client:
         schema = client.get('/openapi.json').json()
         operation = schema['paths']['/api/v1/articles/{article_id}/revisions']['post']
-        assert {'201', '409', '422', '501'} <= set(operation['responses'])
+        assert {'201', '409', '422'} <= set(operation['responses'])
         conflict = operation['responses']['409']['content']['application/json']['examples']['revision_conflict']['value']
         assert conflict['error']['code'] == 'revision_conflict'
         assert 'base_revision_id' in schema['components']['schemas']['ArticleRevisionCreateIn']['required']
         review = schema['paths']['/api/v1/article-revisions/{revision_id}/reviews']
         assert {'get', 'post'} <= set(review)
-        response = client.post(f'/api/v1/articles/{uuid4()}/ai-actions', json={'base_revision_id': str(uuid4()), 'action': 'polish', 'model_config_id': str(uuid4())})
-        assert response.status_code == 501 and response.json()['error']['code'] == 'not_implemented'
         assert client.get('/api/v1/reviews/queue').status_code == 403
 
 
@@ -60,6 +58,6 @@ def test_stale_revision_returns_409_without_writing(client, db_engine):
     result = client.post(f'/api/v1/articles/{article_id}/revisions', headers=headers, json=payload)
     assert result.status_code == 409 and result.json()['error']['code'] == 'revision_conflict'
     result = client.post(f'/api/v1/articles/{article_id}/revisions', headers=headers, json={**payload, 'base_revision_id': str(revision_id)})
-    assert result.status_code == 501
+    assert result.status_code == 201
     with db_engine.begin() as conn:
-        assert conn.execute(text('SELECT count(*) FROM article_revisions WHERE article_id=:id'), {'id': article_id}).scalar_one() == 1
+        assert conn.execute(text('SELECT count(*) FROM article_revisions WHERE article_id=:id'), {'id': article_id}).scalar_one() == 2

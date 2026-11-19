@@ -79,6 +79,8 @@ class Settings(BaseSettings):
         default="http://127.0.0.1:9000",
         validation_alias="RUSTFS_ENDPOINT",
     )
+    rustfs_public_endpoint: str | None = Field(default=None, validation_alias='RUSTFS_PUBLIC_ENDPOINT')
+    rustfs_region: str = Field(default='us-east-1', validation_alias='RUSTFS_REGION')
     rustfs_access_key: str = Field(default="", validation_alias="RUSTFS_ACCESS_KEY")
     rustfs_secret_key: SecretStr = Field(
         default=SecretStr(""),

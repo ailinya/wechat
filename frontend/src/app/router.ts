@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from 'react'
 
+let navigationGuard: (() => boolean) | null = null
+export function setNavigationGuard(guard: (() => boolean) | null) { navigationGuard = guard }
+
 export interface Route {
   path: string
   query: URLSearchParams
@@ -17,7 +20,15 @@ export function useHashRoute(): Route {
   const [route, setRoute] = useState<Route>(parseHash)
 
   useEffect(() => {
-    const onChange = () => setRoute(parseHash())
+    let previousHash = window.location.hash
+    const onChange = () => {
+      if (navigationGuard && !navigationGuard()) {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search + previousHash)
+        return
+      }
+      previousHash = window.location.hash
+      setRoute(parseHash())
+    }
     window.addEventListener('hashchange', onChange)
     return () => window.removeEventListener('hashchange', onChange)
   }, [])

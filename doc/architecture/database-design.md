@@ -80,7 +80,7 @@
 | `articles` | `id`, `creation_task_id`, `origin_type`, `status`, `current_revision_id`, `created_by`, `created_at`, `updated_at` |
 | `article_revisions` | `id`, `article_id`, `version`, `title`, `author`, `keywords`, `summary`, `body_markdown`, `cover_object_id`, `layout_config`, `created_by`, `created_at`；版本不可变 |
 | `article_materials` | `article_revision_id`, `material_id`, `reference_order`；该文章版本实际引用素材 |
-| `reviews` | `id`, `article_revision_id`, `reviewer_id`, `action`, `checklist`, `comment`, `created_at`；每次审核/复审新建记录 |
+| `reviews` | `id`, `article_id`, `article_revision_id`, `reviewer_id`, `action`, `checklist`, `comment`, `created_at`；每次审核/复审新建记录；复合外键保证文章与修订一致 |
 
 `creation_task_materials` 表示创作任务检索/采用的素材；`article_materials` 表示文章版本实际引用，两者不可合并。文章关键词以数组或关系表保存，不存逗号拼接字符串。审核项使用稳定 key，例如 `title_accurate`、`facts_traceable`、`sources_valid`、`image_rights_checked`。
 
@@ -150,3 +150,39 @@
 
 实施补充（3.22–3.27）：0009/0010 修复 analysis scope 长度并保存输入快照/hash、配置/主题上下文和目标修订；0011 为 collection_runs 增加执行租约，为候选增加唯一 result_id 映射并约束阶段 attempt 唯一；0012 保存按来源的 discovery_state。material_ready_events 的 event_key 使用素材/修订组合的 SHA-256（64 字符），同修订仅生成一次就绪事件，与 outbox 同事务写入。尚无阶段 5 消费任务的 material.ready 保持待消费。旧数据升级与应用回退验证见 [增强验收记录](../development/phase-03-enhancement.md)。
 
+
+## 阶段7直连与发布落地
+
+新增 0018_wechat_accounts / 0019_publish_orders：wechat_accounts 保存不可变 AppID、加密 Secret/token、实际到期点、凭据版本、人工确认与只读探测能力；默认账号部分唯一索引保证最多一个。account_sync_runs 保存运行计数与历史，account_synced_materials 对账号/media_id/图文项序号唯一；creation_rules.target_account_id 补账号外键。
+
+publish_orders 用复合外键绑定文章修订，保存账号、方式/UTC时间、评论参数快照及确认者/时间；同账号同修订最多一个非失败/取消订单。publish_attempts 的 (order_id,attempt_no) 唯一，保留草稿ID、publish_id、阶段、外部结果和核对记录；未知提交不重置为待执行。文章审核状态独立，列表提供各账号订单 publish_summary；单账号成功不掩盖其他失败。完整字段以迁移和 OpenAPI 为准，见 [直连设计](wechat-direct-design.md) 与 [阶段7验收记录](../development/phase-07.md)。
+
+
+### 0020：微信草稿交付与人工发布登记
+
+`wechat_draft_deliveries` 通过修订/文章复合外键绑定审核版本，关联账号和 async_jobs，保存评论参数快照、运营确认、远端草稿 media_id、独立状态和错误。非 failed/cancelled 的同修订/账号部分唯一索引防重复交付；人工登记保存 operator 来源、操作者/时间、文章链接和非空说明。`wechat_draft_attempts` 的 (delivery_id,attempt_no) 唯一，保留写入阶段、用于核对的私有 expected_payload、media_id、错误、核对者和说明。同步成功要求草稿ID，人工登记要求证据字段。交付/尝试均保留历史，不与 publish_orders/attempts 混用；仅人工登记会将当前版本文章更新为 published。
+
+迁移回退再升级仅在独立测试库验证；业务部署先备份并执行 alembic upgrade head，再重启 API/Worker/Beat/dispatcher。应用回退保留新表，禁止将测试清库步骤用于业务库。
+
+
+## 0021：运营管理落地
+
+system_settings以key单例保存平台JSON、version、更新者和时间；平台记录默认Asia/Shanghai，以乐观版本更新。notification_preferences以(user_id,category,channel)为主键，保存各类站内偏好和更新时间。notifications以(recipient_id,event_key,channel)唯一，关联所需permission，保存真实事件时间、创建时间和独立read_at；接收者/未读索引支持隔离分页，列表和已读时再次复验当前权限。
+
+account_article_metrics关联账号、可空文章、微信外部msgid、群发日期、采集时间、availability及可空reads/likes/shares。非负校验、不可用状态禁止伪造数值、账号/外部文章/日期唯一；同日显式重采更新快照并保留最新采集时间。人工链接未能与msgid可靠映射时article_id为空，不凭标题强行关联。查询取所选采集区间每账号/外部文章的最近快照；旧快照有明确采集时间，失败另存不可用标识，不能当作实时0值。
+
+0021独立测试库回退至0020后再升级验证；业务库升级前备份，应用回退优先保留数据表而非破坏性downgrade。Beat每30秒从持久业务事实生成最多500条站内通知，唯一键防重；偏好关闭/重新启用依据更新时间避免补发关闭期间历史事件。站内渠道为本期唯一可用adapter，邮件/微信外发明确禁用。
+
+## 阶段9检索与运行交付
+
+0022_search_indexes 为 materials.title 与 material_revisions.content_markdown 增加存储型 search_terms、GIN、当前素材、来源关联及稳定分页复合索引。词项函数执行 NFKC/小写、中文二元词、Latin/数字词，并先去重重复词段；仅当前有效修订参与默认检索。material_chunks 使用1024位二值量化的 HNSW 表达式索引（m=8、ef_construction=32），原1024维向量保留用于余弦重排；ANN 候选是近似结果，不能承诺精确全库 top-k。
+
+空库全量迁移及带历史数据恢复副本的0022→0021→0022验证见阶段9；downgrade只删除本次新增列/索引/函数，正文、素材、引用、审核与交付历史不变。业务库回退优先使用兼容应用，较早业务schema回退使用联合快照恢复到新库/新桶。备份对象清单记录大小、SHA-256和版本ID，恢复工具拒绝覆盖已有桶并逐对象读回校验。运行期不将未知外部写入直接重置为pending。
+
+已投递 outbox 的作业标识表达式索引支持领取前消息丢失的安全恢复；只重投仍pending且超时的原作业，未改变外部未知状态的核对规则。
+
+### 0023：共享向量索引与分块映射
+
+同一模型配置及版本下，material_search_vectors 以原始向量二进制的SHA-256去重，保留1024维向量；material_chunk_search_vectors 将每个原始分块关联到索引向量。原 material_chunks.embedding 全部保留，原分块ID、修订、引用和执行记录不更改。触发器在分块插入/向量及配置更新时同事务维护映射，向量置空或删除分块时移除映射。失去引用的索引向量可保留，检索必须经映射回到当前有效且生成成功的分块，不能把它直接当素材返回。
+
+图索引建立在共享向量上（binary HNSW，m=16、ef_construction=128），防止大量重复向量破坏候选召回。先取得向量候选并以原始余弦排序，再经LATERAL查询关联当前素材，每个修订只保留一个分块。模型配置及版本仍强制隔离。索引向量与映射是可重建的派生结构，回退演练核对原业务记录哈希及重新建立后的映射一致性；联合备份仍包含全部表。

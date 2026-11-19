@@ -1,0 +1,70 @@
+# 复制为根目录 .env 并填写真实值。.env 已被 .gitignore 忽略，不得提交。
+# 启动：在仓库根目录执行 docker compose up -d
+# 若宿主机 5432/6379/9000/9001 已被占用，可改下面的 *_PORT 映射到其他宿主端口
+# （容器内端口不变），并同步更新 DATABASE_URL。
+
+# PostgreSQL + pgvector
+POSTGRES_DB=wetchat
+POSTGRES_USER=wetchat
+POSTGRES_PASSWORD=123456
+POSTGRES_PORT=5432
+
+# Redis（Celery broker）
+REDIS_PORT=6379
+
+# RustFS（对象存储）
+RUSTFS_ACCESS_KEY=rustfsadmin
+RUSTFS_SECRET_KEY=rustfsadmin
+RUSTFS_API_PORT=9000
+RUSTFS_CONSOLE_PORT=9001
+
+TEST_DATABASE_URL=postgresql+psycopg://wetchat:123456@127.0.0.1:5433/wetchat_test
+
+# 后端连接串（供应用与迁移使用；主机/端口/账号需与上面一致）。
+# 用 127.0.0.1 而非 localhost，避免本机 IPv6 解析导致连接挂起。
+DATABASE_URL=postgresql+psycopg://wetchat:123456@127.0.0.1:5432/wetchat
+
+# Redis（Celery broker；端口与上面 REDIS_PORT 一致，宿主机端口冲突时先改 *_PORT）
+REDIS_URL=redis://127.0.0.1:6379/0
+
+# RustFS（S3 兼容对象存储；RUSTFS_ENDPOINT 指向宿主机映射端口）
+RUSTFS_ENDPOINT=http://127.0.0.1:9000
+
+
+
+
+
+TAVILY_API_KEY=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
+# 异步任务约束（可选，以下为默认值）
+# JOB_MAX_ATTEMPTS=3
+# JOB_RETRY_BACKOFF_SECONDS=5
+# JOB_SOFT_TIME_LIMIT_SECONDS=300
+# JOB_STALE_TIMEOUT_MINUTES=30
+
+
+
+# Embedding（OpenAI 兼容；不配 Key 则用本地哈希向量降级）
+EMBEDDING_DIMENSION=1024
+EMBEDDING_BASE_URL=https://llm-vedqepe5bgo9y67l.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+EMBEDDING_MODEL=text-embedding-v3
+EMBEDDING_BATCH_SIZE=10
+# EMBEDDING_API_KEY=
+# DASHSCOPE_API_KEY=
+
+# RAG 混合检索（/rag/search、/ai/chat：关键词 + 向量 → RRF → rerank）
+RAG_HYBRID_TOP_K=20
+RAG_RRF_C=60
+RAG_RERANK_ENABLED=true
+RAG_RERANK_MODEL=qwen3-rerank
+# RERANK_API_KEY=
+# RERANK_BASE_URL=https://dashscope.aliyuncs.com
+# AI_CHAT_TIMEOUT_MS=60000
+
+# qwen-plus + 完整抽取 prompt 常超过 20s；超时后不再重试
+
+OPENAI_API_KEY=sk-fa52af59af6443959979d4f6e149c999   
+OPENAI_BASE_URL=https://llm-vedqepe5bgo9y67l.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+MODEL_NAME=qwen4-max
+
+WECHAT_APP_ID=wxca218832b54eaf95
+WECHAT_APP_SECRET=7b2e4c637c75197a2b6df728aed9fe7f

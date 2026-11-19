@@ -103,6 +103,11 @@ def generation_models(db: DbSession, _perm=WRITE):
     return [{**dict(row), "model_name": model_name or row["model_name"]} for row in rows]
 
 
+@tasks.get('/target-accounts', response_model=list[dict[str, str]])
+def target_accounts(db: DbSession, _perm=WRITE):
+    return [dict(row) for row in db.connection().execute(text("SELECT id::text,name FROM wechat_accounts WHERE status='active' AND capabilities->'drafts'->>'available'='true' ORDER BY name,id")).mappings()]
+
+
 @tasks.get("/{task_id}", response_model=CreationTaskOut)
 def get_task(task_id: UUID, db: DbSession, _perm=READ):
     return creation_service.get_task(db.connection(), task_id)

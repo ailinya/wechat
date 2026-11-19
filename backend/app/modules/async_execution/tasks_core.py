@@ -4,6 +4,8 @@ so tests can exercise the flow without broker configuration)."""
 from __future__ import annotations
 
 import time
+import logging
+from app.logging_config import safe_text
 
 from celery.exceptions import SoftTimeLimitExceeded
 
@@ -24,6 +26,7 @@ def execute_job(job_id: str, settings: Settings | None = None) -> dict:
     settings = settings or Settings.model_validate({})  # falls back to env
     max_attempts = settings.job_max_attempts
     backoff = settings.job_retry_backoff_seconds
+    started=time.monotonic()
 
     with session_for(settings) as conn:
         with conn.begin():
@@ -32,6 +35,8 @@ def execute_job(job_id: str, settings: Settings | None = None) -> dict:
                 return {"status": "unknown_job"}
             if not async_job_service.claim_job(conn, job_id):
                 return {"status": "skipped", "reason": "not_pending"}
+    context={'job_id':str(job_id),'job_type':job['job_type'],'resource_id':str(job['resource_id'])}
+    logging.getLogger(__name__).info('job.started',extra=context)
 
     handler = get_handler(job["job_type"])
     engine_handler = get_engine_handler(job["job_type"])
@@ -43,15 +48,19 @@ def execute_job(job_id: str, settings: Settings | None = None) -> dict:
         for attempt in range(max_attempts):
             try:
                 if engine_handler:
-                    engine_handler(get_engine(settings), job)
+                    outcome=engine_handler(get_engine(settings), job)
                 else:
                     with session_for(settings) as conn:
                         with conn.begin():
                             handler(JobContext(job_id=job_id, job_type=job["job_type"], payload=job["payload"], conn=conn))
+                    outcome=None
                 with session_for(settings) as conn:
                     with conn.begin():
-                        async_job_service.finish_job(conn, job_id, "succeeded")
-                return {"status": "succeeded"}
+                        failed=isinstance(outcome,dict) and outcome.get('status')=='failed'
+                        async_job_service.finish_job(conn,job_id,'failed' if failed else 'succeeded',last_error=safe_text(outcome.get('error') or 'business_execution_failed') if failed else None)
+                        final=async_job_service.get_job(conn,job_id)
+                logging.getLogger(__name__).info('job.finished',extra={**context,'status':final['status'],'duration_ms':round((time.monotonic()-started)*1000,2)})
+                return {'status':final['status']}
             except JobCancelled:
                 # Cancellation already wrote the terminal state; nothing further
                 # to do and no new artifacts were committed.
@@ -61,24 +70,23 @@ def execute_job(job_id: str, settings: Settings | None = None) -> dict:
                 break
             except Exception as exc:  # noqa: BLE001 - business failures are data
                 error = exc
-                last_error_text = f"{type(exc).__name__}: {exc}"[:500]
+                last_error_text = safe_text(f"{type(exc).__name__}: {exc}")[:500]
                 if attempt < max_attempts - 1 and backoff:
                     time.sleep(backoff)
     except LookupError as exc:
-        last_error_text = str(exc)[:500]
+        last_error_text = safe_text(str(exc))[:500]
 
     with session_for(settings) as conn:
         with conn.begin():
             async_job_service.finish_job(conn, job_id, "failed", last_error=last_error_text)
+    logging.getLogger(__name__).warning('job.failed',extra={**context,'duration_ms':round((time.monotonic()-started)*1000,2)})
     return {"status": "failed", "error": last_error_text}
 
 
 def reap_stale_jobs_once(settings: Settings | None = None) -> dict:
     settings = settings or Settings.model_validate({})
-    with session_for(settings) as conn:
-        with conn.begin():
-            reaped = async_job_service.reap_stale_jobs(conn, settings.job_stale_timeout_minutes)
-    return {"reaped": len(reaped), "jobs": [r["id"] for r in reaped]}
+    from app.services.runtime_service import recover_once
+    return recover_once(get_engine(settings),settings)
 
 
 def dispatch_outbox_once(settings: Settings | None = None) -> dict:

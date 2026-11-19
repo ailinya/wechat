@@ -62,7 +62,7 @@ def record_operation(
                 "object_type": object_type[:64],
                 "object_id": str(object_id) if object_id else None,
                 "result": result,
-                "detail": json.dumps(safe_detail, ensure_ascii=False),
+                "detail": json.dumps(safe_detail, ensure_ascii=False, default=str),
             },
         ).scalar_one()
         return str(row)

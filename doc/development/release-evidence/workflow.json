@@ -1,0 +1,32 @@
+{
+  "checked_at": "2026-11-19T08:53:38.775494+00:00",
+  "passed": true,
+  "checks": [
+    "collection",
+    "materialization",
+    "indexed_search",
+    "two_article_reuse",
+    "return_edit_reapprove",
+    "stale_approval_blocked",
+    "draft_timeout_reconcile_no_duplicate",
+    "operator_sourced_record",
+    "statistics",
+    "historical_citation_preserved"
+  ],
+  "records": {
+    "article_id": "9588a3bd-f947-438b-9ae5-2390ee6b1acb",
+    "revision_id": "4c0ab896-08bd-40a4-8153-c13fdf2d867e",
+    "material_id": "efba9a1b-5a39-43d3-91c6-4c8c27970843",
+    "material_revision_id": "0e9c54f1-a3fe-4cf1-8d24-cc88b98cd3e2",
+    "collection_run_id": "046f6e7a-2c4e-4cfb-a6c3-e872b8a3e9d9",
+    "creation_task_id": "6957d9a6-e95a-44af-897c-5cf38addfbe2",
+    "model_id": "6313efee-47bd-43c3-a164-ba760812675a",
+    "account_id": "985536bf-1a28-406a-a8ac-2532f620943b",
+    "cover_id": "9e79b0fb-663f-4436-b8b9-215070df93e9",
+    "delivery_id": "90dc8b66-5b78-4af8-83c7-c24959162dd9"
+  },
+  "infrastructure": "deployed containers; actual PostgreSQL/Redis/Worker/Beat/dispatcher/RustFS",
+  "external_services": "deterministic acceptance adapters",
+  "real_publish_executed": false,
+  "manual_publication": "simulated evidence"
+}

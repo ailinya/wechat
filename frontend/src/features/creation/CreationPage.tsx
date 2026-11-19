@@ -24,6 +24,7 @@ export function CreationPage() {
   const [trigger, setTrigger] = useState('manual')
   const [busy, setBusy] = useState(false)
   const [editing, setEditing] = useState<CreationRule | null>(null)
+  const [targetAccounts, setTargetAccounts] = useState<{ id: string; name: string }[]>([])
 
   const refresh = useCallback(async () => {
     try {
@@ -44,6 +45,7 @@ export function CreationPage() {
   useEffect(() => {
     if (view !== 'rules' || !writable) return
     void creationApi.models().then(setModels).catch(cause => setError(String(cause)))
+    void creationApi.targetAccounts().then(setTargetAccounts).catch(cause => setError(String(cause)))
     if (hasPermission('collection:read')) void collectionApi.listTasks(1, 100).then(page => setCollections(page.items)).catch(cause => setError(String(cause)))
   }, [view, writable, hasPermission])
 
@@ -63,7 +65,7 @@ export function CreationPage() {
       min_relevance: Number(value('min_relevance')), reference_count: Number(value('references')),
       batch_count: Number(value('batch')), article_type: value('article_type'), writing_style: value('style'),
       min_words: Number(value('min_words')), max_words: Number(value('max_words')),
-      model_config_id: value('model'), prompt: value('prompt'), require_analysis: data.get('analysis') === 'on' }
+      model_config_id: value('model'), prompt: value('prompt'), require_analysis: data.get('analysis') === 'on', target_account_id: value('target') || null }
     setBusy(true)
     try { if (editing) await creationApi.changeRule(editing.id, body); else await creationApi.saveRule(body); form.reset(); setEditing(null); setTrigger('manual'); await refresh() }
     catch (cause) { setError(cause instanceof Error ? cause.message : '保存规则失败') }
@@ -74,9 +76,10 @@ export function CreationPage() {
     {view === 'topic' && <MaterialSearchPage topic />}
     {view === 'material' && <MaterialSearchPage key="material" topic materialMode />}
     {error && <p role="alert">{error}</p>}
-    {view === 'rules' && <><h1>创作规则</h1><p>目标公众号将在账号管理接入后提供选择。</p>
+    {view === 'rules' && <><h1>创作规则</h1><p>目标公众号用于运营参考；生成文章仍需人工审核及逐单确认发布。</p>
       {writable && <form key={editing?.id || 'new'} className="collection-form" onSubmit={event => void saveRule(event)}>
         <h2>{editing ? '编辑规则' : '新建规则'}</h2><label>规则名称<input name="name" required defaultValue={editing?.name} /></label><label>主题<input name="topic" defaultValue={editing?.topic} /></label>
+        <label>建议目标公众号<select name="target" defaultValue={editing?.target_account_id || ''}><option value="">不指定</option>{targetAccounts.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}{editing?.target_account_id && !targetAccounts.some(item => item.id === editing.target_account_id) && <option value={editing.target_account_id} disabled>原目标账号当前不可用，请重新选择</option>}</select></label>
         <label>关联采集任务<select name="collections" multiple defaultValue={editing?.collection_task_ids}>{collections.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
         <label>触发方式<select name="trigger" value={trigger} onChange={e => setTrigger(e.target.value)}><option value="manual">人工</option><option value="collection_completed">采集完成</option><option value="schedule">定时</option><option value="new_material_count">新增素材数量</option></select></label>
         {trigger === 'schedule' && <label>定时 Cron<input name="cron" required placeholder="0 8 * * *" defaultValue={editing?.trigger_config.cron || ''} /></label>}

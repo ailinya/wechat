@@ -60,7 +60,8 @@ def test_logout_revokes_session(client: TestClient) -> None:
     me_before = client.get("/api/v1/auth/me")
     assert me_before.status_code == 200
 
-    logout = client.post("/api/v1/auth/logout")
+    assert client.post("/api/v1/auth/logout").status_code == 403
+    logout = client.post("/api/v1/auth/logout", headers={"X-CSRF-Token": client.cookies.get("wetchat_csrf")})
     assert logout.status_code == 200
     me_after = client.get("/api/v1/auth/me")
     assert me_after.status_code == 401
@@ -100,7 +101,11 @@ def test_editor_cannot_create_user_returns_403(client: TestClient) -> None:
 def test_csrf_required_for_write(client: TestClient) -> None:
     assert _login(client, "admin", "correct-password").status_code == 200
     csrf = client.cookies.get("wetchat_csrf")
-    client.cookies.set("wetchat_csrf", "")
+    # Remove the actual host cookie; setting an empty domainless cookie can
+    # leave the authenticated testserver.local cookie intact in httpx2.
+    for cookie in list(client.cookies.jar):
+        if cookie.name == 'wetchat_csrf':
+            client.cookies.delete(cookie.name, domain=cookie.domain, path=cookie.path)
     resp = client.post(
         "/api/v1/users",
         json={

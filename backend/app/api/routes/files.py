@@ -11,12 +11,15 @@ from __future__ import annotations
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Header
+from fastapi.responses import RedirectResponse
+from sqlalchemy import text
 
-from app.api.deps import CurrentUserDep, DbSession, get_settings
+from app.api.deps import CurrentUserDep, DbSession, get_settings, verify_csrf, require_permission
 from app.api.responses import error_responses, idempotency_conflict_response
 from app.config import Settings
 from app.errors import ApiError
 from app.schemas.common import ErrorEnvelope
+from app.schemas.auth import PermissionCode
 from app.schemas.files import (
     DownloadGrantOut,
     StoredObjectOut,
@@ -27,6 +30,20 @@ from app.schemas.files import (
 from app.services import audit_service, file_storage_service, idempotency_service
 
 router = APIRouter(prefix="/files", tags=["files"])
+
+
+@router.get('/{object_id}/image', status_code=307, response_class=RedirectResponse, responses=error_responses(401, 403, 404, 422), summary='文章图片受控访问，返回短期下载重定向')
+def article_image(object_id: UUID, db: DbSession, user: CurrentUserDep, settings: Settings = Depends(get_settings), _permission=Depends(require_permission(PermissionCode.ARTICLE_READ))):
+    if PermissionCode.ARTICLE_READ not in user.permissions:
+        raise ApiError(403, 'forbidden', '没有文章阅读权限')
+    conn = db.connection()
+    stored = conn.execute(text('SELECT content_type FROM stored_objects WHERE id=:id'), {'id': str(object_id)}).scalar()
+    if stored not in ('image/png', 'image/jpeg', 'image/webp', 'image/gif'):
+        raise ApiError(404, 'not_found', '图片不存在')
+    path = f'/api/v1/files/{object_id}/image'
+    referenced = conn.execute(text('SELECT 1 FROM article_revisions WHERE cover_object_id=:id OR strpos(body_markdown,:path)>0 LIMIT 1'), {'id': str(object_id), 'path': path}).scalar()
+    grant = file_storage_service.create_download_grant(conn, settings, user.id, str(object_id), has_resource_access=bool(referenced))
+    return RedirectResponse(grant['url'], status_code=307, headers={'Cache-Control': 'private, no-store'})
 
 GRANT_EXAMPLE = {
     "id": "c1a7d9e0-2b3c-4d5e-8f60-718293a4b5c6",
@@ -101,6 +118,7 @@ async def create_upload_grant(
     db: DbSession,
     user: CurrentUserDep,
     settings: Settings = Depends(get_settings),
+    _csrf=Depends(verify_csrf),
     idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
 ) -> UploadGrantOut:
     conn = db.connection()
@@ -193,6 +211,7 @@ async def complete_upload(
     db: DbSession,
     user: CurrentUserDep,
     settings: Settings = Depends(get_settings),
+    _csrf=Depends(verify_csrf),
 ) -> StoredObjectOut:
     stored = file_storage_service.complete_grant(
         db.connection(), settings, user.id, str(grant_id), payload.sha256
@@ -219,6 +238,7 @@ async def create_download_grant(
     db: DbSession,
     user: CurrentUserDep,
     settings: Settings = Depends(get_settings),
+    _csrf=Depends(verify_csrf),
 ) -> DownloadGrantOut:
     grant = file_storage_service.create_download_grant(
         db.connection(), settings, user.id, str(object_id), has_resource_access=False

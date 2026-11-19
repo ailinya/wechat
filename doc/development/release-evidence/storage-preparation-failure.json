@@ -1,0 +1,13 @@
+{
+  "checked_at": "2026-11-19T07:48:06.868597+00:00",
+  "passed": true,
+  "checks": [
+    "actual_rustfs_stop",
+    "preparation_failure_preserved",
+    "no_remote_write_before_storage_recovers",
+    "explicit_retry_single_remote_write",
+    "two_attempts_retained"
+  ],
+  "external_wechat": "deterministic adapter",
+  "real_publish_executed": false
+}

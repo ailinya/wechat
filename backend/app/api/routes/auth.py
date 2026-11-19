@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends, Request, Response
 
-from app.api.deps import DbSession
+from app.api.deps import DbSession, CurrentUserDep, verify_csrf
 from app.api.responses import error_responses
 from app.config import Settings
 from app.schemas.auth import CurrentUser, LoginRequest, LoginResponse
@@ -88,7 +88,7 @@ async def login(
     responses={**error_responses(401)},
     summary="注销当前会话",
 )
-async def logout(request: Request, response: Response, db: DbSession) -> OkResponse:
+async def logout(request: Request, response: Response, db: DbSession, _csrf=Depends(verify_csrf)) -> OkResponse:
     settings: Settings = request.app.state.settings
     _auth_service(request, db).logout(request.cookies.get(settings.session_cookie_name))
     response.delete_cookie(settings.session_cookie_name, path="/")
@@ -102,7 +102,5 @@ async def logout(request: Request, response: Response, db: DbSession) -> OkRespo
     responses={**error_responses(401, 403)},
     summary="获取当前用户与权限",
 )
-async def me(request: Request, db: DbSession) -> CurrentUser:
-    return _auth_service(request, db).current_user_from_token(
-        request.cookies.get(request.app.state.settings.session_cookie_name)
-    )
+async def me(user: CurrentUserDep) -> CurrentUser:
+    return user

@@ -4,7 +4,7 @@ import { useAuth } from '../../app/AuthContext'
 import { useFeedback } from '../../shared/components/feedback'
 import type { ModelConfigOut, SearchConfigOut } from '../../shared/api/types'
 
-export function CollectionSettings() {
+export function CollectionSettings({ embedded = false }: { embedded?: boolean }) {
   const [models, setModels] = useState<ModelConfigOut[]>([])
   const [searches, setSearches] = useState<SearchConfigOut[]>([])
   const [version, setVersion] = useState(0)
@@ -37,7 +37,7 @@ export function CollectionSettings() {
     try {await apiRequest(`/${kind}-configs/${id}`,{method:'PATCH',body:{enabled:!enabled}});setVersion(v=>v+1);notify('success',enabled?'配置已停用':'配置已启用')}
     catch(error){notify('error',String(error))}
   }
-  return <section className="list-page"><h1>系统设置</h1>{error && <p role="alert">{error}</p>}<h2>搜索配置</h2>{writable && <form className="collection-form" onSubmit={e => void save(e, 'search')}><label>配置名称<input name="name" required /></label><label>凭据引用<input name="credential_ref" pattern="[A-Z][A-Z0-9_]*" placeholder="TAVILY_API_KEY" /></label><button type="submit">新增搜索配置</button></form>}
+  return <section className="list-page">{!embedded && <h1>系统设置</h1>}{error && <p role="alert">{error}</p>}<h2>搜索配置</h2>{writable && <form className="collection-form" onSubmit={e => void save(e, 'search')}><label>配置名称<input name="name" required /></label><label>凭据引用<input name="credential_ref" pattern="[A-Z][A-Z0-9_]*" placeholder="TAVILY_API_KEY" /></label><button type="submit">新增搜索配置</button></form>}
     <table><thead><tr><th>名称</th><th>提供方</th><th>启用</th><th>凭据</th><th>操作</th></tr></thead><tbody>{searches.map(row => <tr key={row.id}><td>{row.name}</td><td>{row.provider}</td><td>{row.enabled ? '是' : '否'}</td><td>{row.credential_configured ? '已配置' : '未配置'}</td><td>{writable && <><button type="button" onClick={() => void test('search', row.id)}>测试连接</button><button type="button" onClick={() => void toggle('search',row.id,row.enabled)}>{row.enabled?'停用':'启用'}</button></>}</td></tr>)}</tbody></table>
     <h2>分析模型与生成模型</h2><p>实际文本模型、地址和密钥优先使用根目录 .env 的配置。</p>{writable && <form className="collection-form" onSubmit={e => void save(e, 'model')}><label>配置名称<input name="name" required /></label><label>用途<select name="purpose" defaultValue="analysis"><option value="analysis">素材分析</option><option value="generation">文章生成</option></select></label><label>接口地址<input type="url" name="endpoint" required /></label><label>模型名称<input name="model_name" required /></label><label>凭据引用<input name="credential_ref" /></label><label>输入上限<input type="number" name="input" min="1" defaultValue="8000" required /></label><label>输出上限<input type="number" name="output" min="1" defaultValue="2000" required /></label><label>超时秒数<input type="number" name="timeout" min="1" max="600" defaultValue="60" required /></label><button type="submit">新增模型</button></form>}
     <table><thead><tr><th>名称</th><th>模型</th><th>启用</th><th>凭据</th><th>操作</th></tr></thead><tbody>{models.map(row => <tr key={row.id}><td>{row.name}</td><td>{row.model_name}</td><td>{row.enabled ? '是' : '否'}</td><td>{row.credential_configured ? '已配置' : '未配置'}</td><td>{writable && <><button type="button" onClick={() => void test('model', row.id)}>测试连接</button><button type="button" onClick={() => void toggle('model',row.id,row.enabled)}>{row.enabled?'停用':'启用'}</button></>}</td></tr>)}</tbody></table></section>

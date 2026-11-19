@@ -17,6 +17,7 @@ from app.schemas.model_config import (
 )
 from app.schemas.model_config import ModelConfigUpdateIn
 from app.services import audit_service, model_config_service
+from app.errors import ApiError
 
 router = APIRouter(prefix="/model-configs", tags=["model-configs"])
 
@@ -91,7 +92,7 @@ def _out(row: dict) -> ModelConfigOut:
         max_input_tokens=row["max_input_tokens"],
         max_output_tokens=row["max_output_tokens"],
         timeout_seconds=row["timeout_seconds"],
-        params=row.get("params") or {},
+        params={},  # Custom runtime params are unsupported; legacy values may contain secrets.
         created_at=row["created_at"],
         updated_at=row["updated_at"],
     )
@@ -160,7 +161,12 @@ async def test_model_config(
     _csrf=CSRF,
     _perm=WRITE,
 ) -> ModelConnectionTestOut:
-    result = model_config_service.test_connection(db.connection(), config_id)
+    try:
+        result = model_config_service.test_connection(db.connection(), config_id)
+    except ApiError as exc:
+        audit_service.record_operation(db.connection(), user_id=user.id, action='model_config.test', object_type='model_config', object_id=config_id, result='denied', detail={'reason': exc.code})
+        db.commit()
+        raise
     audit_service.record_operation(
         db.connection(),
         user_id=user.id,

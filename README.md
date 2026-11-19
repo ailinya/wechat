@@ -75,6 +75,8 @@ cd backend && uv run celery -A app.modules.async_execution.celery_app:celery_app
 
 ## 目录
 
+自有公众号直连、账号配置、发布确认与故障核对见 [阶段7运行及验收记录](doc/development/phase-07.md)。真实账号连接与私有草稿读写已有证据；个人订阅号官方 API 发布权限不可用，内部 fixture 成功不代表真实发布成功。
+
 ```
 backend/    FastAPI 应用（api/routes → schemas → services → repositories）、alembic 迁移
 frontend/   React 应用（app/ 壳层、features/ 模块、shared/ 公共）
@@ -83,3 +85,9 @@ doc/        开发文档（traceability、阶段验收、性能口径）
 openspec/   行为规格与实施路线
 ```
 
+
+个人订阅号支持“编辑→人工审核→确认同步微信草稿箱→公众号后台手动发布”，同步成功不会标记已发布；后台发布后可登记微信文章链接，显示人工登记来源。真实测试草稿写入及读回已验证。部署与账号限制见 [阶段7验收](doc/development/phase-07.md)，业务库需升级到0020并重启API/Worker/Beat。
+
+阶段8已接入真实业务工作台、六类统计与安全CSV导出、平台信息/用户角色/接口配置、站内通知偏好及日志/任务监控。微信指标无权限或未采集显示不可用，草稿与人工登记分开统计。部署需升级到0021并重启API/Worker/Beat；操作和验证见 [阶段8验收](doc/development/phase-08.md)。
+
+阶段9部署与验收见 [运行手册](doc/deployment/runbook.md)、[集成记录](doc/development/phase-09.md) 和 [交付清单](doc/development/release-checklist.md)。正式部署使用 `deploy/compose.yml` 与 `deploy/.env.example`，迁移到0022；运行恢复位于系统设置的任务监控。当前年规模性能验收仍在执行，首版最终交付以清单实际状态为准。

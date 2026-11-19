@@ -6,18 +6,19 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, Query
 
-from app.api.deps import DbSession, require_permission, verify_csrf
+from app.api.deps import DbSession, require_permission, require_audited_permission, verify_csrf
 from app.api.responses import error_responses
 from app.errors import ApiError
 from app.repositories import auth_repository as repo
 from app.schemas.auth import PermissionCode, RoleSummary
 from app.schemas.common import PaginatedResponse
 from app.schemas.users import RoleCreate, RoleOut, RolePermissionUpdate, RoleWithUsers
+from app.services.audit_service import record_operation
 
 router = APIRouter(prefix="/roles", tags=["roles"])
 
 READ = Depends(require_permission(PermissionCode.ROLE_READ))
-WRITE = Depends(require_permission(PermissionCode.ROLE_WRITE))
+WRITE = Depends(require_audited_permission(PermissionCode.ROLE_WRITE))
 CSRF = Depends(verify_csrf)
 
 
@@ -80,8 +81,9 @@ async def create_role(
     if repo.role_id_by_name(conn, payload.name):
         raise ApiError(409, "conflict", "角色名称已存在")
     role_id = repo.create_role(conn, payload.name, payload.description)
+    record_operation(conn, user_id=_perm.id, action='role.create', object_type='role', object_id=role_id)
     db.commit()
-    return _role_out(repo.get_role(conn, role_id), db)
+    return _role_out(repo.get_role(db.connection(), role_id), db)
 
 
 @router.get(
@@ -129,5 +131,6 @@ async def replace_role_permissions(
         if pid:
             permission_ids.append(pid)
     repo.replace_role_permissions(conn, role_id, permission_ids)
+    record_operation(conn, user_id=_perm.id, action='role.permissions.update', object_type='role', object_id=role_id, detail={'permission_codes': [str(p) for p in payload.permission_codes]})
     db.commit()
-    return _role_out(repo.get_role(conn, role_id), db)
+    return _role_out(repo.get_role(db.connection(), role_id), db)

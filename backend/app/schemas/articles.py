@@ -27,6 +27,26 @@ class ArticleReferenceOut(MaterialReference):
     source_url: str | None = None
 
 
+class LayoutConfig(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    template: Literal['classic', 'news', 'minimal'] = 'classic'
+    font_family: Literal['sans-serif', 'serif'] = 'sans-serif'
+    font_size: int = Field(default=16, ge=12, le=24)
+    line_height: float = Field(default=1.8, ge=1.2, le=2.5)
+    paragraph_spacing: int = Field(default=16, ge=0, le=40)
+    image_style: Literal['square', 'rounded'] = 'rounded'
+
+
+class ArticlePreviewIn(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    body_markdown: str = Field(max_length=200000)
+    layout_config: LayoutConfig = Field(default_factory=LayoutConfig)
+
+
+class ArticlePreviewOut(BaseModel):
+    html: str
+
+
 class ArticleDetailOut(BaseModel):
     """Compatible with the existing generated-article detail endpoint."""
     id: UUID
@@ -34,13 +54,19 @@ class ArticleDetailOut(BaseModel):
     origin_type: ArticleOrigin
     creation_task_id: UUID | None = None
     created_at: datetime
+    updated_at: datetime
     revision_id: UUID
     version: int = Field(ge=1)
     title: str
+    author: str
+    cover_object_id: UUID | None
+    layout_config: dict
     summary: str
     body_markdown: str
     keywords: list[str]
     materials: list[ArticleReferenceOut]
+    publish_summary: dict[str, int] = Field(default_factory=dict)
+    draft_summary: dict[str, int] = Field(default_factory=dict)
 
 
 class ArticleContent(BaseModel):
@@ -51,7 +77,7 @@ class ArticleContent(BaseModel):
     keywords: list[str] = Field(default_factory=list, max_length=50)
     body_markdown: str = Field(min_length=1, max_length=200000)
     cover_object_id: UUID | None = None
-    layout_config: dict = Field(default_factory=dict)
+    layout_config: LayoutConfig = Field(default_factory=LayoutConfig)
     materials: list[MaterialReference] = Field(default_factory=list, max_length=100)
 
     @model_validator(mode='after')
@@ -92,6 +118,8 @@ class ArticleSummaryOut(BaseModel):
     author: str
     created_at: datetime
     updated_at: datetime
+    publish_summary: dict[str, int] = Field(default_factory=dict)
+    draft_summary: dict[str, int] = Field(default_factory=dict)
 
 
 class ArticleSaveOut(BaseModel):

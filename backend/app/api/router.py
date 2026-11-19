@@ -28,4 +28,11 @@ api_router.include_router(materials.router)
 api_router.include_router(search_configs.router)
 api_router.include_router(model_configs.router)
 api_router.include_router(users.router)
+
+from app.api.routes import wechat_accounts, publishing, wechat_drafts
+api_router.include_router(wechat_accounts.router)
+api_router.include_router(publishing.router)
+api_router.include_router(wechat_drafts.router)
 api_router.include_router(roles.router)
+from app.api.routes import operations
+api_router.include_router(operations.router)

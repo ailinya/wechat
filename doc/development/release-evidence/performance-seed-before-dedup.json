@@ -1,0 +1,314 @@
+{
+  "checked_at": "2026-11-19T08:35:07.462425+00:00",
+  "passed": true,
+  "material_count": 500000,
+  "chunk_count": 2500000,
+  "vector_count": 2500000,
+  "duration_seconds": 990.83,
+  "vector_palette_size": 10000,
+  "embedding_dimension": 1024,
+  "synthetic": true,
+  "tables": [
+    {
+      "relname": "acceptance_vector_palette",
+      "n_live_tup": 10000,
+      "bytes": 56147968
+    },
+    {
+      "relname": "account_article_metrics",
+      "n_live_tup": 0,
+      "bytes": 32768
+    },
+    {
+      "relname": "account_sync_runs",
+      "n_live_tup": 0,
+      "bytes": 16384
+    },
+    {
+      "relname": "account_synced_materials",
+      "n_live_tup": 0,
+      "bytes": 8192
+    },
+    {
+      "relname": "alembic_version",
+      "n_live_tup": 1,
+      "bytes": 24576
+    },
+    {
+      "relname": "article_materials",
+      "n_live_tup": 0,
+      "bytes": 24576
+    },
+    {
+      "relname": "article_revisions",
+      "n_live_tup": 0,
+      "bytes": 32768
+    },
+    {
+      "relname": "articles",
+      "n_live_tup": 0,
+      "bytes": 32768
+    },
+    {
+      "relname": "async_jobs",
+      "n_live_tup": 0,
+      "bytes": 40960
+    },
+    {
+      "relname": "collection_analyses",
+      "n_live_tup": 0,
+      "bytes": 49152
+    },
+    {
+      "relname": "collection_candidate_discoveries",
+      "n_live_tup": 0,
+      "bytes": 32768
+    },
+    {
+      "relname": "collection_candidates",
+      "n_live_tup": 0,
+      "bytes": 49152
+    },
+    {
+      "relname": "collection_results",
+      "n_live_tup": 0,
+      "bytes": 49152
+    },
+    {
+      "relname": "collection_runs",
+      "n_live_tup": 0,
+      "bytes": 40960
+    },
+    {
+      "relname": "collection_searches",
+      "n_live_tup": 0,
+      "bytes": 24576
+    },
+    {
+      "relname": "collection_snapshots",
+      "n_live_tup": 0,
+      "bytes": 32768
+    },
+    {
+      "relname": "collection_sources",
+      "n_live_tup": 0,
+      "bytes": 32768
+    },
+    {
+      "relname": "collection_stage_attempts",
+      "n_live_tup": 0,
+      "bytes": 32768
+    },
+    {
+      "relname": "collection_task_sources",
+      "n_live_tup": 0,
+      "bytes": 16384
+    },
+    {
+      "relname": "collection_tasks",
+      "n_live_tup": 0,
+      "bytes": 32768
+    },
+    {
+      "relname": "creation_consumed_events",
+      "n_live_tup": 0,
+      "bytes": 8192
+    },
+    {
+      "relname": "creation_outputs",
+      "n_live_tup": 0,
+      "bytes": 40960
+    },
+    {
+      "relname": "creation_rule_collection_tasks",
+      "n_live_tup": 0,
+      "bytes": 8192
+    },
+    {
+      "relname": "creation_rules",
+      "n_live_tup": 0,
+      "bytes": 16384
+    },
+    {
+      "relname": "creation_task_materials",
+      "n_live_tup": 0,
+      "bytes": 8192
+    },
+    {
+      "relname": "creation_tasks",
+      "n_live_tup": 0,
+      "bytes": 40960
+    },
+    {
+      "relname": "idempotency_keys",
+      "n_live_tup": 0,
+      "bytes": 32768
+    },
+    {
+      "relname": "material_categories",
+      "n_live_tup": 0,
+      "bytes": 8192
+    },
+    {
+      "relname": "material_chunks",
+      "n_live_tup": 2500007,
+      "bytes": 15091261440
+    },
+    {
+      "relname": "material_embedding_runs",
+      "n_live_tup": 500000,
+      "bytes": 124248064
+    },
+    {
+      "relname": "material_favorites",
+      "n_live_tup": 0,
+      "bytes": 24576
+    },
+    {
+      "relname": "material_files",
+      "n_live_tup": 0,
+      "bytes": 24576
+    },
+    {
+      "relname": "material_ready_events",
+      "n_live_tup": 0,
+      "bytes": 24576
+    },
+    {
+      "relname": "material_relations",
+      "n_live_tup": 0,
+      "bytes": 32768
+    },
+    {
+      "relname": "material_revisions",
+      "n_live_tup": 500002,
+      "bytes": 634322944
+    },
+    {
+      "relname": "material_tags",
+      "n_live_tup": 0,
+      "bytes": 16384
+    },
+    {
+      "relname": "materials",
+      "n_live_tup": 500000,
+      "bytes": 278511616
+    },
+    {
+      "relname": "model_configs",
+      "n_live_tup": 1,
+      "bytes": 65536
+    },
+    {
+      "relname": "notification_preferences",
+      "n_live_tup": 0,
+      "bytes": 8192
+    },
+    {
+      "relname": "notifications",
+      "n_live_tup": 0,
+      "bytes": 40960
+    },
+    {
+      "relname": "operation_logs",
+      "n_live_tup": 0,
+      "bytes": 40960
+    },
+    {
+      "relname": "outbox_events",
+      "n_live_tup": 0,
+      "bytes": 40960
+    },
+    {
+      "relname": "permissions",
+      "n_live_tup": 25,
+      "bytes": 65536
+    },
+    {
+      "relname": "publish_attempts",
+      "n_live_tup": 0,
+      "bytes": 32768
+    },
+    {
+      "relname": "publish_orders",
+      "n_live_tup": 0,
+      "bytes": 40960
+    },
+    {
+      "relname": "reviews",
+      "n_live_tup": 0,
+      "bytes": 24576
+    },
+    {
+      "relname": "role_permissions",
+      "n_live_tup": 49,
+      "bytes": 40960
+    },
+    {
+      "relname": "roles",
+      "n_live_tup": 4,
+      "bytes": 49152
+    },
+    {
+      "relname": "search_configs",
+      "n_live_tup": 0,
+      "bytes": 24576
+    },
+    {
+      "relname": "sessions",
+      "n_live_tup": 1,
+      "bytes": 73728
+    },
+    {
+      "relname": "stored_objects",
+      "n_live_tup": 0,
+      "bytes": 32768
+    },
+    {
+      "relname": "system_settings",
+      "n_live_tup": 1,
+      "bytes": 32768
+    },
+    {
+      "relname": "tags",
+      "n_live_tup": 0,
+      "bytes": 16384
+    },
+    {
+      "relname": "upload_grants",
+      "n_live_tup": 0,
+      "bytes": 49152
+    },
+    {
+      "relname": "user_roles",
+      "n_live_tup": 1,
+      "bytes": 40960
+    },
+    {
+      "relname": "users",
+      "n_live_tup": 1,
+      "bytes": 65536
+    },
+    {
+      "relname": "wechat_accounts",
+      "n_live_tup": 0,
+      "bytes": 32768
+    },
+    {
+      "relname": "wechat_draft_attempts",
+      "n_live_tup": 0,
+      "bytes": 24576
+    },
+    {
+      "relname": "wechat_draft_deliveries",
+      "n_live_tup": 0,
+      "bytes": 32768
+    }
+  ],
+  "duration_scope": "final resumable invocation; earlier seeding attempts excluded",
+  "index_build": {
+    "maintenance_work_mem": "3GB",
+    "max_parallel_maintenance_workers": 2,
+    "postgres_shm_size": "4GB"
+  }
+}

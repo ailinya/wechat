@@ -44,6 +44,17 @@ def require_permission(code: PermissionCode) -> Callable[..., CurrentUser]:
     return _check
 
 
+def require_audited_permission(code: PermissionCode):
+    def _check(user: CurrentUserDep, db: DbSession):
+        if code not in user.permissions:
+            from app.services.audit_service import record_operation
+            record_operation(db.connection(), user_id=user.id, action='permission.denied', object_type='permission', result='denied', detail={'name': str(code)})
+            db.commit()
+            raise ApiError(403, 'forbidden', '没有执行此操作的权限')
+        return user
+    return _check
+
+
 def verify_csrf(request: Request, user: CurrentUserDep) -> None:
     """Double-submit CSRF check for state-changing requests.
 

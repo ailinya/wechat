@@ -34,6 +34,11 @@ def get_rule(conn, rule_id):
 
 def save_rule(conn, payload, user_id, rule_id=None):
     generation_config(conn, payload.model_config_id)
+    if payload.target_account_id:
+        from app.services.wechat_account_service import account, require_available
+        target = account(conn, payload.target_account_id)
+        if payload.enabled:
+            require_available(target, 'drafts')
     data = payload.model_dump(mode="json")
     for task_id in data["collection_task_ids"]:
         if not conn.execute(text("SELECT 1 FROM collection_tasks WHERE id=:id AND status <> 'archived'"), {"id": task_id}).first():

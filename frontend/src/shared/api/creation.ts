@@ -21,10 +21,12 @@ export interface CreationRule {
   min_new_material_count: number; min_material_count: number; min_relevance: number; reference_count: number
   batch_count: number; article_type: string; writing_style: string; min_words: number; max_words: number
   prompt: string; require_analysis: boolean
+  target_account_id?: string | null
 }
 interface Page<T> { items: T[]; total: number; page: number; page_size: number }
 
 export const creationApi = {
+  targetAccounts: () => apiRequest<{ id: string; name: string }[]>('/creation-tasks/target-accounts'),
   models: () => apiRequest<GenerationModel[]>('/creation-tasks/models'),
   create: (body: object, key: string) => apiRequest<CreationAccepted>('/creation-tasks', { method: 'POST', body, headers: { 'Idempotency-Key': key } }),
   tasks: () => apiRequest<Page<CreationTask>>('/creation-tasks?page_size=100'),

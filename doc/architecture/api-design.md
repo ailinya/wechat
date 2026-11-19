@@ -16,6 +16,8 @@
 
 ## 3. API 目录
 
+阶段 9 的完整实现目录、权限、CSRF 和状态码以自动生成的 [API 权限矩阵](api-permissions.md) 及 [字段契约快照](api-catalog.json) 为准。以下分领域说明保留业务语义；服务路由与 OpenAPI 的方法/路径集合由导出脚本逐项核对。
+
 ### 3.1 登录、用户与权限
 
 | 方法 | 路径 | 用途 |
@@ -32,9 +34,7 @@
 
 | 方法 | 路径 | 用途 |
 | --- | --- | --- |
-| `GET` | `/dashboard/overview` | 核心指标 |
-| `GET` | `/dashboard/activities` | 任务和文章动态 |
-| `GET` | `/dashboard/alerts` | 失败、待审核和授权提醒 |
+| `GET` | `/dashboard` | 按当前权限返回核心指标、动态、待办和异常；前三个拆分路径未提供 |
 | `GET/POST` | `/collection/sources` | 来源列表（分页/关键词）/新增来源 |
 | `GET/PATCH/DELETE` | `/collection/sources/{id}` | 详情/修改/停用或删除（保留历史追溯） |
 | `POST` | `/collection/sources/{id}/test` | 测试来源连接（范围/重定向/超时/大小受限） |
@@ -135,7 +135,7 @@ RustFS 凭据不暴露给浏览器；上传授权只允许访问特定对象键�
 
 ### 3.5 文章、编辑与审核
 
-任务 6.1 定义以下契约。当前 `GET /articles/{id}` 已实现；保存端点已做基准修订的只读预检查，基准过期返回 409，基准有效时仍返回 `501 not_implemented`。其余端点为已鉴权的契约占位，返回 501。实际保存及事务内冲突复验、提审和审核分别由 6.3–6.5 实现，不能将下述目标行为视为当前已上线功能。
+阶段 6 已实现下列端点。保存和审核在同一文章锁下复验当前修订；AI 编辑仅返回建议，用户采用后需另行保存新版本并提审。
 
 | 方法 | 路径 | 权限及用途 |
 | --- | --- | --- |
@@ -153,7 +153,7 @@ RustFS 凭据不暴露给浏览器；上传授权只允许访问特定对象键�
 
 所有写请求要求已登录并通过 CSRF 校验。分页使用 `page`、`page_size`，响应为 `items/total/page/page_size`；时间为带时区 UTC ISO 8601。文章列表的公众号和发布时间筛选依赖阶段 7，当前契约不提供这两个筛选。版本内容包含 `title`、`author`、`keywords`、`summary`、`body_markdown`、`cover_object_id`、`layout_config`，以及按顺序排列的 `materials`，每项必须明确 `material_id` 与属于该素材的 `material_revision_id`；同一素材不能重复引用。人工创建及保存新版本返回 `article_id`、`current_revision_id`、`status=draft` 和完整 `revision`。
 
-保存新版本请求必须提交 `base_revision_id`。服务端未来须在同一事务中锁定文章、比较基准、写新版本和引用；不匹配返回 HTTP 409，`error.code=revision_conflict`，`field_errors` 标识 `base_revision_id`。调用方随后读取 `GET /articles/{id}` 和版本历史，不能自动覆盖。提审请求也须提交 `base_revision_id`；审核提交的路径本身绑定 `revision_id`，服务端须校验它仍是当前待审修订，否则返回相同版本冲突；状态不允许时返回 409 `invalid_article_state`。401、403、404、422 使用统一错误信封。
+保存新版本请求必须提交 `base_revision_id`。服务端在同一事务中锁定文章、比较基准、写新版本和引用；不匹配返回 HTTP 409，`error.code=revision_conflict`，`field_errors` 标识 `base_revision_id`。调用方随后读取 `GET /articles/{id}` 和版本历史，不能自动覆盖。提审请求也须提交 `base_revision_id`；审核提交的路径本身绑定 `revision_id`，服务端须校验它仍是当前待审修订，否则返回相同版本冲突；状态不允许时返回 409 `invalid_article_state`。401、403、404、422 使用统一错误信封。
 
 AI 编辑请求为 `base_revision_id`、`action`、`model_config_id`、可选 `selected_text` 和 `instruction`。`action` 为 `polish/continue/expand/shorten/rewrite/title/summary`；响应带文章、基准修订、动作、建议及模型配置版本，用户自行决定采用并另行保存。建议本身不创建文章修订或审核记录。
 
@@ -171,13 +171,17 @@ AI 编辑请求为 `base_revision_id`、`action`、`model_config_id`、可选 `s
 
 审核请求包含 `action`（`approve`/`return`/`reject`）、`checklist` 和 `comment`。退回/驳回需填写意见；通过动作只能作用于当前待审核版本。新版本提交后必须重新审核，旧版本审核记录保留但不能授权新版本发布。
 
+补充接口：`GET /articles/models`（`article:write`）只返回启用的生成模型 ID、名称及模型名；`POST /articles/preview`（`article:read` + CSRF）接收 Markdown 与排版配置并返回 HTML；`GET /files/{id}/image` 要求文章阅读权限，且图片由当前用户上传或已被文章修订引用，返回短期下载重定向，禁止缓存。保存图片引用时复验同一访问边界，不能借保存文章取得任意文件访问权。
+
+`layout_config` 固定字段：`template=classic/news/minimal`、`font_family=sans-serif/serif`、`font_size=12..24`、`line_height=1.2..2.5`、`paragraph_spacing=0..40`、`image_style=square/rounded`。缺省按经典模板填充；未知样式及任意 CSS 被拒绝。预览使用 CommonMark，禁用原始 HTML，仅允许 HTTP/HTTPS 链接与受控图片路径；不执行原始脚本。编辑区可保留原始文本，转换结果将其作为文本显示。手机预览直接使用同一转换端点结果，iframe 禁用脚本。AI 请求期间释放数据库事务，返回后再次检查版本，过期建议返回 409；模型错误、预算与非法输出返回脱敏 503。
+
 ### 3.6 账号、发布与统计
 
 | 方法 | 路径 | 用途 |
 | --- | --- | --- |
 | `GET` | `/wechat-accounts`、`/wechat-accounts/{id}` | 账号列表/详情及权限摘要 |
-| `POST` | `/wechat-accounts/authorization` | 发起 OAuth 授权 |
-| `GET` | `/wechat-accounts/callback` | OAuth 回调，校验 state |
+| `POST` | `/wechat-accounts` | AppID/AppSecret 直连接入；密钥只写 |
+| `PUT` | `/wechat-accounts/{id}/credentials` | 重新录入密钥接入；无 OAuth 回调 |
 | `POST` | `/wechat-accounts/{id}/check` | 检查授权和接口权限 |
 | `POST` | `/wechat-accounts/{id}/sync` | 启动素材同步 |
 | `GET/POST` | `/publish-orders` | 查询/创建发布订单 |
@@ -202,8 +206,12 @@ AI 编辑请求为 `base_revision_id`、`action`、`model_config_id`、可选 `s
 | `POST` | `/model-configs/{id}/test` | 测试模型连接 |
 | `GET/POST` | `/search-configs` | 查询/新增搜索配置（独立于采集来源与 embedding） |
 | `POST` | `/search-configs/{id}/test` | 测试搜索服务连接 |
-| `GET/PUT` | `/settings/notifications` | 通知类型与渠道配置 |
-| `GET` | `/operation-logs` | 按用户、模块、结果和时间筛选操作日志 |
+| `GET/PUT` | `/notifications/preferences` | 当前用户的通知偏好 |
+| `GET` | `/notifications/channels` | 通知渠道可用能力 |
+| `GET` | `/settings/operation-logs` | 按用户、模块、结果和时间筛选操作日志 |
+| `GET` | `/settings/runtime`、`/settings/outbox` | 超时作业、未知外部结果及脱敏投递记录 |
+| `POST` | `/settings/runtime/recover-stale` | 安全回收超时任务；提交中的外部写入转未知 |
+| `POST` | `/settings/outbox/{id}/retry` | 仅恢复明确投递失败且原作业仍待执行的事件 |
 | `GET` | `/async-jobs/{id}` | 查询异步任务状态、进度和错误摘要 |
 
 模型密钥通过 `credential_ref` 管理；查询响应只返回是否已配置等安全摘要。异步任务 ID 使用统一 UUID，领域记录另提供各自详情接口，不使用含义不明的 `/tasks/{id}`。
@@ -328,3 +336,58 @@ POST /materials/search → 前端展示候选并允许勾选
 
 MaterialOut/MaterialDetailOut 增加 summary、metadata_version；素材更新可提交 base_metadata_version。人工编辑递增版本并记录字段来源，异步 fill_empty 不覆盖人工维护字段。实现、真实连接限制及复验见 [阶段 3 增强验收](../development/phase-03-enhancement.md)。
 
+
+
+阶段 7 自有公众号直连的已确定契约与权限边界见 [微信直连设计](wechat-direct-design.md)。账号管理使用 account:read/write；发布查询使用 publish:read，创建/确认/取消使用 publish:confirm，重试/核对使用 publish:execute；写操作均要求 CSRF。旧 authorization/callback 返回 410 direct_mode_no_oauth。
+
+
+### 个人订阅号草稿交付（7.14–7.19）
+
+前缀 `/wechat-draft-deliveries`，查询用 `publish:read`，写入用 `publish:confirm` + CSRF，不要求 `publish:execute` 或账号 freepublish 权限。账号需 active 且草稿读取可用；只读检测不承诺写入，微信拒绝时保留具体错误。
+
+| 方法 | 路径（相对前缀） | 行为 |
+| --- | --- | --- |
+| GET | 空路径、`/{id}` | 分页交付/详情；按 article_id、account_id 筛选 |
+| POST | 空路径 | 202；当前人工批准的 article_revision_id、account_id、confirm_sync=true、note，事务创建交付/job/outbox |
+| GET | `/{id}/attempts` | 尝试历史，不暴露用于核对的私有正文快照 |
+| POST | `/{id}/retry` | 202；只允许明确失败，复验版本及账号，新增任务及尝试 |
+| POST | `/{id}/cancel` | 仅 pending/preparing 可取消 |
+| POST | `/{id}/reconcile` | outcome=query 或 not_synced；后者要求非空 note 说明后台核对依据 |
+| POST | `/{id}/manual-published` | content_matches_revision=true、mp.weixin.qq.com HTTPS article_url、非空 note；人工登记来源 operator |
+
+创建、重试支持 Idempotency-Key；同键同内容重放原对象，异内容409。状态为 pending/preparing/syncing/unknown/awaiting_manual_publish/manual_published/failed/cancelled。同步成功不更新文章为 published；人工登记成功才更新对应当前修订文章并明确来源。unknown 只能先核对；最多查询400组，未完整覆盖或无唯一匹配时保持未知，不能直接重试。所有已审版本、账号、图片格式和长度由服务器校验；syncing/unknown 期间保存文章返回409 draft_delivery_in_progress。文章列表/详情新增独立 draft_summary，不能把草稿计入 publish_summary 或发布成功数。
+
+
+## 阶段8：工作台、统计、通知与设置
+
+统计口径和支持的筛选矩阵见 [运营设计](operations-design.md)。查询时间区间使用IANA时区的本地日期[start_date,end_date)，默认最近30天，最多366天。报表在可重复读快照内聚合并分页；导出复用同一事实查询、不受当前页影响，超过50000行明确要求缩小范围。CSV文本处理公式前缀，不可用指标为空而非0。
+
+| 接口 | 权限及行为 |
+| --- | --- |
+| GET /platform | 登录；名称/介绍/文字标识/时区，应用导航和工作台使用 |
+| GET /dashboard | 登录；仅聚合用户有业务读取权限的领域，缺少权限的计数为null，明细不返回 |
+| GET /analytics/{kind} | analytics:read + 对应领域read；collection/materials/creation/reviews/publishing/accounts；统一items/summary/trend/filters及分页 |
+| GET /analytics/{kind}/export | analytics:read + analytics:export + 对应领域read；全部筛选明细CSV |
+| POST /analytics/accounts/{id}/collect-metrics | analytics:read + account:write + CSRF；北京昨日/此前7天内单日，只读微信图文累计指标，缺失字段保留null及原因 |
+| GET/PUT /settings/platform | settings:read/write；PUT含version，过期409，无效IANA时区422；写入审计 |
+| GET /settings/integrations | settings:read；微信/模型/搜索/存储/向量配置摘要及实际管理入口，不返回环境密钥 |
+| POST /settings/integrations/storage/test | settings:write + CSRF；有界只读检查存储桶，不创建或写对象 |
+| POST /settings/integrations/embedding/test | settings:write + CSRF；实际向量请求和1024维检查，失败脱敏 |
+| GET /settings/permissions | role:read；可分配权限目录 |
+| GET /settings/operation-logs | operation_log:read；page/page_size，action/object_type/object_id/user_id/result/start/end筛选，详情脱敏 |
+| GET /settings/jobs | operation_log:read；跨用户任务监控，仅安全状态字段，按status/job_type筛选；不返回payload或原始异常 |
+| GET /notifications | 登录；仅本人及当前业务权限可见，unread_only和分页 |
+| POST /notifications/refresh | 登录 + CSRF；刷新本人站内通知，批次最多500，重复事件防重 |
+| POST /notifications/{id}/read | 登录 + CSRF；只标记本人且有权限的通知；重复请求保留原已读时间 |
+| GET/PUT /notifications/preferences | 登录；PUT含category、channel=in_app、enabled + CSRF，保存本人偏好；不支持外部渠道422 |
+| GET /notifications/channels | 登录；站内可用，邮件/微信外发未接入 |
+
+报表示例：`GET /analytics/collection?start_date=2026-11-19&end_date=2026-11-20&timezone=Asia%2FShanghai&collection_task_id=<UUID>&page=1&page_size=20`。响应summary声明total、succeeded、failed、denominator、success_rate（无分母null）、attempts、quantity、reused_materials、by_status/source/group、failure_reasons及definition；trend按同一区间的本地日期分组。查询的支持维度以设计矩阵为准，不支持的组合422。
+
+原users/roles和model-configs/search-configs继续复用；用户/角色变更补审计，关联不存在的角色422；平台/用户/角色的重要权限拒绝有denied审计。模型凭据引用限环境变量名、只返回已配置状态；地址不允许内嵌认证或查询密钥，自定义params尚未接入会明确拒绝。文本服务保留部署环境优先规则，向量服务由现有部署环境管理，不混用文本连接测试。
+
+## 阶段 9 运行接口
+
+`GET /health` 保留存活契约 `{"status":"ok"}`（不列入 OpenAPI）；`GET /ready` 检查迁移 head、数据库、Redis 和 RustFS 桶，分项返回 `ready/error_code/latency_ms`，失败为 503。探测无业务写入，响应不包含端点或凭据。业务响应头包含 `X-Request-ID` 与 `Server-Timing`。
+
+完整目录通过当前 FastAPI 的有效路由展开生成，不把空目录检查当作通过；输出必须超过 100 个方法/路径组合并与 OpenAPI 精确一致。公开例外为登录、健康检查和文件专属授权；写接口的权限与 CSRF 见矩阵。客户端继续解析统一错误信封，未知错误码显示服务端说明，非 JSON 错误使用状态码兜底。

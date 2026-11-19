@@ -1,6 +1,8 @@
 /** Authenticated layout: eight-module navigation, user state and actions. */
 
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
+import { operationsApi } from '../shared/api/operations'
+import type { PlatformPublic } from '../shared/api/types'
 
 import { navigate } from './router'
 import { useAuth } from './AuthContext'
@@ -13,6 +15,13 @@ interface Props {
 
 export function AppShell({ currentPath, children }: Props) {
   const { user, logout, refresh } = useAuth()
+  const [platform, setPlatform] = useState<PlatformPublic | null>(null)
+  useEffect(() => {
+    let live = true
+    const load = () => { void operationsApi.publicPlatform().then(value => { if (live) { setPlatform(value); document.title = value.name } }).catch(() => {}) }
+    load(); window.addEventListener('platform-updated', load)
+    return () => { live = false; window.removeEventListener('platform-updated', load) }
+  }, [])
 
   async function handleLogout() {
     await logout()
@@ -23,8 +32,8 @@ export function AppShell({ currentPath, children }: Props) {
     <div className="shell">
       <aside className="sidebar">
         <div className="sidebar-brand">
-          <span className="brand-mark" aria-hidden="true">智</span>
-          <span>智媒助手</span>
+          <span className="brand-mark" aria-hidden="true">{platform?.brand_mark || '智'}</span>
+          <span>{platform?.name || '智媒助手'}</span>
         </div>
         <nav aria-label="主导航">
           {MODULES.map((module) => {

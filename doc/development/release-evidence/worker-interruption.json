@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-11-19T07:08:53.463311+00:00",
+  "passed": true,
+  "checks": [
+    "hard_kill_running_worker",
+    "stale_timeout_clock_simulated",
+    "explicit_recovery_and_retry",
+    "single_article_output",
+    "unknown_draft_survives_worker_restart",
+    "query_only_reconcile_no_duplicate"
+  ],
+  "external_services": "deterministic model and WeChat adapters",
+  "real_publish_executed": false
+}

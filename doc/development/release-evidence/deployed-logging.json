@@ -1,0 +1,17 @@
+{
+  "checked_at": "2026-11-19T08:23:49.325111+00:00",
+  "passed": true,
+  "checks": [
+    "api_logging_records_json",
+    "nginx_access_records_json",
+    "request_id_correlates_edge_and_api_response",
+    "route_path_without_query",
+    "raw_query_token_absent",
+    "uvicorn_duplicate_raw_access_disabled"
+  ],
+  "parsed_records": {
+    "api": 3,
+    "web": 1
+  },
+  "unmanaged_startup_output": "Entrypoint output and optional urllib3 SOCKS dependency warning are outside structured business logs"
+}

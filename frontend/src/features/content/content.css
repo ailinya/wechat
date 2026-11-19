@@ -1,0 +1,23 @@
+.article-editor { max-width: 1440px; margin: auto; }
+.editor-toolbar { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:24px; }
+.article-editor button { margin:4px; padding:8px 12px; border:1px solid #c8d2cf; border-radius:6px; background:#fff; color:#263634; cursor:pointer; }
+.article-editor button:disabled { color:#94a3b8; cursor:default; background:#f8fafc; }
+.editor-toolbar button:nth-child(2), .review-form button { background:#287b67; color:#fff; border-color:#287b67; }
+.page-heading { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+.filter-bar { display:flex; flex-wrap:wrap; gap:12px; margin:20px 0; }
+.filter-bar label { display:flex; flex-direction:column; gap:6px; }
+.filter-bar input, .filter-bar select { padding:8px; border:1px solid #cbd5e1; border-radius:6px; }
+.editor-columns { display:grid; grid-template-columns:minmax(0, 1.8fr) minmax(280px, 1fr); gap:24px; align-items:start; }
+.editor-main, .editor-side, .review-form { padding:20px; background:var(--surface, #fff); border:1px solid #e2e8f0; border-radius:12px; min-width:0; }
+.article-editor fieldset { border:0; padding:0; margin:0; min-width:0; }
+.article-editor label { display:flex; flex-direction:column; gap:6px; margin:12px 0; }
+.article-editor input, .article-editor textarea, .article-editor select { padding:10px; border:1px solid #cbd5e1; border-radius:6px; width:100%; box-sizing:border-box; }
+.markdown-editor { font-family:ui-monospace, monospace; line-height:1.8; resize:vertical; }
+.article-editor pre { white-space:pre-wrap; overflow-wrap:anywhere; }
+.article-editor article { padding:12px 0; border-bottom:1px solid #e2e8f0; }
+.article-cover { width:100%; max-height:280px; object-fit:contain; }
+.phone-preview { display:block; width:100%; max-width:390px; height:600px; border:8px solid #334155; border-radius:22px; background:#fff; margin:20px auto; box-sizing:border-box; }
+.review-form { margin-top:24px; }
+.publish-panel { margin-top:24px; padding:20px; border:1px solid #e2e8f0; border-radius:12px; background:#fff; }
+.table-scroll { overflow-x:auto; }
+@media (max-width:900px) { .editor-columns { grid-template-columns:1fr; } }

@@ -1,0 +1,11 @@
+{
+  "checked_at": "2026-11-19T07:14:27.648602+00:00",
+  "passed": true,
+  "checks": [
+    "backup_actual_objects",
+    "restore_readback_sha256",
+    "reject_existing_target",
+    "reject_corrupt_before_creating_target"
+  ],
+  "object_count": 2
+}

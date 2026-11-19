@@ -1,0 +1,20 @@
+# Only synthetic acceptance data. PostgreSQL binds to D:/... through DATA_ROOT
+# so annual-scale seed data cannot exhaust the Docker system disk.
+services:
+  postgres:
+    shm_size: 4gb
+    volumes: ["${ACCEPTANCE_DATA_ROOT:?Set ACCEPTANCE_DATA_ROOT}/postgres:/var/lib/postgresql/data"]
+  rustfs:
+    volumes: ["${ACCEPTANCE_DATA_ROOT:?Set ACCEPTANCE_DATA_ROOT}/rustfs:/data"]
+  perf-api:
+    profiles: [performance]
+    image: ${APP_IMAGE:-wetchat-api:acceptance}
+    env_file: ${APP_ENV_FILE}
+    environment:
+      DATABASE_URL: postgresql+psycopg://wetchat:${POSTGRES_PASSWORD}@postgres:5432/wetchat_acceptance_perf
+    command: [uvicorn, acceptance.api:app, --host, 0.0.0.0, --port, '8000', --workers, '2']
+    ports: ["127.0.0.1:58020:8000"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      rustfs: { condition: service_healthy }
